@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         node-version: [14.x]
 
     steps:
@@ -27,112 +27,30 @@ jobs:
         working-directory: ./imxweb
         run: npm install
 
-      # Build aller Applikationen
-      - name: Build qbm
-        working-directory: ./imxweb
-        run: npm run build qbm
-
-      - name: Build qer
-        working-directory: ./imxweb
-        run: npm run build qer
-
-      - name: Build tsb
-        working-directory: ./imxweb
-        run: npm run build tsb
-
-      - name: Build att
-        working-directory: ./imxweb
-        run: npm run build att
-
-      - name: Build rms
-        working-directory: ./imxweb
-        run: npm run build rms
-
-      - name: Build aad
-        working-directory: ./imxweb
-        run: npm run build aad
-
-      - name: Build aob
-        working-directory: ./imxweb
-        run: npm run build aob
-
-      - name: Build uci
-        working-directory: ./imxweb
-        run: npm run build uci
-
-      - name: Build cpl
-        working-directory: ./imxweb
-        run: npm run build cpl
-
-      - name: Build dpr
-        working-directory: ./imxweb
-        run: npm run build dpr
-
-      - name: Build rmb
-        working-directory: ./imxweb
-        run: npm run build rmb
-
-      - name: Build rps
-        working-directory: ./imxweb
-        run: npm run build rps
-
-      - name: Build o3t
-        working-directory: ./imxweb
-        run: npm run build o3t
-
-      - name: Build olg
-        working-directory: ./imxweb
-        run: npm run build olg
-
-      - name: Build hds
-        working-directory: ./imxweb
-        run: npm run build hds
-
-      - name: Build pol
-        working-directory: ./imxweb
-        run: npm run build pol
-
-      - name: Build qer-app-portal
-        working-directory: ./imxweb
-        run: npm run build qer-app-portal
-
-      - name: Build qbm-app-landingpage
-        working-directory: ./imxweb
-        run: npm run build qbm-app-landingpage
-
-      - name: Build qer-app-operationssupport
-        working-directory: ./imxweb
-        run: npm run build qer-app-operationssupport
-
-      - name: Build qer-app-pwdportal
-        working-directory: ./imxweb
-        run: npm run build qer-app-pwdportal
-
-      - name: Build custom-app
-        working-directory: ./imxweb
-        run: npm run build custom-app
-
-      # Projektnamen aus package.json extrahieren
-      - name: Extract Project Name
-        id: get_project_name
-        working-directory: ./imxweb
-        run: |
-          PROJECT_NAME=$(node -p "require('./package.json').name")
-          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
-
-      # ZIP erstellen und in den Ordner verschieben
-      - name: Create ZIP Archive
+      # Liste der Applikationen
+      - name: Build and ZIP all applications
         working-directory: ./imxweb
         run: |
           mkdir -p .autodeploy/bin/imxweb/custom
-          ZIP_NAME="HTML_${PROJECT_NAME}.zip"
-          zip -r "$ZIP_NAME" dist/
-          mv "$ZIP_NAME" .autodeploy/bin/imxweb/custom/
+          APPS=("qbm" "qer" "tsb" "att" "rms" "aad" "aob" "uci" "cpl" "dpr" "rmb" "rps" "o3t" "olg" "hds" "pol" "qer-app-portal" "qbm-app-landingpage" "qer-app-operationssupport" "qer-app-pwdportal" "custom-app")
 
-      # Aktualisierte Upload-Funktion mit v4
-      - name: Upload Artifact (Optional)
-        uses: actions/upload-artifact@v4 # Aktualisierte Version
+          for APP in "${APPS[@]}"; do
+            echo "Building $APP..."
+            npm run build "$APP"
+            
+            if [ -d "dist/$APP" ]; then
+              echo "Creating ZIP for $APP..."
+              zip -r "HTML_${APP}.zip" "dist/$APP"
+              mv "HTML_${APP}.zip" .autodeploy/bin/imxweb/custom/
+            else
+              echo "Warning: dist/$APP not found, skipping ZIP..."
+            fi
+          done
+
+      # Hochladen der ZIP-Dateien als Artifact
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: HTML_${{ env.PROJECT_NAME }}
-          path: imxweb/.autodeploy/bin/imxweb/custom/HTML_${{ env.PROJECT_NAME }}.zip
-          retention-days: 7 # Optional: Artefakt bleibt 7 Tage erhalten
+          name: Angular Build ZIPs
+          path: .autodeploy/bin/imxweb/custom/*.zip
+          retention-days: 7
