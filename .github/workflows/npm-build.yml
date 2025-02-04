@@ -12,13 +12,11 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
         node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false # Verhindert Probleme mit GitHub Actions Token
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -54,17 +52,10 @@ jobs:
       - name: List generated ZIP files
         run: ls -lah ./imxweb/.autodeploy/bin/imxweb/custom/
 
-      # ✅ ZIP-Dateien ins Repository committen & pushen
-      - name: Commit and Push ZIPs to Repo
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .autodeploy/bin/imxweb/custom/*.zip
-
-          # Falls es keine Änderungen gibt, beenden
-          git diff --staged --quiet || git commit -m "Automated: Add new build ZIPs"
-
-          # Änderungen pushen (nutzt das GitHub Actions Token)
-          git push origin HEAD:master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # ZIPs als GitHub Artifact speichern
+      - name: Upload ZIPs as Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Angular Build ZIPs
+          path: imxweb/.autodeploy/bin/imxweb/custom/*.zip
+          retention-days: 7
