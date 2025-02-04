@@ -12,14 +12,14 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v4 # Aktualisierte Version
+      - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4 # Aktualisierte Version
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -27,7 +27,7 @@ jobs:
         working-directory: ./imxweb
         run: npm install
 
-      # Liste der Applikationen
+      # Build & ZIP aller Applikationen mit Debugging
       - name: Build and ZIP all applications
         working-directory: ./imxweb
         run: |
@@ -35,22 +35,28 @@ jobs:
           APPS=("qbm" "qer" "tsb" "att" "rms" "aad" "aob" "uci" "cpl" "dpr" "rmb" "rps" "o3t" "olg" "hds" "pol" "qer-app-portal" "qbm-app-landingpage" "qer-app-operationssupport" "qer-app-pwdportal" "custom-app")
 
           for APP in "${APPS[@]}"; do
+            echo "-------------------------------------"
             echo "Building $APP..."
             npm run build "$APP"
-            
+
             if [ -d "dist/$APP" ]; then
-              echo "Creating ZIP for $APP..."
+              echo "✅ Found dist/$APP, creating ZIP..."
               zip -r "HTML_${APP}.zip" "dist/$APP"
               mv "HTML_${APP}.zip" .autodeploy/bin/imxweb/custom/
             else
-              echo "Warning: dist/$APP not found, skipping ZIP..."
+              echo "❌ WARNING: dist/$APP not found, skipping ZIP creation!"
             fi
           done
+
+      # Debugging: Zeigt an, welche Dateien erstellt wurden
+      - name: List generated ZIP files
+        working-directory: ./imxweb/.autodeploy/bin/imxweb/custom/
+        run: ls -lah
 
       # Hochladen der ZIP-Dateien als Artifact
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Angular Build ZIPs
-          path: .autodeploy/bin/imxweb/custom/*.zip
+          path: imxweb/.autodeploy/bin/imxweb/custom/*.zip
           retention-days: 7
