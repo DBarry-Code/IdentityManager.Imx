@@ -12,14 +12,14 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest, ubuntu-latest]
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Aktualisierte Version
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # Aktualisierte Version
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -129,9 +129,10 @@ jobs:
           zip -r "$ZIP_NAME" dist/
           mv "$ZIP_NAME" .autodeploy/bin/imxweb/custom/
 
-      # Optional: ZIP als Artifact speichern
+      # Aktualisierte Upload-Funktion mit v4
       - name: Upload Artifact (Optional)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Aktualisierte Version
         with:
           name: HTML_${{ env.PROJECT_NAME }}
           path: imxweb/.autodeploy/bin/imxweb/custom/HTML_${{ env.PROJECT_NAME }}.zip
+          retention-days: 7 # Optional: Artefakt bleibt 7 Tage erhalten
