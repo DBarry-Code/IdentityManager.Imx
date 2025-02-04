@@ -2,9 +2,9 @@ name: Build Angular applications
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master, v82, v90, v92 ]
+    branches: [master, v82, v90, v92]
 
 jobs:
   build:
@@ -12,102 +12,126 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         node-version: [14.x]
-    
+
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install packages
-      working-directory: ./imxweb
-      run: npm install
+      - name: Install packages
+        working-directory: ./imxweb
+        run: npm install
 
-    - name: Build qbm
-      working-directory: ./imxweb
-      run: npm run build qbm
-      
-    - name: Build qer
-      working-directory: ./imxweb
-      run: npm run build qer
+      # Build aller Applikationen
+      - name: Build qbm
+        working-directory: ./imxweb
+        run: npm run build qbm
 
-    - name: Build tsb
-      working-directory: ./imxweb
-      run: npm run build tsb
+      - name: Build qer
+        working-directory: ./imxweb
+        run: npm run build qer
 
-    - name: Build att
-      working-directory: ./imxweb
-      run: npm run build att
+      - name: Build tsb
+        working-directory: ./imxweb
+        run: npm run build tsb
 
-    - name: Build rms
-      working-directory: ./imxweb
-      run: npm run build rms
+      - name: Build att
+        working-directory: ./imxweb
+        run: npm run build att
 
-    - name: Build aad
-      working-directory: ./imxweb
-      run: npm run build aad
+      - name: Build rms
+        working-directory: ./imxweb
+        run: npm run build rms
 
-    - name: Build aob
-      working-directory: ./imxweb
-      run: npm run build aob
+      - name: Build aad
+        working-directory: ./imxweb
+        run: npm run build aad
 
-    - name: Build uci
-      working-directory: ./imxweb
-      run: npm run build uci
+      - name: Build aob
+        working-directory: ./imxweb
+        run: npm run build aob
 
-    - name: Build cpl
-      working-directory: ./imxweb
-      run: npm run build cpl
+      - name: Build uci
+        working-directory: ./imxweb
+        run: npm run build uci
 
-    - name: Build dpr
-      working-directory: ./imxweb
-      run: npm run build dpr
+      - name: Build cpl
+        working-directory: ./imxweb
+        run: npm run build cpl
 
-    - name: Build rmb
-      working-directory: ./imxweb
-      run: npm run build rmb
+      - name: Build dpr
+        working-directory: ./imxweb
+        run: npm run build dpr
 
-    - name: Build rps
-      working-directory: ./imxweb
-      run: npm run build rps
+      - name: Build rmb
+        working-directory: ./imxweb
+        run: npm run build rmb
 
-    - name: Build o3t
-      working-directory: ./imxweb
-      run: npm run build o3t
+      - name: Build rps
+        working-directory: ./imxweb
+        run: npm run build rps
 
-    - name: Build olg
-      working-directory: ./imxweb
-      run: npm run build olg
-      
-    - name: Build hds
-      working-directory: ./imxweb
-      run: npm run build hds
+      - name: Build o3t
+        working-directory: ./imxweb
+        run: npm run build o3t
 
-    - name: Build pol
-      working-directory: ./imxweb
-      run: npm run build pol
+      - name: Build olg
+        working-directory: ./imxweb
+        run: npm run build olg
 
-    - name: Build qer-app-portal
-      working-directory: ./imxweb
-      run: npm run build qer-app-portal
+      - name: Build hds
+        working-directory: ./imxweb
+        run: npm run build hds
 
-    - name: Build qbm-app-landingpage
-      working-directory: ./imxweb
-      run: npm run build qbm-app-landingpage
+      - name: Build pol
+        working-directory: ./imxweb
+        run: npm run build pol
 
-    - name: Build qer-app-operationssupport
-      working-directory: ./imxweb
-      run: npm run build qer-app-operationssupport
+      - name: Build qer-app-portal
+        working-directory: ./imxweb
+        run: npm run build qer-app-portal
 
-    - name: Build qer-app-pwdportal    
-      working-directory: ./imxweb
-      run: npm run build qer-app-pwdportal
+      - name: Build qbm-app-landingpage
+        working-directory: ./imxweb
+        run: npm run build qbm-app-landingpage
 
-    - name: Build custom-app
-      working-directory: ./imxweb
-      run: npm run build custom-app
+      - name: Build qer-app-operationssupport
+        working-directory: ./imxweb
+        run: npm run build qer-app-operationssupport
 
+      - name: Build qer-app-pwdportal
+        working-directory: ./imxweb
+        run: npm run build qer-app-pwdportal
+
+      - name: Build custom-app
+        working-directory: ./imxweb
+        run: npm run build custom-app
+
+      # Projektnamen aus package.json extrahieren
+      - name: Extract Project Name
+        id: get_project_name
+        working-directory: ./imxweb
+        run: |
+          PROJECT_NAME=$(node -p "require('./package.json').name")
+          echo "PROJECT_NAME=$PROJECT_NAME" >> $GITHUB_ENV
+
+      # ZIP erstellen und in den Ordner verschieben
+      - name: Create ZIP Archive
+        working-directory: ./imxweb
+        run: |
+          mkdir -p .autodeploy/bin/imxweb/custom
+          ZIP_NAME="HTML_${PROJECT_NAME}.zip"
+          zip -r "$ZIP_NAME" dist/
+          mv "$ZIP_NAME" .autodeploy/bin/imxweb/custom/
+
+      # Optional: ZIP als Artifact speichern
+      - name: Upload Artifact (Optional)
+        uses: actions/upload-artifact@v3
+        with:
+          name: HTML_${{ env.PROJECT_NAME }}
+          path: imxweb/.autodeploy/bin/imxweb/custom/HTML_${{ env.PROJECT_NAME }}.zip
