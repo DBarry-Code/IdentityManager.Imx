@@ -37,7 +37,7 @@ jobs:
           for APP in "${APPS[@]}"; do
             echo "-------------------------------------"
             echo "Building $APP..."
-            npm run build "$APP"
+            npm run build:app "$APP"
 
             if [ -d "dist/$APP" ]; then
               echo "✅ Found dist/$APP, creating ZIP..."
