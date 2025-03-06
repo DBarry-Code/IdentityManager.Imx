@@ -209,7 +209,7 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
       await this.initDataModel(true);
 
       await this.parseParams();
-      await this.getData(undefined, true);
+      await this.getData(undefined);
       this.handleDecision();
     } finally {
       setTimeout(() => {
@@ -291,7 +291,7 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
     return this.getData({ ...this.navigationState, ...{ search } });
   }
 
-  public async getData(newState?: CollectionLoadParameters, isInitialLoad: boolean = false): Promise<void> {
+  public async getData(newState?: CollectionLoadParameters): Promise<void> {
     if (newState) {
       this.navigationState = newState;
     }
@@ -303,9 +303,7 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
         ...this.navigationState,
         Escalation: this.attestationCases.isChiefApproval,
       };
-      const dataSource = isInitialLoad
-        ? { totalCount: 0, Data: [] }
-        : await this.attestationCases.get(this.navigationState);
+      const dataSource = await this.attestationCases.get(this.navigationState);
       if (dataSource) {
         const exportMethod = this.attestationCases.exportData(this.navigationState);
         this.dstSettings = {

@@ -152,6 +152,14 @@ export class EditDateComponent implements CdrEditor, OnDestroy {
     }
   }
 
+
+  /**
+   * Resets the counted errors to 0.
+   */
+  public resetErrorCount(): void{
+    this.errorCount=0;
+  }
+
   /**
    * Sets Validators.required, if the control is mandatory, else it's set to null.
    * @ignore used internally
@@ -185,8 +193,8 @@ export class EditDateComponent implements CdrEditor, OnDestroy {
     }
     this.previousValue = value;
     const date = value == null ? undefined : value.toDate();
-    const resetDate = new Date(this.columnContainer.value);
-    const resetMoment = moment(resetDate);
+    const resetDate = this.columnContainer. value ? new Date(this.columnContainer.value) : undefined;
+    const resetMoment =resetDate ? moment(resetDate) : undefined;
 
     if (!this.columnContainer.canEdit || (value && value.isSame(this.columnContainer.value)) || (!value && !this.columnContainer.value)) {
       // if the value is the same, we don't need to update the value
