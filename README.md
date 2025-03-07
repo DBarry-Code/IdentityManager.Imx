@@ -3,6 +3,17 @@
 # Identity Manager HTML5 applications
 
 ## Change log
+### March 06, 2025
+- 443363: Fixes an issue with typescript entities, while synchronizing in case of an error.
+- 474677: Fixes an issue with the inheritance of memberships for `UNSGroupCollection`.
+- 464626: Fixes an issue with hard coded FK candidate endpoints.
+- 475616: Fixes an additional issue with navigating directly to the attestation, while an user is not authenticated.
+- 475458: Fixes an issue with directing to the login page after an user is already authenticated.
+- 477620: Fixes an issue with deleting shopping cart items, in case of cancellation.
+- 456426: Fixes an issue on the product by reference page, if th user directly navigates to the page.
+- 469349: Fixes additional issues with duplicated requests on data tables.
+- 473064: Fixes an issue with duplicated requests for Data Explorer -> User Accounts page.
+- 470237: Fixes additional issues with duplicated requests on data tables, that resulted in a bad state.
 
 ### February 20,2025
 - Fixes some package-vulnerabilities
