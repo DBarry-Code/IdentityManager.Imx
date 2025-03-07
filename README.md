@@ -1,7 +1,7 @@
 <h1 align="center">One Identity Manager</h1>
 
 <p align="center">
-  <img src="images/oneidentity-logo.svg" alt="angular-logo" width="204px" height="45px"/>
+  <img src="images/oneidentity-logo.svg" alt="angular-logo" width="410px" height="90px"/>
   <br>
   <em>One Identity open source projects are supported through GitHub issues and the One Identity Community. This includes all scripts, plugins, SDKs, modules, code snippets or other solutions. For assistance with any One Identity GitHub project, please raise a new Issue using our supported templates. You may also visit the One Identity Community to ask questions. Requests for assistance made through official One Identity Support will be referred back to GitHub and the One Identity Community forums where those requests can benefit all users.</em>
   <br>
@@ -36,7 +36,7 @@ By forking this repository, you may create customized versions of the projects a
 
 ## Change log
 
-[Learn about the latest improvements](https://github.com/OneIdentity/IdentityManager.Imx/blob/v93/CHANGELOG.md).
+[Learn about the latest improvements](CHANGELOG.md).
 
 ## Workspace overview
 
