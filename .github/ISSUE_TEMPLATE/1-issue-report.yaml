@@ -25,7 +25,7 @@ body:
     validations:
       required: true
 
-  - type: input
+  - type: textarea
     id: reproduction
     attributes:
       label: Please provide a minimal set of steps to reproduce the issue
