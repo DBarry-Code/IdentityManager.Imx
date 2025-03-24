@@ -1,4 +1,4 @@
-<h1 align="center">One Identity Manager</h1>
+<h1 align="center">One Identity Manager HTML5 applications</h1>
 
 <p align="center">
   <img src="images/oneidentity-logo.svg" alt="angular-logo" width="410px" height="90px"/>
@@ -22,7 +22,21 @@
 
 <hr>
 
-# Identity Manager HTML5 applications
+- [About the repository](#about-the-repository)
+- [Change log](#change-log)
+- [Nx and Angular](#nx-and-angular)
+- [Workspace overview](#workspace-overview)
+  - [Angular libraries](#angular-libraries)
+  - [Angular apps](#angular-apps)
+- [Dependencies](#dependencies)
+- [Debugging](#debugging)
+- [Documentation](#documentation)
+  - [Using npm only (recommended)](#using-npm-only-recommended)
+  - [Using Compodoc](#using-compodoc)
+- [Additional resources](#additional-resources)
+- [Contributing](#contributing)
+- [License](#license)
+
 
 ## About the repository
 
@@ -30,13 +44,23 @@ This repository contains the source code for the HTML5 applications contained in
 
 It is a monorepo containing the Angular [workspace](https://angular.io/guide/workspace-config), which consists of apps and [libraries](https://angular.io/guide/libraries).
 
-We strongly recommend to read the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.2/html5-development-guide) before starting to work with the code in this repository.
+We strongly recommend to read the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.3/html5-development-guide) before starting to work with the code in this repository.
 
 By forking this repository, you may create customized versions of the projects and add them to your Identity Manager deployment.
 
 ## Change log
 
 [Learn about the latest improvements](CHANGELOG.md).
+
+## Nx and Angular
+
+We currently support building projects via Angular directly or via the monorepo tool [Nx](https://nx.dev/getting-started/intro). All commands then can be run via either _ng_ for angular, and managed within the `angular.json` or _nx_ for nx, and managed within `nx.json` and the individual `projects/<project>/project.json`.
+
+The advantage to using Nx is that dependency building and caching is handled for you, so running `nx build qer` will build qbm and then qer for you.
+
+You can also see the depedency graph & tasks via `nx graph`:
+
+![dependency_graph.png](./images/dependency_graph.png)
 
 ## Workspace overview
 
@@ -46,24 +70,24 @@ Each Angular library and app belongs to a folder in the `projects` directory. Th
 
 | Name  | Type                   | Dependencies inside the workspace |
 | ----- | ---------------------- | --------------------------------- |
+| `aad` | Angular plugin library | `qbm`, `qer`                      |
+| `aob` | Angular plugin library | `qbm`, `qer`                      |
+| `apc` | Angular plugin library | `qbm`, `qer`                      |
+| `att` | Angular plugin library | `qbm`, `qer`                      |
+| `cpl` | Angular plugin library | `qbm`, `qer`                      |
+| `dpr` | Angular plugin library | `qbm`                             |
+| `hds` | Angular plugin library | `qbm`, `qer`                      |
+| `olg` | Angular plugin library | `qbm`, `qer`                      |
+| `pol` | Angular plugin library | `qbm`, `qer`                      |
+| `qam` | Angular plugin library | `qbm`, `qer`                      |
 | `qbm` | Angular library        | none                              |
 | `qer` | Angular library        | `qbm`                             |
-| `tsb` | Angular plugin library | `qbm`, `qer`                      |
-| `att` | Angular plugin library | `qbm`, `qer`                      |
 | `rmb` | Angular plugin library | `qbm`, `qer`                      |
 | `rms` | Angular plugin library | `qbm`, `qer`                      |
 | `rps` | Angular plugin library | `qbm`, `qer`                      |
 | `sac` | Angular plugin library | `qbm`, `qer`                      |
-| `aad` | Angular plugin library | `qbm`, `qer`, `tsb`               |
-| `apc` | Angular plugin library | `qbm`, `qer`                      |
-| `aob` | Angular plugin library | `qbm`, `qer`                      |
+| `tsb` | Angular plugin library | `qbm`, `qer`                      |
 | `uci` | Angular plugin library | `qbm`, `qer`                      |
-| `cpl` | Angular plugin library | `qbm`, `qer`                      |
-| `hds` | Angular plugin library | `qbm`, `qer`                      |
-| `dpr` | Angular plugin library | `qbm`                             |
-| `o3t` | Angular plugin library | `qbm`, `qer`, `tsb`               |
-| `olg` | Angular plugin library | `qbm`, `qer`                      |
-| `pol` | Angular plugin library | `qbm`, `qer`                      |
 
 Each Angular library belongs to the Identity Manager module of the same name. You do not need to build Angular libraries for modules that are not part of your Identity Manager installation.
 
@@ -103,20 +127,19 @@ The web apps will connect to the API Server using the URL defined in the applica
 
 Please refer to the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.3/html5-development-guide) for step-by-step instructions on getting started, building and deploying applications.
 
-This repository also contains component-based documentation. There are two ways to install this documentation locally. The result will be stored in _\imxweb\documentation\<projectname>_.
+This repository also contains component-based documentation. There are two ways to install this documentation locally. The result will be stored in _imxweb/documentation/\<projectname>_.
 
-### 1. Using Compodoc (preferred)
+### Using npm only (recommended)
+
+1. Navigate to _imxweb_ and run `npm install` if you haven't already.
+2. Build the documentation for any set of projects by running  `npm run doc <projectname> <projectname2> ...`
+   
+### Using Compodoc
 
 1. Install the Compodoc package globally by running `npm install -g @compodoc/compodoc`.
 2. Navigate to the library to create documentation for (e.g. `imxweb\projects\qer`).
 3. Run `compodoc -p tsconfig.lib.json` for a library or `compodoc -p tsconfig.app.json` for an application.
 
-### 2. Using npm only
-
-This method only works for `qbm`, `qer` and the applications.
-
-1. Navigate to _imxweb_.
-2. run `npm run doc:<projectname>`
 
 ## Additional resources
 
@@ -133,6 +156,8 @@ We welcome and appreciate contributions. Here's how you can open a pull request 
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a pull request
+
+Due to the approach of syncing internal code with the github, these pull requests will be manually incorporated upstream and then a later sync will see this repo updated.
 
 <!-- LICENSE -->
 
