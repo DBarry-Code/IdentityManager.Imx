@@ -1,7 +1,7 @@
 ### March 31, 2025
-- 480206: Fixes a null exception, when taking decisions for an attestation case.
-- 481590: Fixes an issue with grouping on the pending attestations page -> a second request showed results for the firs one.
-- 475616: Fixes an additional issue with navigating directly to the attestation, while an user is not authenticated.
+- 480206: Fixes a null exception when taking decisions for an attestation case.
+- 481590: Fixes an issue with grouping on the pending attestations page -> a second request showed results for the first one.
+- 475616: Fixes an additional issue with navigating directly to the attestation, while a user is not authenticated.
 - 460087: Fixes an issue with dynamically hidden CDR editors.
 - 472274: Fixes an issue with setting a filter for a report.
 - 481950: Fixes an issue with adding invalid recipients using URL parameter. 
