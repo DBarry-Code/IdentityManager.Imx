@@ -2,7 +2,7 @@
 - 483304: Fixes the text that is displayed if no membership is assigned to an identity.
 - 482336: Fixes an issue with the hierarchical foreign key editor that was using the wrong column for data values.
 - 474724: Fixes an issue with the cancel reservation button
-- 477793: Fixes an issue at the new identity sidesheet: wrong array is checked.
+- 477793: Fixes an issue at the new identity side sheet: wrong array is checked.
 - 471969: Fixes the data export on reports by adding filter configurations to the request.
 - 480222: Fixes an issue with workflow histories, that are containing to many items.
 - 480361: Fixes an issue with loading membership candidates using POST.
@@ -15,7 +15,7 @@
 - 479701: Fixes an issue with aborting duplicate requests.
 - 473691: Fixes an issue with duplicated calls, when components are loaded more than once.
 - 474556: Fixes an issue with the attestation policies editor, if the condition type 'System entitlements by assignment origin' is selected.
-- 478485: Fixes the layout of the new request details sidesheet.
+- 478485: Fixes the layout of the new request details side sheet.
 - 478652: Fixes an issue with displaying the wrong data for an Attestation run.
 - 481270: Fixes the layout of an empty shopping cart.
 - 461841: Fixes an issue with dynamically hidden CDR editors.
@@ -28,7 +28,7 @@
 - 468200: Fixes an issue with the current manager not being available as a potential new assignee when re-assigning responsibilities.
 - 471891: Adds sorting to the data table.
 - 475962: Fixes an additional issue with navigating directly to the attestation, while a user is not authenticated.
-- 474708: Fixes an issue, with filter selection for parameters.
+- 474708: Fixes an issue with filter selection for parameters.
 - 476081: Fixes an issue with revisiting the login page, while a user is logged in.
 - 478009: Fixes an issue with deleting products from the shopping cart when a product request is canceled.
 - 471894: Fixes an issue with querying data for deactivated charts leads.
@@ -38,12 +38,12 @@
 - 468633: Fixes the entitlement loss dialog, when denying an attestation case.
 - 471290: Adds sorting to statistics page.
 - 471026: Fixes an issue with the numbers that are displayed on chart statistics.
-- 462148: Fixes an issue with updating the policy collection page, after a collection is deleted from the sidesheet.
+- 462148: Fixes an issue with updating the policy collection page, after a collection is deleted from the side sheet.
 - 470481: Fixes an issue with empty attestation cases after a bulk action denial.
 - 475090: Fixes an issue with potential unsafe use of `bypassSecurityTrustResourceUrl`.
 - 478329: Fixes an issue with filtering for multiple values.
 - 479060: Fixes the layout on the Administration Portal Configuration page. Customized badge was too close to the name of the configuration key.
-- 480219: Fixes an issue with applying the proper filter after clicking on the Expring Soon tile.
+- 480219: Fixes an issue with applying the proper filter after clicking on the Expiring Soon tile.
 - 479059: Fixes an issue with the translation of the filter on the Administration Portal Configuration page.
 - 480662: Fixes an issue when displaying the company logo or the One Identity logo.
 - 470052: Fixes an issue with adding invalid recipients using URL parameter.
