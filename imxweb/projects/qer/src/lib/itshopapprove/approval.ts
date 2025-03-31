@@ -144,6 +144,6 @@ export class Approval extends PortalItshopApproveRequests implements RequestPara
   }
 
   public canResetReservation(isChiefApprover: boolean): boolean {
-    return this.IsReserved.value && (this.hasAskedLastQuestion || isChiefApprover);
+    return this.IsReserved.value && (this.hasAskedLastQuestion || isChiefApprover) && this.workflowWrapper.allQuestionsAnswered();
   }
 }

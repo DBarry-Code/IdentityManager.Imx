@@ -51,9 +51,9 @@ export class StatisticsForObjectsApiService implements OnDestroy {
    * @returns list of chart summaries that are related to this object
    */
   public async getChartInfos(type: string, objectUid: string): Promise<ChartInfoTyped[]> {
-    return (await this.apiClient.v2Client.portal_statistics_charts_forobject_get(type, objectUid)).map((chart) =>
-      ChartInfoTyped.toTypedEntity(chart),
-    );
+    return (await this.apiClient.v2Client.portal_statistics_charts_forobject_get(type, objectUid))
+      .filter((chart) => !!chart?.Id)
+      .map((chart) => ChartInfoTyped.toTypedEntity(chart));
   }
 
   /**

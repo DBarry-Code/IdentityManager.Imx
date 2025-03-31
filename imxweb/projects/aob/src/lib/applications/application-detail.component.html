@@ -5,6 +5,7 @@
         *ngIf="application.JPegPhoto?.value?.length; else noImage"
         [src]="getImageUrl(application)"
         class="imx-application-details-image"
+        alt=""
       />
       <ng-template #noImage>
         <eui-icon icon="application" size="42px"></eui-icon>

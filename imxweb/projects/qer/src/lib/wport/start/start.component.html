@@ -61,7 +61,7 @@
       *ngIf="userConfig?.IsITShopEnabled && (userConfig?.CountRequestsEndingSoon || 0) > 0"
       [value]="userConfig?.CountRequestsEndingSoon?.toString()"
       [identifier]="'requests ending soon'"
-      (actionClick)="router.navigate(['requesthistory'], { queryParams: { ShowEndingSoon: 1 } })"
+      (actionClick)="GoToRequestsEndingSoon()"
     ></imx-badge-tile>
 
     <imx-ext class="imx-flexible-tile-row" id="Dashboard-SmallTiles" [referrer]="this"></imx-ext>

@@ -67,10 +67,10 @@ export class ApprovalsSidesheetComponent implements OnDestroy, OnInit {
     );
 
     if (this.data.pwo.pwoData?.WorkflowHistory) {
-      const history = itshop.createTypedHistory(this.data.pwo.pwoData);
-      this.hasPeerGroupAnalysis = history.some((item) =>
-        ['EXWithPeerGroupAnalysis', 'Peer group analysis'].includes(item.Ident_PWODecisionStep.value),
-      );
+      this.hasPeerGroupAnalysis =
+        this.data.pwo.pwoData.WorkflowHistory.Entities?.some((item) =>
+          ['EXWithPeerGroupAnalysis', 'Peer group analysis'].includes(item.Columns?.Ident_PWODecisionStep?.Value),
+        ) ?? false;
     }
   }
   public async ngOnInit(): Promise<void> {

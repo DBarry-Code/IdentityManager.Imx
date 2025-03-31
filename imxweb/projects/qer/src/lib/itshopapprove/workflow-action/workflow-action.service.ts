@@ -29,6 +29,7 @@ import { EuiLoadingService, EuiSidesheetService } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 
+import { AbstractControl } from '@angular/forms';
 import {
   CollectionLoadParameters,
   CompareOperator,
@@ -40,6 +41,7 @@ import {
   TypedEntity,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
+import { Moment } from 'moment';
 import {
   Action,
   BaseCdr,
@@ -359,6 +361,17 @@ export class WorkflowActionService {
         actionParameters,
         showValidDate,
         withGuidance: true,
+        customValidation: {
+          validate: (control: AbstractControl) => {
+            const validUntilMoment: Moment = control.value[schema.Columns.ValidUntil.ColumnName!];
+            const validFromMoment: Moment = control.value[schema.Columns.ValidFrom.ColumnName!];
+            if (!!validFromMoment && !!validUntilMoment && !validUntilMoment.isAfter(validFromMoment)) {
+              return false;
+            }
+            return true;
+          },
+          message: '#LDS#The validity period you specified is not valid. The validity end date lies before the validity start date, or vice versa. Change the validity period.',
+        },
       },
       apply: async (request: Approval) => {
         if (request.canSetValidFrom() && actionParameters.validFrom) {
@@ -575,8 +588,7 @@ export class WorkflowActionService {
           );
         }
         this.queueService.submitGroupAction(title, actions, async () => {
-          // Once all actions are complete, reload the data
-          await this.userService.reloadPendingItems();
+          // Once all actions are complete, trigger a data refresh
           this.applied.next();
         });
       } else {

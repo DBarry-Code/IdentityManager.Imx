@@ -1133,10 +1133,7 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
     relevantSelectedItems.forEach((rsi) => {
       this.removeSelectedFilter(filter, false, rsi.selectedOption?.Value);
     });
-    event.value.forEach((value) => {
-      const option = this.findFilterOptionFromValue(value, filter);
-      if (option) this.selectedFilters.push({ selectedOption: option, filter });
-    });
+    event.value.forEach((value) => this.addToSelectedFilters(value, filter));
     this.rebuildSelectedDelimitedValue(filter);
     this.updateNavigateStateWithFilters();
   }
@@ -1717,15 +1714,27 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
       const initialValue = filter.InitialValue;
       if (initialValue) {
         filter.CurrentValue = initialValue;
-        const option = this.findFilterOptionFromValue(initialValue, filter);
-        if (option) {
-          this.selectedFilters.push({ selectedOption: option, filter });
-        }
+        // If we have a delminiter, then split and loop over each individual initial value; otherwise add the initialvalue as it
+        filter.Delimiter
+          ? initialValue.split(filter.Delimiter).forEach((value) => this.addToSelectedFilters(value, filter))
+          : this.addToSelectedFilters(initialValue, filter);
       }
     });
     // We only need to update the state if there were filters applied
     if (this.selectedFilters.length > 0) {
       this.updateNavigateStateWithFilters();
+    }
+  }
+
+  /**
+   * Add a value with the filter to the selected option array
+   * @param value
+   * @param filter
+   */
+  private addToSelectedFilters(value: string, filter: DataSourceToolbarFilter): void {
+    const option = this.findFilterOptionFromValue(value, filter);
+    if (option) {
+      this.selectedFilters.push({ selectedOption: option, filter });
     }
   }
 

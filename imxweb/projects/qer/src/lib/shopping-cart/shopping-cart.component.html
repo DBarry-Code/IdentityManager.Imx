@@ -164,7 +164,7 @@
           {{ '#LDS#Create product bundle' | translate }}
         </button>
         <button
-          *ngIf="cartItems?.forLater; else moveToLater"
+          *ngIf="cartItems?.forLater; else moveToLater2"
           mat-menu-item
           data-imx-identifier="imx-table-actions-move-menu"
           [disabled]="!cartItems?.itemsCanBeMoved()"
@@ -173,7 +173,7 @@
         >
           {{ '#LDS#Move to shopping cart' | translate }}
         </button>
-        <ng-template #moveToLater>
+        <ng-template #moveToLater2>
           <button
             mat-menu-item
             data-imx-identifier="imx-table-actions-move-menu"

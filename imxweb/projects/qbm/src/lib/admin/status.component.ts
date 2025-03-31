@@ -58,13 +58,13 @@ class StatusBuffer {
   }
 
   public buildLabels(): string[] {
-    const dates = this.buffer.map((elem) => elem.date ?? '');
+    const dates = this.buffer.filter((elem) => !!elem.sessions).map((elem) => elem.date!);
     dates.unshift('x');
     return dates;
   }
 
   public buildData(caption: string): any[] {
-    const data: any[] = this.buffer.map((elem) => elem.sessions ?? 0);
+    const data: (string | number)[] = this.buffer.filter((elem) => !!elem.sessions).map((elem) => elem.sessions!);
     data.unshift(caption);
     return data;
   }

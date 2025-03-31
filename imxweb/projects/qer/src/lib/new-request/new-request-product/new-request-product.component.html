@@ -31,6 +31,7 @@
         class="image-category"
         *ngIf="!!node?.entity?.ImageRef?.value?.length; else noImage"
         [src]="productDetailsService.getProductImage(node.entity)"
+        alt=""
       />
       <ng-template #noImage>
         <eui-icon [class]="selected ? 'imx-icon-warning' : 'imx-icon-info'" icon="folder"></eui-icon>
@@ -67,8 +68,12 @@
       >
         <ng-template let-prod>
           <div class="imx-request-col-image">
-            <img *ngIf="productDetailsService.getProductImage(prod); else noImage" [src]="productDetailsService.getProductImage(prod)" />
-            <ng-template #noImage>
+            <img
+              *ngIf="productDetailsService.getProductImage(prod); else noImage2"
+              [src]="productDetailsService.getProductImage(prod)"
+              alt=""
+            />
+            <ng-template #noImage2>
               <eui-icon class="imx-icon-info" icon="application" size="32px"></eui-icon>
             </ng-template>
             &nbsp;&nbsp;

@@ -25,7 +25,7 @@
  */
 
 import { Component, Inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { EUI_SIDESHEET_DATA, EuiSidesheetRef } from '@elemental-ui/core';
 
 import { Approval } from '../approval';
@@ -74,7 +74,9 @@ export class WorkflowActionComponent {
     public readonly sideSheetRef: EuiSidesheetRef,
   ) {
     if (this.data.customValidation) {
-      this.formGroup.setValidators((_) => (this.data.customValidation?.validate() ? null : { required: true }));
+      this.formGroup.setValidators((control: AbstractControl) =>
+        this.data.customValidation?.validate(control) ? null : { required: true },
+      );
     }
   }
 }

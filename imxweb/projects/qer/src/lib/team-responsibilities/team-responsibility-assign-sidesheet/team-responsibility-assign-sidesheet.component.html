@@ -1,6 +1,7 @@
 <div eui-sidesheet-content>
   <imx-data-view-toolbar [dataSource]="dataSource" [showSettings]="false" [showGrouping]="false"></imx-data-view-toolbar>
   <mat-card class="imx-margin-bottom-16">
+    <imx-data-view-selection [dataSource]="dataSource"></imx-data-view-selection>
     <imx-data-view-auto-table
       [dataSource]="dataSource"
       mode="manual"
@@ -32,7 +33,15 @@
     </imx-data-view-auto-table>
     <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator>
   </mat-card>
-  <imx-data-view-selection [dataSource]="dataSource"></imx-data-view-selection>
+  <mat-card class="imx-manager-selection">
+    @if (singleSelection) {
+      <mat-radio-group [(ngModel)]="managerSelected">
+        <mat-radio-button (change)="onManagerSelection()" [value]="true">{{ '#LDS#Assign to me' | translate }}</mat-radio-button>
+      </mat-radio-group>
+    } @else {
+      <mat-checkbox (change)="onManagerSelection()" [(ngModel)]="managerSelected">{{ '#LDS#Assign to me' | translate }}</mat-checkbox>
+    }
+  </mat-card>
 </div>
 <div eui-sidesheet-actions>
   <button mat-stroked-button (click)="closeSidesheet()">

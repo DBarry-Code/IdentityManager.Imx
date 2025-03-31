@@ -155,6 +155,9 @@
       span {
         color: $color-gray-80;
       }
+      span.area-text {
+        color: $color-gray-40;
+      }
     }
 
     &.stat-card--disabled {
@@ -178,6 +181,9 @@
       span {
         color: $color-gray-20;
       }
+      span.area-text {
+        color: $color-gray-40;
+      }
     }
     // Only color span title
     &.stat-card--disabled {
@@ -198,6 +204,9 @@
     &:not(.stat-card--disabled) {
       background-color: $color-gray-90;
       span {
+        color: $color-gray-10;
+      }
+      span.area-text {
         color: $color-gray-10;
       }
     }

@@ -27,6 +27,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { EUI_SIDESHEET_DATA, EuiLoadingService, EuiSidesheetService } from '@elemental-ui/core';
 import {
+  PortalAdminPerson,
   PortalPersonReports,
   PortalRespTeamResponsibilities,
   ResponsibilityData,
@@ -40,7 +41,7 @@ import {
   IClientProperty,
   TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
-import { DataViewInitParameters, DataViewSource } from 'qbm';
+import { AuthenticationService, DataViewInitParameters, DataViewSource, ISessionState } from 'qbm';
 import { IdentitiesService } from '../../identities/identities.service';
 import { TeamResponsibilitiesService } from '../team-responsibilities.service';
 
@@ -55,18 +56,26 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
   public readonly DisplayedColumns = DisplayColumns;
   public selection: PortalPersonReports[] = [];
   public singleSelection = false;
+  public managerSelected = false;
+  public managerEntity: PortalAdminPerson;
   private displayedColumns: IClientProperty[];
   private dataModel: DataModel;
+  private sessionState: ISessionState;
   constructor(
     @Inject(EUI_SIDESHEET_DATA)
     public data: { responsibility: PortalRespTeamResponsibilities[]; reassign: boolean; extendedData: (ResponsibilityData | undefined)[] },
+    public dataSource: DataViewSource<PortalPersonReports>,
     private readonly sidesheetService: EuiSidesheetService,
     private readonly identitiesService: IdentitiesService,
     private readonly teamResponsibilitiesService: TeamResponsibilitiesService,
     private readonly busyServiceElemental: EuiLoadingService,
-    public dataSource: DataViewSource<PortalPersonReports>,
+    private readonly authenticationSerivce: AuthenticationService,
   ) {
     this.entitySchema = this.identitiesService.personReportsSchema;
+    this.authenticationSerivce.onSessionResponse.subscribe((sessionSate: ISessionState) => {
+      this.sessionState = sessionSate;
+      this.getManagerEntity();
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -91,6 +100,9 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
       dataModel: this.dataModel,
       selectionChange: (selection: PortalPersonReports[]) => {
         this.selection = selection;
+        if (this.singleSelection) {
+          this.managerSelected = false;
+        }
       },
     };
 
@@ -103,11 +115,15 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
 
   public async assignMore(): Promise<void> {
     const overlayRef = this.busyServiceElemental.show();
+    const selection: (PortalAdminPerson | PortalPersonReports)[] = this.selection;
+    if (this.managerSelected) {
+      selection.push(this.managerEntity);
+    }
     try {
       if (this.data.reassign) {
-        await this.teamResponsibilitiesService.reassignResponsibilities(this.data.responsibility, this.selection, this.data.extendedData);
+        await this.teamResponsibilitiesService.reassignResponsibilities(this.data.responsibility, selection, this.data.extendedData);
       } else {
-        await this.teamResponsibilitiesService.assignResponsibility(this.data.responsibility[0], this.selection, this.data.extendedData[0]);
+        await this.teamResponsibilitiesService.assignResponsibility(this.data.responsibility[0], selection, this.data.extendedData[0]);
       }
     } finally {
       this.busyServiceElemental.hide(overlayRef);
@@ -121,7 +137,17 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
     return otherIdentities;
   }
 
+  public onManagerSelection(): void {
+    if (this.singleSelection) {
+      this.dataSource.selection.clear();
+    }
+  }
+
   public get assignButtonEnabled(): boolean {
-    return !!this.selection.length;
+    return !!this.selection.length || this.managerSelected;
+  }
+
+  private async getManagerEntity(): Promise<void> {
+    this.managerEntity = await this.identitiesService.getAdminPerson(this.sessionState.UserUid!);
   }
 }

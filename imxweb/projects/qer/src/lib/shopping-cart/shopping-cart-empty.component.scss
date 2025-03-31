@@ -2,6 +2,7 @@
 
 :host {
   @include flex-column-container($overflow: hidden, $height: 100%);
+  justify-content: center;
 }
 
 h2 {
@@ -14,6 +15,7 @@ h2 {
   width: max-content;
   align-self: center;
   background-color: inherit;
+  box-shadow:none;
 
   button {
     margin: 20px;

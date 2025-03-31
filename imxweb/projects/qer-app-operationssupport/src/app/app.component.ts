@@ -37,13 +37,13 @@ import {
   ClassloggerService,
   ConfirmationService,
   ISessionState,
+  imx_SessionService,
   ImxTranslationProviderService,
   MenuService,
   Message,
   SettingsService,
   SplashService,
   UserMessageService,
-  imx_SessionService,
 } from 'qbm';
 import { FeatureConfigService, OpSupportUserService, QerApiService, SettingsComponent } from 'qer';
 
@@ -84,6 +84,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.subscriptions.push(
       this.authentication.onSessionResponse.subscribe(async (sessionState: ISessionState) => {
+        if (Object.keys(sessionState).length === 0) {
+          sessionState = await sessionService.getSessionState();
+        }
         if (sessionState.hasErrorState) {
           // Needs to close here when there is an error on sessionState
           splash.close();

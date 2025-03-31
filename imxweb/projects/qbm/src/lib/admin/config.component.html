@@ -71,7 +71,6 @@
             <eui-icon size="xl" [icon]="'search'"></eui-icon>
             {{ '#LDS#There are no configuration keys matching your search.' | translate }}
           </div>
-
           <ng-container *cdkVirtualFor="let section of sectionsFiltered">
             <h2 class="section-header">{{ section.Title }}</h2>
 
@@ -80,12 +79,12 @@
             <mat-accordion class="imx-margin-bottom-2">
               <mat-expansion-panel *ngFor="let conf of section.Keys; trackBy: confTrackByFn" class="imx-margin-right-5">
                 <mat-expansion-panel-header>
-                  <mat-panel-title>
+                  <mat-panel-title class="key-title">
                     <config-key-path [path]="conf.DisplayPath"></config-key-path>
-                    <eui-badge *ngIf="conf.HasCustomGlobalValue" style="margin-left: 1em">
+                    <eui-badge *ngIf="conf.HasCustomGlobalValue">
                       {{ '#LDS#Customized' | translate }}
                     </eui-badge>
-                    <eui-badge *ngIf="conf.HasCustomLocalValue" style="margin-left: 1em">
+                    <eui-badge *ngIf="conf.HasCustomLocalValue">
                       {{ '#LDS#Customized locally' | translate }}
                     </eui-badge>
                   </mat-panel-title>

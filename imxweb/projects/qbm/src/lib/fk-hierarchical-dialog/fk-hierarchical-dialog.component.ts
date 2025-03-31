@@ -149,6 +149,16 @@ export class FkHierarchicalDialogComponent implements OnInit, OnDestroy {
       return xObjectKeyColumn ? xObjectKeyColumn.GetValue() : undefined;
     }
 
+    try {
+      const parentColumnValue = entity.GetColumn(this.data.fkRelations[0].ColumnName)?.GetValue() ?? '';
+      if (parentColumnValue !== '') {
+        this.logger.trace(this, 'Use value from explicit parent column');
+        return parentColumnValue;
+      }
+    } catch (error) {
+      this.logger.trace(this, 'tried to get parent column but failed', error);
+    }
+
     const keys = entity.GetKeys();
     return keys && keys.length ? keys[0] : undefined;
   }

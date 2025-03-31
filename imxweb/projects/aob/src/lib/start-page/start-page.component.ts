@@ -24,65 +24,12 @@
  *
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SafeUrl } from '@angular/platform-browser';
-import { EuiLoadingService } from '@elemental-ui/core';
-
-import { AuthenticationService, ClassloggerService } from 'qbm';
-import { UserModelService } from 'qer';
-import { Subscription } from 'rxjs';
-import { ApplicationsService } from '../applications/applications.service';
-import { ImageService } from '../images/image.service';
-import { AobPermissionsService } from '../permissions/aob-permissions.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'imx-start',
   templateUrl: './start-page.component.html',
-  styleUrls: ['./start-page.component.scss'],
 })
-export class StartPageComponent implements OnInit, OnDestroy {
-  public numberOfApplications = 0;
-  public isAdmin: boolean;
-  public name: string;
-  public imageUrl: SafeUrl | undefined;
-
-  private authSubscription: Subscription;
-
-  constructor(
-    private readonly busyService: EuiLoadingService,
-    private readonly applicationsProvider: ApplicationsService,
-    private readonly logger: ClassloggerService,
-    private readonly userService: UserModelService,
-    private readonly imageProvider: ImageService,
-    private readonly aobPermissionsService: AobPermissionsService,
-    authentication: AuthenticationService,
-  ) {
-    this.authSubscription = authentication.onSessionResponse?.subscribe(async (sessionState) => {
-      this.name = sessionState.Username || '';
-      this.imageUrl = await this.imageProvider.getPersonImageUrl(this.name);
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.authSubscription?.unsubscribe();
-  }
-
-  public async ngOnInit(): Promise<void> {
-    if (this.busyService.overlayRefs.length === 0) {
-      this.busyService.show();
-    }
-    try {
-      this.logger.debug(this, 'get number of applications...');
-      const apps = await this.applicationsProvider.get();
-      if (apps) {
-        this.numberOfApplications = apps.totalCount;
-      } else {
-        this.logger.error(this, 'TypedEntityCollectionData<AobApplication> is undefined');
-      }
-
-      this.isAdmin = await this.aobPermissionsService.isAobApplicationAdmin();
-    } finally {
-      this.busyService.hide();
-    }
-  }
+export class StartPageComponent {
+  
 }

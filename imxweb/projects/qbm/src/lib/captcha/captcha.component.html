@@ -4,7 +4,7 @@
   </eui-alert>
   <div class="captcha-container">
     @if (captchaSvc.isBuiltIn) {
-      <img [src]="appConfig.BaseUrl + '/' + builtInCaptchaUrl + captchaSvc.builtInUrlParameter" />
+      <img [src]="appConfig.BaseUrl + '/' + builtInCaptchaUrl + captchaSvc.builtInUrlParameter" [alt]="'#LDS#Captcha image' | translate" />
     } @else {
       <p translate>The CAPTCHA configuration is unsupported.</p>
     }

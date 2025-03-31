@@ -120,7 +120,7 @@
 
     <button
       mat-stroked-button
-      *ngIf="data.pwo.IsReserved.value && (data.pwo.hasAskedLastQuestion || isChiefApprover)"
+      *ngIf="data.pwo.canResetReservation(isChiefApprover)"
       data-imx-identifier="approvals-sidesheet-button-reset-reservation"
       title="{{ '#LDS#Cancels the reservation for this request' | translate }}"
       (click)="actionService.resetReservation([data.pwo])"

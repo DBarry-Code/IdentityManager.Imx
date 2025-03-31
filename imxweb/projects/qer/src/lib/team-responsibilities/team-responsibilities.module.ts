@@ -27,6 +27,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
@@ -93,6 +95,8 @@ const routes: Routes = [
     MatSlideToggleModule,
     MatTooltipModule,
     FormsModule,
+    MatRadioModule,
+    MatCheckboxModule,
     DateModule,
   ],
   providers: [TeamResponsibilitiesService],

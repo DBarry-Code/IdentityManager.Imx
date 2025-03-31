@@ -2,7 +2,11 @@
   <mat-card>
     <form class="imx-form" [formGroup]="identityForm">
       <mat-accordion>
-        <mat-expansion-panel data-imx-identifier="create-new-identity-expansion-unique" [expanded]="true" *ngIf="!!cdrListPersonal.length">
+        <mat-expansion-panel
+          data-imx-identifier="create-new-identity-expansion-unique"
+          [expanded]="true"
+          *ngIf="!!cdrListIdentifier.length"
+        >
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ '#LDS#Unique data' | translate }}

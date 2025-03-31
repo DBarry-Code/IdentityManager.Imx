@@ -131,9 +131,12 @@ export class RulesViolationsService {
       getMethod: (withProperties: string, navigationState?: CollectionLoadParameters, PageSize?: number) => {
         let method: MethodDescriptor<EntityCollectionData>;
         if (PageSize) {
-          method = factory.portal_rules_violations_get({ ...navigationState, withProperties, PageSize, StartIndex: 0 }, { signal });
+          method = factory.portal_rules_violations_get(
+            { ...navigationState, approvable: true, withProperties, PageSize, StartIndex: 0 },
+            { signal },
+          );
         } else {
-          method = factory.portal_rules_violations_get({ ...navigationState, withProperties }, { signal });
+          method = factory.portal_rules_violations_get({ ...navigationState, approvable: true, withProperties }, { signal });
         }
         return new MethodDefinition(method);
       },

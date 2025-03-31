@@ -9,6 +9,9 @@
   <span [matTooltip]="stat.GetEntity().GetColumn('Description').GetValue()" matTooltipPosition="above">
     {{ stat.GetEntity().GetDisplay() }}
   </span>
+  <span *ngIf="showArea" class="area-text">
+    {{ '#LDS#Context: {0}' | translate | ldsReplace: stat.GetEntity().GetColumn('AreaName').GetValue() }}
+  </span>
   <div #visual class="visual">
     <ng-container *ngIf="isLoading; else determineStat">
       <ng-container *ngTemplateOutlet="loading"></ng-container>

@@ -11,4 +11,9 @@
     ></imx-data-view-toolbar>
   </ng-container>
 </div>
-<imx-request-table [filterByDelegations]="filterByDelegations" #requestTable [filterMyPendings]="filterMyPendings"></imx-request-table>
+<imx-request-table
+  #requestTable
+  [filterByDelegations]="filterByDelegations"
+  [filterMyPendings]="filterMyPendings"
+  [filterByEndingSoon]="filterByEndingSoon"
+></imx-request-table>

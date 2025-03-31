@@ -148,6 +148,19 @@ export class WorkflowDataWrapper {
     return [];
   }
 
+  /**
+   * Checks, if the number of Queries matches the number of answered plus recalled questions
+   * @returns true, if there are  no open questions for the request
+   */
+  public allQuestionsAnswered(): boolean {
+    const queries = this.data.WorkflowHistory?.Entities?.filter((elem) => elem.Columns?.DecisionType.Value === 'Query');
+    const answers = this.data.WorkflowHistory?.Entities?.filter((elem) =>
+      ['Answer', 'RecallQuery'].includes(elem.Columns?.DecisionType.Value),
+    );
+
+    return queries?.length === answers?.length;
+  }
+
   private getWorkflowDataItem(userUid: string, decisionLevel: number): EntityData | undefined {
     return this.data.WorkflowData?.Entities?.filter(
       (item) => item.Columns?.UID_PersonHead.Value === userUid && item.Columns?.LevelNumber.Value === decisionLevel,

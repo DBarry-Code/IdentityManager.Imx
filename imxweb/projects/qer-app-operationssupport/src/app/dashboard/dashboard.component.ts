@@ -25,6 +25,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { SplashService } from 'qbm';
 import { OpSupportUserService } from 'qer';
 
 @Component({
@@ -34,9 +35,13 @@ import { OpSupportUserService } from 'qer';
 export class DashboardComponent implements OnInit {
   public isOperationsSupporter: boolean;
 
-  constructor(private readonly userService: OpSupportUserService) {}
+  constructor(
+    private readonly userService: OpSupportUserService,
+    private readonly splash: SplashService,
+  ) {}
 
   public async ngOnInit() {
+    this.splash.close();
     this.isOperationsSupporter = (await this.userService.getGroups()).map((g) => g.Name).includes('QER_4_OperationsSupport');
   }
 }

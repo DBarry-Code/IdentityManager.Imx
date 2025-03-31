@@ -39,7 +39,7 @@
   </div>
 </div>
 <div class="stats-content">
-  <mat-tab-group mat-stretch-tabs="false" (selectedTabChange)="onTabChange($event)" class="imx-card-heading">
+  <mat-tab-group mat-stretch-tabs="false" preserveContent="true" (selectedTabChange)="onTabChange($event)" class="imx-card-heading">
     <mat-tab label="{{ '#LDS#Heading All Statistics' | translate }}">
       <div class="tab-wrapper">
         <imx-statistics-tree></imx-statistics-tree>

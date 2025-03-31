@@ -24,7 +24,7 @@
  *
  */
 
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { EuiSidesheetService } from '@elemental-ui/core';
 import { MultiValue } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,7 +38,7 @@ import { RecipientsApiService } from './recipients-api.service';
   templateUrl: './new-request-recipients.component.html',
   styleUrls: ['./new-request-recipients.component.scss'],
 })
-export class NewRequestRecipientsComponent {
+export class NewRequestRecipientsComponent implements OnDestroy {
   constructor(
     public readonly orchestration: NewRequestOrchestrationService,
     private readonly multiValueProvider: MultiValueService,
@@ -47,6 +47,11 @@ export class NewRequestRecipientsComponent {
     private translateService: TranslateService,
     private confirmationService: ConfirmationService,
   ) {}
+
+  ngOnDestroy(): void {
+    // Make sure that once you navigate away the default user is set again within the service
+    this.setDefaultUser();
+  }
 
   public get nRecipients(): number {
     return MultiValue.FromString(this.orchestration.recipients.Column.GetValue()).GetValues().length;
@@ -82,6 +87,10 @@ export class NewRequestRecipientsComponent {
     }
   }
 
+  private async setDefaultUser() {
+    await this.orchestration.setDefaultUser();
+  }
+
   public async clearRecipients(): Promise<void> {
     if (
       await this.confirmationService.confirm({
@@ -89,7 +98,7 @@ export class NewRequestRecipientsComponent {
         Message: '#LDS#Are you sure you want to clear the recipients?',
       })
     ) {
-      await this.orchestration.setDefaultUser();
+      this.setDefaultUser();
     }
   }
 }

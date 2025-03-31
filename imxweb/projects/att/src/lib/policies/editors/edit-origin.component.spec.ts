@@ -24,13 +24,13 @@
  *
  */
 
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ParmOpt } from '@imx-modules/imx-api-att';
+import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
 import { ClassloggerService, clearStylesFromDOM } from 'qbm';
 import { EditOriginComponent } from './edit-origin.component';
 import { FilterElementColumnService } from './filter-element-column.service';
 import { FilterElementModel } from './filter-element-model';
-import { MockBuilder, MockedComponentFixture, MockRender } from 'ng-mocks';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 function buildFilterModel(config: ParmOpt[], value: string): FilterElementModel {
   const ret = new FilterElementModel(
@@ -79,7 +79,7 @@ describe('EditOriginComponent', () => {
       { Display: 'Three', Uid: '3' },
     ];
     component.filterElementModel = buildFilterModel(options, '"1","2"');
-    component.ngOnInit();
+    component.ngOnChanges();
 
     expect(component.control.controls.length).toEqual(3);
     expect(component.control.controls[0].value).toBeTruthy();
@@ -95,7 +95,7 @@ describe('EditOriginComponent', () => {
     ];
 
     component.filterElementModel = buildFilterModel(options, "'2','3'");
-    component.ngOnInit();
+    component.ngOnChanges();
 
     const spy = spyOn(component.valueChanged, 'emit');
 

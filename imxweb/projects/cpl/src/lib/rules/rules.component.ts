@@ -132,14 +132,16 @@ export class RulesComponent implements OnInit {
   public async showDetails(entity: PortalRules): Promise<void> {
     const selectedRule = entity;
     this.rulesProvider.handleOpenLoader();
-    let mControls: RulesMitigatingControls[];
+    const hasRiskIndex = (await this.systemInfoService.get()).PreProps?.includes('RISKINDEX');
+
+    let mControls: RulesMitigatingControls[] = [];
     try {
-      mControls = (await this.mControlsProvider.getControls(selectedRule.GetEntity().GetColumn('UID_NonCompliance').GetValue())).Data;
+      if (hasRiskIndex) {
+        mControls = (await this.mControlsProvider.getControls(selectedRule.GetEntity().GetColumn('UID_NonCompliance').GetValue())).Data;
+      }
     } finally {
       this.rulesProvider.handleCloseLoader();
     }
-
-    const hasRiskIndex = !!(await this.systemInfoService.get()).PreProps?.includes('RISKINDEX');
 
     await this.sideSheetService
       .open(RulesSidesheetComponent, {

@@ -22,11 +22,16 @@
     </mat-accordion>
   </mat-tab>
   <mat-tab [label]="'#LDS#Heading Workflow' | translate">
-    <div eui-sidesheet-content>
-      <mat-card>
-        <imx-decision-history [approverContainer]="approverContainer" [workflow]="workflow"></imx-decision-history>
-      </mat-card>
-    </div>
+    <ng-template matTabContent>
+      <div eui-sidesheet-content>
+        <mat-card>
+          <imx-decision-history [approverContainer]="approverContainer" [workflow]="workflow"></imx-decision-history>
+          <button *ngIf="canLoadMore" mat-stroked-button (click)="updateWorkflow(startIndex + 100)">
+            {{ '#LDS#Show more' | translate }}
+          </button>
+        </mat-card>
+      </div>
+    </ng-template>
   </mat-tab>
 
   <mat-tab *ngIf="isRoleAssignment" [label]="'#LDS#Heading Entitlements' | translate">

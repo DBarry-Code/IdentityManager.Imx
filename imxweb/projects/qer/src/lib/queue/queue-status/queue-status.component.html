@@ -15,7 +15,7 @@
   </button>
 } @else if (!hasTasks) {
   <!-- Queue empty -->
-  <button mat-icon-button (click)="openSidesheet()" [matTooltip]="'#LDS#Background processes pending' | translate">
+  <button mat-icon-button (click)="openSidesheet()" [matTooltip]="'#LDS#Background processes' | translate">
     <!-- For some reason the matbadge is not working on this particular euiicon, create a separate div for it -->
     <div [matBadge]="errorCount" [matBadgeHidden]="!hasErrors" matBadgeColor="warn"></div>
     <eui-icon icon="job-queue" />

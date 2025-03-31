@@ -86,6 +86,10 @@ export class NewRequestAddToCartService {
     const recipients = this.getRecipients();
 
     const serviceItemsForPersons = await this.createRequestableProductsFromServiceItems(recipients);
+    // Cancel the add to cart process.
+    if (!serviceItemsForPersons) {
+      return;
+    }
     const templateItemsForPersons = await this.createRequestableProductsFromBundleItems(recipients);
 
     // merge both lists to a combined list and create the PortalCartItems
@@ -169,7 +173,9 @@ export class NewRequestAddToCartService {
     }
   }
 
-  private async createRequestableProductsFromServiceItems(recipients: ValueStruct<string>[]): Promise<RequestableProductForPerson[]> {
+  private async createRequestableProductsFromServiceItems(
+    recipients: ValueStruct<string>[],
+  ): Promise<RequestableProductForPerson[] | undefined> {
     const requests = this.selectionService.selectedProducts.filter(
       (x) =>
         x.source === SelectedProductSource.AllProducts ||
@@ -178,7 +184,7 @@ export class NewRequestAddToCartService {
     );
 
     let serviceItemsForPersons: RequestableProductForPerson[] = [];
-    let optionalItemsForPersons: RequestableProductForPerson[] = [];
+    let optionalItemsForPersons: RequestableProductForPerson[] | undefined = [];
 
     if (requests && requests.length > 0) {
       const serviceItems = requests.map((x) => x.item) as PortalShopServiceitems[];
@@ -186,6 +192,10 @@ export class NewRequestAddToCartService {
       // first get all optional service items
       if (this.projectConfig?.ITShopConfig?.VI_ITShop_AddOptionalProductsOnInsert) {
         optionalItemsForPersons = await this.openOptionalSideSheet(serviceItems);
+        // Cancel the add to cart process when cancel the optional sidesheet.
+        if (!optionalItemsForPersons) {
+          return undefined;
+        }
       }
 
       this.showBusyIndicator();
@@ -219,7 +229,7 @@ export class NewRequestAddToCartService {
     return productBundleItemsForPersons;
   }
 
-  private async openOptionalSideSheet(serviceItems: PortalShopServiceitems[]): Promise<RequestableProductForPerson[]> {
+  private async openOptionalSideSheet(serviceItems: PortalShopServiceitems[]): Promise<RequestableProductForPerson[] | undefined> {
     const serviceItemTree = await this.optionalItemsService.checkForOptionalTree(serviceItems, this.orchestration.recipients);
     if (!!serviceItemTree?.totalOptional) {
       const selectedOptionalOrder: ServiceItemOrder = await this.sidesheetService
@@ -238,6 +248,8 @@ export class NewRequestAddToCartService {
         .toPromise();
       if (selectedOptionalOrder) {
         return selectedOptionalOrder.requestables || [];
+      } else {
+        return undefined;
       }
     }
     return [];

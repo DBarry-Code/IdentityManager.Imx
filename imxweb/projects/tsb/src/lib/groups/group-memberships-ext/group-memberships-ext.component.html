@@ -6,7 +6,7 @@
 </eui-alert>
 <mat-card class="imx-memberships">
   <imx-data-view-toolbar [dataSource]="dataSource" [showSettings]="false"></imx-data-view-toolbar>
-  <imx-data-view-auto-table [dataSource]="dataSource" mode="manual">
+  <imx-data-view-auto-table [dataSource]="dataSource" mode="manual" [noDataText]="'#LDS#No data' | translate" [noDataIcon]="'table'">
     <ng-container [matColumnDef]="DisplayColumns.DISPLAY_PROPERTYNAME">
       <th mat-header-cell *matHeaderCellDef>
         {{ entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]?.Display }}

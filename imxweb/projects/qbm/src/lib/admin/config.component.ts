@@ -71,7 +71,7 @@ export class ConfigComponent implements OnInit, OnDestroy, SideNavigationCompone
 
   async ngOnInit() {
     const filter: DataSourceToolbarFilter = {
-      Description: 'Customized',
+      Description: this.translator.instant('#LDS#Customized'),
       Name: 'customized',
       Options: [],
     };

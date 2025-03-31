@@ -30,7 +30,11 @@
     >
       <ng-template let-prod>
         <div class="imx-request-col-image">
-          <img *ngIf="productDetailsService.getProductImage(prod); else noImage" [src]="productDetailsService.getProductImage(prod)" />
+          <img
+            *ngIf="productDetailsService.getProductImage(prod); else noImage"
+            [src]="productDetailsService.getProductImage(prod)"
+            alt=""
+          />
           <ng-template #noImage>
             <eui-icon class="imx-icon-info" icon="application" size="32px"></eui-icon>
           </ng-template>

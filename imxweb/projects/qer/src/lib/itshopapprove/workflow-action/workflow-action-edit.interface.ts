@@ -24,6 +24,7 @@
  *
  */
 
+import { AbstractControl } from '@angular/forms';
 import { EntitySchema, IClientProperty, IEntity, TypedEntity } from '@imx-modules/imx-qbm-dbts';
 import { ColumnDependentReference } from 'qbm';
 import { WorkflowActionParameters } from './workflow-action-parameters.interface';
@@ -85,7 +86,7 @@ export interface WorkflowActionEdit {
    * A custom validation method for all of the settings made.
    */
   customValidation?: {
-    validate: () => boolean;
+    validate: (control?: AbstractControl) => boolean;
     message: string;
   };
 }

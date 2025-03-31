@@ -28,6 +28,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
+  PortalAdminPerson,
   PortalPersonReports,
   PortalRespTeamResponsibilities,
   ResponsibilitiesExtendedData,
@@ -121,7 +122,7 @@ export class TeamResponsibilitiesService {
   }
   public async assignResponsibility(
     responsibility: PortalRespTeamResponsibilities,
-    identities: PortalPersonReports[],
+    identities: (PortalPersonReports | PortalAdminPerson)[],
     extendedData: ResponsibilityData | undefined,
     reassign = false,
   ): Promise<void> {
@@ -176,7 +177,7 @@ export class TeamResponsibilitiesService {
 
   public async reassignResponsibilities(
     responsibilities: PortalRespTeamResponsibilities[],
-    identities: PortalPersonReports[],
+    identities: (PortalPersonReports | PortalAdminPerson)[],
     extendedData: (ResponsibilityData | undefined)[],
   ): Promise<void> {
     for (let index = 0; index < responsibilities.length; index++) {

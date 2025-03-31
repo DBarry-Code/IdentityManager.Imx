@@ -24,9 +24,9 @@
  *
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Component, effect, ElementRef, SecurityContext, viewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ApplicationDialogComponent } from '../application-dialog/application-dialog.component';
 
 @Component({
@@ -34,17 +34,17 @@ import { ApplicationDialogComponent } from '../application-dialog/application-di
   templateUrl: './application-details.component.html',
   styleUrls: ['./application-details.component.scss'],
 })
-export class ApplicationDetailsComponent implements OnInit {
-  public urlSafe: SafeResourceUrl;
+export class ApplicationDetailsComponent {
+  public showiFrame = history.state.data.DisplayType == 'NR';
+  private iFrame = viewChild.required<ElementRef>('iFrame');
+
   constructor(
     public sanitizer: DomSanitizer,
     private dialog: MatDialog,
-  ) {}
-
-  public ngOnInit(): void {
-    if (history.state.data) {
-      if (history.state.data.DisplayType == 'NR') {
-        this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(history.state.data.Url);
+  ) {
+    effect(() => {
+      if (this.showiFrame) {
+        this.iFrame().nativeElement.src = this.sanitizer.sanitize(SecurityContext.URL, history.state.data.Url)!;
       } else {
         const dialogConfig = {
           width: 'min(700px,50%)',
@@ -54,6 +54,6 @@ export class ApplicationDetailsComponent implements OnInit {
         };
         this.dialog.open(ApplicationDialogComponent, dialogConfig);
       }
-    }
+    });
   }
 }

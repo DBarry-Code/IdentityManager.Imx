@@ -102,7 +102,7 @@ export class FkCandidatesComponent implements OnChanges {
    * @ignore
    */
   public clearTreeFilter(): void {
-    this.dst.clearTreeFilter();
+    this.dst.clearTreeFilter(false);
   }
 
   public get showToolbar(): boolean {

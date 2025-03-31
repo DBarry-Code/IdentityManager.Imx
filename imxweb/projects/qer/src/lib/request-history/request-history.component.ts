@@ -42,6 +42,7 @@ export class RequestHistoryComponent implements OnInit, AfterViewInit {
   public dataSource: WritableSignal<DataViewSource<ItshopRequest, PwoExtendedData> | undefined> = signal(undefined);
   public filterByDelegations: boolean = false;
   public filterMyPendings: boolean = false;
+  public filterByEndingSoon: boolean = false;
   @ViewChild('requestTable', { static: false }) public requestTableComponent: RequestTableComponent;
 
   constructor(
@@ -52,6 +53,7 @@ export class RequestHistoryComponent implements OnInit, AfterViewInit {
   public async ngOnInit(): Promise<void> {
     this.filterByDelegations = this.activeRoute.snapshot.queryParamMap.get('showDelegations') === 'true';
     this.filterMyPendings = this.activeRoute.snapshot.queryParamMap.get('showMyPendings') === 'true';
+    this.filterByEndingSoon = this.activeRoute.snapshot.queryParamMap.get('showEndingSoon') === '1';
     this.auditMode = await this.qerPermissionService.isShopStatistics();
     if (this.auditMode) {
       this.contextId = HELP_CONTEXTUAL.RequestHistoryAuditor;

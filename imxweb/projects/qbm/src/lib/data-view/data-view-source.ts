@@ -267,40 +267,51 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
    * @param initParameters The initParameters object contains all the required values to setup the data source properly.
    */
   public async init(initParameters: DataViewInitParameters<T>): Promise<void> {
-    this.loading.set(true);
     this.log.info(this, 'Initializing data source');
-    this.customIdentifier = initParameters.customIdentifier || '';
-    this.execute = initParameters.execute;
-    this.collectionData.set({ totalCount: 0, Data: [] });
-    this.entitySchema = signal({ ...initParameters.schema, LocalColumns: initParameters.schema.Columns });
-    this.initialColumnsToDisplay = initParameters.columnsToDisplay;
-    if (initParameters.viewConfig) {
-      this.viewConfig.set(initParameters.viewConfig);
-    }
-    this.dataModel.set(initParameters.dataModel);
-    this.setupGroupOptions();
-    if (initParameters.groupExecute) {
-      this.groupExecute = initParameters.groupExecute;
-    }
-    if (initParameters.exportFunction) {
-      this.exportFunction = initParameters.exportFunction;
-    }
-    if (!initParameters.localSource) {
-      await this.initFilters(initParameters);
-    }
-    this.selectionChangeFunction = initParameters.selectionChange;
-    this.highlightedExecute = initParameters.highlightEntity;
-    this.initOptionalColumns();
-    if (initParameters.dataModel?.DefaultConfigId && !initParameters.uniqueConfig) {
-      const config = this.viewConfig()?.viewConfigs?.find((config) => config.Id == this.dataModel()?.DefaultConfigId);
-      if (config) {
-        await this.applyConfig(config);
-        return;
+    this.loading.set(true);
+    let initAborted = false;
+    let useConfig = false;
+    try {
+      this.customIdentifier = initParameters.customIdentifier || '';
+      this.execute = initParameters.execute;
+      this.collectionData.set({ totalCount: 0, Data: [] });
+      this.entitySchema = signal({ ...initParameters.schema, LocalColumns: initParameters.schema.Columns });
+      this.initialColumnsToDisplay = initParameters.columnsToDisplay;
+      if (initParameters.viewConfig) {
+        this.viewConfig.set(initParameters.viewConfig);
       }
+      this.dataModel.set(initParameters.dataModel);
+      this.setupGroupOptions();
+      if (initParameters.groupExecute) {
+        this.groupExecute = initParameters.groupExecute;
+      }
+      if (initParameters.exportFunction) {
+        this.exportFunction = initParameters.exportFunction;
+      }
+      if (!initParameters.localSource) {
+        await this.initFilters(initParameters);
+      }
+      this.selectionChangeFunction = initParameters.selectionChange;
+      this.highlightedExecute = initParameters.highlightEntity;
+      this.initOptionalColumns();
+      if (initParameters.dataModel?.DefaultConfigId && !initParameters.uniqueConfig) {
+        const config = this.viewConfig()?.viewConfigs?.find((config) => config.Id == this.dataModel()?.DefaultConfigId);
+        if (config) {
+          await this.applyConfig(config);
+          useConfig = true;
+          return;
+        }
+      }
+      await this.updateState();
+    } catch (error) {
+      initAborted = error?.status == 419;
+      throw error;
+    } finally {
+      if (!useConfig) {
+        this.columnsToDisplay.set(initParameters.columnsToDisplay);
+      }
+      this.loading.set(initAborted);
     }
-    await this.updateState();
-    this.columnsToDisplay.set(initParameters.columnsToDisplay);
-    this.loading.set(false);
   }
 
   /**
@@ -554,7 +565,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
       this.state.update((state) => ({ ...state, OrderBy: config.OrderBy }));
       const order = config.OrderBy.split(' ');
       this.sortId.set(order[0]);
-      this.sortDirection.set((order[1].toLowerCase() as SortDirection) || 'asc');
+      this.sortDirection.set((order[1]?.toLowerCase() as SortDirection) || 'asc');
     }
     // Update grouping
     if (!!config.GroupBy) {
