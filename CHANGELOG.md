@@ -1,3 +1,53 @@
+### March 31, 2025
+- 483304: Fixes the text that is displayed if no membership is assigned to an identity.
+- 482336: Fixes an issue with the hierarchical foreign key editor that was using the wrong column for data values.
+- 474724: Fixes an issue with the cancel reservation button
+- 477793: Fixes an issue at the new identity sidesheet: wrong array is checked.
+- 471969: Fixes the data export on reports by adding filter configurations to the request.
+- 480222: Fixes an issue with workflow histories, that are containing to many items.
+- 480361: Fixes an issue with loading membership candidates using POST.
+- 480175: Inherited memberships tab is only shown if the entity is an Active Directory Group.
+- 473934: Fixes an issue with showing the data table on the new request page after deleting properties in the Admin Portal.
+- 475617: Fixes an issue with assigning a manager after user access attestation.
+- 474885: Fixes an issue with updating the edit origin component when the condition type of an attestation policy changes.
+- 474805: Fixes an issue with clicking on a Compliance Rule in Compliance\Compliance Rules.
+- 481595: Fixes an issue with grouping on the pending attestations page -> a second request showed results for the first one.
+- 479701: Fixes an issue with aborting duplicate requests.
+- 473691: Fixes an issue with duplicated calls, when components are loaded more than once.
+- 474556: Fixes an issue with the attestation policies editor, if the condition type 'System entitlements by assignment origin' is selected.
+- 478485: Fixes the layout of the new request details sidesheet.
+- 478652: Fixes an issue with displaying the wrong data for an Attestation run.
+- 481270: Fixes the layout of an empty shopping cart.
+- 461841: Fixes an issue with dynamically hidden CDR editors.
+- 482650: Fixes an issue with setting a filter for a report.
+- 480359: Fixes an issue with empty entries after removing a filter during loading the Request History.
+- 482760: Fixes an issue with the products expiring soon tile not updating without logging out and in again.
+- 472460: Fixes an issue with refreshing the CAPTCHA value after failed logins.
+- 469774: Fixes an issue with past dates while approving pending requests.
+- 473380: Adds alt tags to images to improve accessibility.
+- 468200: Fixes an issue with the current manager not being available as a potential new assignee when re-assigning responsibilities.
+- 471891: Adds sorting to the data table.
+- 475962: Fixes an additional issue with navigating directly to the attestation, while a user is not authenticated.
+- 474708: Fixes an issue, with filter selection for parameters.
+- 476081: Fixes an issue with revisiting the login page, while a user is logged in.
+- 478009: Fixes an issue with deleting products from the shopping cart when a product request is canceled.
+- 471894: Fixes an issue with querying data for deactivated charts leads.
+- 470776: Fixes a wrong data point for session counter in the Administration Portal.
+- 471020: Fixes an issue with the display style of statistics when searching to clarify the context.
+- 470961: Fixes rendering problems for dashboards.
+- 468633: Fixes the entitlement loss dialog, when denying an attestation case.
+- 471290: Adds sorting to statistics page.
+- 471026: Fixes an issue with the numbers that are displayed on chart statistics.
+- 462148: Fixes an issue with updating the policy collection page, after a collection is deleted from the sidesheet.
+- 470481: Fixes an issue with empty attestation cases after a bulk action denial.
+- 475090: Fixes an issue with potential unsafe use of `bypassSecurityTrustResourceUrl`.
+- 478329: Fixes an issue with filtering for multiple values.
+- 479060: Fixes the layout on the Administration Portal Configuration page. Customized badge was too close to the name of the configuration key.
+- 480219: Fixes an issue with applying the proper filter after clicking on the Expring Soon tile.
+- 479059: Fixes an issue with the translation of the filter on the Administration Portal Configuration page.
+- 480662: Fixes an issue when displaying the company logo or the One Identity logo.
+- 470052: Fixes an issue with adding invalid recipients using URL parameter.
+
 ### January 20, 2025
 
 Note: The Linux build is currently not working, we are investigating the issue.
