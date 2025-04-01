@@ -34,10 +34,10 @@
 
     <mat-step [stepControl]="ownerForm" [editable]="!ownerAssigned">
       <ng-template matStepLabel>
-        <ng-container *ngIf="entitlementCdr.column.GetDisplayValue(); else disabledDisplay">
+        <ng-container *ngIf="entitlementCdr.column.GetDisplayValue(); else specifyOwner">
           {{ '#LDS#Specify the owner for the system entitlement "{0}".' | translate | ldsReplace: entitlementCdr.column.GetDisplayValue() }}
         </ng-container>
-        <ng-template #disabledDisplay>
+        <ng-template #specifyOwner>
           {{ '#LDS#Specify the owner' | translate }}
         </ng-template>
       </ng-template>

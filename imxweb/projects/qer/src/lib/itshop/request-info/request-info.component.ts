@@ -28,6 +28,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { PortalShopServiceitems, QerProjectConfig } from '@imx-modules/imx-api-qer';
+import { EntityData } from '@imx-modules/imx-qbm-dbts';
 import moment from 'moment';
 import { BaseReadonlyCdr, BusyService, ClassloggerService, ColumnDependentReference, ExtService, IExtension } from 'qbm';
 import { ProjectConfigurationService } from '../../project-configuration/project-configuration.service';
@@ -58,9 +59,12 @@ export class RequestInfoComponent implements OnInit, OnDestroy {
   public projectConfig: QerProjectConfig;
   public isRoleAssignment: boolean;
   public isLoading = false;
+  public canLoadMore = false;
 
   private busyService = new BusyService();
   private subscriptions: Subscription[] = [];
+  public startIndex: number = 0;
+  private sortedDataCache: EntityData[];
 
   constructor(
     private readonly projectConfigService: ProjectConfigurationService,
@@ -76,6 +80,7 @@ export class RequestInfoComponent implements OnInit, OnDestroy {
         this.isLoading = state;
       }),
     );
+    this.workflow = [];
   }
 
   public async ngOnInit(): Promise<void> {
@@ -105,15 +110,16 @@ export class RequestInfoComponent implements OnInit, OnDestroy {
         this.logger,
       );
 
-      this.workflow = this.itshopService
-        .createTypedHistory(this.request.pwoData)
-        .map((item) => new WorkflowHistoryItemWrapper(item, this.decisionHistory))
-        .sort((item1, item2) => {
-          if (item1.approveHistory.XDateInserted.value && item2.approveHistory.XDateInserted.value)
-            return moment(item1.approveHistory.XDateInserted.value).isAfter(item2.approveHistory.XDateInserted.value) ? 1 : -1;
+      //caches the sorted PWO data in case paging would be needed
+      this.sortedDataCache =
+        this.request.pwoData.WorkflowHistory?.Entities?.sort((item1, item2) => {
+          if (item1.Columns?.XDateInserted?.Value && item2.Columns?.XDateInserted.Value)
+            return moment(item1.Columns.XDateInserted.Value).isAfter(item2.Columns.XDateInserted.Value) ? 1 : -1;
 
-          return moment(item1.approveHistory.DateHead.value).isAfter(item2.approveHistory.DateHead.value) ? 1 : -1;
-        });
+          return moment(item1.Columns?.DateHead.Value).isAfter(item2.Columns?.DateHead.Value) ? 1 : -1;
+        }) ?? [];
+
+      this.updateWorkflow();
 
       this.isRoleAssignment = ['ESet', 'QERAssign'].includes(this.request.TableName.value);
       if (!this.isRoleAssignment) {
@@ -127,6 +133,18 @@ export class RequestInfoComponent implements OnInit, OnDestroy {
       isBusy.endBusy();
     }
     this.logger.debug(this, 'approverContainer has been initialized');
+  }
+
+  public updateWorkflow(startIndex: number = 0) {
+    this.startIndex = startIndex;
+
+    /**calculate currently show workflow data */
+    const workflowData = this.itshopService
+      .createTypedHistory(this.sortedDataCache, this.startIndex)
+      .map((item) => new WorkflowHistoryItemWrapper(item, this.decisionHistory));
+
+    this.workflow.push(...workflowData); //add workflow data
+    this.canLoadMore = this.workflow.length < (this.request.pwoData.WorkflowHistory?.Entities?.length ?? 0);
   }
 
   public ngOnDestroy(): void {

@@ -71,6 +71,7 @@
         <imx-statistics-cards-visuals
           *ngFor="let stat of searchStats; index as i"
           [stat]="stat"
+          [showArea]="true"
           [attr.data-imx-identifier]="'select-statistic-' + i"
         >
         </imx-statistics-cards-visuals>

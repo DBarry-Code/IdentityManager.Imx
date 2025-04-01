@@ -214,6 +214,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewChecked {
     } finally {
       this.logger.debug(this, 'LoginComponent - login - attempt completed');
       this.busyService.hide();
+      this.captchaService.ReinitCaptcha();
     }
 
     return Promise.resolve();

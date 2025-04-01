@@ -27,7 +27,6 @@
 import { Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Optional, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatSortHeader } from '@angular/material/sort';
 import { MatColumnDef, MatTable } from '@angular/material/table';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { ImxExpandableItem } from './imx-data-source';
 
 @Component({
@@ -66,7 +65,6 @@ export class ImxMatColumnComponent<T> implements OnDestroy, OnInit {
   private name: string;
 
   constructor(
-    private sanitizer: DomSanitizer,
     @Optional() public table: MatTable<any>,
   ) {}
 
@@ -82,8 +80,8 @@ export class ImxMatColumnComponent<T> implements OnDestroy, OnInit {
         : 'imx-small-right-margin cux-icon cux-icon--caret-right'; // TODO replace cux-icon (TFS 806274)
   }
 
-  public getMargin(data: any): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle((data.level ? data.level : 0.0) * 20 + 'px');
+  public getMargin(data: any): string {
+    return (20 * (data.level ? data.level : 0)).toString() + 'px';
   }
 
   public ngOnInit(): void {

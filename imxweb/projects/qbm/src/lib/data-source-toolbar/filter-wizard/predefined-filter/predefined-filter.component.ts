@@ -260,6 +260,19 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
+  /**
+   * Determine if the option is in the current value for this filter
+   * @param filter
+   * @param fOption
+   * @returns
+   */
+  public isMultiChecked(filter: DataSourceToolbarFilter, fOption: DataModelFilterOption): boolean {
+    if (!fOption.Value || !filter.CurrentValue) return false;
+    return filter.Delimiter
+      ? filter.CurrentValue.split(filter.Delimiter).includes(fOption.Value)
+      : filter.CurrentValue.includes(fOption.Value);
+  }
+
   public onCheckboxFilterChanged(filter: DataSourceToolbarFilter, option: DataModelFilterOption, event: MatCheckboxChange): void {
     let selectedFilterData: DataSourceToolbarSelectedFilter;
     if (event.checked) {

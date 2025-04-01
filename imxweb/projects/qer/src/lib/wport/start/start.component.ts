@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 
 import { SystemInfo } from '@imx-modules/imx-api-qbm';
 import { ProjectConfig, QerProjectConfig, UserConfig } from '@imx-modules/imx-api-qer';
-import { imx_SessionService, SystemInfoService } from 'qbm';
+import { imx_SessionService, SplashService, SystemInfoService } from 'qbm';
 import { ProjectConfigurationService } from '../../project-configuration/project-configuration.service';
 import { PendingItemsType } from '../../user/pending-items-type.interface';
 import { UserModelService } from '../../user/user-model.service';
@@ -56,6 +56,7 @@ export class StartComponent implements OnInit {
     private readonly sessionService: imx_SessionService,
     private readonly detectRef: ChangeDetectorRef,
     private readonly projectConfigurationService: ProjectConfigurationService,
+    private readonly splash: SplashService,
   ) {}
 
   public async ngOnInit(): Promise<void> {
@@ -65,12 +66,14 @@ export class StartComponent implements OnInit {
     });
     const busy = this.dashboardService.beginBusy();
     try {
+      this.userModelSvc.reloadUserConfig();
       this.userConfig = await this.userModelSvc.getUserConfig();
       this.pendingItems = await this.userModelSvc.getPendingItems();
       this.projectConfig = await this.projectConfigurationService.getConfig();
       this.systemInfo = await this.systemInfoService.get();
       this.userUid = (await this.sessionService.getSessionState()).UserUid || '';
     } finally {
+      this.splash.close();
       busy.endBusy();
     }
   }
@@ -111,6 +114,10 @@ export class StartComponent implements OnInit {
 
   public GoToMyProcesses(): void {
     this.router.navigate(['/QBM_MyProcesses'], {});
+  }
+
+  public GoToRequestsEndingSoon(): void {
+    this.router.navigate(['requesthistory'], { queryParams: { showEndingSoon: 1 } });
   }
 
   public ShowQpmIntegration(): boolean {

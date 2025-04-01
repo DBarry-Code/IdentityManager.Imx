@@ -41,6 +41,7 @@ import {
 
 export class ChartInfoTyped extends TypedEntity {
   public readonly Area: IReadValue<string> = this.GetEntityValue('Area');
+  public readonly AreaName: IReadValue<string> = this.GetEntityValue('AreaName');
   public IsFavorite: IWriteValue<boolean> = this.GetEntityValue('IsFavorite');
   public IsOrg: IWriteValue<boolean> = this.GetEntityValue('IsOrg');
   public readonly Id: IReadValue<string> = this.GetEntityValue('Id');
@@ -56,6 +57,11 @@ export class ChartInfoTyped extends TypedEntity {
 
   public static GetEntitySchema(): EntitySchema {
     const ret: { [key: string]: IClientProperty } = {};
+
+    ret.AreaName = {
+      Type: ValType.String,
+      ColumnName: 'AreaName',
+    };
 
     ret.Area = {
       Type: ValType.String,
@@ -113,11 +119,12 @@ export class ChartInfoTyped extends TypedEntity {
     );
   }
 
-  public static buildEntityData(data: ChartInfoDto, extras?: { isFavorite: boolean; isOrg: boolean }): EntityData {
+  public static buildEntityData(data: ChartInfoDto, extras?: { isFavorite: boolean; isOrg: boolean; areaName: string }): EntityData {
     const ret: { [key: string]: EntityColumnData } = {};
 
     // Setup data
     ret.Area = { Value: data.Area, IsReadOnly: true };
+    ret.AreaName = { Value: extras?.areaName, IsReadOnly: true };
     ret.IsFavorite = { Value: extras?.isFavorite, IsReadOnly: false };
     ret.IsOrg = { Value: extras?.isOrg, IsReadOnly: false };
     ret.Display = { Value: data.Title, IsReadOnly: true };

@@ -54,7 +54,7 @@ import {
   ProcessingQueueService,
   SnackBarService,
 } from 'qbm';
-import { JustificationService, JustificationType, PersonService, UserModelService } from 'qer';
+import { JustificationService, JustificationType, PersonService } from 'qer';
 import { ApiService } from '../api.service';
 import { AttestationCase } from '../decision/attestation-case';
 import { AttestationCasesService } from '../decision/attestation-cases.service';
@@ -81,7 +81,6 @@ export class AttestationActionService {
     private readonly person: PersonService,
     private readonly workflow: AttestationWorkflowService,
     private readonly extService: ExtService,
-    private readonly userService: UserModelService,
     private readonly queueService: ProcessingQueueService,
     authentication: AuthenticationService,
   ) {
@@ -511,11 +510,21 @@ export class AttestationActionService {
 
   private async editAction(config: any): Promise<void> {
     const title = this.translate.instant(config.title);
+    const cases: AttestationCase[] = config.data.attestationCases;
+    const firstCaseUiText = cases[0]?.UiText?.Column?.GetDisplayValue();
+    const subTitle =
+      cases.length === 1
+        ? // Use Ui Text if we have it, otherwise use display
+          firstCaseUiText
+          ? firstCaseUiText
+          : cases[0].GetEntity().GetDisplay()
+        : // If we have more than one case, we don't use a subtitle
+          undefined;
 
     const result = await this.sideSheet
       .open(AttestationActionComponent, {
         title,
-        subTitle: config.data.attestationCases.length === 1 ? config.data.attestationCases[0].GetEntity().GetDisplay() : '',
+        subTitle,
         padding: '0px',
         width: calculateSidesheetWidth(),
         testId: 'attestation-action-sideSheet',
@@ -525,12 +534,12 @@ export class AttestationActionService {
       .toPromise();
 
     if (result) {
-      if (config.data.attestationCases.length > this.queueService.actionThreshold) {
+      if (cases.length > this.queueService.actionThreshold) {
         const actions: Action[] = [];
-        for (const attestationCase of config.data.attestationCases) {
+        for (const attestationCase of cases) {
           actions.push(
             new Action(
-              attestationCase.GetEntity().GetDisplay(),
+              attestationCase.UiText.Column.GetDisplayValue(),
               '',
               async () => {
                 await config.apply(attestationCase);
@@ -540,8 +549,7 @@ export class AttestationActionService {
           );
         }
         this.queueService.submitGroupAction(title, actions, async () => {
-          // Once all actions are complete, reload the data
-          await this.userService.reloadPendingItems();
+          // Once all actions are complete, trigger a data refresh
           this.applied.next();
         });
       } else {
@@ -549,19 +557,17 @@ export class AttestationActionService {
         let success: boolean;
         this.showBusyIndicator();
         try {
-          for (const attestationCase of config.data.attestationCases) {
+          for (const attestationCase of cases) {
             await config.apply(attestationCase);
           }
           success = true;
-          await this.userService.reloadPendingItems();
         } finally {
           this.busyService.hide();
         }
 
         if (success) {
-          this.snackBar.open(
-            config.getMessage ? config.getMessage() : { key: config.message, parameters: [config.data.attestationCases.length] },
-          );
+          // Trigger a data refresh if all cases were successful
+          this.snackBar.open(config.getMessage ? config.getMessage() : { key: config.message, parameters: [cases.length] });
           this.applied.next();
         }
       }

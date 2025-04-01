@@ -24,7 +24,7 @@
  *
  */
 
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { ChartAreaData, ChartDto, HeatmapSummaryDto, StatisticsConfig } from '@imx-modules/imx-api-qer';
 import { EntitySchema, TypedEntity, TypedEntityCollectionData } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
@@ -112,6 +112,7 @@ export class StatisticsDataService {
   constructor(
     private statisticsApi: StatisticsApiService,
     private translate: TranslateService,
+    private errorHandler: ErrorHandler,
     private readonly qerPermissionService: QerPermissionsService,
   ) {}
 
@@ -121,6 +122,14 @@ export class StatisticsDataService {
       throw new Error('Could not find the leafId: ' + leafId);
     }
     return namedNode;
+  }
+
+  public getAreaNameFromArea(areaId: string): string {
+    let area = this._flatTree.find((node) => node.leafId === areaId || node.leafName === areaId)?.leafName;
+    if (!area) {
+      throw new Error('Could not find the areaId: ' + areaId);
+    }
+    return area;
   }
 
   /**
@@ -177,7 +186,6 @@ export class StatisticsDataService {
     await this.getCharts();
     this.addToTree();
 
-    this.sortTreeAlphabetically(this.getNodeByLeafId(this.groupedAreaId));
     this.tree$.next(this._tree);
 
     // Observe initital stats
@@ -247,7 +255,10 @@ export class StatisticsDataService {
 
   public flushCharts(): void {
     Object.values(this.cachedCharts).forEach((obj) => {
-      obj.chart.resize();
+      obj.chart.resize({
+        height: 150,
+        width: 200,
+      });
     });
   }
 
@@ -323,8 +334,14 @@ export class StatisticsDataService {
     this.dataSource.Data.sort((a, b) => this.sortAlphabetically(a.GetEntity().GetDisplay(), b.GetEntity().GetDisplay()));
 
     // Create tree with data
+    const uniqueIds: string[] = [];
     const topLevelTree = this.getNodeByLeafId(this.groupedAreaId);
     this.dataSource.Data.forEach((stat: GenericStatisticEntity) => {
+      let id: string = stat.GetEntity().GetColumn('Id').GetValue();
+      if (uniqueIds.includes(id)) {
+        return;
+      }
+      uniqueIds.push(id);
       let area: string = stat.GetEntity().GetColumn('Area').GetValue();
       let thisTree = this.getNodeByLeafId(area);
       if (area && thisTree) {
@@ -338,27 +355,19 @@ export class StatisticsDataService {
     });
   }
 
-  public sortTreeAlphabetically(tree: GenericStatisticNode): void {
-    // Recursively sort areas
-    if (tree.children) {
-      tree.children.sort((a, b) => this.sortAlphabetically(a?.leafId, b?.leafId));
-      tree.children.forEach((child) => {
-        this.sortTreeAlphabetically(child);
-      });
-    }
-  }
-
   public async getHeatmaps(): Promise<void> {
     const allHeatmaps = await this.statisticsApi.getHeatmapList();
-    const entities = allHeatmaps.map((heatmap) => {
-      if (heatmap.Id != null) {
-        this.summaryStats$[heatmap.Id] = defer(() => this.statisticsApi.getHeatmapSummary(heatmap.Id ?? ''));
-        const isFavorite = this.preferredStatisticIdsOrder.includes(heatmap.Id);
-        const isOrg = this.orgStatisticIdsOrder.includes(heatmap.Id);
-        return HeatmapInfoTyped.buildEntityData(heatmap, { isFavorite, isOrg });
-      }
-      return HeatmapInfoTyped.buildEntityData(heatmap, { isFavorite: false, isOrg: false });
-    });
+    const entities = allHeatmaps
+      .filter((heatmap) => !!heatmap?.Id)
+      .map((heatmap) => {
+        let areaName = '';
+        this.summaryStats$[heatmap.Id!] = defer(() => this.statisticsApi.getHeatmapSummary(heatmap.Id!));
+        const isFavorite = this.preferredStatisticIdsOrder.includes(heatmap.Id!);
+        const isOrg = this.orgStatisticIdsOrder.includes(heatmap.Id!);
+        // Get the Area Name and not ID
+        if (heatmap.Area) areaName = this.getAreaNameFromArea(heatmap.Area!);
+        return HeatmapInfoTyped.buildEntityData(heatmap, { isFavorite, isOrg, areaName });
+      });
     const typedEntities = HeatmapInfoTyped.buildEntities(entities);
     this.dataSource.Data.push(...typedEntities.Data);
     this.dataSource.totalCount += typedEntities.totalCount;
@@ -366,15 +375,17 @@ export class StatisticsDataService {
 
   public async getCharts(): Promise<void> {
     const allCharts = await this.statisticsApi.getChartList();
-    const entities = allCharts.map((chart) => {
-      if (chart.Id) {
-        this.summaryStats$[chart.Id] = defer(() => this.statisticsApi.getChart(chart.Id ?? '', { nohistory: true }));
-        const isFavorite = this.preferredStatisticIdsOrder.includes(chart.Id);
-        const isOrg = this.orgStatisticIdsOrder.includes(chart.Id);
-        return ChartInfoTyped.buildEntityData(chart, { isFavorite, isOrg });
-      }
-      return ChartInfoTyped.buildEntityData(chart, { isFavorite: false, isOrg: false });
-    });
+    const entities = allCharts
+      .filter((chart) => !!chart?.Id)
+      .map((chart) => {
+        let areaName = '';
+        this.summaryStats$[chart.Id!] = defer(() => this.statisticsApi.getChart(chart.Id!, { nohistory: true }));
+        const isFavorite = this.preferredStatisticIdsOrder.includes(chart.Id!);
+        const isOrg = this.orgStatisticIdsOrder.includes(chart.Id!);
+        // Get the Area Name and not ID
+        if (chart.Area) areaName = this.getAreaNameFromArea(chart.Area!);
+        return ChartInfoTyped.buildEntityData(chart, { isFavorite, isOrg, areaName });
+      });
     const typedEntities = ChartInfoTyped.buildEntities(entities);
     this.dataSource.Data.push(...typedEntities.Data);
     this.dataSource.totalCount += typedEntities.totalCount;

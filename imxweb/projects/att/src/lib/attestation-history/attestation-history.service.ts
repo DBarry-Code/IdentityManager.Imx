@@ -78,15 +78,15 @@ export class AttestationHistoryService {
     };
   }
 
-  public exportAttestation(): DataSourceToolbarExportMethod {
+  public exportAttestation(globalState: CollectionLoadParameters): DataSourceToolbarExportMethod {
     const factory = new V2ApiClientMethodFactory();
     return {
       getMethod: (withProperties: string, navigationState: CollectionLoadParameters, PageSize?: number) => {
         let method: MethodDescriptor<EntityCollectionData>;
         if (PageSize) {
-          method = factory.portal_attestation_case_get({ ...navigationState, withProperties, PageSize, StartIndex: 0 });
+          method = factory.portal_attestation_case_get({ ...navigationState, ...globalState, withProperties, PageSize, StartIndex: 0 });
         } else {
-          method = factory.portal_attestation_case_get({ ...navigationState, withProperties });
+          method = factory.portal_attestation_case_get({ ...navigationState, ...globalState, withProperties });
         }
         return new MethodDefinition(method);
       },

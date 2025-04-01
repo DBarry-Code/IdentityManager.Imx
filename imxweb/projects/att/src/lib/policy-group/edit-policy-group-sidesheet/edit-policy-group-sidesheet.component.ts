@@ -120,13 +120,15 @@ export class EditPolicyGroupSidesheetComponent implements OnInit {
   public async saveChanges(): Promise<void> {
     if (this.formGroup.valid) {
       this.policyGroupService.handleOpenLoader();
-      let confirmMessage = !this.policygroup.isNew
-        ? '#LDS#The policy collection has been successfully saved.'
-        : '#LDS#The policy collection has been successfully created.';
       try {
-        this.policygroup.policyGroup.GetEntity().Commit(false);
+        await this.policygroup.policyGroup.GetEntity().Commit(false);
+        this.logger.debug(this, `policy ${this.policygroup.policyGroup.GetEntity().GetKeys()[0]} created`);
         this.sidesheetRef.close(true);
-        this.snackBar.open({ key: confirmMessage });
+        this.snackBar.open({
+          key: !this.policygroup.isNew
+            ? '#LDS#The policy collection has been successfully saved.'
+            : '#LDS#The policy collection has been successfully created.',
+        });
       } finally {
         this.policyGroupService.handleCloseLoader();
       }
@@ -148,7 +150,7 @@ export class EditPolicyGroupSidesheetComponent implements OnInit {
       } finally {
         this.policyGroupService.handleCloseLoader();
       }
-      this.sidesheetRef.close();
+      this.sidesheetRef.close(true);
     }
   }
 }

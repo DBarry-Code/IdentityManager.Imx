@@ -25,7 +25,6 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
-import _ from 'lodash';
 
 import { CollectionLoadParameters, DataModel, DisplayColumns, EntitySchema } from '@imx-modules/imx-qbm-dbts';
 import {
@@ -172,8 +171,8 @@ export class ListReportViewerComponent implements OnInit {
       this.reportColumns = data.extendedData.Columns;
     }
 
-    // create a copy of listReportSchema and add additional columns to it (because the schema only provides the display at this point)
-    this.entitySchema = _.cloneDeep(this.dataService.entitySchema) as any;
+    // create a copy of listReportSchema and add additional columns to it (because the schema only provides the display at this point) and update the TypeName property
+    this.entitySchema = { ...this.dataService.entitySchema, TypeName: data.tableName };
 
     for (const column of this.reportColumns) {
       (this.entitySchema.Columns[column] as any) = data.extendedData?.AdditionalProperties?.find((elem) => elem.ColumnName === column);

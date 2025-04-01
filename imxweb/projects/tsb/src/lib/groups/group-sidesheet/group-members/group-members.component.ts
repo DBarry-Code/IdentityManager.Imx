@@ -64,6 +64,8 @@ export class GroupMembersComponent implements OnInit {
 
   public viewDirectMemberships = new UntypedFormControl(true);
 
+  public canViewInheritedMemberships: boolean = false;
+
   public showUnsubscribeWarning = false;
 
   public readonly entitySchemaGroupDirectMemberships: EntitySchema;
@@ -125,6 +127,7 @@ export class GroupMembersComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     this.groupId = this.unsGroupDbObjectKey.Keys[0];
+    this.canViewInheritedMemberships = this.unsGroupDbObjectKey?.TableName === 'ADSGroup';
 
     await this.navigateDirect();
   }

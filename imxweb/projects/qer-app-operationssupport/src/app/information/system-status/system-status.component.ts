@@ -25,7 +25,6 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Observable, Subject, Subscription, interval } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -73,9 +72,6 @@ export class SystemStatusComponent implements OnInit, OnDestroy {
     return this._columnCount;
   }
 
-  public get listWidth(): SafeStyle {
-    return this.sanitizer.bypassSecurityTrustStyle(this._columnCount * 369 + 'px');
-  }
   private refreshTimer: Subscription;
   private sub = new Subject<any>();
 
@@ -93,7 +89,6 @@ export class SystemStatusComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private readonly sanitizer: DomSanitizer,
     private readonly statusService: SystemStatusService,
     private readonly confirmationService: ConfirmationService,
   ) {}

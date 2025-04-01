@@ -27,7 +27,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { EUI_SIDESHEET_DATA, EuiSidesheetRef, EuiSidesheetService } from '@elemental-ui/core';
-import { LogOp, SqlExpression, SqlWizardExpression, isExpressionInvalid } from '@imx-modules/imx-qbm-dbts';
+import { FilterProperty, LogOp, SqlExpression, SqlWizardExpression, isExpressionInvalid } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
 import _ from 'lodash';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -115,14 +115,16 @@ export class FilterWizardComponent implements OnInit, OnDestroy {
 
   public async ngOnInit(): Promise<void> {
     const busy = this.busyService.beginBusy();
+    let columns: FilterProperty[] = [];
     try {
-      const columns = await this.sqlWizardSvc.getFilterProperties(this.data?.settings?.entitySchema?.TypeName ?? '');
-      this.hasProperties = columns?.length > 0;
-      this.initialized = true;
-
+      if (this.data?.settings?.entitySchema?.TypeName) {
+        columns = await this.sqlWizardSvc.getFilterProperties(this.data?.settings?.entitySchema?.TypeName ?? '');
+      }
       this.hasTreeFilter =
         this.data?.filterTreeParameter?.filterTreeParameter != null &&
         !!(await this.data.filterTreeParameter.filterTreeParameter.filterMethode(''))?.Elements?.length;
+      this.initialized = true;
+      this.hasProperties = columns?.length > 0 || this.hasTreeFilter;
     } finally {
       busy.endBusy();
     }

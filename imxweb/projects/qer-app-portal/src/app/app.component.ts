@@ -23,7 +23,7 @@
  * THIS SOFTWARE OR ITS DERIVATIVES.
  *
  */
-import { Component, ErrorHandler, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, ErrorHandler, OnDestroy, OnInit } from '@angular/core';
 import { Event, EventType, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -32,6 +32,7 @@ import {
   ClassloggerService,
   ConfirmationService,
   IeWarningService,
+  imx_SessionService,
   ImxTranslationProviderService,
   ISessionState,
   MenuService,
@@ -77,12 +78,16 @@ export class AppComponent implements OnInit, OnDestroy {
     private qerClient: QerApiService,
     private readonly themeService: EuiThemeService,
     private readonly errorHandler: ErrorHandler,
+    private readonly session: imx_SessionService,
     private readonly translationProvider: ImxTranslationProviderService,
     private readonly confirmationService: ConfirmationService,
     private readonly userMessageService: UserMessageService,
   ) {
     this.subscriptions.push(
       this.authentication.onSessionResponse.subscribe(async (sessionState: ISessionState) => {
+        if (Object.keys(sessionState).length === 0) {
+          sessionState = await this.session.getSessionState();
+        }
         if (sessionState.hasErrorState) {
           // Needs to close here when there is an error on sessionState
           splash.close();

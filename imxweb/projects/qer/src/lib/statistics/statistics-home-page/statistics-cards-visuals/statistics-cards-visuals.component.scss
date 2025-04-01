@@ -8,12 +8,19 @@
     margin-bottom: auto;
   }
 
+  .area-text {
+    font-size: x-small;
+    // Stick area in top/left and don't adjust chart space, remove this if we want under the title text
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 3px;
+    margin-left: 5px;
+  }
+
   .visual {
     margin: 10px 0;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 150px;
+    display: contents;
   }
 
   .favorites-icon,

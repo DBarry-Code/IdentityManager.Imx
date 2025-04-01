@@ -9,12 +9,12 @@
 	<Import Project="$(VI_PROJECTDIR)\Build\Includes\Build_Html_Package.targets"/>
 
     <PropertyGroup>
-        <InjectPackage>/inject $(Workspace)\imx-modules\imx-api-qam.tgz</InjectPackage>
+        <!-- <InjectPackage>/inject $(Workspace)\imx-modules\imx-api-qam.tgz</InjectPackage> -->
     </PropertyGroup>
 
 	<ItemGroup>
 		<!-- only run if any of these files have changed -->
-		<InputFiles Include="$(Workspace)\imx-modules\imx-api-qam.tgz" />
+		<!-- <InputFiles Include="$(Workspace)\imx-modules\imx-api-qam.tgz" /> -->
 	</ItemGroup>
 	
 </Project>

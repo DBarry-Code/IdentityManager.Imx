@@ -106,14 +106,22 @@ export abstract class BaseMembership implements IRoleMembershipType {
     const schemaPath =
       (this.fkCandidateRoute?.Url?.at(0) === '/' ? this.fkCandidateRoute.Url.substring(1) : this.fkCandidateRoute?.Url) || '';
     const api = new DynamicMethod(schemaPath, this.fkCandidateRoute?.Url || '', this._api.apiClient, this._session, this._translator);
-    return api.Post(navigationState);
+    if (this.fkCandidateRoute?.HttpMethod === 'GET') {
+      // use simple get method
+      return api.Get(navigationState);
+    }
+
+    //build path parameter (e.g. {UID_Department:12345}) and do a post
+    const state = {};
+    state[this.columnName] = id;
+    return api.Post(state, navigationState ?? {});
   }
 
   public async getCandidatesDataModel(): Promise<DataModel> {
     const schemaPath =
       (this.fkCandidateRoute?.Url?.at(0) === '/' ? this.fkCandidateRoute.Url.substring(1) : this.fkCandidateRoute?.Url) || '';
     const api = new DynamicMethod(schemaPath, this.fkCandidateRoute?.Url || '', this._api.apiClient, this._session, this._translator);
-    return api.getDataModei();
+    return api.getDataModel();
   }
 
   public abstract delete(role: string, identity: string): Promise<EntityCollectionData>;

@@ -1,8 +1,6 @@
 /* Elemental UI */
-eui-logo {
-  &.no-logo {
-    display: none;
-  }
+.no-logo eui-logo {
+  display: none;
 }
 
 /* Angular Material */

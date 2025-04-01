@@ -41,6 +41,7 @@ import {
 
 export class HeatmapInfoTyped extends TypedEntity {
   public readonly Area: IReadValue<string> = this.GetEntityValue('Area');
+  public readonly AreaName: IReadValue<string> = this.GetEntityValue('AreaName');
   public IsFavorite: IWriteValue<boolean> = this.GetEntityValue('IsFavorite');
   public IsOrg: IWriteValue<boolean> = this.GetEntityValue('IsOrg');
   public readonly NegateThresholds: IReadValue<boolean> = this.GetEntityValue('NegateThresholds');
@@ -60,6 +61,10 @@ export class HeatmapInfoTyped extends TypedEntity {
     ret.Area = {
       Type: ValType.String,
       ColumnName: 'Area',
+    };
+    ret.AreaName = {
+      Type: ValType.String,
+      ColumnName: 'AreaName',
     };
     ret.IsFavorite = {
       Type: ValType.Bool,
@@ -113,11 +118,12 @@ export class HeatmapInfoTyped extends TypedEntity {
     );
   }
 
-  public static buildEntityData(data: HeatmapInfoDto, extras?: { isFavorite: boolean; isOrg: boolean }): EntityData {
+  public static buildEntityData(data: HeatmapInfoDto, extras?: { isFavorite: boolean; isOrg: boolean; areaName: string }): EntityData {
     const ret: { [key: string]: EntityColumnData } = {};
 
     // Setup data
     ret.Area = { Value: data.Area, IsReadOnly: true };
+    ret.AreaName = { Value: extras?.areaName, IsReadOnly: true };
     ret.IsFavorite = { Value: extras?.isFavorite, IsReadOnly: false };
     ret.IsOrg = { Value: extras?.isOrg, IsReadOnly: false };
     ret.Display = { Value: data.Display, IsReadOnly: true };

@@ -60,7 +60,7 @@ import { AttestationInquiriesComponent } from './attestation-inquiries/attestati
 import { DecisionComplianceViolationComponent } from './decision-compliance-violation/decision-compliance-violation.component';
 import { DecisionHistoryItemComponent } from './decision-history-item/decision-history-item.component';
 import { DecisionPolicyViolationComponent } from './decision-policy-violation/decision-policy-violation.component';
-import { LossPreviewDialogComponent } from './loss-preview-dialog/loss-preview-dialog.component';
+import { LossPreviewSidesheetComponent } from './loss-preview-sidesheet/loss-preview-sidesheet.component';
 import { LossPreviewTableComponent } from './loss-preview-table/loss-preview-table.component';
 import { MitigatingControlsComponent } from './mitigating-controls/mitigating-controls.component';
 @NgModule({
@@ -71,7 +71,7 @@ import { MitigatingControlsComponent } from './mitigating-controls/mitigating-co
     DecisionHistoryItemComponent,
     ApproversComponent,
     EntityPropertyEditorComponent,
-    LossPreviewDialogComponent,
+    LossPreviewSidesheetComponent,
     LossPreviewTableComponent,
     DecisionComplianceViolationComponent,
     DecisionPolicyViolationComponent,

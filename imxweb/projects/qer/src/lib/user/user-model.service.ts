@@ -59,6 +59,10 @@ export class UserModelService {
     return this.cachedUserConfig.get();
   }
 
+  public reloadUserConfig(): void {
+    this.cachedUserConfig.reset();
+  }
+
   public getPendingItems(): Promise<PendingItemsType> {
     return this.pendingItemsCache.get();
   }

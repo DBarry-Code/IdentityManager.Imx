@@ -49,11 +49,11 @@ import {
   DataSourceToolbarViewConfig,
   DataViewInitParameters,
   DataViewSource,
+  LdsReplacePipe,
   MessageDialogComponent,
   QueuedActionState,
   UserMessageService,
   calculateSidesheetWidth,
-  isMobile,
   setFilterDisplay,
 } from 'qbm';
 import { PendingItemsType, RecommendationSidesheetComponent, UserModelService, ViewConfigService } from 'qer';
@@ -65,7 +65,7 @@ import { AttestationCase } from './attestation-case';
 import { AttestationCaseComponent } from './attestation-case.component';
 import { AttestationCasesService } from './attestation-cases.service';
 import { AttestationDecisionAction, AttestationDecisionLoadParameters } from './attestation-decision-load-parameters';
-import { LossPreviewDialogComponent } from './loss-preview-dialog/loss-preview-dialog.component';
+import { LossPreviewSidesheetComponent } from './loss-preview-sidesheet/loss-preview-sidesheet.component';
 import { LossPreview } from './loss-preview.interface';
 @Component({
   templateUrl: './attestation-decision.component.html',
@@ -108,7 +108,8 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
   }
   public get canCancelReservation(): boolean {
     return this.selectedCases.every(
-      (item) => item.IsReserved.value && (item.hasAskedLastQuestion(this.userUid) || this.isUserEscalationApprover),
+      (item) =>
+        item.IsReserved.value && (item.hasAskedLastQuestion(this.userUid) || this.isUserEscalationApprover) && item.allQuestionsAnswered(),
     );
   }
 
@@ -155,10 +156,10 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly noCaseDialog: MatDialog,
     private readonly translate: TranslateService,
+    private readonly ldsReplace: LdsReplacePipe,
     private readonly attService: ApiService,
     private readonly attFeatureService: AttestationFeatureGuardService,
     private viewConfigService: ViewConfigService,
-    private dialog: MatDialog,
     private readonly usermodelService: UserModelService,
     authentication: AuthenticationService,
     public dataSource: DataViewSource<AttestationCase>,
@@ -277,21 +278,27 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
     }
     // There are losses, show them
     this.lossPreview.LossPreviewItems = this.allLossPreviewItems;
-    const selection = await this.dialog
-      .open(LossPreviewDialogComponent, {
-        width: isMobile() ? '90vw' : '60vw',
-        maxWidth: isMobile() ? '90vw' : '80vw',
-        height: '70vh',
-        maxHeight: '70vh',
-        data: this.lossPreview,
+    const subTitle =
+      cases.length === 1
+        ? cases[0].UiText.Column.GetDisplayValue()
+        : this.ldsReplace.transform(await this.translate.get('#LDS#Denying {0} attestation cases').toPromise(), cases.length);
+    await this.sidesheet
+      .open(LossPreviewSidesheetComponent, {
+        title: await this.translate.get('#LDS#Heading View Entitlement Loss').toPromise(),
+        subTitle,
+        icon: 'warning',
+        padding: '0px',
+        width: calculateSidesheetWidth(1000),
+        testId: 'attestation-case-sidesheet',
+        data: {
+          lossPreview: this.lossPreview,
+          decisionFunc: async () => {
+            await this.attestationAction[func](cases);
+          },
+        },
       })
       .afterClosed()
       .toPromise();
-
-    if (selection) {
-      // Handle function
-      this.attestationAction[func](cases);
-    }
   }
 
   public async getData(): Promise<void> {
@@ -405,7 +412,7 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
     if (attestationCaseWithPolicy) {
       this.sidesheet.open(AttestationCaseComponent, {
         title: await this.translate.get('#LDS#Heading View Attestation Case Details').toPromise(),
-        subTitle: attestationCaseWithPolicy.GetEntity().GetDisplay(),
+        subTitle: attestationCaseWithPolicy.UiText.Column.GetDisplayValue(),
         padding: '0px',
         width: calculateSidesheetWidth(1000),
         testId: 'attestation-case-sidesheet',
@@ -431,7 +438,7 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
     const decision: 'approve' | 'deny' | null = await this.sidesheet
       .open(RecommendationSidesheetComponent, {
         title: await this.translate.get('#LDS#Heading View Recommendation Details').toPromise(),
-        subTitle: attestationCase.GetEntity().GetDisplay(),
+        subTitle: attestationCase.UiText.Column.GetDisplayValue(),
         panelClass: 'imx-sidesheet',
         padding: '0',
         width: calculateSidesheetWidth(1000),

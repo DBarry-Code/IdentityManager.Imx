@@ -65,6 +65,7 @@ export class StatisticsCardsVisualsComponent implements OnInit, OnDestroy {
   @ViewChild('visual', { read: ElementRef, static: true }) public visualWrapper: ElementRef<HTMLElement>;
 
   @Input() public stat: GenericStatisticEntity;
+  @Input() public showArea = false;
 
   public id: string;
   public cacheId: string;

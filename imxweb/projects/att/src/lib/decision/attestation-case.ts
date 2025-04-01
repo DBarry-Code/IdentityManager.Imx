@@ -107,7 +107,11 @@ export class AttestationCase extends PortalAttestationApprove implements Attesta
 
   public async commit(reload = true): Promise<void> {
     this.baseObject.extendedData = this.parameterDataContainer.getEntityWriteDataColumns();
-    if (this.baseObject.extendedData.DialogParameter[0].length > 0 || !!this.baseObject.GetEntity().GetDiffData().Data?.length) {
+    if (
+      this.baseObject.extendedData.DialogParameter?.[0].length > 0 ||
+      this.baseObject.extendedData.ComponentParameter?.[0].length > 0 ||
+      !!this.baseObject.GetEntity().GetDiffData().Data?.length
+    ) {
       try {
         await this.baseObject.GetEntity().Commit(reload);
       } catch (error) {
@@ -154,5 +158,13 @@ export class AttestationCase extends PortalAttestationApprove implements Attesta
 
   public canEscalateDecision(userUid: string): boolean {
     return this.UID_PersonHead.value === userUid && this.workflowWrapper.canEscalateDecision(this.DecisionLevel.value);
+  }
+
+  /**
+   * Check, if there are any open questions for the attestation case
+   * @returns true, if all questions has been answered
+   */
+  public allQuestionsAnswered(): boolean {
+    return this.workflowWrapper.allQuestionsAnswered();
   }
 }

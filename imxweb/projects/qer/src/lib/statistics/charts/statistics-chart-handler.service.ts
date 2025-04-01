@@ -61,6 +61,13 @@ export class StatisticsChartHandlerService {
     return chart.Data?.map((data) => (data.Points?.[0].Value ?? 0) > 0)?.some((value) => value) ?? false;
   }
 
+  /**
+   * Check if all data is just an integer
+   */
+  public isAllIntegers(columns: (string | number)[][]): boolean {
+    return columns.every((column) => column.every((val) => typeof val === 'string' || Number.isInteger(val)));
+  }
+
   public getNamesValues(data: ChartData[], options?: { includeZero: boolean }): ChartNamesValues {
     const names: string[] = [];
     const values: number[] = [];
@@ -185,6 +192,10 @@ export class StatisticsChartHandlerService {
           show: false,
         },
       },
+      size: {
+        height: 150,
+        width: 200,
+      },
       resize: {
         auto: true,
       },
@@ -240,6 +251,10 @@ export class StatisticsChartHandlerService {
           show: false,
         },
       },
+      size: {
+        height: 150,
+        width: 200,
+      },
       resize: {
         auto: true,
       },
@@ -280,6 +295,7 @@ export class StatisticsChartHandlerService {
     slicedData?.forEach((data) => {
       columns.push([data.Name ?? '', ...(data.Points?.slice(0, timecutoff).map((datum) => datum.Value) || [])]);
     });
+
     return {
       data: {
         x: 'x',
@@ -304,9 +320,8 @@ export class StatisticsChartHandlerService {
         },
         y: {
           tick: {
-            culling: {
-              max: 5,
-            },
+            // Here we cull for integers if all the data is integers, otherwise set a max of 5 lines to show
+            culling: this.isAllIntegers(columns) ? true : { max: 5 },
           },
         },
       },
@@ -316,6 +331,10 @@ export class StatisticsChartHandlerService {
         resetButton: {
           text: this.constantsService.resetZoomText,
         },
+      },
+      size: {
+        height: 150,
+        width: 200,
       },
       resize: {
         auto: true,

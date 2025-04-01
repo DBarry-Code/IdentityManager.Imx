@@ -27,7 +27,7 @@
     </div>
     <ng-container *ngIf="hasImage">
       <ng-container *ngIf="!isLoadingImage; else imageLoadingSpinner">
-        <img *ngIf="imageUrl; else imageFallbackIcon" [src]="imageUrl" mat-card-avatar />
+        <img *ngIf="imageUrl; else imageFallbackIcon" [src]="imageUrl" mat-card-avatar alt="" />
         <ng-template #imageFallbackIcon>
           <div
             *ngIf="fallbackIcon === 'DefaultTypeNameImage'"

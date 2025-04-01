@@ -24,22 +24,23 @@
  *
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, effect, ElementRef, Inject, SecurityContext, viewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'imx-application-dialog',
   templateUrl: './application-dialog.component.html',
 })
-export class ApplicationDialogComponent implements OnInit {
-  public urlSafe: SafeResourceUrl;
+export class ApplicationDialogComponent {
+  private iFrame = viewChild.required<ElementRef>('iFrame');
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: { url: string },
     public sanitizer: DomSanitizer,
-  ) {}
-
-  public ngOnInit(): void {
-    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.url);
+  ) {
+    effect(() => {
+      this.iFrame().nativeElement.src = this.sanitizer.sanitize(SecurityContext.URL, this.data.url)!;
+    });
   }
 }

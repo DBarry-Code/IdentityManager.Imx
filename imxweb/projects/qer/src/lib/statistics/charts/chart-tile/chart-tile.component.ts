@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, afterNextRender, afterRender } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, afterRender } from '@angular/core';
 import { ChartDisplayType, ChartDto } from '@imx-modules/imx-api-qer';
 import { Chart, ChartOptions, bar, donut, line } from 'billboard.js';
 import { ChartInfoTyped } from '../../statistics-home-page/chart-info-typed';
@@ -56,20 +56,10 @@ export class ChartTileComponent implements OnInit {
   constructor(
     private chartHandler: StatisticsChartHandlerService,
     private pointStatService: PointStatVisualService,
-    private elementRef: ElementRef<HTMLElement>,
   ) {
-    afterNextRender(() => {
-      if (this.chartOptions) {
-        this.chartOptions.size = {
-          height: this.elementRef?.nativeElement?.parentElement?.offsetTop,
-          width: this.elementRef?.nativeElement?.parentElement?.offsetLeft,
-        };
-      }
-    });
-
     afterRender(() => {
       if (this.currentChart) {
-        this.currentChart.resize();
+        this.currentChart.resize({ height: 150, width: 200 });
       }
     });
   }

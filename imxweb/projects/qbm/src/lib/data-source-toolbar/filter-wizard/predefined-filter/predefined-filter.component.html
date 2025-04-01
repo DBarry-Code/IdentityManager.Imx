@@ -33,7 +33,7 @@
   <ng-container *ngIf="filterTypes[index].type === filterTypeEnum.MultiCheck">
     <mat-checkbox
       *ngFor="let fopt of filter.Options"
-      [checked]="filter.CurrentValue?.includes(fopt.Value)"
+      [checked]="isMultiChecked(filter, fopt)"
       (change)="onCheckboxFilterChanged(filter, fopt, $event)"
       [attr.data-imx-identifier]="'dst-checkbox-filtermenu-option-' + filter.Name + '-' + fopt.Value"
     >

@@ -26,6 +26,8 @@
 
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthenticationService, ISessionState } from 'qbm';
+import { BehaviorSubject } from 'rxjs';
 import { ApiService } from './api.service';
 import { AttestationFeatureGuardService } from './attestation-feature-guard.service';
 
@@ -37,6 +39,9 @@ describe('AttestationFeatureGuardService', () => {
       portal_attestation_config_get: jasmine.createSpy('portal_attestation_config_get').and.returnValue(Promise.resolve([{}])),
     },
   };
+  const authService = {
+    onSessionResponse: new BehaviorSubject<ISessionState>({ IsLoggedIn: true }),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,6 +50,10 @@ describe('AttestationFeatureGuardService', () => {
         {
           provide: ApiService,
           useValue: attServiceStub,
+        },
+        {
+          provide: AuthenticationService,
+          useValue: authService,
         },
       ],
     });

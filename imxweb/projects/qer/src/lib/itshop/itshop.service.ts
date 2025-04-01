@@ -32,7 +32,6 @@ import {
   PortalItshopPeergroupMemberships,
   PortalItshopPersondecision,
   PortalShopServiceitems,
-  PwoData,
   ServiceItemsExtendedData,
 } from '@imx-modules/imx-api-qer';
 import {
@@ -40,6 +39,7 @@ import {
   CollectionLoadParameters,
   CompareOperator,
   EntityCollectionData,
+  EntityData,
   EntitySchema,
   ExtendedTypedEntityCollection,
   FilterTreeData,
@@ -111,12 +111,12 @@ export class ItshopService {
     return this.qerClient.typedClient.PortalItshopPeergroupMemberships.Get(parameters, requestOpts);
   }
 
-  public createTypedHistory(pwoData: PwoData): PortalItshopApproveHistory[] {
-    if (pwoData?.WorkflowHistory) {
-      return this.historyBuilder.buildReadWriteEntities(
-        pwoData.WorkflowHistory,
-        this.qerClient.typedClient.PortalItshopApproveHistory.GetSchema(),
-      ).Data;
+  public createTypedHistory(pwoData: EntityData[], startIndex: number = 0): PortalItshopApproveHistory[] {
+    if (pwoData.length) {
+      const endIndex: number = Math.min(pwoData.length, startIndex + 100); //calculate end index
+      const length: number = pwoData.length < 100 ? pwoData.length : Math.min(100, pwoData.length - startIndex); // calculate length of extracted  data
+      const history = { TotalCount: length, Entities: pwoData.length < 100 ? pwoData : pwoData.slice(startIndex, endIndex) }; //get new history data
+      return this.historyBuilder.buildReadWriteEntities(history, this.qerClient.typedClient.PortalItshopApproveHistory.GetSchema()).Data;
     }
 
     return [];

@@ -130,6 +130,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public uidRecipient: string;
   @Input() public filterByDelegations: boolean;
   @Input() public filterMyPendings: boolean;
+  @Input() public filterByEndingSoon: boolean;
   public selectedItems: ItshopRequest[] = [];
 
   public readonly DisplayColumns = DisplayColumns;
@@ -320,6 +321,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private updateCollectionParameters(): void {
+    const newState: CollectionLoadParameters = {};
     if (this.uidRecipientRequester) {
       const personFilter = this.filterOptions.find((elem) => elem.Name === 'person')?.CurrentValue;
       this.filterOptions.map((filter) => {
@@ -327,7 +329,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
           filter.CurrentValue = personFilter ?? '7';
         }
       });
-      this.dataSource.state.update((state) => ({ ...state, person: personFilter ?? '7' }));
+      newState.person = personFilter ?? '7';
       this.uniqueTableConfig = true;
     }
     if (this.filterByDelegations) {
@@ -336,7 +338,7 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
           filter.CurrentValue = '1';
         }
       });
-      this.dataSource.state.update((state) => ({ ...state, MyDelegations: '1' }));
+      newState.MyDelegations = '1';
       this.uniqueTableConfig = true;
     }
     if (this.filterMyPendings) {
@@ -345,8 +347,21 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
           filter.CurrentValue = '1';
         }
       });
-      this.dataSource.state.update((state) => ({ ...state, ShowMyPending: '1' }));
+      newState.ShowMyPending = '1';
       this.uniqueTableConfig = true;
+    }
+    if (this.filterByEndingSoon) {
+      this.filterOptions.map((filter) => {
+        if (filter.Name === 'ShowEndingSoon') {
+          filter.CurrentValue = '1';
+        }
+      });
+      newState.ShowEndingSoon = '1';
+      this.uniqueTableConfig = true;
+    }
+    // If any of the above filters are set, we need to update the state
+    if (this.uniqueTableConfig) {
+      this.dataSource.state.update((state) => ({ ...state, ...newState }));
     }
     this.dataSource.predefinedFilters.set(this.filterOptions);
   }

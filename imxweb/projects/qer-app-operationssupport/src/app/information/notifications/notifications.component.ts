@@ -24,12 +24,11 @@
  *
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { NotificationsService } from './notifications.service';
 import { AppConfigService } from 'qbm';
 import { IssueItem } from '../service-issues/service-issues.models';
+import { NotificationsService } from './notifications.service';
 
 @Component({
   selector: 'imx-notifications',
@@ -40,12 +39,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   public get Notifications(): IssueItem[] {
     return this.notifications.items;
   }
-  public get listWidth(): SafeStyle {
-    return this.domSanitizer.bypassSecurityTrustStyle('726px');
-  }
 
   constructor(
-    private domSanitizer: DomSanitizer,
     public notifications: NotificationsService,
     private appConfigService: AppConfigService,
   ) {}

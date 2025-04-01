@@ -1,9 +1,24 @@
 <mat-card class="imx-request-table-card">
-  <imx-data-view-auto-table [dataSource]="dataSource" mode="manual" [selectable]="!isReadOnly && !isArchivedRequests">
+  <imx-data-view-auto-table
+    [dataSource]="dataSource"
+    mode="manual"
+    [selectable]="!isReadOnly && !isArchivedRequests"
+    matSort
+    (matSortChange)="dataSource?.sortChange($event)"
+    [matSortActive]="dataSource.sortId()"
+    [matSortDirection]="dataSource.sortDirection()"
+  >
     <ng-container [matColumnDef]="entitySchema.Columns.DisplayOrg.ColumnName">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ '#LDS#Product' | translate }}
-      </th>
+      <ng-container *ngIf="isArchivedRequests">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ '#LDS#Product' | translate }}
+        </th>
+      </ng-container>
+      <ng-container *ngIf="!isArchivedRequests">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ '#LDS#Product' | translate }}
+        </th>
+      </ng-container>
       <td mat-cell *matCellDef="let pwo" role="gridcell" class="imx-table-cell">
         <div class="imx-display-column">
           <div class="imx-placeholder" *ngIf="pwo.UID_PersonWantsOrgParent.value"></div>
@@ -43,9 +58,16 @@
       </td>
     </ng-container>
     <ng-container [matColumnDef]="entitySchema.Columns.UiOrderState.ColumnName">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ entitySchema?.Columns?.UiOrderState?.Display }}
-      </th>
+      <ng-container *ngIf="isArchivedRequests">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ entitySchema?.Columns?.UiOrderState?.Display }}
+        </th>
+      </ng-container>
+      <ng-container *ngIf="!isArchivedRequests">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ entitySchema?.Columns?.UiOrderState?.Display }}
+        </th>
+      </ng-container>
       <td mat-cell *matCellDef="let pwo" role="gridcell">
         <ng-container *ngIf="['OrderProduct', 'OrderProlongate'].includes(pwo.UiOrderState.value); else defaultDisplay">
           {{
@@ -65,9 +87,16 @@
     </ng-container>
     <ng-container [matColumnDef]="entitySchema.Columns.OrderDate.ColumnName">
       <ng-container>
-        <th mat-header-cell *matHeaderCellDef>
-          {{ entitySchema?.Columns?.OrderDate?.Display }}
-        </th>
+        <ng-container *ngIf="isArchivedRequests">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ entitySchema?.Columns?.OrderDate?.Display }}
+          </th>
+        </ng-container>
+        <ng-container *ngIf="!isArchivedRequests">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ entitySchema?.Columns?.OrderDate?.Display }}
+          </th>
+        </ng-container>
       </ng-container>
       <td mat-cell *matCellDef="let pwo" role="gridcell">
         <span>
@@ -76,7 +105,7 @@
       </td>
     </ng-container>
   </imx-data-view-auto-table>
-  <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator>
+  <imx-data-view-paginator [dataSource]="dataSource" *ngIf="!isArchivedRequests"></imx-data-view-paginator>
 </mat-card>
 <div class="imx-button-bar-transparent" *ngIf="!isReadOnly && !isArchivedRequests">
   <imx-data-view-selection [dataSource]="dataSource" class="justify-start"></imx-data-view-selection>

@@ -31,6 +31,7 @@ import {
   EntityData,
   EntitySchema,
   EntityWriteData,
+  ExtendedTypedEntityCollection,
   FilterData,
   FkCandidateBuilder,
   ITranslationProvider,
@@ -69,25 +70,56 @@ export class DynamicMethod {
     this.builder = new TypedEntityBuilder(GenericTypedEntity, fkProviderItems, commitMethod, translationProvider);
   }
 
+  /**
+   * Creates a new typed entity
+   * @param initialData The data a new entity is initialized with
+   * @returns typed entity, that contains initial data if defined
+   */
   public createEntity(initialData?: EntityData): TypedEntity {
     return this.builder.buildReadWriteEntity({ entitySchema: this.getSchema(), entityData: initialData });
   }
 
-  async Get(parametersOptional: any = {}) {
+  /**
+   * Makes a request using the GET accessor
+   * @param parametersOptional optional parameters
+   * @returns the responded server data (ExtendedTypedEntityCollection<TypedEntity, unknown>)
+   */
+  public async Get(parametersOptional: any = {}): Promise<ExtendedTypedEntityCollection<TypedEntity, unknown>> {
     const data = await this.apiClient.processRequest(this.do_get(parametersOptional));
     return this.builder.buildReadWriteEntities(data, this.getSchema());
   }
 
-  async Post(parametersOptional: any = {}) {
-    const data = await this.apiClient.processRequest(this.do_post(parametersOptional));
+  /**
+   * Makes a request using the GET accessor
+   * @param pathData The data, that is used to fill path parameter.
+   * @param queryData The data, that is used to fill query parameter.
+   * @param inputParameterName The data, that is used to fill body parameter.
+   * @returns  the responded server data (ExtendedTypedEntityCollection<TypedEntity, unknown>)
+   */
+  public async Post(
+    pathData: { [key: string]: string },
+    queryData: { [key: string]: any },
+    inputParameterName: any = {},
+  ): Promise<ExtendedTypedEntityCollection<TypedEntity, unknown>> {
+    const data = await this.apiClient.processRequest(this.do_post(pathData, queryData, inputParameterName));
     return this.builder.buildReadWriteEntities(data, this.getSchema());
   }
 
-  public async getDataModei(options: { filter?: FilterData[] } = {}): Promise<DataModel> {
+  /**
+   * Get the data model used
+   * @param options
+   * @returns The data model for the path objects.
+   */
+  public async getDataModel(options: { filter?: FilterData[] } = {}): Promise<DataModel> {
     return this.apiClient.processRequest(this.do_getDataModel(options));
   }
 
-  async Put(entity: TypedEntity) {
+  /**
+   * Makes a request using the PUT accessor
+   * @param entity the entity, that should be PUT to the server
+   * @returns the responded server data (ExtendedTypedEntityCollection<TypedEntity, unknown>)
+   */
+  public async Put(entity: TypedEntity): Promise<ExtendedTypedEntityCollection<TypedEntity, unknown>> {
     const data = await this.apiClient.processRequest(this.do_put(entity.EntityWriteData));
     return this.builder.buildReadWriteEntities(data, this.getSchema());
   }
@@ -149,15 +181,32 @@ export class DynamicMethod {
     };
   }
 
-  private do_post(parametersOptional: any): MethodDescriptor<EntityCollectionData> {
+  private do_post(
+    pathData: { [key: string]: string },
+    queryData: { [key: string]: string },
+    inputParameterName: any,
+  ): MethodDescriptor<EntityCollectionData> {
     const parameters: any[] = [];
-    for (var p in parametersOptional) {
+    for (var p of Object.keys(pathData)) {
       parameters.push({
         name: p,
-        value: parametersOptional[p],
+        value: pathData[p],
+        in: 'path',
+      });
+    }
+    for (var p of Object.keys(queryData)) {
+      parameters.push({
+        name: p,
+        value: queryData[p],
         in: 'query',
       });
     }
+    parameters.push({
+      name: 'inputParameterName',
+      value: inputParameterName,
+      required: true,
+      in: 'body',
+    });
 
     return {
       path: this.path,

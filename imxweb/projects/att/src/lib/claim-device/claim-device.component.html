@@ -35,10 +35,10 @@
 
   <mat-step [stepControl]="ownerForm" [editable]="!ownerAssigned" data-imx-identifier="claim-device-owner-step">
     <ng-template matStepLabel>
-      <ng-container *ngIf="deviceCdr.column.GetDisplayValue(); else disabledDisplay">
+      <ng-container *ngIf="deviceCdr.column.GetDisplayValue(); else specifyOwner">
         {{ '#LDS#Specify the owner for the device "{0}".' | translate | ldsReplace: deviceCdr.column.GetDisplayValue() }}
       </ng-container>
-      <ng-template #disabledDisplay>
+      <ng-template #specifyOwner>
         {{ '#LDS#Specify the owner' | translate }}
       </ng-template>
     </ng-template>

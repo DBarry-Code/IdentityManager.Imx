@@ -23,7 +23,7 @@
             </div>
           </div>
           <div *ngIf="data.imageUrl" class="details-image">
-            <img [src]="data.imageUrl" />
+            <img [src]="data.imageUrl" [alt]="'#LDS#Product image' | translate" />
           </div>
         </div>
       </mat-tab>

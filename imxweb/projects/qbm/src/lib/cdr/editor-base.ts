@@ -131,7 +131,7 @@ export abstract class EditorBase<T = any> implements CdrEditor, OnDestroy {
       // bind to entity change event
       this.subscribers.push(
         this.columnContainer.subscribe(() => {
-          if (this.isWriting) {
+          if (this.isWriting || (!!this.columnContainer.metaData && !this.columnContainer.metaData?.CanSee())) {
             return;
           }
 
