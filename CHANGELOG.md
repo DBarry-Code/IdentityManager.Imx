@@ -1,3 +1,7 @@
+### April 7, 2025
+- 486602: Fixes an issue with request properties that are defined using the old style and should be edited by the approver.
+- 484003: Fixes an issue with duplicated opions on My Responsibilities -> Identities.
+
 ### March 31, 2025
 - 480206: Fixes a null exception when taking decisions for an attestation case.
 - 481590: Fixes an issue with grouping on the pending attestations page -> a second request showed results for the first one.
