@@ -159,12 +159,4 @@ export class AttestationCase extends PortalAttestationApprove implements Attesta
   public canEscalateDecision(userUid: string): boolean {
     return this.UID_PersonHead.value === userUid && this.workflowWrapper.canEscalateDecision(this.DecisionLevel.value);
   }
-
-  /**
-   * Check, if there are any open questions for the attestation case
-   * @returns true, if all questions has been answered
-   */
-  public allQuestionsAnswered(): boolean {
-    return this.workflowWrapper.allQuestionsAnswered();
-  }
 }

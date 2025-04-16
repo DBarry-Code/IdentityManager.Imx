@@ -46,7 +46,6 @@ import {
   MenuService,
   ParameterizedTextModule,
   QbmModule,
-  RouteGuardService,
 } from 'qbm';
 import { ItshopPatternModule } from '../itshop-pattern/itshop-pattern.module';
 import { RequestsFeatureGuardService } from '../requests-feature-guard.service';
@@ -72,7 +71,7 @@ const routes: Routes = [
   {
     path: 'shoppingcart',
     component: ShoppingCartComponent,
-    canActivate: [RouteGuardService, RequestsFeatureGuardService],
+    canActivate: [RequestsFeatureGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ShoppingCart,
     },
@@ -80,7 +79,7 @@ const routes: Routes = [
   {
     path: 'shoppingcart/later',
     component: ShoppingCartForLaterComponent,
-    canActivate: [RouteGuardService, RequestsFeatureGuardService],
+    canActivate: [RequestsFeatureGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ShoppingCartForLater,
     },
@@ -88,7 +87,7 @@ const routes: Routes = [
   {
     path: 'shoppingcart/empty',
     component: ShoppingCartEmptyComponent,
-    canActivate: [RouteGuardService, RequestsFeatureGuardService],
+    canActivate: [RequestsFeatureGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ShoppingCartEmpty,
     },

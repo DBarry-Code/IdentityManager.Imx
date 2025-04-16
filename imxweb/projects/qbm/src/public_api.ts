@@ -126,12 +126,12 @@ export { DataSourceToolbarExportMethod } from './lib/data-source-toolbar/data-so
 export { DataSourceToolbarFilter, DataSourceToolbarSelectedFilter } from './lib/data-source-toolbar/data-source-toolbar-filters.interface';
 export {
   DataSourceToolBarGroup,
-  DataSourceToolBarGroupingCategory,
   DataSourceToolbarGroupData,
+  DataSourceToolBarGroupingCategory,
 } from './lib/data-source-toolbar/data-source-toolbar-groups.interface';
 export { DataSourceToolbarSettings } from './lib/data-source-toolbar/data-source-toolbar-settings';
 export { isConfigDefault, isDefaultId } from './lib/data-source-toolbar/data-source-toolbar-view-config-helper';
-export { DSTViewConfig, DataSourceToolbarViewConfig } from './lib/data-source-toolbar/data-source-toolbar-view-config.interface';
+export { DataSourceToolbarViewConfig, DSTViewConfig } from './lib/data-source-toolbar/data-source-toolbar-view-config.interface';
 export { DataSourceToolbarComponent } from './lib/data-source-toolbar/data-source-toolbar.component';
 export { DataSourceToolbarModule } from './lib/data-source-toolbar/data-source-toolbar.module';
 export { DataSourceWrapper } from './lib/data-source-toolbar/data-source-wrapper';
@@ -332,3 +332,6 @@ export { FakeDataViewSource } from './lib/data-view/data-view-source.spec';
 export { DataViewToolbarComponent } from './lib/data-view/data-view-toolbar/data-view-toolbar.component';
 export { DataViewInitParameters } from './lib/data-view/data-view.interface';
 export { DataViewModule } from './lib/data-view/data-view.module';
+
+// Utility
+export { tryCatch } from './lib/utility/tryCatch';

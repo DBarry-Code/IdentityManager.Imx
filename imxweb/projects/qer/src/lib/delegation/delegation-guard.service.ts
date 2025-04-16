@@ -25,8 +25,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { SystemInfoService } from 'qbm';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { AppConfigService, RouteGuardService, SystemInfoService } from 'qbm';
 import { ProjectConfigurationService } from '../project-configuration/project-configuration.service';
 
 @Injectable({
@@ -36,21 +36,27 @@ export class DelegationGuardService {
   constructor(
     private projectConfig: ProjectConfigurationService,
     private systemInfoService: SystemInfoService,
+    private readonly appConfig: AppConfigService,
     private readonly router: Router,
+    private readonly routeGuardService: RouteGuardService,
   ) {}
 
-  public async canActivate(): Promise<boolean> {
-    const config = await this.projectConfig.getConfig();
-    const preProps = (await this.systemInfoService.get()).PreProps ?? [];
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
+      const config = await this.projectConfig.getConfig();
+      const preProps = (await this.systemInfoService.get()).PreProps ?? [];
 
-    if (
-      preProps.includes('ITSHOP') &&
-      preProps.includes('DELEGATION') &&
-      (config.EnableNewDelegationIndividual || config.EnableNewDelegationSubstitute)
-    ) {
-      return true;
+      if (
+        preProps.includes('ITSHOP') &&
+        preProps.includes('DELEGATION') &&
+        (config.EnableNewDelegationIndividual || config.EnableNewDelegationSubstitute)
+      ) {
+        return true;
+      }
+      this.router.navigate([this.appConfig.Config.routeConfig?.start]);
+      return false;
     }
-    this.router.navigate(['']);
+    this.router.navigate([this.appConfig.Config.routeConfig?.login]);
     return false;
   }
 }

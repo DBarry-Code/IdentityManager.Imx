@@ -45,13 +45,16 @@ export class WorkflowDataWrapper {
 
   public userAskedLastQuestion(userUid: string, decisionLevel: number): boolean {
     const questionHistory = this.data.WorkflowHistory?.Entities?.filter(
-      (entityData) => entityData.Columns?.DecisionLevel.Value === decisionLevel,
+      (entityData) => entityData.Columns?.DecisionLevel.Value === decisionLevel && entityData.Columns?.DecisionType.Value === 'Query',
     ).sort((item1, item2) => this.ascendingDate(item1.Columns?.XDateInserted?.Value, item2.Columns?.XDateInserted?.Value));
-    return (
-      !!questionHistory?.length &&
-      questionHistory[0].Columns?.DecisionType.Value === 'Query' &&
-      questionHistory[0].Columns?.UID_PersonHead.Value === userUid
+    return !!questionHistory?.length && questionHistory[0].Columns?.UID_PersonHead.Value === userUid;
+  }
+
+  public hasOpenQuestions(decisionLevel: number): boolean {
+    const items = this.data.WorkflowData?.Entities?.filter(
+      (entityData) => entityData.Columns?.LevelNumber.Value === decisionLevel && entityData.Columns?.Decision.Value === 'Q',
     );
+    return (items?.length ?? 0) > 0;
   }
 
   public canDenyDecision(userUid: string, decisionLevel: number): boolean {
@@ -146,19 +149,6 @@ export class WorkflowDataWrapper {
     }
 
     return [];
-  }
-
-  /**
-   * Checks, if the number of Queries matches the number of answered plus recalled questions
-   * @returns true, if there are  no open questions for the request
-   */
-  public allQuestionsAnswered(): boolean {
-    const queries = this.data.WorkflowHistory?.Entities?.filter((elem) => elem.Columns?.DecisionType.Value === 'Query');
-    const answers = this.data.WorkflowHistory?.Entities?.filter((elem) =>
-      ['Answer', 'RecallQuery'].includes(elem.Columns?.DecisionType.Value),
-    );
-
-    return queries?.length === answers?.length;
   }
 
   private getWorkflowDataItem(userUid: string, decisionLevel: number): EntityData | undefined {

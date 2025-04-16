@@ -97,7 +97,7 @@ const routes: Routes = [
   {
     path: 'outstanding',
     component: OutstandingComponent,
-    canActivate: [RouteGuardService, OutstandingManagerGuardService],
+    canActivate: [OutstandingManagerGuardService],
     resolve: [RouteGuardService],
   },
   {
@@ -133,7 +133,7 @@ const routes: Routes = [
   {
     path: 'SystemStatus',
     component: SystemStatusComponent,
-    canActivate: [RouteGuardService, SystemStatusRouteGuardService],
+    canActivate: [SystemStatusRouteGuardService],
     resolve: [RouteGuardService],
   },
   {

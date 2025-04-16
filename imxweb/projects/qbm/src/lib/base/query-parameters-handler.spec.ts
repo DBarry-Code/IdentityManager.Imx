@@ -41,11 +41,11 @@ describe('QueryParametersHandler', () => {
   [
     {
       search: '',
-      expected: undefined,
+      expected: null,
     },
     {
       search: '?',
-      expected: undefined,
+      expected: null,
     },
     {
       search: '?a',

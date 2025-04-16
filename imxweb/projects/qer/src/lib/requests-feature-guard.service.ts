@@ -25,8 +25,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { UserConfig } from '@imx-modules/imx-api-qer';
+import { AppConfigService, RouteGuardService } from 'qbm';
 import { UserModelService } from './user/user-model.service';
 
 @Injectable({
@@ -36,21 +37,25 @@ export class RequestsFeatureGuardService {
   constructor(
     private userModelService: UserModelService,
     private readonly router: Router,
+    private readonly routeGuardService: RouteGuardService,
+    private readonly appConfig: AppConfigService,
   ) {}
 
   public getUserConfig(): Promise<UserConfig> {
     return this.userModelService.getUserConfig();
   }
 
-  public async canActivate(): Promise<boolean> {
-    const userConfig = await this.getUserConfig();
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
+      const userConfig = await this.getUserConfig();
 
-    const featureEnabled = userConfig?.IsITShopEnabled;
-    if (featureEnabled) {
+      const featureEnabled = userConfig?.IsITShopEnabled;
+      if (!featureEnabled) {
+        this.router.navigate([this.appConfig.Config.routeConfig?.start]);
+      }
       return featureEnabled;
     }
-
-    this.router.navigate(['']);
+    this.router.navigate([this.appConfig.Config.routeConfig?.login]);
     return false;
   }
 }

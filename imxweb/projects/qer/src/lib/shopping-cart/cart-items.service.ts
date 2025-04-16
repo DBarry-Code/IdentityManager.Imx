@@ -36,7 +36,7 @@ import {
   FilterType,
   TypedEntity,
 } from '@imx-modules/imx-qbm-dbts';
-import { BulkItemStatus, ClassloggerService } from 'qbm';
+import { BulkItemStatus, ClassloggerService, tryCatch } from 'qbm';
 import { ExtendedEntityWrapper } from '../parameter-data/extended-entity-wrapper.interface';
 import { ParameterDataService } from '../parameter-data/parameter-data.service';
 import { ItemEditService } from '../product-selection/service-item-edit/item-edit.service';
@@ -160,7 +160,13 @@ export class CartItemsService {
         }
       }
 
-      const cartItemCollection = await this.createAndPost(requestable, parentCartUid);
+      const { data: cartItemCollection, error } = await tryCatch(this.createAndPost(requestable, parentCartUid));
+
+      if (error) {
+        // We don't stop the for loop at this point, we just log the error and continue
+        this.logger.error(this, error);
+        continue;
+      }
 
       addedItems.push(cartItemCollection.Data[0]);
       // TODO: this call does not work yet. await cartItem.GetEntity().Commit(true);

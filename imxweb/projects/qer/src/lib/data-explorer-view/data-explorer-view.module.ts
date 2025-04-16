@@ -40,13 +40,13 @@ const routes: Routes = [
   {
     path: 'admin/dataexplorer',
     component: DataExplorerViewComponent,
-    canActivate: [RouteGuardService, ApplicationGuardService],
+    canActivate: [ApplicationGuardService],
     resolve: [RouteGuardService],
   },
   {
     path: 'admin/dataexplorer/:tab',
     component: DataExplorerViewComponent,
-    canActivate: [RouteGuardService, ApplicationGuardService],
+    canActivate: [ApplicationGuardService],
     resolve: [RouteGuardService],
   },
 ];

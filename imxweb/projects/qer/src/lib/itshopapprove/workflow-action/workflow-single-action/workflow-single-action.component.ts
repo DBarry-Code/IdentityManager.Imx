@@ -27,8 +27,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { IEntity } from '@imx-modules/imx-qbm-dbts';
-import { BaseCdr, BaseReadonlyCdr, ColumnDependentReference } from 'qbm';
+import { BaseCdr, BaseReadonlyCdr, BusyService, ColumnDependentReference } from 'qbm';
 import { Approval } from '../../approval';
+import { ApprovalsService } from '../../approvals.service';
 import { DecisionStepSevice } from '../../decision-step.service';
 import { WorkflowActionEdit } from '../workflow-action-edit.interface';
 
@@ -87,16 +88,23 @@ export class WorkflowSingleActionComponent implements OnInit {
    */
   public request: Approval;
 
-  constructor(private stepService: DecisionStepSevice) {}
+  /**
+   * @ignore only used in template
+   * The service, that is used for an async loading process.
+   */
+  public busyService = new BusyService();
 
-  public;
+  constructor(
+    private stepService: DecisionStepSevice,
+    private approvalService: ApprovalsService,
+  ) {}
 
   /**
    * @ignore since this is only an internal component
    *
    * Sets up the {@link columns} to be displayed/edited during OnInit lifecycle hook.
    */
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.request = this.data.requests[0] as Approval;
 
     if (this.request?.OrderState?.Column) {
@@ -116,9 +124,19 @@ export class WorkflowSingleActionComponent implements OnInit {
     }
 
     if (this.request.parameterColumns) {
-      this.request.parameterColumns.forEach((pCol) =>
-        this.requestParameterColumns.push(this.data.approve ? new BaseCdr(pCol) : new BaseReadonlyCdr(pCol)),
-      );
+      const isBusy = this.busyService.beginBusy();
+      try {
+        const entityWrapper = await this.approvalService.getExtendedEntity(this.request.key);
+        const interactiveColumns = entityWrapper.parameterCategoryColumns.map((item) => item.column);
+        interactiveColumns.forEach((pCol) => {
+          pCol.ColumnChanged.subscribe(() => {
+            this.request.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName)?.PutValue(pCol.GetValue());
+          });
+          this.requestParameterColumns.push(this.data.approve ? new BaseCdr(pCol) : new BaseReadonlyCdr(pCol));
+        });
+      } finally {
+        isBusy.endBusy();
+      }
     }
 
     if (this.request.pwoData) {

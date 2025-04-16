@@ -25,10 +25,10 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { Subscription } from 'rxjs';
 
-import { AppConfigService, AuthenticationService, ISessionState } from 'qbm';
+import { AppConfigService, AuthenticationService, RouteGuardService } from 'qbm';
 import { QerPermissionsService } from '../admin/qer-permissions.service';
 
 @Injectable({
@@ -42,21 +42,19 @@ export class ShopAdminGuardService implements OnDestroy {
     private readonly authentication: AuthenticationService,
     private readonly appConfig: AppConfigService,
     private readonly router: Router,
+    private readonly routeGuardService: RouteGuardService,
   ) {}
 
-  public canActivate(): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
-      this.onSessionResponse = this.authentication.onSessionResponse.subscribe(async (sessionState: ISessionState) => {
-        if (sessionState.IsLoggedIn) {
-          const userIsShopAdmin = await this.qerPermissionService.isShopAdmin();
-          if (!userIsShopAdmin) {
-            this.router.navigate([this.appConfig.Config?.routeConfig?.start], { queryParams: {} });
-          }
-          observer.next(userIsShopAdmin);
-          observer.complete();
-        }
-      });
-    });
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
+      const userIsShopAdmin = await this.qerPermissionService.isShopAdmin();
+      if (!userIsShopAdmin) {
+        this.router.navigate([this.appConfig.Config.routeConfig?.start]);
+      }
+      return userIsShopAdmin;
+    }
+    this.router.navigate([this.appConfig.Config.routeConfig?.login]);
+    return false;
   }
 
   public ngOnDestroy(): void {

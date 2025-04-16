@@ -63,7 +63,7 @@ const routes: Routes = [
   {
     path: 'teamresponsibilities',
     component: TeamResponsibilitiesComponent,
-    canActivate: [RouteGuardService, ManagerGuardService],
+    canActivate: [ManagerGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.TeamResponsibilities,

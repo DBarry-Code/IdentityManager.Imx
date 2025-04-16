@@ -108,8 +108,7 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
   }
   public get canCancelReservation(): boolean {
     return this.selectedCases.every(
-      (item) =>
-        item.IsReserved.value && (item.hasAskedLastQuestion(this.userUid) || this.isUserEscalationApprover) && item.allQuestionsAnswered(),
+      (item) => item.IsReserved.value && (item.hasAskedLastQuestion(this.userUid) || this.isUserEscalationApprover),
     );
   }
 

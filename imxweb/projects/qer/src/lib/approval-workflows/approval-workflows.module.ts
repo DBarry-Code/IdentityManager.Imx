@@ -42,7 +42,6 @@ import {
   LdsReplaceModule,
   MenuItem,
   MenuService,
-  RouteGuardService,
   SelectedElementsModule,
 } from 'qbm';
 import { hasFeatures, isShopAdmin } from '../admin/qer-permissions-helper';
@@ -62,7 +61,7 @@ const routes: Routes = [
   {
     path: 'admin/approvalworkflowmanager',
     component: ApprovalWorkflowHomeComponent,
-    canActivate: [RouteGuardService, ShopAdminGuardService, FeatureGuardService],
+    canActivate: [ShopAdminGuardService, FeatureGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ApprovalWorkflowManager,
       features: guardedFeatures,

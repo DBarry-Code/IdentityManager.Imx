@@ -78,7 +78,7 @@ const routes: Routes = [
   {
     path: 'statistics',
     component: StatisticsHomePageComponent,
-    canActivate: [RouteGuardService, StatisticsGuardService],
+    canActivate: [StatisticsGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.StatisticsPage,

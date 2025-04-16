@@ -26,9 +26,9 @@
 
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { AppConfigService, AuthenticationService, ISessionState } from 'qbm';
+import { AppConfigService, AuthenticationService, RouteGuardService } from 'qbm';
 
 @Injectable({
   providedIn: 'root',
@@ -40,21 +40,19 @@ export class ApplicationGuardService implements OnDestroy {
     private readonly authentication: AuthenticationService,
     private readonly appConfig: AppConfigService,
     private readonly router: Router,
+    private readonly routeGuardService: RouteGuardService,
   ) {}
 
-  public canActivate(route: ActivatedRouteSnapshot, _: RouterStateSnapshot): Observable<boolean> {
-    return new Observable<boolean>((observer) => {
-      this.onSessionResponse = this.authentication.onSessionResponse.subscribe(async (sessionState: ISessionState) => {
-        if (sessionState.IsLoggedIn) {
-          const isPortal = this.appConfig?.Config?.WebAppIdentifier?.toLocaleLowerCase() === 'portal';
-          if (!isPortal) {
-            this.router.navigate([this.appConfig.Config?.routeConfig?.start], { queryParams: {} });
-          }
-          observer.next(isPortal ? true : false);
-          observer.complete();
-        }
-      });
-    });
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
+      const isPortal = this.appConfig?.Config?.WebAppIdentifier?.toLocaleLowerCase() === 'portal';
+      if (!isPortal) {
+        this.router.navigate([this.appConfig.Config.routeConfig?.start]);
+      }
+      return isPortal;
+    }
+    this.router.navigate([this.appConfig.Config.routeConfig?.login]);
+    return false;
   }
 
   public ngOnDestroy(): void {
