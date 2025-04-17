@@ -1,12 +1,13 @@
 ### April 16, 2025
-- 486926: Approval parameters are read/written interactively. **Important**: This fix requires the server-side fix 486926 to be installed.
+- Main work item ID added in brackets if it differs from the current one
+- 486926 *(460757)*: Approval parameters are read/written interactively. **Important**: This fix requires the server-side fix 486926 to be installed.
 - 474724: Fixes an issue with the display of the Cancel reservation button if the inquiry is not answered yet.
 - 481018: Fixes information that are displayed for pending request (waiting for decision).
 - 487654: Fixes an issue with the data export in the address book.
 - 471940: Fixes an issue with reordering the columns in the AdditionalColums dialog.
 - 469661: Improves error handling on the new request page.
-- 475962: Fixes an issue while navigating directly to the attestation page if a user is not authenticated.
-- 486485: Fixes an issue with duplicated options shown in the My Responsibilities: Identities page.
+- 475962 *(475616)*: Fixes an issue while navigating directly to the attestation page if a user is not authenticated.
+- 486485 *(484003)*: Fixes an issue with duplicated options shown in the My Responsibilities: Identities page.
 - 483430: Fixes an issue with the Products expiring soon list on the start page (only listed items where the current user has not been the requester).
 
 ### March 31, 2025
