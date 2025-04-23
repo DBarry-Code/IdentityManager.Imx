@@ -37,7 +37,6 @@
 - [Contributing](#contributing)
 - [License](#license)
 
-
 ## About the repository
 
 This repository contains the source code for the HTML5 applications contained in Identity Manager.
@@ -132,20 +131,20 @@ This repository also contains component-based documentation. There are two ways 
 ### Using npm only (recommended)
 
 1. Navigate to _imxweb_ and run `npm install` if you haven't already.
-2. Build the documentation for any set of projects by running  `npm run doc <projectname> <projectname2> ...`
-   
+2. Build the documentation for any set of projects by running `npm run doc <projectname> <projectname2> ...`
+
 ### Using Compodoc
 
 1. Install the Compodoc package globally by running `npm install -g @compodoc/compodoc`.
 2. Navigate to the library to create documentation for (e.g. `imxweb\projects\qer`).
 3. Run `compodoc -p tsconfig.lib.json` for a library or `compodoc -p tsconfig.app.json` for an application.
 
-
 ## Additional resources
 
 - [Theming guide](./imxweb/custom-theme/readme.md)
 - [CDR guide](./imxweb/projects/qbm/src/lib/cdr/Readme.md)
 - [API Plugin Development](https://github.com/OneIdentity/IdentityManager.ApiSdk)
+- [Upgrade guide](./UPGRADE.md)
 
 ## Contributing
 
