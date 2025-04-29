@@ -25,8 +25,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { AppConfigService, SystemInfoService } from 'qbm';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { AppConfigService, RouteGuardService, SystemInfoService } from 'qbm';
 import { ProjectConfigurationService } from 'qer';
 
 @Injectable({
@@ -38,16 +38,21 @@ export class HardwareGuardService implements CanActivate {
     private readonly projectConfig: ProjectConfigurationService,
     private readonly systemInfo: SystemInfoService,
     private readonly router: Router,
+    private readonly routeGuardService: RouteGuardService,
   ) {}
 
-  public async canActivate(): Promise<boolean> {
-    const preprops = (await this.systemInfo.get()).PreProps || [];
-    const hardware = !!(await this.projectConfig.getConfig()).DeviceConfig?.VI_Hardware_Enabled;
-    if (hardware && preprops.includes('MAC')) {
-      return true;
-    }
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
+      const preprops = (await this.systemInfo.get()).PreProps || [];
+      const hardware = !!(await this.projectConfig.getConfig()).DeviceConfig?.VI_Hardware_Enabled;
+      if (hardware && preprops.includes('MAC')) {
+        return true;
+      }
 
-    this.router.navigate([this.config.Config.routeConfig?.start], { queryParams: {} });
+      this.router.navigate([this.config.Config.routeConfig?.start]);
+      return false;
+    }
+    this.router.navigate([this.config.Config.routeConfig?.login]);
     return false;
   }
 }

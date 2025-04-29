@@ -41,7 +41,6 @@ import {
   HelpContextualModule,
   MenuItem,
   MenuService,
-  RouteGuardService,
 } from 'qbm';
 import { isRuleAdmin } from '../admin/qer-permissions-helper';
 import { RuleAdminGuardService } from '../guards/rule-admin-guard.service';
@@ -51,7 +50,7 @@ const routes: Routes = [
   {
     path: 'configuration/risk',
     component: RiskConfigComponent,
-    canActivate: [RouteGuardService, RuleAdminGuardService],
+    canActivate: [RuleAdminGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ConfigurationRisk,
     },

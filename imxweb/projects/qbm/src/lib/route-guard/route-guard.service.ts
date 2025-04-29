@@ -139,9 +139,9 @@ export class RouteGuardService {
       if ((paramsContainsOAuth && this.oauthService.hasRequiredOAuthParameter(oAuthQueryParams)) || lastLocation) {
         this.logger.debug(this, 'resolve - navigate - queryParamsHandler', queryParamsHandler);
 
-        this.router.navigate([queryParamsHandler.path || this.config.Config.routeConfig?.start], {
-          queryParams: queryParamsHandler.GetQueryParameters((name) => !this.oauthService.IsOAuthParameter(name)),
-        });
+        let navigationUrl = this.router.parseUrl(queryParamsHandler.path || this.config.Config.routeConfig?.start || '');
+        navigationUrl.queryParams = queryParamsHandler.GetQueryParameters((name) => !this.oauthService.IsOAuthParameter(name)) || {};
+        this.router.navigateByUrl(navigationUrl);
       }
     } catch (error) {
       this.errorHandler.handleError(error);

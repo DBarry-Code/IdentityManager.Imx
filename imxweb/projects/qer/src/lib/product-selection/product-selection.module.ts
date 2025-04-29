@@ -69,7 +69,7 @@ const routes: Routes = [
   {
     path: 'productselection',
     component: ProductSelectionComponent,
-    canActivate: [RouteGuardService, RequestsFeatureGuardService],
+    canActivate: [RequestsFeatureGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.NewRequest,

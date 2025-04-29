@@ -32,30 +32,30 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { EuiCoreModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { CdrModule, ClassloggerService, HELP_CONTEXTUAL, RouteGuardService } from 'qbm';
-import { InitService } from './init.service';
 import { TilesModule } from 'qer';
 import { DashboardPluginComponent } from './dashboard-plugin/dashboard-plugin.component';
+import { InitService } from './init.service';
 import { CartItemComplianceCheckComponent } from './item-validator/cart-item-compliance-check/cart-item-compliance-check.component';
 import { RulesComponent } from './rules/rules.component';
 
-import { IdentityRuleViolationsModule } from './identity-rule-violations/identity-rule-violations.module';
-import { RulesViolationsModule } from './rules-violations/rules-violations.module';
-import { RulesViolationsComponent } from './rules-violations/rules-violations.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { ComplianceRulesGuardService } from './guards/compliance-rules-guard.service';
 import { RuleViolationsGuardService } from './guards/rule-violations-guard.service';
-import { MatCardModule } from '@angular/material/card';
+import { IdentityRuleViolationsModule } from './identity-rule-violations/identity-rule-violations.module';
 import { RequestModule } from './request/request.module';
+import { RulesViolationsComponent } from './rules-violations/rules-violations.component';
+import { RulesViolationsModule } from './rules-violations/rules-violations.module';
 const routes: Routes = [
   {
     path: 'compliance/rules',
     component: RulesComponent,
-    canActivate: [RouteGuardService, ComplianceRulesGuardService],
+    canActivate: [ComplianceRulesGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ComplianceRules,
@@ -64,7 +64,7 @@ const routes: Routes = [
   {
     path: 'compliance/rulesviolations/approve',
     component: RulesViolationsComponent,
-    canActivate: [RouteGuardService, RuleViolationsGuardService],
+    canActivate: [RuleViolationsGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ComplianceRulesViolationsApprove,

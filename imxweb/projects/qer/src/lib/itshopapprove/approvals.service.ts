@@ -27,6 +27,12 @@
 import { Injectable } from '@angular/core';
 
 import {
+  InteractiveEntityWriteData,
+  FkProviderItem,
+  IFkCandidateProvider,
+  ParameterData,
+} from '@imx-modules/imx-qbm-dbts';
+import {
   DecisionInput,
   DenyDecisionInput,
   DirectDecisionInput,
@@ -53,6 +59,8 @@ import { ItshopRequestService } from '../itshop/itshop-request.service';
 import { QerApiService } from '../qer-api-client.service';
 import { Approval } from './approval';
 import { ApprovalsLoadParameters } from './approvals-load-parameters';
+import { ExtendedEntityWrapper } from '../parameter-data/extended-entity-wrapper.interface';
+import { RequestParametersService } from '../shopping-cart/cart-item-edit/request-parameters.service';
 
 @Injectable()
 export class ApprovalsService {
@@ -61,6 +69,7 @@ export class ApprovalsService {
   constructor(
     private readonly apiService: QerApiService,
     private readonly itshopRequest: ItshopRequestService,
+    private readonly requestParametersService: RequestParametersService
   ) {}
 
   public get PortalItshopApproveRequestsSchema(): EntitySchema {
@@ -85,24 +94,29 @@ export class ApprovalsService {
     requestOpts?: ApiRequestOptions,
   ): Promise<ExtendedTypedEntityCollection<Approval, PwoExtendedData | undefined> | undefined> {
     const collection = await this.apiService.typedClient.PortalItshopApproveRequests.Get(
+      
       {
-        Escalation: this.isChiefApproval,
-        ...parameters,
-      },
+          Escalation: this.isChiefApproval,
+          ...parameters,
+        },
+      
       requestOpts,
+    
     );
 
     return collection == null
+     
       ? undefined
+      
       : {
-          tableName: collection.tableName,
-          totalCount: collection.totalCount,
-          Data: collection.Data.map((element, index) => {
+              tableName: collection.tableName,
+              totalCount: collection.totalCount,
+              Data: collection.Data.map((element, index) => {
             const parameter = collection.extendedData ? { ...collection.extendedData, ...{ index } } : undefined;
-            return this.itshopRequest.createRequestApprovalItem(element, parameter);
-          }),
-          extendedData: collection.extendedData,
-        };
+                return this.itshopRequest.createRequestApprovalItem(element, parameter);
+              }),
+              extendedData: collection.extendedData,
+            };
   }
 
   public exportApprovalRequests(): DataSourceToolbarExportMethod {
@@ -181,5 +195,83 @@ export class ApprovalsService {
 
   private getUidPwo(pwo: PortalItshopApproveRequests): string {
     return pwo.GetEntity().GetKeys()[0];
+  }
+
+  public async getExtendedEntity(entityReference: string): Promise<ExtendedEntityWrapper<PortalItshopApproveRequests>> {
+    const collection = await this.apiService.typedClient.PortalItshopApproveRequestsInteractive.Get_byid(entityReference);
+
+    const index = 0;
+
+    const typedEntity = collection.Data[index];
+
+    return {
+      typedEntity,
+      parameterCategoryColumns: this.requestParametersService.createInteractiveParameterCategoryColumns(
+        {
+          Parameters: typedEntity.extendedDataRead?.Parameters,
+          index,
+        },
+        (parameter) => this.getFkProviderItemsInteractive(typedEntity, parameter),
+        typedEntity
+      ) ?? [],
+    };
+  }
+
+  public getFkProviderItemsInteractive(
+    interactiveEntity: { InteractiveEntityWriteData: InteractiveEntityWriteData },
+    parameterData: ParameterData
+  ): IFkCandidateProvider {
+    const qerClient = this.apiService;
+
+    return new (class implements IFkCandidateProvider {
+      getProviderItem(_columnName, fkTableName) {
+        if (parameterData.Property?.FkRelation) {
+          return this.getFkProviderItemInteractive(
+            interactiveEntity,
+            parameterData.Property?.ColumnName || '',
+            parameterData.Property.FkRelation.ParentTableName || ''
+          );
+        }
+
+        if (parameterData.Property?.ValidReferencedTables) {
+          const t = parameterData.Property.ValidReferencedTables.map((parentTableRef) =>
+            this.getFkProviderItemInteractive(interactiveEntity, parameterData.Property?.ColumnName || '', parentTableRef.TableName ||'')
+          ).filter((t) => t.fkTableName == fkTableName);
+          if (t.length == 1) return t[0];
+          return undefined;
+        }
+
+        return undefined;
+      }
+
+      private getFkProviderItemInteractive(
+        interactiveEntity: { InteractiveEntityWriteData: InteractiveEntityWriteData },
+        columnName: string,
+        fkTableName: string
+      ): FkProviderItem {
+        return {
+          columnName,
+          fkTableName,
+          parameterNames: ['OrderBy', 'StartIndex', 'PageSize', 'filter', 'search'],
+          load: async (__, parameters?) => {
+            return qerClient.client.portal_itshop_approve_requests_interactive_parameter_candidates_post(
+              columnName,
+              fkTableName,
+              interactiveEntity.InteractiveEntityWriteData,
+              parameters
+            );
+          },
+          getDataModel: async () => ({}),
+          getFilterTree: async (__, parentkey) => {
+            return qerClient.client.portal_itshop_approve_requests_interactive_parameter_candidates_filtertree_post(
+              columnName,
+              fkTableName,
+              interactiveEntity.InteractiveEntityWriteData,
+              { parentkey: parentkey }
+            );
+          },
+        };
+      }
+    })();
   }
 }

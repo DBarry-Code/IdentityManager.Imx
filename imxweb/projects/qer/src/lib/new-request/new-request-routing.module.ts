@@ -39,7 +39,7 @@ const routes: Routes = [
   {
     path: NEW_REQUEST_ROUTE,
     component: NewRequestComponent,
-    canActivate: [RouteGuardService, RequestsFeatureGuardService],
+    canActivate: [RequestsFeatureGuardService],
     resolve: [RouteGuardService],
     children: [
       {

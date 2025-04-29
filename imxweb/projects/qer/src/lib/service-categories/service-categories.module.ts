@@ -52,7 +52,7 @@ const routes: Routes = [
   {
     path: 'configuration/servicecategories',
     component: ServiceCategoriesComponent,
-    canActivate: [RouteGuardService, ShopGuardService],
+    canActivate: [ShopGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ServiceCategories,

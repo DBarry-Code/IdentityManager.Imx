@@ -48,13 +48,13 @@ const routes: Routes = [
   {
     path: 'applications/kpi',
     component: GlobalKpiComponent,
-    canActivate: [RouteGuardService, AobKpiGuardService],
+    canActivate: [AobKpiGuardService],
     resolve: [RouteGuardService],
   },
   {
     path: 'applications',
     component: ApplicationsComponent,
-    canActivate: [RouteGuardService, AobApplicationsGuardService],
+    canActivate: [AobApplicationsGuardService],
     resolve: [RouteGuardService],
     children: [
       {

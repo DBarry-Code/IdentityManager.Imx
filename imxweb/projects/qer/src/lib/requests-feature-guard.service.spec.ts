@@ -26,6 +26,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AppConfigService, RouteGuardService } from 'qbm';
 import { RequestsFeatureGuardService } from './requests-feature-guard.service';
 import { UserModelService } from './user/user-model.service';
 import { StartComponent } from './wport/start/start.component';
@@ -34,6 +35,9 @@ describe('RequestsFeatureGuardService', () => {
   let service: RequestsFeatureGuardService;
 
   const userModelServiceStub = {};
+  const routeGuardServiceStub = {
+    canActivate: jasmine.createSpy('canActivate').and.returnValue(Promise.resolve(true)),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,6 +46,22 @@ describe('RequestsFeatureGuardService', () => {
         {
           provide: UserModelService,
           useValue: userModelServiceStub,
+        },
+        {
+          provide: RouteGuardService,
+          useValue: routeGuardServiceStub,
+        },
+        {
+          provide: AppConfigService,
+          useValue: {
+            Config: {
+              Title: '',
+              routeConfig: {
+                start: 'dashboard',
+                login: '',
+              },
+            },
+          },
         },
       ],
     });

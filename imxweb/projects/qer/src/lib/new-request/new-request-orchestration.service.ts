@@ -368,7 +368,7 @@ export class NewRequestOrchestrationService implements OnDestroy {
     if (!DisplayValue) {
       this.errorHandler.handleError(
         this.ldsReplace.transform(
-          this.translator.instant('#LDS#There was an issue retrieving this person from the database: {0}'),
+          this.translator.instant('#LDS#The selected recipient "{0}" does not exist. Select a different recipient.'),
           uidPerson,
         ),
       );
@@ -379,7 +379,7 @@ export class NewRequestOrchestrationService implements OnDestroy {
     if (!canBeSet) {
       this.errorHandler.handleError(
         this.ldsReplace.transform(
-          this.translator.instant('#LDS#This person cannot be requested for by the current identity: {0}'),
+          this.translator.instant('#LDS#You cannot request products for the selected identity "{0}". Select a different recipient.'),
           uidPerson,
         ),
       );

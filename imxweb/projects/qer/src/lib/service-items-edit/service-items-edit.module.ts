@@ -42,7 +42,6 @@ import {
   HelpContextualModule,
   MenuItem,
   MenuService,
-  RouteGuardService,
 } from 'qbm';
 import { isShopAdmin } from '../admin/qer-permissions-helper';
 import { ShopAdminGuardService } from '../guards/shop-admin-guard.service';
@@ -55,7 +54,7 @@ const routes: Routes = [
   {
     path: 'admin/serviceitems',
     component: ServiceItemsEditComponent,
-    canActivate: [RouteGuardService, ShopAdminGuardService],
+    canActivate: [ShopAdminGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ServiceItems,
     },

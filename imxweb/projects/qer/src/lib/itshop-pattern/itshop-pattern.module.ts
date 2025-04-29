@@ -62,7 +62,7 @@ const routes: Routes = [
   {
     path: 'itshop/requesttemplates',
     component: ItshopPatternComponent,
-    canActivate: [RouteGuardService, ItshopPatternGuardService],
+    canActivate: [ItshopPatternGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.RequestTemplates,

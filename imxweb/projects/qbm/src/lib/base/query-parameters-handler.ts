@@ -24,7 +24,7 @@
  *
  */
 
-import { ActivatedRouteSnapshot, DefaultUrlSerializer, ParamMap } from '@angular/router';
+import { ActivatedRouteSnapshot, DefaultUrlSerializer, ParamMap, Params } from '@angular/router';
 
 export class QueryParametersHandler {
   public get path(): string {
@@ -56,7 +56,7 @@ export class QueryParametersHandler {
     }
   }
 
-  public GetQueryParameters(filter: (name: string) => boolean = null as any): { [key: string]: any } | undefined {
+  public GetQueryParameters(filter: (name: string) => boolean = null as any): Params | null {
     const outparams: { [id: string]: any } = {};
     this.queryParametersCollection.forEach((params) => {
       if (params.keys) {
@@ -67,6 +67,6 @@ export class QueryParametersHandler {
           });
       }
     });
-    return Object.keys(outparams).length > 0 ? outparams : undefined;
+    return Object.keys(outparams).length > 0 ? outparams : null;
   }
 }

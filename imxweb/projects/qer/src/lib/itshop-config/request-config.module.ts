@@ -69,7 +69,7 @@ const routes: Routes = [
   {
     path: 'configuration/requests',
     component: RequestsComponent,
-    canActivate: [RouteGuardService, ShopGuardService],
+    canActivate: [ShopGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.ConfigurationRequests,

@@ -62,7 +62,7 @@ const routes: Routes = [
   {
     path: 'delegation',
     component: DelegationComponent,
-    canActivate: [RouteGuardService, DelegationGuardService],
+    canActivate: [DelegationGuardService],
     resolve: [RouteGuardService],
     data: {
       contextId: HELP_CONTEXTUAL.Delegation,

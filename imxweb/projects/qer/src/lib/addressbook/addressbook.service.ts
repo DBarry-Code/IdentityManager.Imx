@@ -26,7 +26,9 @@
 
 import { Injectable } from '@angular/core';
 
-import { TypedEntity } from '@imx-modules/imx-qbm-dbts';
+import { V2ApiClientMethodFactory } from '@imx-modules/imx-api-qer';
+import { CollectionLoadParameters, EntityCollectionData, MethodDefinition, MethodDescriptor, TypedEntity } from '@imx-modules/imx-qbm-dbts';
+import { DataSourceToolbarExportMethod } from 'qbm';
 import { PersonService } from '../person/person.service';
 import { AddressbookDetail } from './addressbook-detail/addressbook-detail.interface';
 
@@ -34,7 +36,7 @@ import { AddressbookDetail } from './addressbook-detail/addressbook-detail.inter
   providedIn: 'root',
 })
 export class AddressbookService {
-  constructor(private readonly personService: PersonService) {}
+  constructor(private readonly personService: PersonService) { }
 
   public async getDetail(personAll: TypedEntity, columnNames: string[]): Promise<AddressbookDetail> {
     const personUid = personAll.GetEntity().GetKeys()[0];
@@ -48,6 +50,21 @@ export class AddressbookService {
         .filter((columnName) => entitySchema.Columns[columnName])
         .map((columnName) => personDetailEntity.GetColumn(columnName)),
       personUid,
+    };
+  }
+
+  public exportPerson(): DataSourceToolbarExportMethod {
+    const factory = new V2ApiClientMethodFactory();
+    return {
+      getMethod: (withProperties: string, navigationState: CollectionLoadParameters, PageSize?: number) => {
+        let method: MethodDescriptor<EntityCollectionData>;
+        if (PageSize) {
+          method = factory.portal_person_all_get({ ...navigationState, withProperties, PageSize, StartIndex: 0 });
+        } else {
+          method = factory.portal_person_all_get({ ...navigationState, withProperties });
+        }
+        return new MethodDefinition(method);
+      },
     };
   }
 }

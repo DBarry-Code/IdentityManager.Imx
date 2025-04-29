@@ -25,9 +25,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 
-import { AppConfigService } from 'qbm';
+import { AppConfigService, RouteGuardService } from 'qbm';
 import { PermissionsService } from '../admin/permissions.service';
 
 @Injectable({
@@ -38,14 +38,18 @@ export class PolicyAdminOrOwnerGuardService {
     private readonly permissionService: PermissionsService,
     private readonly appConfig: AppConfigService,
     private readonly router: Router,
+    private readonly routeGuardService: RouteGuardService,
   ) {}
 
-  public async canActivate(): Promise<boolean> {
-    const hasFeature = (await this.permissionService.isQERPolicyAdmin()) || (await this.permissionService.isQERPolicyOwner());
-    if (!hasFeature) {
-      this.router.navigate([this.appConfig.Config?.routeConfig?.start], { queryParams: {} });
-      return false;
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
+      const hasFeature = (await this.permissionService.isQERPolicyAdmin()) || (await this.permissionService.isQERPolicyOwner());
+      if (!hasFeature) {
+        this.router.navigate([this.appConfig.Config.routeConfig?.start]);
+      }
+      return hasFeature;
     }
-    return hasFeature;
+    this.router.navigate([this.appConfig.Config.routeConfig?.login]);
+    return false;
   }
 }

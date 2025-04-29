@@ -25,9 +25,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { AttestationConfig } from '@imx-modules/imx-api-att';
-import { AuthenticationService } from 'qbm';
+import { AppConfigService, RouteGuardService } from 'qbm';
 import { ApiService } from './api.service';
 
 @Injectable({
@@ -36,25 +36,26 @@ import { ApiService } from './api.service';
 export class AttestationFeatureGuardService {
   constructor(
     private attService: ApiService,
+    private readonly appConfig: AppConfigService,
     private readonly router: Router,
-    private readonly authentication: AuthenticationService,
+    private readonly routeGuardService: RouteGuardService,
   ) {}
 
   public async getAttestationConfig(): Promise<AttestationConfig> {
     return this.attService.client.portal_attestation_config_get();
   }
 
-  public async canActivate(): Promise<boolean> {
-    let sessionState = this.authentication.onSessionResponse.getValue();
-    if (sessionState.IsLoggedIn) {
+  public async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    if (await this.routeGuardService.canActivate(route, state)) {
       const attestationConfig = await this.getAttestationConfig();
 
       const featureEnabled = attestationConfig?.IsAttestationEnabled;
-      if (featureEnabled) {
-        return featureEnabled;
+      if (!featureEnabled) {
+        this.router.navigate([this.appConfig.Config.routeConfig?.start]);
       }
+      return featureEnabled;
     }
-    this.router.navigate(['']);
+    this.router.navigate([this.appConfig.Config.routeConfig?.login]);
     return false;
   }
 }

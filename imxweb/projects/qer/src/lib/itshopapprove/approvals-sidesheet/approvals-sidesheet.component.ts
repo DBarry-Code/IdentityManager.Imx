@@ -81,6 +81,12 @@ export class ApprovalsSidesheetComponent implements OnDestroy, OnInit {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }
 
+  public canResetReservation() {
+    return (
+      this.data.pwo.IsReserved.value && ((this.data.pwo.hasAskedLastQuestion && !this.data.pwo.hasOpenQuestions) || this.isChiefApprover)
+    );
+  }
+
   public async acceptTermsOfUse(): Promise<void> {
     /* TODO #241926
     lock DoApprove as long as MustApproveTermsOfUse is true for a PWOToDecide

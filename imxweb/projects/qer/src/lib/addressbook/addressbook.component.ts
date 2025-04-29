@@ -43,7 +43,6 @@ import {
   DataSourceToolbarViewConfig,
   DataViewInitParameters,
   DataViewSource,
-  SettingsService,
   calculateSidesheetWidth,
 } from 'qbm';
 
@@ -76,7 +75,6 @@ export class AddressbookComponent implements OnInit {
     private readonly euiBusyService: EuiLoadingService,
     private readonly logger: ClassloggerService,
     private readonly configService: ProjectConfigurationService,
-    private readonly settingsService: SettingsService,
     private readonly addressbookService: AddressbookService,
     private readonly sidesheet: EuiSidesheetService,
     private readonly translateService: TranslateService,
@@ -110,7 +108,8 @@ export class AddressbookComponent implements OnInit {
         },
         groupExecute: (columnName: string, parameters: CollectionLoadParameters, signal: AbortSignal) =>
           this.personService.getGroupInfo({ ...parameters, by: columnName }),
-        viewConfig: this.viewConfig,
+        viewConfig: this.viewConfig,        
+        exportFunction: this.addressbookService.exportPerson(),
       };
       this.dataSource.init(dataViewInitParameters);
     } finally {

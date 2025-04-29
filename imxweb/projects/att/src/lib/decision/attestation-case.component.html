@@ -213,7 +213,7 @@
 
       <button
         mat-menu-item
-        *ngIf="case.IsReserved.value && (case.hasAskedLastQuestion(userUid) || isUserEscalationApprover) && case.allQuestionsAnswered()"
+        *ngIf="case.IsReserved.value && (case.hasAskedLastQuestion(userUid) || isUserEscalationApprover)"
         data-imx-identifier="attestation-case-button-reset-reservation"
         title="{{ '#LDS#Cancels the reservation for this attestation case' | translate }}"
         (click)="attestationAction.resetReservation([case])"
