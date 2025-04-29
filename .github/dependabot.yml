@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # For Node.js dependencies
+  - package-ecosystem: "npm"
+    directory: "/imxweb" # Location of the package.json file
+    schedule:
+      interval: "weekly"
+
+  # Optional: For GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: ".github/workflows" # Location of the .github/workflows directory
+    schedule:
+      interval: "weekly"
