@@ -2,7 +2,7 @@
 
 Guide to update your older version (e.g., v92) to v93.
 
-1. Check all the [changes](./imxweb/changes) we made from v92 to v93.
+1. Check all the [changes](./imxweb/changes/changesFrom9.2.1To9.3.0.md) we made from v92 to v93.
 1. Check the [shared styles](./imxweb/shared/scss/styles.scss)
 
    Shared scss files contains all the common components, base variables and mixins which are useful to maintain, update and customize the styles.
