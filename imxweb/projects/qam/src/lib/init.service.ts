@@ -117,7 +117,7 @@ export class InitService {
          instance: DugOverviewComponent,
          sortOrder: 1,
          name: this.dgeTag,
-         caption: '#LDS#Governed Data Overview',
+         caption: '#LDS#Menu Entry Governed Data Overview',
          data: {
            TableName: this.dgeTag,
            Count: 0,
@@ -136,7 +136,7 @@ export class InitService {
       instance: DugOwnershipComponent,
       sortOrder: 8,
       name: 'QAMDuGOWNER',
-      caption: '#LDS#Governed Data Ownership',
+      caption: '#LDS#Menu Entry Governed Data Ownership',
       data: {
         TableName: this.dgeTag,
         Count: 0,

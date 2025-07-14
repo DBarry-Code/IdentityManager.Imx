@@ -6,7 +6,7 @@
     </div>
   </div>
   <mat-tab-group [(selectedIndex)]="activeTabIndex" mat-stretch-tabs="false">
-    <mat-tab [label]="'#LDS#Heading My Resources' | translate">
+    <mat-tab [label]="isAdmin ? ('#LDS#Heading All Resources' | translate) : ('#LDS#Heading My Resources' | translate)">
       <div class="imx-table-container">
         <mat-card class="imx-card-fill">
           <imx-data-source-toolbar #dst [settings]="dstSettings" [options]="['search']" [busyService]="busyService"
