@@ -7,7 +7,8 @@ body:
   - type: dropdown
     id: is-regression
     attributes:
-      label: Is this a regression? (This used to work and it doesn't anymore)
+      label: Is this a regression?
+      description: This used to work and it doesn't anymore
       options:
         - 'Yes'
         - 'No'
@@ -20,10 +21,10 @@ body:
       label: Severity
       description: How severe is the impact of this issue?
       options:
-        - 🔴 Critical – blocks key functionality
-        - 🟠 Major – significantly affects usability
-        - 🟡 Minor – small but noticeable issue
         - ⚪ Cosmetic – visual or non-functional issue
+        - 🟡 Minor – small but noticeable issue
+        - 🟠 Major – significantly affects usability
+        - 🔴 Critical – blocks key functionality
     validations:
       required: true
   
@@ -96,11 +97,13 @@ body:
     attributes:
       label: Suggested Fix
       description: If you have an idea for how this could be resolved, describe it here.
+      placeholder: On line 123: <some code>, replace with <fixed code>
 
   - type: textarea
     id: other
     attributes:
-      label: Anything else? (proposed solution can go here)
+      label: Anything else?
+      placeholder: e.g additional comments, architectural concerns, etc.
       
   - type: checkboxes
     id: verification
