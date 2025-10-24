@@ -55,9 +55,16 @@ jobs:
               labels: [labelName]
             });
 
-            // Optional: confirmation comment
+            // confirmation comment
             await github.rest.issues.createComment({
               ...context.repo,
               issue_number,
-              body: `✅ DevOps work item #${devopsId} linked and label added by @${actor}`
+              body: `✅ DevOps work item #${devopsId} linked and label added by @${actor}. Closing this issue - keep an eye out for branch syncing to resolve with a link this work item.`
+            });
+
+            // close issue until we have a workflow to handle updating from syncing
+            await github.rest.issues.update({
+              ...context.repo,
+              issue_number,
+              state: "closed"
             });
