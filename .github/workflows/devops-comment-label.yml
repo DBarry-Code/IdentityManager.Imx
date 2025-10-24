@@ -26,7 +26,7 @@ jobs:
             }
 
             // Check for command pattern
-            const match = comment.match(\/link-devops\s+(\d{6})/i);
+            const match = comment.match(/\/link-devops\s+(\d{6})/i);
             if (!match) { 
               console.log("No matching regex")
               return;
