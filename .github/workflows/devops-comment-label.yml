@@ -1,0 +1,56 @@
+name: Link DevOps via Comment
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  link-devops:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Process DevOps Link Command
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment.body.trim();
+            const issue_number = context.payload.issue.number;
+            const actor = context.actor;
+
+            // Only allow specific users to link DevOps items
+            const allowedUsers = ["Mathnstein", "Martina-Graeber-One-Identity", "hannoquest", "kovtib", "SebastianWeberQuest"];
+            if (!allowedUsers.includes(actor)) {
+              return; // Ignore if unauthorized
+            }
+
+            // Check for command pattern
+            const match = comment.match(/^\/link-devops\s+(\d+)$/i);
+            if (!match) return;
+
+            const devopsId = match[1];
+            const labelName = `DevOps:${devopsId}`;
+
+            // Get existing labels in repo
+            const labels = await github.rest.issues.listLabelsForRepo(context.repo);
+
+            // Create label if missing
+            if (!labels.data.some(l => l.name === labelName)) {
+              await github.rest.issues.createLabel({
+                ...context.repo,
+                name: labelName,
+                color: "B60205",
+                description: `Linked to internal DevOps issue #${devopsId}`
+              });
+            }
+
+            // Add label to issue
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number,
+              labels: [labelName]
+            });
+
+            // Optional: confirmation comment
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number,
+              body: `✅ DevOps work item #${devopsId} linked and label added by @${actor}`
+            });
