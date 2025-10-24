@@ -14,16 +14,23 @@ jobs:
             const comment = context.payload.comment.body.trim();
             const issue_number = context.payload.issue.number;
             const actor = context.actor;
+            console.log("Workflow triggered!");
+            console.log("Comment body:", context.payload.comment.body);
+            console.log("Actor:", context.actor);
 
             // Only allow specific users to link DevOps items
             const allowedUsers = ["Mathnstein", "Martina-Graeber-One-Identity", "hannoquest", "kovtib", "SebastianWeberQuest"];
             if (!allowedUsers.includes(actor)) {
+              console.log("User unauthorized")
               return; // Ignore if unauthorized
             }
 
             // Check for command pattern
-            const match = comment.match(/^\/link-devops\s+(\d+)$/i);
-            if (!match) return;
+            const match = comment.match(/^\/link-devops\s+(\d{6})$/i);
+            if (!match) { 
+              console.log("No matching regex")
+              return;
+            }
 
             const devopsId = match[1];
             const labelName = `DevOps:${devopsId}`;
