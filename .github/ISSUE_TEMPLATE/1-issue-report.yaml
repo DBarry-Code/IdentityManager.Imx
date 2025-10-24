@@ -97,7 +97,7 @@ body:
     attributes:
       label: Suggested Fix
       description: If you have an idea for how this could be resolved, describe it here.
-      placeholder: On line 123: <some code>, replace with <fixed code>
+      placeholder: Replace line 123 in example.component.ts with this code....
 
   - type: textarea
     id: other
