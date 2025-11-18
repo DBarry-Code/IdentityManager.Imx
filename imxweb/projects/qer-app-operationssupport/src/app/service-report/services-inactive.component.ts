@@ -29,6 +29,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'imx-services-inactive',
   templateUrl: './services-inactive.component.html',
-  styles: [],
+  styleUrls: ['./service-availability.component.scss'],
+  standalone: false,
 })
 export class ServicesInactiveComponent {}
