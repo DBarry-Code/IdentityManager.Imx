@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Support Request
+  - name: One Identity Support
     url: https://support.oneidentity.com/
-    about: Requests for support
+    about: Open a service request with product support for all other issues

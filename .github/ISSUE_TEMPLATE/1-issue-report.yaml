@@ -1,5 +1,5 @@
-name: Issue Report
-description: Report an issue for the One Identity Manager HTML5 Web Frontends
+name: Ask a customization question
+description: I have a question about the build or customization of Identity Manager HTML5 web applications
 labels:
   - bug
   
@@ -110,7 +110,7 @@ body:
     attributes:
       label: Before submitting...
       options:
-        - label: I have searched for existing issues that match this one on github and on the community support page
+        - label: My issue is a customization issue that is not covered by product support
           required: true
         - label: I have included all necessary details to reproduce this issue
           required: true
