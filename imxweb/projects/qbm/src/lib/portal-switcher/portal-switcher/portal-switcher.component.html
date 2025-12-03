@@ -1,0 +1,15 @@
+@if (portalSwitcherService.isEnabled()) {
+  @if (portalSwitcherService.dataLoading()) {
+    <mat-spinner diameter="36" color="accent"></mat-spinner>
+  } @else {
+    <button
+    mat-icon-button
+    class="imx-card-header-button"
+    [attr.aria-label]="'#LDS#Switch application' | translate"
+    [euiTooltip]="'#LDS#Switch application' | translate"
+    (click)="openPortalSwitcherSidesheet()"
+    >
+    <eui-icon icon="gridsmall"></eui-icon>
+  </button>
+  }
+}

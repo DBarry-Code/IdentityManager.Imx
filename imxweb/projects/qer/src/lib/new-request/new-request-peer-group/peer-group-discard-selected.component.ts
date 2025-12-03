@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,8 +37,9 @@ import { NewRequestSelectionService } from '../new-request-selection.service';
  * been selected, asking the user how to handle this situation.
  */
 @Component({
-  selector: 'imx-peer-group-discard-selected',
-  templateUrl: './peer-group-discard-selected.component.html',
+    selector: 'imx-peer-group-discard-selected',
+    templateUrl: './peer-group-discard-selected.component.html',
+    standalone: false
 })
 export class PeerGroupDiscardSelectedComponent implements OnInit, OnDestroy {
   public readonly dialogMessage =

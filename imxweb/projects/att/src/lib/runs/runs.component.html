@@ -4,13 +4,13 @@
     <imx-help-contextual></imx-help-contextual>
   </h2>
 
-  <ng-container *ngIf="!!dataSource()">
+  @if (!!dataSource()) {
     <imx-data-view-toolbar
       [dataSource]="dataSource()"
       (updateConfig)="runsGridComponent.updateConfig($event)"
       (deleteConfigById)="runsGridComponent.deleteConfigById($event)"
     ></imx-data-view-toolbar>
-  </ng-container>
+  }
 </div>
 
 <div class="imx-runs-grid">

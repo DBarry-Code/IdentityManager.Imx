@@ -1,10 +1,9 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .subtext {
   font-size: small;
   font-style: italic;
-  color: $black_9;
+  color: eui.$color-gray-40;
   margin-bottom: 10px;
 }
 
@@ -26,12 +25,12 @@
 
 .eui-dark-theme {
   :host {
-    background-color: $color-gray-70;
+    background-color: eui.$color-gray-70;
   }
 }
 
 .eui-contrast-theme {
   :host {
-    background-color: $color-gray-70;
+    background-color: eui.$color-gray-70;
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -62,6 +62,7 @@ import { MitigatingControlsComponent } from './mitigating-controls/mitigating-co
   templateUrl: './attestation-case.component.html',
   selector: 'imx-attestation-case',
   styleUrls: ['./attestation-case.component.scss'],
+  standalone: false
 })
 export class AttestationCaseComponent implements OnDestroy, OnInit {
   public userUid: string;
@@ -261,7 +262,7 @@ export class AttestationCaseComponent implements OnDestroy, OnInit {
   }
 
   public onAttestationApprove() {
-    this.attestationAction.checkForViolations([_.cloneDeep(this.case)]);
+    this.attestationAction.checkForViolations([_.cloneDeep(this.case)], this.data.isUserEscalationApprover);
   }
 
   public canWithdrawInquiry(): boolean {

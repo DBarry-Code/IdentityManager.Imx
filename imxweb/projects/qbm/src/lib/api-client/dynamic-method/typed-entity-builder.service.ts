@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,10 @@ import { Injectable } from '@angular/core';
 
 import {
   ApiClient,
+  ClientEntityState,
   EntityCollectionData,
   EntityData,
-  EntityState,
+  EntitySchema,
   ExtendedInteractiveEntityData,
   ExtendedTypedEntityCollection,
   FkCandidateBuilder,
@@ -73,14 +74,18 @@ export class TypedEntityBuilderService {
     apiClient: ApiClient,
     typeWrapper: DynamicMethodTypeWrapper<TypedEntity>,
     data: ExtendedInteractiveEntityData<TExtendedData>,
+    schema?: EntitySchema,
   ): ExtendedTypedEntityCollection<TypedEntity, TExtendedData> {
     const schemaPath =
       typeWrapper.schemaPath || (typeWrapper.path.startsWith('/') ? typeWrapper.path.substring(1) : typeWrapper.path).toLowerCase();
 
-    const entitySchema = this.appConfig.client.getSchema(schemaPath);
+    const entitySchema = schema ?? this.appConfig.client.getSchema(schemaPath);
     const fkProviderItems = new FkCandidateBuilder(entitySchema?.FkCandidateRoutes ?? [], apiClient).build();
-    const commitMethod = (__, writeData) => apiClient.processRequest(this.methodDescriptor.putInteractive(typeWrapper.path, writeData));
-
+    const commitMethod = (__, writeData) => {
+      const descriptor = this.methodDescriptor.putInteractive(typeWrapper.path, writeData);
+      console.log(descriptor);
+      return apiClient.processRequest(descriptor);
+    };
     const builder = new InteractiveTypedEntityBuilder(typeWrapper.type, fkProviderItems, commitMethod, this.translationProvider);
     return builder.buildReadWriteEntities<TExtendedData>(data, entitySchema);
   }
@@ -97,6 +102,6 @@ export class TypedEntityBuilderService {
     const commitMethod = (__, writeData) => apiClient.processRequest(this.methodDescriptor.post(typeWrapper.path, writeData));
 
     const builder = new TypedEntityBuilder(typeWrapper.type, fkProviderItems, commitMethod, this.translationProvider);
-    return builder.buildReadWriteEntity({ entitySchema, entityData: initialData }, EntityState.Created);
+    return builder.buildReadWriteEntity({ entitySchema, entityData: initialData }, ClientEntityState.Created);
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,7 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -36,6 +36,8 @@ import { MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateS
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 import {
+  AboutService,
+  AppInitializationService,
   AuthenticationModule,
   CdrRegistryService,
   CustomThemeModule,
@@ -47,11 +49,14 @@ import {
   ObjectHistoryApiService,
   ObjectHistoryModule,
   Paginator,
-  UserMessageModule,
+  StatisticsApiService,
+  StatisticsForObjectsService,
+  StatisticsGuardService,
+  StatisticsModule,
+  UserMessageModule
 } from 'qbm';
 import {
   AddressbookModule,
-  ApprovalWorkFlowModule,
   ApprovalsModule,
   ArchivedRequestsModule,
   DataExplorerViewModule,
@@ -77,7 +82,6 @@ import {
   ServiceItemsEditModule,
   ShoppingCartModule,
   SourceDetectiveModule,
-  StatisticsModule,
   TeamResponsibilitiesModule,
   UserProcessModule,
   ViewDevicesModule,
@@ -87,12 +91,15 @@ import { APP_BASE_HREF } from '@angular/common';
 import { RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-2';
 import appConfigJson from '../appconfig.json';
 import { environment } from '../environments/environment';
+import { PortalAboutService } from './about/portal-about.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
+import { PortalHistoryService } from './history/portal-history.service';
 import { PortalHyperviewService } from './hyperview/portal-hyperview.service';
-import { PortalHistoryService } from './portal-history.service';
-
+import { PortalStatisticsApiService } from './statistics/portal-statistics-api.service';
+import { PortalStatisticsForObjectsService } from './statistics/portal-statistics-for-objects-api.service';
+import { PortalStatisticsGuardApiService } from './statistics/portal-statistics-guard-api.service';
 export const HEADLESS_BASEHREF = '/headless';
 export function getBaseHref(): string {
   return location.href.includes('headless') ? HEADLESS_BASEHREF : '';
@@ -147,7 +154,6 @@ export function getBaseHref(): string {
     RelatedApplicationsModule,
     ViewDevicesModule,
     MyResponsibilitiesViewModule,
-    ApprovalWorkFlowModule,
     UserProcessModule,
     TeamResponsibilitiesModule,
     DataExplorerViewModule,
@@ -159,11 +165,10 @@ export function getBaseHref(): string {
   providers: [
     { provide: 'environment', useValue: environment },
     { provide: 'appConfigJson', useValue: appConfigJson },
+    provideAppInitializer(() => inject(AppService).init()),
     {
-      provide: APP_INITIALIZER,
-      useFactory: AppService.init,
-      deps: [AppService],
-      multi: true,
+      provide: AboutService,
+      useClass: PortalAboutService
     },
     {
       provide: ErrorHandler,
@@ -178,6 +183,18 @@ export function getBaseHref(): string {
       useClass: PortalHyperviewService,
     },
     {
+      provide: StatisticsApiService,
+      useClass: PortalStatisticsApiService,
+    },
+    {
+      provide: StatisticsGuardService,
+      useClass: PortalStatisticsGuardApiService,
+    },
+    {
+      provide: StatisticsForObjectsService,
+      useClass: PortalStatisticsForObjectsService,
+    },
+    {
       provide: MatPaginatorIntl,
       useFactory: Paginator.Create,
       deps: [TranslateService, LdsReplacePipe],
@@ -189,7 +206,7 @@ export function getBaseHref(): string {
     CdrRegistryService,
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: (config: AppService) => {
+      useFactory: (config: AppInitializationService) => {
         return config.recaptchaSiteKeyV3;
       },
       deps: [AppService],
@@ -197,4 +214,4 @@ export function getBaseHref(): string {
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }

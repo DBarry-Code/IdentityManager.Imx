@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "rps",
   "sourceRoot": "projects/rps/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "generators": {
     "@schematics/angular:component": {
@@ -24,9 +26,6 @@
         "development": {
           "tsConfig": "projects/rps/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/rps/ng-package.dynamic.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/rps/tsconfig.lib.json"
         },
@@ -34,7 +33,9 @@
           "tsConfig": "projects/rps/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/rps"]
+      "outputs": [
+        "{workspaceRoot}/dist/rps"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -56,8 +57,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/rps/tsconfig.lib.json", "projects/rps/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/rps/tsconfig.lib.json",
+          "projects/rps/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

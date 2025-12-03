@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,9 +37,10 @@ import { ReportSubscriptionService } from '../report-subscription/report-subscri
  *  subscription:  an optional {@link ReportSubscription}
  */
 @Component({
-  selector: 'imx-list-report-viewer-sidesheet',
-  templateUrl: './list-report-viewer-sidesheet.component.html',
-  styleUrls: ['./list-report-viewer-sidesheet.component.scss'],
+    selector: 'imx-list-report-viewer-sidesheet',
+    templateUrl: './list-report-viewer-sidesheet.component.html',
+    styleUrls: ['./list-report-viewer-sidesheet.component.scss'],
+    standalone: false
 })
 export class ListReportViewerSidesheetComponent {
   /**

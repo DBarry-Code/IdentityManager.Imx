@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { Moment } from 'moment-timezone';
  * Internal wrapper component around elemental time picker to pick a Moment time value.
  */
 @Component({
-  selector: 'imx-time-picker',
-  templateUrl: './time-picker.component.html',
-  styleUrls: ['./time-picker.component.scss'],
+    selector: 'imx-time-picker',
+    templateUrl: './time-picker.component.html',
+    styleUrls: ['./time-picker.component.scss'],
+    standalone: false
 })
 export class TimePickerComponent {
   /**
@@ -58,7 +59,6 @@ export class TimePickerComponent {
    */
   public onValueChange(value: Moment): void {
     this.control.setValue(value);
-    this.close.emit();
   }
 
   /**

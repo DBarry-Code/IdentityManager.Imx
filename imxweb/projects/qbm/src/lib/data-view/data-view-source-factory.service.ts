@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,7 +45,7 @@ export class DataViewSourceFactoryService {
     private readonly queueService: ProcessingQueueService,
   ) {}
 
-  public getDataSource<T extends TypedEntity = TypedEntity, ExtendedType = any>(): DataViewSource<T> {
-    return new DataViewSource<T>(this.settings, this.log, this.confirmService, this.sqlWizardApiService, this.queueService);
+  public getDataSource<T extends TypedEntity = TypedEntity, ExtendedType = any>(): DataViewSource<T, ExtendedType> {
+    return new DataViewSource<T, ExtendedType>(this.settings, this.log, this.confirmService, this.sqlWizardApiService, this.queueService);
   }
 }

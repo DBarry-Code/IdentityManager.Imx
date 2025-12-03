@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -141,7 +141,7 @@ export class ShoppingCartModule {
     logger.info(this, '▶️ ShoppingCartModule loaded');
     this.setupMenu();
 
-    this.extService.register('mastheadButton', {
+    this.extService.register('shoppingCartMastButton', {
       instance: ShoppingCartButtonComponent,
     });
   }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,8 +43,9 @@ import { EditServiceCategoryInformationComponent } from './edit-service-category
 import { ServiceCategoryTreeDatabase } from './service-category-tree-database';
 
 @Component({
-  selector: 'imx-service-category',
-  templateUrl: './service-category.component.html',
+    selector: 'imx-service-category',
+    templateUrl: './service-category.component.html',
+    standalone: false
 })
 export class ServiceCategoryComponent {
   public treeDatabase: ServiceCategoryTreeDatabase;

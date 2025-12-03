@@ -9,7 +9,7 @@
             (click)="toggleMobileExpand()"
             data-imx-identifier="side-navigation-button-mobile-menu-expand"
             [attr.aria-label]="'#LDS#Show navigation' | translate"
-          >
+            >
             <mat-icon>menu</mat-icon>
           </button>
         </div>
@@ -17,11 +17,11 @@
         <div class="imx-snavigation-side-content">
           <div class="imx-snavigation-side-heading">
             <h2 translate>{{ componentTitle }}</h2>
-            <ng-container *ngIf="!!contextId">
+            @if (!!contextId) {
               <imx-help-contextual [contextId]="contextId" [size]="'m'"></imx-help-contextual>
-            </ng-container>
+            }
           </div>
-          <ng-container *ngFor="let item of navigationItems">
+          @for (item of navigationItems; track item) {
             <div
               [matTooltip]="item.translationKey | translate"
               [matTooltipPosition]="'after'"
@@ -33,15 +33,17 @@
               [ngClass]="{ 'imx-snavigation-item--selected': selectedPage === item.name }"
               tabindex="0"
               (keydown.enter)="selectPage(item.name)"
-            >
+              >
               <span translate>{{ item.translationKey }}</span>
             </div>
-          </ng-container>
+          }
         </div>
       </div>
     </mat-sidenav>
     <mat-sidenav-content [ngStyle]="{ 'margin-left': contentMargin }" [ngClass]="{ 'imx-snavigation--backdrop-showing': showBackdrop }">
-      <div class="imx-snavigation-backdrop" *ngIf="showBackdrop" (click)="toggleMobileExpand()"></div>
+      @if (showBackdrop) {
+        <div class="imx-snavigation-backdrop" (click)="toggleMobileExpand()"></div>
+      }
       <ng-template #sideNavContent></ng-template>
     </mat-sidenav-content>
   </mat-sidenav-container>

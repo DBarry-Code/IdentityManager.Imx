@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,8 +31,9 @@ import { ClassloggerService, ColumnDependentReference } from 'qbm';
 import { ReportSubscription } from '../../subscriptions/report-subscription/report-subscription';
 
 @Component({
-  selector: 'imx-parameter-sidesheet',
-  templateUrl: './parameter-sidesheet.component.html',
+    selector: 'imx-parameter-sidesheet',
+    templateUrl: './parameter-sidesheet.component.html',
+    standalone: false
 })
 export class ParameterSidesheetComponent implements OnInit {
   public readonly reportFormGroup = new UntypedFormGroup({});

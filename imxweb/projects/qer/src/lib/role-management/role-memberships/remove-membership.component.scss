@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 :host {
   display: flex;
   flex-direction: column;
@@ -30,12 +29,12 @@ mat-card {
 
 .eui-dark-theme {
   :host {
-    background-color: $color-gray-70;
+    background-color: eui.$color-gray-70;
   }
 }
 
 .eui-contrast-theme {
   :host {
-    background-color: $color-gray-90;
+    background-color: eui.$color-gray-90;
   }
 }

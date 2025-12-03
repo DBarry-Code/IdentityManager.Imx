@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,16 +38,17 @@ import { MultiValueService } from '../multi-value/multi-value.service';
 import { SettingsService } from '../settings/settings-service';
 
 @Component({
-  selector: 'imx-multi-select-formcontrol',
-  templateUrl: './multi-select-formcontrol.component.html',
-  styleUrls: ['./multi-select-formcontrol.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MultiSelectFormcontrolComponent),
-      multi: true,
-    },
-  ],
+    selector: 'imx-multi-select-formcontrol',
+    templateUrl: './multi-select-formcontrol.component.html',
+    styleUrls: ['./multi-select-formcontrol.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MultiSelectFormcontrolComponent),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class MultiSelectFormcontrolComponent implements ControlValueAccessor, OnChanges, OnDestroy, AfterViewInit {
   public candidatesTotalCount: number;

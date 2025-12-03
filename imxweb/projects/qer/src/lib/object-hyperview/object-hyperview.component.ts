@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,15 +28,16 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 
 import { ShapeData } from '@imx-modules/imx-api-qer';
 import { DbObjectKey } from '@imx-modules/imx-qbm-dbts';
-import { BusyService, HyperViewNavigation, HyperViewNavigationEnum, ShapeClickArgs } from 'qbm';
+import { BusyService, HyperViewLayoutAlgorithm, HyperViewNavigation, HyperViewNavigationEnum, ShapeClickArgs } from 'qbm';
 import { Subscription } from 'rxjs';
 import { ObjectHyperview } from './object-hyperview.interface';
 import { ObjectHyperviewService } from './object-hyperview.service';
 
 @Component({
-  selector: 'imx-object-hyperview',
-  templateUrl: './object-hyperview.component.html',
-  styleUrls: ['./object-hyperview.component.scss'],
+    selector: 'imx-object-hyperview',
+    templateUrl: './object-hyperview.component.html',
+    styleUrls: ['./object-hyperview.component.scss'],
+    standalone: false
 })
 export class ObjectHyperviewComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -58,6 +59,11 @@ export class ObjectHyperviewComponent implements OnInit, OnChanges, OnDestroy {
    * Sets whether the hyperview is condensed or not.
    */
   @Input() public condensed: true;
+
+  /**
+   * Sets which layout algorithm to use, defaults to Hierarchical
+   */
+  @Input() public layout: HyperViewLayoutAlgorithm;
 
   /**
    * Occurs when user click on a shape link.

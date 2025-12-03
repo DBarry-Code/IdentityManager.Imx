@@ -1,7 +1,7 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 .eui-sidesheet-content {
-  @include flex-column-container($overflow: hidden, $height: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%);
   flex: 1;
 }
 

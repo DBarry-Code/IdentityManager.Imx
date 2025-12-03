@@ -40,7 +40,7 @@
                   <eui-icon class="icon-processing" icon="run"></eui-icon>
                 }
               }
-              <span class="group-title-text imx-text-overflow--2" [matTooltip]="group.display" matTooltipShowDelay="1000">
+              <span class="group-title-text imx-text-overflow--2" [matTooltip]="group.display" >
                 {{ group.display }}
               </span>
               @if (isShowErrorsOnly()) {
@@ -86,7 +86,6 @@
                   class="retry-task"
                   color="primary"
                   [matTooltip]="'#LDS#Retry all failed processes' | translate"
-                  matTooltipShowDelay="1000"
                   (click)="retryGroup(group); $event.stopPropagation()"
                 >
                   <eui-icon class="icon-retry" icon="refresh"></eui-icon>
@@ -131,10 +130,10 @@
         @if (task.state() === stateOptions.Failed) {
           <div class="task-display--failed">
             <div>
-              <span class="title imx-text-overflow--1" [matTooltip]="task.display" matTooltipShowDelay="1000">
+              <span class="title imx-text-overflow--1" [matTooltip]="task.display" >
                 {{ task.display }}
               </span>
-              <span class="description imx-text-overflow--2" [matTooltip]="task.display2" matTooltipShowDelay="1000">
+              <span class="description imx-text-overflow--2" [matTooltip]="task.display2" >
                 {{ task.display2 }}
               </span>
             </div>
@@ -143,7 +142,6 @@
               class="retry-task"
               color="primary"
               [matTooltip]="'#LDS#Retry failed process' | translate"
-              matTooltipShowDelay="1000"
               (click)="retryTask(task)"
             >
               <eui-icon class="icon-retry" icon="refresh"></eui-icon>
@@ -151,10 +149,10 @@
             </button>
           </div>
         } @else {
-          <span class="title imx-text-overflow--1" [matTooltip]="task.display" matTooltipShowDelay="1000">
+          <span class="title imx-text-overflow--1" [matTooltip]="task.display" >
             {{ task.display }}
           </span>
-          <span class="description imx-text-overflow--2" [matTooltip]="task.display2" matTooltipShowDelay="1000">
+          <span class="description imx-text-overflow--2" [matTooltip]="task.display2" >
             {{ task.display2 }}
           </span>
         }
@@ -174,7 +172,6 @@
           class="task-error-button"
           (click)="showError(task.display, task.error())"
           [matTooltip]="'#LDS#Show complete error message' | translate"
-          matTooltipShowDelay="1000"
         >
           <div class="task-error imx-text-overflow--2">
             {{ task.error() }}

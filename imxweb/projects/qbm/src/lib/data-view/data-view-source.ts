@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,7 @@
  */
 
 import { DataSource, SelectionChange } from '@angular/cdk/collections';
-import { Injectable, OnDestroy, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
+import { Injectable, NgZone, OnDestroy, Signal, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -101,6 +101,10 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
     return this.collectionData()?.Data;
   }
   public loading: WritableSignal<boolean> = signal(true);
+  /**
+   * Signal to trigger rerenders in the table, always a new signal value
+   */
+  public triggerRender: WritableSignal<boolean> = signal(true, { equal: () => false });
   public isLimitReached: Signal<boolean> = computed(() => !!this.collectionData().IsLimitReached);
 
   // Selection
@@ -148,14 +152,18 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
   private itemNotInQueueOrCompleted = (item?: TypedEntity) =>
     item
       ? [...CompletedActionStates, QueuedActionState.NotInQueue].includes(
-          this.queueService.pollAction(item.GetEntity().GetKeys().join(',')),
+          this.queueService.pollAction(item.GetEntity().GetKeys()?.join(',')),
         )
       : true;
   /**
    * Row status functions - enabled if queue status is failed or not in queue
    */
   public itemStatus: DataSourceItemStatus = {
-    status: (item?) => (item ? this.queueService.pollAction(item.GetEntity().GetKeys().join(',')) : QueuedActionState.NotInQueue),
+    // It is possible that there are no keys, so check for this before moving forward
+    status: (item?) =>
+      item && item.GetEntity().GetKeys()
+        ? this.queueService.pollAction(item.GetEntity().GetKeys().join(','))
+        : QueuedActionState.NotInQueue,
     enabled: this.itemNotInQueueOrCompleted,
     // By default, enabled = rowEnabled
     rowEnabled: this.itemNotInQueueOrCompleted,
@@ -198,6 +206,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
 
   private abortController = new AbortController();
   private subscription: Subscription;
+  private ngZone = inject(NgZone);
 
   constructor(
     public readonly settings: SettingsService,
@@ -218,27 +227,25 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
         this.showOnlySelected.set(false);
       }
     });
-    effect(
-      () => {
-        // Check when a new group is submitted whether a selected item is in the queue, deselect if so
-        this.queueService._groups();
+    effect(() => {
+      // Check when a new group is submitted whether a selected item is in the queue, deselect if so
+      this.queueService._groups();
+      this.ngZone.run(() => {
         this.selection.selected.forEach((item) => {
           if (!this.itemStatus.enabled(item)) {
             this.selection.unChecked(item);
           }
         });
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        if (this.highlightedEntity() && this.highlightedExecute) {
-          this.highlightedExecute(this.highlightedEntity());
+      });
+    });
+    effect(() => {
+      if (this.highlightedEntity() && this.highlightedExecute) {
+        this.ngZone.run(() => {
+          this.highlightedExecute!(this.highlightedEntity());
           this.highlightedEntity.set(undefined);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+        });
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -260,6 +267,14 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
    */
   public disconnect(): void {
     this.log.debug(this, 'Disconnect');
+  }
+
+  /**
+   * Updates the refresh signal to notify connected components to refresh content
+   */
+  public renderRows() {
+    this.log.debug(this, 'triggering refresh');
+    this.triggerRender.set(true);
   }
 
   /**
@@ -324,7 +339,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
   }
 
   /**
-   * initialize the local data variables
+   * Initialize the local data variables.
    * @param initParameters
    */
   public initLocal(initParameters: LocalDataViewInitParameters<T>): void {
@@ -332,9 +347,11 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
     this.loading.set(true);
     this.localData = initParameters.data.slice();
     this.localDataCopy = initParameters.data.slice();
+    this.selectionChangeFunction = initParameters.selectionChange;
     this.collectionData.set({ totalCount: initParameters.data.length, Data: this.getLocalPage(this.localDataCopy) });
     this.entitySchema = signal({ ...initParameters.schema!, LocalColumns: initParameters.schema!.Columns });
     if (initParameters.columnsToDisplay) this.columnsToDisplay.set(initParameters.columnsToDisplay);
+    this.highlightedExecute = initParameters.highlightEntity;
     this.loading.set(false);
   }
 
@@ -519,7 +536,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
       this.updateEntitySchema(config?.AdditionalTableColumns || []);
     }
     // Update predefined filters
-    if (config.AdditionalParameters) {
+    if (config?.AdditionalParameters && !!Object.keys(config?.AdditionalParameters!).length) {
       this.state.update((state) => ({ ...state, ...config.AdditionalParameters }));
       this.predefinedFilters.update((filters) =>
         filters.map((filter) => {
@@ -540,7 +557,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
     );
     // Update selected filters
     if (!!config.Filter?.length) {
-      this.state.update((state) => ({ ...state, filter: config.Filter?.filter((filter) => filter.Type === FilterType.Expression) }));
+      this.state.update((state) => ({ ...state, filter: config.Filter }));
       this.selectedFilters.set(
         config.Filter?.map((filter) => {
           let selectedFilter: SelectedFilter;
@@ -556,6 +573,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
         config.Filter?.filter((filter) => filter.Type === FilterType.Search)
           .map((filter) => filter.Value1)
           .join(' ') || '',
+        false,
       );
     } else {
       this.selectedFilters.set([]);
@@ -581,7 +599,7 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
    * Updates the state signal search property with the selected keywords
    * @param keywords All the searched keywords seperate with a space.
    */
-  public setKeywords(keywords: string): void {
+  public setKeywords(keywords: string, needUpdate = true): void {
     const alreadySearched = this.state()
       .search?.split(' ')
       .map((item) => item.trim())
@@ -596,13 +614,15 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
       .filter((item) => item?.length > 0 && !exisitingKeywords.includes(item));
 
     this.state.update((state) => ({ ...state, search: newKeywords.join(' '), StartIndex: undefined }));
-    const noAction = alreadySearched && !keywords;
-    //
+    const noAction = !needUpdate || (alreadySearched && !keywords);
     if (noAction) {
       return;
     }
-    if (this.isDataLocal) this.searchLocally();
-    else this.updateState();
+    if (this.isDataLocal) {
+      this.searchLocally();
+    } else {
+      this.updateState();
+    }
   }
 
   /**
@@ -754,7 +774,8 @@ export class DataViewSource<T extends TypedEntity = TypedEntity, ExtendedType = 
           Type: ValType.Text,
           ColumnName: option.Value,
         };
-        this.groupOptions.push({ display: `${option.Display} - ${groupInfo.Display}`, value: option.Value, clientProperty: property });
+        const display = option.Display === groupInfo.Display ? (option.Display ?? '') : `${option.Display} - ${groupInfo.Display}`;
+        this.groupOptions.push({ display, value: option.Value, clientProperty: property });
       });
     });
   }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,6 +37,7 @@ import { EntitlementWrapper } from '../entitlement-wrapper.interface';
   selector: 'imx-entitlement-detail',
   templateUrl: './entitlement-detail.component.html',
   styleUrls: ['./entitlement-detail.component.scss'],
+  standalone: false,
 })
 export class EntitlementDetailComponent implements OnDestroy {
   public readonly form = new UntypedFormGroup({});
@@ -75,7 +76,6 @@ export class EntitlementDetailComponent implements OnDestroy {
         if (hasChanges) {
           this.snackbar.open({ key: '#LDS#The changes were discarded.' });
         }
-
         this.sidesheetRef.close(false);
       }),
     );

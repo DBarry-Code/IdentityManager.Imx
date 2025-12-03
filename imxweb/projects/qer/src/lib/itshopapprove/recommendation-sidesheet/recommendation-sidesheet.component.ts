@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { EUI_SIDESHEET_DATA, EuiSidesheetRef } from '@elemental-ui/core';
 import { RecommendationData, RecommendationDataItem, RecommendationEnum } from '@imx-modules/imx-api-qer';
 
 @Component({
-  selector: 'imx-recommendation-sidesheet',
-  templateUrl: './recommendation-sidesheet.component.html',
-  styleUrls: ['./recommendation-sidesheet.component.scss'],
+    selector: 'imx-recommendation-sidesheet',
+    templateUrl: './recommendation-sidesheet.component.html',
+    styleUrls: ['./recommendation-sidesheet.component.scss'],
+    standalone: false
 })
 export class RecommendationSidesheetComponent {
   public isRecApprove: boolean;

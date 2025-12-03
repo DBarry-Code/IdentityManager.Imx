@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,9 +59,10 @@ import { ResourceSidesheetComponent } from './resource-sidesheet/resource-sidesh
 import { ResourcesService } from './resources.service';
 
 @Component({
-  templateUrl: './resources.component.html',
-  styleUrls: ['./resources.component.scss'],
-  providers: [DataViewSource],
+    templateUrl: './resources.component.html',
+    styleUrls: ['./resources.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class ResourcesComponent implements OnInit, SideNavigationComponent {
   @Input() public data: OwnershipInformation;

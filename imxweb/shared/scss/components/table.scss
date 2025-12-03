@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 /* Elemental UI */
 
@@ -27,20 +27,25 @@ table.mat-mdc-table {
   box-shadow: none;
   padding: 1px;
 }
+
 /* Angular Material - cell */
 
 td.mat-mdc-cell {
   padding-right: 10px;
+
   .mdc-button {
     white-space: nowrap;
   }
 }
+
 td.imx-table-cell {
   div {
-    @include flex-row-container($height: fit-content, $width: fit-content);
+    @include mixins.flex-row-container($height: fit-content, $width: fit-content);
   }
 }
-
+td.mat-mdc-cell:first-child, td.mat-mdc-footer-cell:first-child, th.mat-mdc-header-cell:first-child{
+  padding: 0 16px !important;
+}
 // Handle cursor icons, make sure divs are minimal so we don't have the text icon too much
 .imx-data-table-highlightedActive {
   .mat-mdc-row {
@@ -48,27 +53,28 @@ td.imx-table-cell {
       cursor: pointer;
     }
   }
+
   .mat-mdc-cell {
+
     // Make sure to exclude checkboxes and class imx-progress-column as they behave differently with content fitting
-    *:not(
-        .mat-mdc-checkbox,
-        .imx-progress-column,
-        .imx-progress-column *,
-        .mdc-button,
-        .mdc-button *,
-        .mdc-icon-button,
-        imx-info-badge,
-        imx-info-badge *
-      ) {
+    *:not(.mat-mdc-checkbox,
+      .imx-progress-column,
+      .imx-progress-column *,
+      .mdc-button,
+      .mdc-button *,
+      .mdc-icon-button,
+      imx-info-badge,
+      imx-info-badge *) {
       &:hover {
         cursor: text;
       }
+
       &:only-child {
-        @include flex-row-container($height: fit-content, $width: fit-content);
+        @include mixins.flex-row-container($height: fit-content, $width: fit-content);
       }
     }
 
-    > .mdc-button,
+    >.mdc-button,
     .mat-mdc-stroked-button,
     .mat-mdc-raised-button,
     .mat-mdc-flat-button,
@@ -76,6 +82,7 @@ td.imx-table-cell {
       &:hover {
         cursor: pointer;
       }
+
       & *:hover {
         cursor: inherit !important;
       }
@@ -88,10 +95,10 @@ td.imx-table-cell {
 .mat-mdc-card.imx-table-container,
 .div.imx-table-container,
 .imx-table-container {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
   height: inherit;
 
-  > imx-data-table {
+  >imx-data-table {
     flex-grow: 2;
   }
 }
@@ -101,7 +108,7 @@ td.imx-table-cell {
 }
 
 .imx-table-container-for-simple-table {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
   overflow: auto;
 }
 
@@ -114,7 +121,7 @@ td.imx-table-cell {
 
 /* Imx - table */
 .imx-data-table-grouped {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 
   .spaced-left {
     margin-left: 5px;
@@ -131,6 +138,7 @@ td.imx-table-cell {
         margin-bottom: 15px;
       }
     }
+
     table {
       td.mat-mdc-cell {
         div {
@@ -173,10 +181,12 @@ td.imx-table-cell {
 
 .imx-table-column {
   padding-right: 15px;
+
   .mat-mdc-checkbox {
     &:hover {
       cursor: pointer;
     }
+
     & *:hover {
       cursor: inherit !important;
     }
@@ -185,14 +195,16 @@ td.imx-table-cell {
 
 .imx-long-title-table .mat-mdc-row .mat-mdc-cell {
   padding: 0 10px;
+
   div[imxTitle] {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
     .button-row {
       border-top-style: solid;
       border-top-width: 0px;
-      @include flex-row-container();
+      @include mixins.flex-row-container();
       justify-content: flex-end;
     }
   }
@@ -204,11 +216,11 @@ td.imx-table-cell {
 
 td.mat-mdc-cell div[subtitle] {
   font-size: smaller;
-  color: $color-gray-40;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  color: eui.$color-gray-40;
   max-width: 500px;
+  span{
+    display: contents;
+  }
 }
 
 .mat-mdc-cell.imx_ColumnCell {
@@ -228,6 +240,36 @@ td.mat-mdc-cell div[subtitle] {
   flex: 0 0 45px;
 }
 
+.imx-action-cell-flex {
+  @include mixins.flex-row-container();
+  justify-content: end;
+  min-width: 80px;
+}
+
+.mat-mdc-row {
+  .imx-hover-action-column .mat-mdc-icon-button {
+    visibility: hidden;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    .imx-hover-action-column .mat-mdc-icon-button {
+      visibility: inherit;
+    }
+  }
+}
+
+.mat-mdc-cell{
+  .mat-mdc-radio-button{
+    .mdc-label{
+      margin-top: 0;
+    }
+  }
+}
+
+
+
 /* Media Screens*/
 
 @media screen and (max-width: 768px) {
@@ -237,47 +279,49 @@ td.mat-mdc-cell div[subtitle] {
 }
 
 /* Default theme */
-
-.imx-data-table-row-highlighted {
-  background-color: $color-gray-5;
-}
-
 .imx-data-table-row-conditional {
-  background-color: $color-red-20;
+  background-color: eui.$color-red-20;
 }
 
 .imx-data-table-highlightedActive .mat-mdc-row:hover,
-.mat-mdc-row:hover {
-  background-color: $color-blue-10;
+.mat-mdc-row:hover{
+  background-color: eui.$color-blue-10 !important;
+}
+.imx-data-table-row-highlighted, .imx-data-table-row-highlighted:hover{
+  background-color: eui.$color-blue-15 !important;
 }
 
 /* Dark theme */
 
 .eui-dark-theme {
   .mat-mdc-header-cell {
-    color: $color-gray-10;
-    border-bottom-color: $color-gray-60;
+    color: eui.$color-gray-10;
+    border-bottom-color: eui.$color-gray-60;
   }
+
   .mat-mdc-table {
-    background-color: $color-gray-70;
+    background-color: eui.$color-gray-70;
   }
 
   .custom-row td {
-    border-bottom-color: $color-gray-60;
+    border-bottom-color: eui.$color-gray-60;
   }
 
-  .imx-data-table-row-highlighted,
   .imx-data-table-highlightedActive.mat-mdc-row:hover,
   .mat-mdc-row:hover {
-    background-color: $color-gray-60;
+    background-color: eui.$color-gray-60 !important;
+  }
+
+  .imx-data-table-row-highlighted, .imx-data-table-row-highlighted:hover{
+    background-color: eui.$color-gray-50 !important;
   }
 
   .custom-row:hover {
-    background-color: $color-gray-60 !important;
+    background-color: eui.$color-gray-60 !important;
   }
 
   .imx-data-table-row-conditional {
-    background-color: $color-red-80;
+    background-color: eui.$color-red-80;
   }
 }
 
@@ -285,25 +329,29 @@ td.mat-mdc-cell div[subtitle] {
 
 .eui-contrast-theme {
   .mat-mdc-header-cell {
-    color: $color-gray-0;
-    border-bottom-color: $color-gray-60;
+    color: eui.$color-gray-0;
+    border-bottom-color: eui.$color-gray-60;
   }
 
   .mat-mdc-table {
-    background-color: $color-gray-90;
+    background-color: eui.$color-gray-90;
   }
 
   .imx-data-table-row-highlighted,
   .imx-data-table-highlightedActive .mat-mdc-row:hover,
-  .mat-mdc-row:hover {
-    background-color: $color-gray-0 !important;
+  .mat-mdc-row:not(.expanded-detail-row):hover {
+    background-color: eui.$color-gray-0 !important;
 
     td.mat-mdc-cell {
-      color: $color-gray-100;
+      color: eui.$color-gray-100;
+
+      .mat-mdc-button.mat-unthemed {
+        color: eui.$color-gray-100;
+      }
     }
 
     .mat-mdc-checkbox-frame {
-      border-color: $color-gray-100;
+      border-color: eui.$color-gray-100;
     }
   }
 
@@ -318,20 +366,22 @@ td.mat-mdc-cell div[subtitle] {
     left: 0;
     width: 100%;
   }
+
   th:before {
     top: 0;
     border-top: 1px solid white;
   }
+
   th:after {
     bottom: 0;
     border-bottom: 1px solid white;
   }
 
   .imx-data-table-row-conditional {
-    background-color: $color-red-80;
+    background-color: eui.$color-red-80;
   }
 
   .imx-data-table-selection-info {
-    color: $color-blue-40;
+    color: eui.$color-blue-40;
   }
 }

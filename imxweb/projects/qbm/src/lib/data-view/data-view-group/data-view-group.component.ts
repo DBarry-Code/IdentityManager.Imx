@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,13 +26,16 @@
 
 import { Component, effect, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { EuiSelectFeedbackMessages } from '@elemental-ui/core';
+import { FilterType } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
+import { ElementalUiConfigService } from '../../configuration/elemental-ui-config.service';
 import { DataViewSource } from '../data-view-source';
+import { SelectedFilterType } from '../data-view.interface';
 
 @Component({
   selector: 'imx-data-view-group',
   templateUrl: './data-view-group.component.html',
+  standalone: false,
 })
 export class DataViewGroupComponent implements OnInit {
   /**
@@ -40,21 +43,16 @@ export class DataViewGroupComponent implements OnInit {
    */
   @Input({ required: true }) public dataSource: DataViewSource;
   formControl = new FormControl<string>('', { nonNullable: true });
-  feedbackMessages: EuiSelectFeedbackMessages;
 
-  constructor(private readonly translateService: TranslateService) {
-    this.feedbackMessages = {
-      ...this.feedbackMessages,
-      search: this.translateService.instant('#LDS#Search'),
-    };
-    effect(
-      () => {
-        if (!!this.dataSource.groupByColumn() && this.dataSource.groupByColumn()?.ColumnName !== this.formControl.value) {
-          this.formControl.setValue(this.dataSource.groupByColumn()?.ColumnName || '', { emitEvent: false });
-        }
-      },
-      { allowSignalWrites: true },
-    );
+  constructor(
+    public elementalUiConfigService: ElementalUiConfigService,
+    private readonly translateService: TranslateService,
+  ) {
+    effect(() => {
+      if (!!this.dataSource.groupByColumn() && this.dataSource.groupByColumn()?.ColumnName !== this.formControl.value) {
+        this.formControl.setValue(this.dataSource.groupByColumn()?.ColumnName || '', { emitEvent: false });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -65,8 +63,15 @@ export class DataViewGroupComponent implements OnInit {
       this.dataSource.selection.clear();
       this.dataSource.nestedSelection = new Map();
       if (column !== null) {
-        this.dataSource.state.update((state) => ({ ...state, StartIndex: 0 }));
+        this.dataSource.state.update((state) => ({
+          ...state,
+          StartIndex: 0,
+          OrderBy: undefined,
+          search: undefined,
+          filter: state.filter?.filter((filter) => filter.Type !== FilterType.Search),
+        }));
         this.dataSource.updateState();
+        this.dataSource.selectedFilters.update((filters) => filters.filter((filter) => filter.type !== SelectedFilterType.Keyword));
       }
     });
   }

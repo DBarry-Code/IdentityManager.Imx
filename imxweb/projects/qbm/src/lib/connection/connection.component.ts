@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,11 +41,13 @@ import { DataSourceToolbarSettings } from '../data-source-toolbar/data-source-to
 import { EntityService } from '../entity/entity.service';
 import { ISessionState } from '../session/session-state';
 import { SnackBarService } from '../snackbar/snack-bar.service';
+import { SystemInfoService } from '../system-info/system-info.service';
 import { ConnectionSessionInfoData, SystemUsers } from './connection';
 
 @Component({
   templateUrl: './connection.component.html',
   styleUrls: ['./connection.component.scss'],
+  standalone: false,
 })
 
 /** Shows connection data and can copy data for support */
@@ -69,15 +71,21 @@ export class ConnectionComponent implements OnInit, OnDestroy {
     private readonly entityService: EntityService,
     private readonly authentication: AuthenticationService,
     private readonly translate: TranslateService,
+    private readonly systemInfoService: SystemInfoService,
   ) {
     this.subscriptions.push(
       this.authentication.onSessionResponse.subscribe((sessionState: ISessionState) => (this.sessionState = sessionState)),
     );
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const { FeatureGroups, PermissionGroups, ...systemUsers } = this.data;
-    this.systemUsers = { ...systemUsers };
+
+    const environmentName = {
+      EnvironmentName: await this.buildEnvironmentName(),
+    };
+
+    this.systemUsers = { ...systemUsers, ...environmentName };
     this.systemUsers.UserUid = this.data.UserUid = this.sessionState?.UserUid ?? '';
     this.cdrList = this.createCdrList();
     this.permissionGroups = this.data.PermissionGroups ?? [];
@@ -90,6 +98,24 @@ export class ConnectionComponent implements OnInit, OnDestroy {
           }) ?? [];
       }),
     );
+  }
+
+  private async buildEnvironmentName(): Promise<string> {
+    const systemInfo = await this.systemInfoService.get();
+    let systemInfoName = this.translate.instant(
+      systemInfo.ProductionLevel == 0
+        ? '#LDS#Development system'
+        : systemInfo.ProductionLevel == 1
+          ? '#LDS#Test environment'
+          : systemInfo.ProductionLevel == 2
+            ? '#LDS#Production system'
+            : '',
+    );
+
+    if (systemInfo.ProductionLevelAddOn) {
+      systemInfoName += ' (' + systemInfo.ProductionLevelAddOn + ')';
+    }
+    return systemInfoName;
   }
 
   /**
@@ -107,6 +133,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
       IsReadOnly: '#LDS#Read-only',
       TimeZone: '#LDS#Time zone',
       UserUid: '#LDS#User UID',
+      EnvironmentName: '#LDS#Staging level',
     };
 
     columnNames?.forEach((name) => {

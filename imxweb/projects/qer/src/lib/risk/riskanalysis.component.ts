@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,6 +45,7 @@ type RiskObjectEnriched = RiskObject & {
   templateUrl: './riskanalysis.component.html',
   styleUrls: ['./riskanalysis.component.scss'],
   selector: 'imx-riskindex-analysis',
+    standalone: false
 })
 export class RiskAnalysisComponent implements OnInit {
   public busy = true;

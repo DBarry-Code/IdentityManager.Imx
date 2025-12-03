@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,8 +35,9 @@ import { ApiService } from '../../api.service';
 type ExtendedEntitlement = ContributingEntitlement & { Key?: DbObjectKey; TypeDisplay?: string };
 
 @Component({
-  templateUrl: './resolve.component.html',
-  styleUrls: ['./resolve.component.scss'],
+    templateUrl: './resolve.component.html',
+    styleUrls: ['./resolve.component.scss'],
+    standalone: false
 })
 export class ResolveComponent implements OnInit {
   constructor(

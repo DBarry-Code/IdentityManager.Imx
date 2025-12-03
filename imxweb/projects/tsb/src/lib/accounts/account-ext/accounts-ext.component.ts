@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,8 +31,9 @@ import { BusyService, DataSourceToolbarSettings, DynamicTabDataProviderDirective
 import { AccountsExtService } from './account-ext.service';
 
 @Component({
-  templateUrl: './accounts-ext.component.html',
-  styleUrls: ['../accounts.component.scss', './accounts-ext.component.scss'],
+    templateUrl: './accounts-ext.component.html',
+    styleUrls: ['../accounts.component.scss', './accounts-ext.component.scss'],
+    standalone: false
 })
 export class AccountsExtComponent implements OnInit {
   @Input() public referrer: {

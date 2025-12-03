@@ -1,8 +1,8 @@
-@import 'base/mixins';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-row-container-fill();
+  @include mixins.flex-row-container-fill();
   overflow: hidden;
 
   h3 {
@@ -13,19 +13,19 @@
   }
 
   .dug-tree-card {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     max-width: 500px;
     min-width: 500px;
     margin: 3px;
   }
 
   .dug-tree-content {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     margin: 3px;
   }
 
   .effective-permission-content {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
 
     h3 {
       font-size: 20px;
@@ -34,11 +34,11 @@
   }
 
   .effective-permission-content-card {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
   }
 
   .imx-single-permission {
-    @include flex-column-container($overflow: hidden);
+    @include mixins.flex-column-container($overflow: hidden);
     align-items: center;
   }
 
@@ -52,6 +52,7 @@
     align-items: center;
     padding: 10px;
   }
+
   span[italic] {
     font-style: italic;
   }
@@ -66,10 +67,11 @@
       margin-bottom: 20px;
       font-weight: 600;
       align-items: center;
-      @include flex-column-container();
+      @include mixins.flex-column-container();
     }
+
     .mat-mdc-card-content {
-      @include flex-row-container-fill();
+      @include mixins.flex-row-container-fill();
     }
   }
 
@@ -81,13 +83,13 @@
 :host {
   .imx-no-results {
     p {
-      color: $color-gray-50;
+      color: eui.$color-gray-50;
     }
   }
 
   .effective-permission-content {
     h3 {
-      color: $color-gray-40;
+      color: eui.$color-gray-40;
     }
   }
 
@@ -96,8 +98,8 @@
   }
 
   .effective-permission-content-card {
-    background-color: $color-gray-2;
-    border: 1px solid $color-gray-10;
+    background-color: eui.$color-gray-2;
+    border: 1px solid eui.$color-gray-10;
   }
 }
 
@@ -105,19 +107,19 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
 
     .effective-permission-content {
       h3 {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
 
     .effective-permission-content-card {
-      background-color: $color-gray-80;
-      border: 1px solid $color-gray-90;
+      background-color: eui.$color-gray-80;
+      border: 1px solid eui.$color-gray-90;
     }
   }
 }
@@ -126,19 +128,19 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
 
     .effective-permission-content {
       h3 {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
 
     .effective-permission-content-card {
-      background-color: $color-gray-100;
-      border: 1px solid $color-gray-0;
+      background-color: eui.$color-gray-100;
+      border: 1px solid eui.$color-gray-0;
     }
   }
 }

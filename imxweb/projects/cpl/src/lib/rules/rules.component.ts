@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,10 +35,12 @@ import {
   DataModel,
   DisplayColumns,
   EntitySchema,
+  IEntity,
   TypedEntityCollectionData,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
 import {
+  buildAdditionalElementsString,
   BusyService,
   calculateSidesheetWidth,
   ClientPropertyForTableColumns,
@@ -59,6 +61,7 @@ import { RulesService } from './rules.service';
   templateUrl: './rules.component.html',
   styleUrls: ['./rules.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class RulesComponent implements OnInit {
   public readonly DisplayColumns = DisplayColumns;
@@ -186,5 +189,9 @@ export class RulesComponent implements OnInit {
       },
     };
     this.dataSource.init(dataViewInitParameters);
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -48,6 +48,7 @@ import { LogDetailsSidesheetComponent } from './log-details-sidesheet.component'
   selector: 'imx-logs',
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.scss'],
+  standalone: false
 })
 export class LogsComponent implements OnInit, SideNavigationComponent {
   @Input() public isAdmin: boolean;
@@ -86,9 +87,9 @@ export class LogsComponent implements OnInit, SideNavigationComponent {
     private readonly translateService: TranslateService,
     private datePipe: LocalizedDatePipe,
     private logger: ClassloggerService,
-    private elementalUiConfigService: ElementalUiConfigService,
+    public elementalUiConfigService: ElementalUiConfigService,
     private translator: TranslateService,
-  ) {}
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     this.showBusyIndicator();
@@ -300,7 +301,7 @@ export class LogsComponent implements OnInit, SideNavigationComponent {
   private regexTest(keywords: string, message: string) {
     try {
       return new RegExp(keywords, 'gi').test(message);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   public onRegexSessionLogSearch(keywords: string): void {

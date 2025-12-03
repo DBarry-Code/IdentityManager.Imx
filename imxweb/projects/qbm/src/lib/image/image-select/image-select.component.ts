@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { Base64ImageService } from '../../images/base64-image.service';
 import { ValueWrapper } from '../../value-wrapper/value-wrapper';
 
 @Component({
-  selector: 'imx-image-select',
-  templateUrl: './image-select.component.html',
-  styleUrls: ['./image-select.component.scss'],
+    selector: 'imx-image-select',
+    templateUrl: './image-select.component.html',
+    styleUrls: ['./image-select.component.scss'],
+    standalone: false
 })
 export class ImageSelectComponent {
   // TODO: Check Upgrade

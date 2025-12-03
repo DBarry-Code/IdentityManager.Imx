@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatSliderDragEvent } from '@angular/material/slider';
 import { ClassloggerService } from '../../classlogger/classlogger.service';
@@ -41,12 +41,17 @@ import { EditorBase } from '../editor-base';
   selector: 'imx-edit-risk-index',
   templateUrl: './edit-risk-index.component.html',
   styleUrls: ['./edit-risk-index.component.scss'],
+  standalone: false,
 })
-export class EditRiskIndexComponent extends EditorBase<number> {
+export class EditRiskIndexComponent extends EditorBase<number> implements OnInit {
   /**
    * The form control associated with the editor.
    */
   public readonly control = new UntypedFormControl(undefined, { updateOn: 'submit' });
+
+  protected maxValue: number;
+  protected minValue: number;
+
   private currentCulture: string;
   /**
    * Converts a number value to a string in the current language.
@@ -64,6 +69,11 @@ export class EditRiskIndexComponent extends EditorBase<number> {
       this.currentCulture = this.translationProviderService.CultureFormat;
       this.formatLabel = (value: number) => value.toLocaleString(this.currentCulture);
     });
+  }
+
+  public ngOnInit(): void {
+    this.minValue = this.columnContainer.metaData?.GetMinValue ? this.columnContainer.metaData?.GetMinValue() : 0;
+    this.maxValue = this.columnContainer.metaData?.GetMaxValue ? this.columnContainer.metaData?.GetMaxValue() : 1;
   }
 
   onDragEnd($event: MatSliderDragEvent): void {

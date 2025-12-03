@@ -1,0 +1,15 @@
+@if (!timeOnly) {
+  <eui-date-picker [min]="min" [max]="max" [dateControl]="dateFormControl" [label]="label" [disabled]="disabled"></eui-date-picker>
+}
+<div class="imx-time-container">
+  @if (timeOnly) {
+    <div class="imx-time-label">{{ label }}</div>
+  }
+  <eui-time-picker
+    class="{{ !timeOnly ? 'imx-margin-top-20' : '' }}"
+    [timeControl]="timeFormControl"
+    appearance="outline"
+    [disabled]="disabled"
+    [allowTextInput]="false"
+  ></eui-time-picker>
+</div>

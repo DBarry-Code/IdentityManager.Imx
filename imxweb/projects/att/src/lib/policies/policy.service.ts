@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -67,11 +67,11 @@ export class PolicyService {
   constructor(
     private api: ApiService,
     private readonly attFeatureService: AttestationFeatureGuardService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly translator: TranslateService,
     private readonly config: AppConfigService,
     private readonly logger: ClassloggerService,
-  ) {}
+  ) { }
 
   public get AttestationMatchingObjectsSchema(): EntitySchema {
     return this.api.typedClient.PortalAttestationFilterMatchingobjects.GetSchema();

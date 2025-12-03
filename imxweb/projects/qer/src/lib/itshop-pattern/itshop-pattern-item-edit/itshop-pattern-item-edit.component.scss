@@ -1,8 +1,8 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 .eui-sidesheet-content {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
 
   .mat-mdc-card {
     margin-bottom: 20px;
@@ -27,6 +27,6 @@
   p {
     margin: 0;
     font-size: 18px;
-    color: $black-9;
+    color: eui.$color-gray-40;
   }
 }

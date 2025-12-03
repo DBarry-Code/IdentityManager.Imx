@@ -1,11 +1,11 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container($overflow: hidden, $height: 100%, $max-width: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $max-width: 100%);
 }
 
 .imx-itshop-content {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill($padding: true);
 }
 
 .imx-toolbar {
@@ -26,6 +26,7 @@
   margin: 0 0 16px 0;
   display: flex;
 }
+
 .imx-itshop-info {
   margin: 0;
 }

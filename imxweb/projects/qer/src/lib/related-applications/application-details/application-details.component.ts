@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ApplicationDialogComponent } from '../application-dialog/application-dialog.component';
 
 @Component({
-  selector: 'imx-application-details',
-  templateUrl: './application-details.component.html',
-  styleUrls: ['./application-details.component.scss'],
+    selector: 'imx-application-details',
+    templateUrl: './application-details.component.html',
+    styleUrls: ['./application-details.component.scss'],
+    standalone: false
 })
 export class ApplicationDetailsComponent {
   public showiFrame = history.state.data.DisplayType == 'NR';

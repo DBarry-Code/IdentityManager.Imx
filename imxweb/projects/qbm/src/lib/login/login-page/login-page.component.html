@@ -1,0 +1,187 @@
+<div class="imx-loginPage">
+  <div class="imx-companyLogo">
+    @if (customLogoUrl) {
+      <img #customLogo class="custom-logo" width="420" height="176" [ngSrc]="customLogoUrl" [alt]="" priority />
+    } @else {
+      <eui-icon icon="identity-manager"></eui-icon>
+      <h1>{{ copyright.productName }}</h1>
+    }
+  </div>
+  <mat-card class="imx-card">
+    <mat-card-header class="imx-card-header">
+      <mat-card-title [matTooltip]="title">{{ title }}</mat-card-title>
+      <imx-portal-switcher />
+    </mat-card-header>
+    <mat-card-content>
+      @if (sessionState()?.isOAuth) {
+        <button data-imx-identifier="logout-oauth-button" mat-button (click)="logoutOAuth()">
+          {{ '#LDS#OAuth logout' | translate }}
+        </button>
+      } @else {
+        <ng-container [ngTemplateOutlet]="loginMask"></ng-container>
+      }
+      <ng-template imxExtd></ng-template>
+    </mat-card-content>
+    @if (!sessionState()?.isOAuth && selectedProviderPreAuthState() != preAuthStateType.Captcha) {
+      <mat-card-actions class="imx-card-actions">
+        <ng-container [ngTemplateOutlet]="buttonMask"></ng-container>
+      </mat-card-actions>
+    }
+  </mat-card>
+  <div class="imx-copywrite">
+    <div>{{ copyright.productName }}<br />{{ copyright.year }}</div>
+  </div>
+</div>
+
+<!-- Templates -->
+<ng-template #loginMask>
+  <div class="imx-loginMask">
+    @if (sessionState()?.IsLoggedOut) {
+      @if (configurationProviders) {
+        <eui-select
+          [label]="'#LDS#Authentication' | translate"
+          [inputControl]="authMethodFormControl"
+          [placeholder]="'#LDS#Select an authentication method' | translate"
+          [options]="configurationProviders"
+          (selectionChange)="onSelectAuthConfig($event)"
+          [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
+        ></eui-select>
+      }
+      @if (showLoginButton()) {
+        @for (authProp of selectedConfigProvider()?.authProps; track authProp.name) {
+          <div [hidden]="selectedConfigProvider()?.isOAuth2">
+            <eui-form-field>
+              <eui-label>{{ authProp.display }}</eui-label>
+              <input
+                matInput
+                attr.data-imx-identifier="login-input-{{ authProp.name }}"
+                [name]="authProp.name"
+                [type]="authProp.inputType"
+                [placeholder]="authProp.display"
+                [(ngModel)]="loginData[authProp.name]"
+                (keyup.enter)="login()"
+                class="imx-input-login"
+                [disabled]="authProp.disabled || loading()"
+              />
+              @if (showBackButton() && authProp.disabled) {
+                <button
+                  mat-button
+                  matSuffix
+                  color="primary"
+                  [attr.aria-label]="'#LDS#Change entered user name' | translate"
+                  (click)="backToPreAuth()"
+                >
+                  {{ '#LDS#Change' | translate }}
+                </button>
+              }
+            </eui-form-field>
+          </div>
+        }
+      }
+      @if (selectedProviderPreAuthState() == preAuthStateType.PreAuth) {
+        @for (authProp of selectedConfigProvider()?.preAuthProps; track authProp.name) {
+          <eui-form-field>
+            <eui-label>{{ authProp.display }}</eui-label>
+            <input
+              matInput
+              #preAuthPropertyInput="matInput"
+              [name]="authProp.name"
+              attr.data-imx-identifier="login-input-{{ authProp.name }}"
+              [type]="authProp.inputType"
+              [placeholder]="authProp.display"
+              [(ngModel)]="loginData[authProp.name]"
+              (keyup.enter)="checkPreAuth()"
+              class="imx-input-next"
+              [disabled]="loading()"
+              [required]="true"
+            />
+          </eui-form-field>
+        }
+      }
+      @if (selectedProviderPreAuthState() == preAuthStateType.Captcha) {
+        @for (authProp of selectedConfigProvider()?.preAuthProps; track authProp.name) {
+          <eui-form-field>
+            <eui-label>{{ authProp.display }}</eui-label>
+            <input
+              matInput
+              [name]="authProp.name"
+              attr.data-imx-identifier="login-input-{{ authProp.name }}"
+              [type]="authProp.inputType"
+              [placeholder]="authProp.display"
+              [(ngModel)]="loginData[authProp.name]"
+              (keyup.enter)="checkPreAuth()"
+              class="imx-input-next"
+            />
+          </eui-form-field>
+          <imx-captcha
+            [disableButton]="false"
+            [showBackButton]="true"
+            (nextClick)="onVerifyCaptcha()"
+            (onBackEvent)="backToPreAuth()"
+          ></imx-captcha>
+        }
+      }
+    }
+    @if (sessionState()?.IsAwaitingSecondaryAuth) {
+      <imx-2fahost></imx-2fahost>
+    }
+  </div>
+</ng-template>
+
+<ng-template #buttonMask>
+  @if (!showLoginButton()) {
+    <button
+      data-imx-identifier="next-button-submit"
+      mat-flat-button
+      [attr.aria-label]="'#LDS#Next' | translate"
+      color="primary"
+      type="button"
+      class="imx-button"
+      (click)="checkPreAuth()"
+    >
+      {{ '#LDS#Next' | translate }}
+    </button>
+  }
+  @if (!selectedConfigProvider()?.customAuthFlow && showLoginButton()) {
+    <button
+      data-imx-identifier="login-button-submit"
+      [attr.aria-label]="'#LDS#Log in' | translate"
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="imx-button"
+      (click)="login()"
+      [disabled]="isLoginDisabled()"
+    >
+      <eui-icon icon="signin" size="s"></eui-icon> {{ '#LDS#Log in' | translate }}
+    </button>
+  }
+  <div class="below-login">
+    @if (showCreateAccountButton()) {
+      <button
+        data-imx-identifier="signup-button-submit"
+        [attr.aria-label]="'#LDS#Create new account' | translate"
+        mat-button
+        color="primary"
+        type="button"
+        class="imx-button"
+        (click)="createNewAccount()"
+      >
+        {{ '#LDS#Create new account' | translate }}
+      </button>
+    }
+    @if (showPasswordReset()) {
+      <a
+        data-imx-identifier="forgot-password"
+        [attr.aria-label]="'#LDS#Forgot password?' | translate"
+        mat-button
+        color="primary"
+        class="imx-button"
+        [href]="passwordResetHref"
+        target="_blank"
+      >
+        {{ '#LDS#Forgot password?' | translate }}
+      </a>
+    }
+  </div>
+</ng-template>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -51,10 +51,11 @@ import { HdsApiService } from '../hds-api-client.service';
 import { CallsSidesheetComponent, CallsSidesheetData } from './calls-sidesheet/calls-sidesheet.component';
 
 @Component({
-  selector: 'imx-calls',
-  templateUrl: './calls.component.html',
-  styleUrls: ['./calls.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-calls',
+    templateUrl: './calls.component.html',
+    styleUrls: ['./calls.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class CallsComponent implements OnInit {
   public entitySchema: EntitySchema;

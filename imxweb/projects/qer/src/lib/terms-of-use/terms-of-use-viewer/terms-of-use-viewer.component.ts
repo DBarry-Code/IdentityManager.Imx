@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { IReadValue } from '@imx-modules/imx-qbm-dbts';
 import { TermsOfUseService } from '../terms-of-use.service';
 
 @Component({
-  selector: 'imx-terms-of-use-viewer',
-  templateUrl: './terms-of-use-viewer.component.html',
-  styleUrls: ['./terms-of-use-viewer.component.scss'],
+    selector: 'imx-terms-of-use-viewer',
+    templateUrl: './terms-of-use-viewer.component.html',
+    styleUrls: ['./terms-of-use-viewer.component.scss'],
+    standalone: false
 })
 export class TermsOfUseViewerComponent implements OnInit {
   public terms: PortalTermsofuse;

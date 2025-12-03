@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,6 +36,7 @@ import { AccountsReportsService } from '../accounts/accounts-reports.service';
   selector: 'imx-report-button-ext',
   templateUrl: './report-button-ext.component.html',
   styleUrls: ['./report-button-ext.component.scss'],
+  standalone: false
 })
 export class ReportButtonExtComponent implements OnInit {
   public downloadOptions: EuiDownloadOptions;
@@ -44,13 +45,13 @@ export class ReportButtonExtComponent implements OnInit {
   public isAvailable: boolean;
 
   constructor(
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly service: AccountsReportsService,
     private readonly http: HttpClient,
     private readonly injector: Injector,
     private readonly overlay: Overlay,
     private readonly downloadService: EuiDownloadService,
-  ) {}
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     const url = this.service.accountsOwnedByManagedReport(30, this.referrer);

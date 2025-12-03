@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,7 @@
  */
 
 import { OverlayRef } from '@angular/cdk/overlay';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EuiLoadingService, EuiSidesheetService } from '@elemental-ui/core';
@@ -51,13 +51,13 @@ import { ShoppingCartValidator } from './shopping-cart-validator';
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.scss'],
   selector: 'imx-shopping-cart',
+  standalone: false
 })
-export class ShoppingCartComponent implements OnInit, AfterViewInit {
+export class ShoppingCartComponent implements OnInit {
   public shoppingCart: ShoppingCart;
   public shoppingCartCandidates: PortalItshopCart[] = [];
   public selectedItshopCart: PortalItshopCart;
   public selectedItems: PortalCartitem[];
-  public isEmpty: boolean;
   public canCreateRequestTemplates: boolean;
 
   private itshopConfig: ITShopConfig | undefined;
@@ -77,16 +77,19 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
     private readonly patternCreateService: ItshopPatternCreateService,
     private readonly snackBarService: SnackBarService,
     private readonly sideSheet: EuiSidesheetService,
-  ) {}
+  ) { }
 
-  public async ngOnInit(): Promise<void> {
+  public ngOnInit() {
+    this.setup();
+  }
+
+  private async setup() {
     this.itshopConfig = (await this.projectConfig.getConfig()).ITShopConfig;
     this.canCreateRequestTemplates = this.itshopConfig?.VI_ITShop_ProductSelectionFromTemplate || false;
+    await this.getData(true);
   }
 
-  public async ngAfterViewInit(): Promise<void> {
-    return this.getData(true);
-  }
+
 
   public async validate(): Promise<void> {
     await this.checkTermsOfUse();
@@ -226,9 +229,11 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
         this.logger.debug(this, 'get shopping cart list...');
         this.shoppingCartCandidates = (await this.itshopProvider.getCarts()).Data;
 
-        this.isEmpty = this.shoppingCartCandidates == null || this.shoppingCartCandidates.length === 0;
+        const isEmpty = this.shoppingCartCandidates == null || this.shoppingCartCandidates.length === 0;
 
-        if (this.isEmpty) {
+        if (isEmpty) {
+          await this.router.navigate(['shoppingcart', 'empty']);
+          this.busyService.hide(overlayRef);
           return;
         }
 
@@ -274,8 +279,9 @@ export class ShoppingCartComponent implements OnInit, AfterViewInit {
       this.logger.debug(this, 'getCartItems - no shopping cart selected');
     }
 
-    this.isEmpty =
-      this.shoppingCart.numberOfItems === 0 && (this.shoppingCartCandidates == null || this.shoppingCartCandidates.length <= 1);
+    if (this.shoppingCart.numberOfItems === 0 && (this.shoppingCartCandidates == null || this.shoppingCartCandidates.length <= 1)) {
+      await this.router.navigate(['shoppingcart', 'empty']);
+    }
   }
 
   private async checkTermsOfUse(): Promise<boolean> {

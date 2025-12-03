@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "qbm-app-landingpage",
   "sourceRoot": "projects/qbm-app-landingpage/src",
-  "implicitDependencies": ["qbm"],
+  "implicitDependencies": [
+    "qbm"
+  ],
   "projectType": "application",
   "prefix": "imx",
   "generators": {
@@ -42,7 +44,9 @@
         ],
         "index": "projects/qbm-app-landingpage/src/index.html",
         "browser": "projects/qbm-app-landingpage/src/main.ts",
-        "polyfills": ["projects/qbm-app-landingpage/src/polyfills.ts"],
+        "polyfills": [
+          "projects/qbm-app-landingpage/src/polyfills.ts"
+        ],
         "tsConfig": "projects/qbm-app-landingpage/tsconfig.app.json",
         "assets": [
           "projects/qbm-app-landingpage/src/assets",
@@ -71,7 +75,10 @@
             "./node_modules/@elemental-ui/core"
           ]
         },
-        "scripts": ["node_modules/swagger-ui-dist/swagger-ui-bundle.js", "node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js"]
+        "scripts": [
+          "node_modules/swagger-ui-dist/swagger-ui-bundle.js",
+          "node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js"
+        ]
       },
       "configurations": {
         "production": {
@@ -112,9 +119,7 @@
               "with": "../imxweb_envs/qbm-app-landingpage/environments/environment.remote-dev.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -126,9 +131,7 @@
               "with": "../imxweb_envs/qbm-app-landingpage/environments/environment.remote-qs.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -137,13 +140,17 @@
           "tsConfig": "./projects/qbm-app-landingpage/tsconfig-es5.app.json"
         }
       },
-      "outputs": ["{options.outputPath}"]
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "dependsOn": [
+        "^build"
+      ]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "browserTarget": "qbm-app-landingpage:build",
-        "disableHostCheck": true
+        "browserTarget": "qbm-app-landingpage:build"
       },
       "configurations": {
         "production": {
@@ -186,7 +193,9 @@
             "output": "./assets"
           }
         ],
-        "styles": ["projects/qbm-app-landingpage/src/styles.scss"],
+        "styles": [
+          "projects/qbm-app-landingpage/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./shared/assets",
@@ -201,8 +210,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/qbm-app-landingpage/tsconfig.app.json", "projects/qbm-app-landingpage/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/qbm-app-landingpage/tsconfig.app.json",
+          "projects/qbm-app-landingpage/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

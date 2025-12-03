@@ -1,3 +1,5 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
 /* Elemental UI */
 eui-select {
   .mat-mdc-form-field {
@@ -19,11 +21,11 @@ eui-select {
 
 // Until elemental changes the default to use the accent theme, important is needed
 .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
-  color: $color-orange-60 !important;
+  color: eui.$color-orange-60 !important;
 }
 
 .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full {
-  background-color: $color-orange-60 !important;
+  background-color: eui.$color-orange-60 !important;
 }
 
 .cdk-overlay-pane .mat-mdc-select-panel .mat-mdc-option {
@@ -44,6 +46,7 @@ eui-select {
   .mat-mdc-select .mat-mdc-select-value {
     max-width: none;
     white-space: normal;
+
     .mat-mdc-select-value-text {
       white-space: normal;
     }
@@ -102,13 +105,14 @@ eui-select {
 /* Dark theme */
 .eui-dark-theme,
 .eui-contrast-theme {
+
   // Until elemental changes the default to use the accent theme, important is needed
   .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: $color-orange-40 !important;
+    color: eui.$color-orange-40 !important;
   }
 
   .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full {
-    background-color: $color-orange-40 !important;
+    background-color: eui.$color-orange-40 !important;
   }
 }
 

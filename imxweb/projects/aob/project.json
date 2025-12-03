@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "aob",
   "sourceRoot": "projects/aob/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "prefix": "imx",
   "generators": {
@@ -24,9 +26,6 @@
         "development": {
           "tsConfig": "projects/aob/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/aob/ng-package.dynamic.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/aob/tsconfig.lib.json"
         },
@@ -34,7 +33,9 @@
           "tsConfig": "projects/aob/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/aob"]
+      "outputs": [
+        "{workspaceRoot}/dist/aob"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -56,8 +57,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/aob/tsconfig.lib.json", "projects/aob/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/aob/tsconfig.lib.json",
+          "projects/aob/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

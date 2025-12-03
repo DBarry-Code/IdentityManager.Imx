@@ -1,22 +1,30 @@
-<mat-card *ngIf="!usedInSidesheet" class="data-explorer data-explorer--groups imx-card-fill">
-  <div class="imx-card-data-explorer-header">
-    <div class="imx-card-data-explorer-header-bg">
-      <h3 translate>#LDS#Heading System Entitlements</h3>
-      <imx-help-contextual [contextId]="contextId"></imx-help-contextual>
+@if (!usedInSidesheet) {
+  <mat-card class="data-explorer data-explorer--groups imx-card-fill">
+    <div class="imx-card-data-explorer-header">
+      <div class="imx-card-data-explorer-header-bg">
+        <h3 translate>#LDS#Heading System Entitlements</h3>
+        <imx-help-contextual [contextId]="contextId"></imx-help-contextual>
+      </div>
     </div>
+    <ng-container *ngTemplateOutlet="table"> </ng-container>
+  </mat-card>
+}
+@if (!usedInSidesheet) {
+  <div class="imx-button-bar-transparent">
+    <ng-container *ngTemplateOutlet="actions"> </ng-container>
   </div>
-  <ng-container *ngTemplateOutlet="table"> </ng-container>
-</mat-card>
-<div *ngIf="!usedInSidesheet" class="imx-button-bar-transparent">
-  <ng-container *ngTemplateOutlet="actions"> </ng-container>
-</div>
+}
 
-<mat-card *ngIf="usedInSidesheet" class="imx-card-fill imx-tab-card">
-  <ng-container *ngTemplateOutlet="table"> </ng-container>
-</mat-card>
-<div *ngIf="usedInSidesheet && (unsAccountIdFilter ? false : true)" eui-sidesheet-actions>
-  <ng-container *ngTemplateOutlet="actions"> </ng-container>
-</div>
+@if (usedInSidesheet) {
+  <mat-card class="imx-card-fill imx-tab-card">
+    <ng-container *ngTemplateOutlet="table"> </ng-container>
+  </mat-card>
+}
+@if (usedInSidesheet && (unsAccountIdFilter ? false : true)) {
+  <div eui-sidesheet-actions>
+    <ng-container *ngTemplateOutlet="actions"> </ng-container>
+  </div>
+}
 
 <ng-template #table>
   <imx-data-view-toolbar
@@ -41,7 +49,13 @@
           </th>
           <td mat-cell *matCellDef="let item" role="gridcell" class="imx-table-cell">
             <div data-imx-identifier="groups-tabledata-display">{{ item.GetEntity().GetDisplay() }}</div>
-            <div subtitle data-imx-identifier="groups-tabledata-description">{{ item.Description.Column.GetDisplayValue() }}</div>
+            <div subtitle data-imx-identifier="groups-tabledata-description">
+              <span>{{ item.Description.Column.GetDisplayValue() }}</span>
+              @if (item.Description.Column.GetDisplayValue() && getSubtitleText(item?.GetEntity())) {
+                <span class="imx-padding-right-4">;</span>
+              }
+              <span>{{ getSubtitleText(item?.GetEntity()) }}</span>
+            </div>
           </td>
         </ng-container>
         <ng-container [matColumnDef]="entitySchemaUnsGroup.Columns.Requestable.ColumnName">
@@ -52,31 +66,34 @@
             <div>{{ item.Requestable.Column.GetDisplayValue() }}</div>
           </td>
         </ng-container>
-        <ng-container
-          [matColumnDef]="entitySchemaUnsGroup.Columns.XMarkedForDeletion.ColumnName"
-          *ngIf="entitySchemaUnsGroup?.Columns?.XMarkedForDeletion"
-        >
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ entitySchemaUnsGroup?.Columns?.XMarkedForDeletion?.Display }}</th>
-          <td mat-cell *matCellDef="let item" role="gridcell">
-            <div *ngIf="item.XMarkedForDeletion.value !== 0">
-              <eui-badge color="gray">{{ item.XMarkedForDeletion.Column.GetDisplayValue() }}</eui-badge>
-            </div>
-          </td>
-        </ng-container>
-        <ng-container [matColumnDef]="'action'" *ngIf="unsAccountIdFilter">
-          <th mat-header-cell *matHeaderCellDef>{{ entitySchemaUnsGroup?.Columns?.UID_UNSRoot?.Display }}</th>
-          <td mat-cell *matCellDef="let item" role="gridcell">
-            <button
-              mat-button
-              color="primary"
-              [attr.data-imx-identifier]="'groups-table-button-view-assignment-analysis' + item.GetEntity().GetKeys().join('_')"
-              [disabled]="!uidPerson"
-              (click)="viewSource($event, item)"
-            >
-              {{ '#LDS#View assignment analysis' | translate }}
-            </button>
-          </td>
-        </ng-container>
+        @if (entitySchemaUnsGroup?.Columns?.XMarkedForDeletion) {
+          <ng-container [matColumnDef]="entitySchemaUnsGroup.Columns.XMarkedForDeletion.ColumnName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ entitySchemaUnsGroup?.Columns?.XMarkedForDeletion?.Display }}</th>
+            <td mat-cell *matCellDef="let item" role="gridcell">
+              @if (item.XMarkedForDeletion.value !== 0) {
+                <div>
+                  <eui-badge color="gray">{{ item.XMarkedForDeletion.Column.GetDisplayValue() }}</eui-badge>
+                </div>
+              }
+            </td>
+          </ng-container>
+        }
+        @if (unsAccountIdFilter) {
+          <ng-container [matColumnDef]="'action'">
+            <th mat-header-cell *matHeaderCellDef>{{ entitySchemaUnsGroup?.Columns?.UID_UNSRoot?.Display }}</th>
+            <td mat-cell *matCellDef="let item" role="gridcell">
+              <button
+                mat-button
+                color="primary"
+                [attr.data-imx-identifier]="'groups-table-button-view-assignment-analysis' + item.GetEntity().GetKeys().join('_')"
+                [disabled]="!uidPerson"
+                (click)="viewSource($event, item)"
+              >
+                {{ '#LDS#View assignment analysis' | translate }}
+              </button>
+            </td>
+          </ng-container>
+        }
       </imx-data-view-auto-table>
       <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator>
     </div>
@@ -101,14 +118,10 @@
     <button mat-menu-item color="primary" [disabled]="itemsAreNotRequestable" (click)="bulkUpdateSelected(false)">
       <span translate>#LDS#Make not requestable</span>
     </button>
-    <button
-      *ngIf="isAdmin"
-      [disabled]="selectedGroupsForUpdate.length === 0"
-      mat-menu-item
-      (click)="bulkUpdateOwner()"
-      class="imx-right-button"
-    >
-      <span translate>#LDS#Assign product owner</span>
-    </button>
+    @if (isAdmin) {
+      <button [disabled]="selectedGroupsForUpdate.length === 0" mat-menu-item (click)="bulkUpdateOwner()" class="imx-right-button">
+        <span translate>#LDS#Assign product owner</span>
+      </button>
+    }
   </mat-menu>
 </ng-template>

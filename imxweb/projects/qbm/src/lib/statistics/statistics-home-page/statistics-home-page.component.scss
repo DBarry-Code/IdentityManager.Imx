@@ -1,0 +1,73 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use '../stat-mixins.scss' as stat-mixins;
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .stats-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 24px;
+  }
+
+  .left-header {
+    display: flex;
+    align-items: center;
+  }
+
+  .right-header {
+    width: max(40%, 480px);
+  }
+
+  .stats-content {
+    overflow: auto;
+    padding: 24px;
+    padding-top: 0;
+    flex-grow: 1;
+    @include mixins.eui-elevation-1;
+  }
+
+  .tab-wrapper {
+    display: flex;
+    height: 100%;
+    padding: 16px 5px 5px;
+  }
+
+  imx-statistics-tree {
+    margin-right: 20px;
+    border-radius: 4px;
+    @include mixins.eui-elevation-1;
+  }
+}
+
+// Theming
+:host {
+  @include stat-mixins.Stat-Colors;
+
+  .stats-content {
+    background-color: eui.$color-gray-0;
+  }
+}
+
+.eui-dark-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+
+    .stats-content {
+      background-color: eui.$color-gray-70;
+    }
+  }
+}
+
+.eui-contrast-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+
+    .stats-content {
+      background-color: eui.$color-gray-90;
+    }
+  }
+}

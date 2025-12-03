@@ -2,7 +2,7 @@
   <eui-alert type="info" [colored]="true" [condensed]="true">
     <span>{{
       '#LDS#The following products have optional products. You can select the products you want to request additionally. NOTE: You can select child products only if you have selected the corresponding parent product as well.'
-        | translate
+      | translate
     }}</span>
   </eui-alert>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
@@ -49,29 +49,34 @@
 </div>
 
 <ng-template #treeNodeTemplate let-node>
-  <mat-checkbox
-    *ngIf="!node?.Recipients"
-    [checked]="node.isChecked"
-    [disabled]="node.isMandatory || !node.parentChecked || node.isIndeterminate"
-    [indeterminate]="node.isIndeterminate"
-    (change)="onChange($event, node)"
-  >
-    <span>{{ node.Display }}</span>
-    <div class="imx-subtext">
-      {{ (node.isMandatory ? '#LDS#Mandatory product' : '#LDS#Optional product') | translate }}
+  @if (!node?.Recipients) {
+    <mat-checkbox
+      [checked]="node.isChecked"
+      [disabled]="node.isMandatory || !node.parentChecked || node.isIndeterminate"
+      [indeterminate]="node.isIndeterminate"
+      (change)="onChange($event, node)"
+      >
+      <span>{{ node.Display }}</span>
+      <div class="imx-subtext">
+        {{ (node.isMandatory ? '#LDS#Mandatory product' : '#LDS#Optional product') | translate }}
+      </div>
+    </mat-checkbox>
+  }
+  @if (node?.Recipients?.length == 1) {
+    <div class="imx-tree-root">
+      <span>{{ node.Display }}</span>
+      <div class="imx-subtext">
+        {{ '#LDS#Recipient' | translate }}
+        {{ node.Recipients[0] }}
+      </div>
     </div>
-  </mat-checkbox>
-  <div class="imx-tree-root" *ngIf="node?.Recipients?.length == 1">
-    <span>{{ node.Display }}</span>
-    <div class="imx-subtext">
-      {{ '#LDS#Recipient' | translate }}
-      {{ node.Recipients[0] }}
+  }
+  @if (node?.Recipients?.length > 1) {
+    <div class="imx-tree-root">
+      <span>{{ node.Display }}</span>
+      <div class="imx-subtext">
+        {{ getRecipientText(node) }}
+      </div>
     </div>
-  </div>
-  <div class="imx-tree-root" *ngIf="node?.Recipients?.length > 1">
-    <span>{{ node.Display }}</span>
-    <div class="imx-subtext">
-      {{ getRecipientText(node) }}
-    </div>
-  </div>
+  }
 </ng-template>

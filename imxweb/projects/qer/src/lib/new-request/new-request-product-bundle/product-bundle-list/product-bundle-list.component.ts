@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,31 +25,29 @@
  */
 
 import { animate, animateChild, group, query, state, style, transition, trigger } from '@angular/animations';
-import { AfterContentInit, AfterViewInit, Component, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
-import { PortalItshopPatternItem, PortalItshopPatternRequestable } from '@imx-modules/imx-api-qer';
+import { Component, OnInit } from '@angular/core';
+import { PortalItshopPatternRequestable } from '@imx-modules/imx-api-qer';
 import {
   CollectionLoadParameters,
   DisplayColumns,
   EntitySchema,
   ExtendedTypedEntityCollection,
   IClientProperty,
-  IWriteValue,
   MultiValue,
-  TypedEntity,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
-import { BusyService, DataSourceToolbarComponent, DataSourceToolbarSettings, SettingsService } from 'qbm';
-import { Subscription } from 'rxjs';
+import { BusyService, DataViewInitParameters, DataViewSource } from 'qbm';
 import { PatternItemListFilterType } from '../../../pattern-item-list/pattern-item-list-filter-type.enum';
 import { PatternItemService } from '../../../pattern-item-list/pattern-item.service';
 import { NewRequestOrchestrationService } from '../../new-request-orchestration.service';
-import { SelectedProductItem, SelectedProductSource } from '../../new-request-selected-products/selected-product-item.interface';
 import { NewRequestSelectionService } from '../../new-request-selection.service';
 
 @Component({
   selector: 'imx-product-bundle-list',
   templateUrl: './product-bundle-list.component.html',
   styleUrls: ['./product-bundle-list.component.scss'],
+  providers: [DataViewSource],
+  standalone: false,
   animations: [
     trigger('expandSearch', [
       state(
@@ -62,16 +60,8 @@ import { NewRequestSelectionService } from '../../new-request-selection.service'
       state(
         'opened',
         style({
-          width: '320px',
+          width: '340px',
           visibility: 'visible',
-        }),
-        { params: { width: '*' } },
-      ),
-      state(
-        'hidden',
-        style({
-          width: 0,
-          visibility: 'hidden',
         }),
       ),
       transition('* <=> *', [group([query('@fadeIcon', animateChild(), { optional: true }), animate('400ms ease')])]),
@@ -104,40 +94,27 @@ import { NewRequestSelectionService } from '../../new-request-selection.service'
     ]),
   ],
 })
-export class ProductBundleListComponent implements AfterViewInit, AfterContentInit, OnChanges, OnDestroy {
-  //#region Private
-  private navigationState: CollectionLoadParameters;
-  private subscriptions: Subscription[] = [];
+export class ProductBundleListComponent implements OnInit {
   private searchEnabled = false;
-  private keywords: string;
-  private recipients: IWriteValue<string>;
-  private viewReady = false;
-  //#endregion
-
-  //#region Public
-  // Output() public selectionChanged = new EventEmitter<PortalItshopPatternRequestable[]>();
-  @ViewChild(DataSourceToolbarComponent) public readonly dst: DataSourceToolbarComponent;
-  public get searchState(): string {
-    return this.viewReady ? (this.searchEnabled ? 'opened' : 'closed') : 'hidden';
-  }
-  public dstSettings: DataSourceToolbarSettings | undefined;
   public filterType: PatternItemListFilterType = PatternItemListFilterType.All;
   public readonly entitySchema: EntitySchema;
   public DisplayColumns = DisplayColumns;
   public displayedColumns: IClientProperty[];
-  public selectedProductCandidates: SelectedProductItem[];
   public isLoading = false;
   public width = '600px';
   public readonly busyService = new BusyService();
-  //#endregion
+
+  public get searchState(): string {
+    return this.searchEnabled ? 'opened' : 'closed';
+  }
 
   constructor(
     private readonly orchestration: NewRequestOrchestrationService,
     private readonly patternItemService: PatternItemService,
     public readonly selectionService: NewRequestSelectionService,
-    settingsService: SettingsService,
+    public dataSource: DataViewSource<PortalItshopPatternRequestable>,
   ) {
-    this.navigationState = { PageSize: settingsService.DefaultPageSize, StartIndex: 0 };
+    this.orchestration.productBundle.set(undefined);
     this.entitySchema = patternItemService.PortalShopPatternRequestableSchema;
     this.displayedColumns = [
       this.entitySchema.Columns.Ident_ShoppingCartPattern,
@@ -146,165 +123,43 @@ export class ProductBundleListComponent implements AfterViewInit, AfterContentIn
         Type: ValType.String,
       },
     ];
-
-    this.subscriptions.push(this.orchestration.recipients$.subscribe((recipients: IWriteValue<string>) => (this.recipients = recipients)));
   }
 
-  public ngAfterContentInit(): void {
-    this.viewReady = true;
+  public ngOnInit(): void {
+    this.getData();
   }
 
-  public async ngAfterViewInit(): Promise<void> {
-    this.navigationState = { StartIndex: 0 };
-    if (this.dstSettings) {
-      this.dstSettings.displayedColumns = this.displayedColumns;
-    }
-
-    this.keywords ? await this.onSearch(this.keywords) : await this.getData();
-  }
-
-  public async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    if (
-      (changes.referenceUserUid && !changes.referenceUserUid.firstChange) ||
-      (changes.uidPersonPeerGroup && !changes.uidPersonPeerGroup.firstChange)
-    ) {
-      return this.getData({ StartIndex: 0 });
-    }
-  }
-
-  public ngOnDestroy(): void {
-    if (this.dst && this.dst.numOfSelectableItems > 0) {
-      this.dst.clearSelection();
-    }
-  }
-
-  public async onSearch(keywords: string): Promise<void> {
-    if (keywords === '') {
-      this.searchEnabled = false;
-    }
-    this.navigationState = {
-      ...this.navigationState,
-      StartIndex: 0,
-      search: keywords,
-    };
-    return this.getData();
-  }
-
-  public onHighlightedEntityChanged(selectedBundle: TypedEntity): void {
-    this.orchestration.productBundle = selectedBundle as PortalItshopPatternRequestable;
-  }
-
-  public async onSelectionChanged(bundlesType: TypedEntity[]): Promise<void> {
-    const bundles = bundlesType as PortalItshopPatternRequestable[];
-    if (bundles?.length === 0) {
-      this.selectionService.addProducts([], SelectedProductSource.ProductBundles);
-    } else {
-      // get all pattern items for all bundles
-      for (const bundle of bundles) {
-        const items = await this.patternItemService.getPatternItemList(bundle);
-        if (items && items.Data) {
-          this.selectionService.addProducts(items.Data, SelectedProductSource.ProductBundles, true, bundle);
-        }
-      }
-    }
-  }
-
-  public async onSelectAll(bundle: PortalItshopPatternRequestable): Promise<void> {
-    const items = await this.patternItemService.getPatternItemList(bundle);
-    if (items && items.Data) {
-      this.selectionService.addProducts(items.Data, SelectedProductSource.ProductBundles, true, bundle);
-    }
-  }
-
-  public async getData(newState?: CollectionLoadParameters): Promise<void> {
-    if (!this.orchestration.isLoggedIn) {
-      return;
-    }
-    if (newState) {
-      this.navigationState = newState;
-    }
-
+  public async getData(): Promise<void> {
     const busy = this.busyService.beginBusy();
 
     try {
       this.orchestration.abortCall();
-      const data = await this.patternItemService.get(
-        {
-          ...this.navigationState,
-          UID_Person: this.recipients ? MultiValue.FromString(this.recipients.value).GetValues().join(',') : undefined,
+      const dataViewInitParameters: DataViewInitParameters<PortalItshopPatternRequestable> = {
+        execute: (
+          params: CollectionLoadParameters,
+          signal: AbortSignal,
+        ): Promise<ExtendedTypedEntityCollection<PortalItshopPatternRequestable, unknown>> => {
+          const parameters = {
+            ...params,
+            UID_Person: this.orchestration.recipients()
+              ? MultiValue.FromString(this.orchestration.recipients()!.value).GetValues().join(',')
+              : undefined,
+          };
+          return this.patternItemService.get(parameters, { signal });
         },
-        { signal: this.orchestration.abortController.signal },
-      );
-      if (data) {
-        this.dstSettings = {
-          dataSource: this.applyFilter(data, this.filterType),
-          displayedColumns: this.displayedColumns,
-          entitySchema: this.entitySchema,
-          navigationState: this.navigationState,
-        };
-      } else {
-        this.dstSettings = undefined;
-      }
+        schema: this.entitySchema,
+        columnsToDisplay: this.displayedColumns,
+        highlightEntity: (product: PortalItshopPatternRequestable) => {
+          this.orchestration.productBundle.set(product);
+        },
+      };
+      await this.dataSource.init(dataViewInitParameters);
     } finally {
       busy.endBusy();
     }
   }
 
-  public applyFilter(
-    data: ExtendedTypedEntityCollection<PortalItshopPatternRequestable, unknown>,
-    filterType: PatternItemListFilterType,
-  ): ExtendedTypedEntityCollection<PortalItshopPatternRequestable, unknown> {
-    switch (filterType) {
-      case PatternItemListFilterType.All:
-        break;
-      case PatternItemListFilterType.Public:
-        const publicPatterns = data.Data.filter((item) => item.IsPublicPattern.value);
-        data.Data = publicPatterns;
-        data.totalCount = publicPatterns.length;
-        break;
-      case PatternItemListFilterType.Private:
-        const privatePatterns = data.Data.filter((item) => !item.IsPublicPattern.value);
-        data.Data = privatePatterns;
-        data.totalCount = privatePatterns.length;
-        break;
-    }
-    return data;
-  }
-
-  public async onFilterChanged(): Promise<void> {
-    this.getData();
-  }
-
   public enableSearch(): void {
     this.searchEnabled = true;
-  }
-
-  public selectAll(): void {
-    this.dst?.selectAllOnPage();
-  }
-
-  public deselectAll(): void {
-    this.dst?.clearSelection();
-  }
-
-  public resetKeywords(): void {
-    this.keywords = '';
-    this.dst.keywords = '';
-    this.dst.searchControl.setValue('');
-  }
-
-  /**
-   * Load all pattern items for given bundles.
-   * @param bundles
-   */
-  private async getPatternItemsOfBundles(bundles: PortalItshopPatternRequestable[]): Promise<PortalItshopPatternItem[]> {
-    const patternItems: PortalItshopPatternItem[] = [];
-    for (const bundle of bundles) {
-      const items = await this.patternItemService.getPatternItemList(bundle);
-      if (items && items.Data) {
-        patternItems.push(...items.Data);
-      }
-    }
-    return patternItems;
   }
 }

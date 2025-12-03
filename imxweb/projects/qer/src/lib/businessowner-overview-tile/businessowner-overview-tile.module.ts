@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,17 +24,22 @@
  *
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { TileModule } from 'qbm';
 
 import { BusinessOwnerOverviewTileComponent } from './businessowner-overview-tile.component';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use the TileModule instead.
+ */
 @NgModule({
   declarations: [BusinessOwnerOverviewTileComponent],
   imports: [CommonModule, TileModule, TranslateModule, FormsModule, MatDialogModule, MatTabsModule],

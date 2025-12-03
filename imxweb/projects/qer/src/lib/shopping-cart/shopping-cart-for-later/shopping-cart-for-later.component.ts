@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,8 +34,9 @@ import { CartItemsService } from '../cart-items.service';
 import { ShoppingCart } from '../shopping-cart';
 
 @Component({
-  styleUrls: ['./shopping-cart-for-later.component.scss'],
-  templateUrl: './shopping-cart-for-later.component.html',
+    styleUrls: ['./shopping-cart-for-later.component.scss'],
+    templateUrl: './shopping-cart-for-later.component.html',
+    standalone: false
 })
 export class ShoppingCartForLaterComponent implements AfterViewInit {
   public shoppingCart: ShoppingCart;

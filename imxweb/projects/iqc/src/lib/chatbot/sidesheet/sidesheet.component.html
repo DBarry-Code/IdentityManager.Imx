@@ -1,0 +1,110 @@
+<div class="current-query-container">
+  @if (chatEntries.length > 0) {
+    <!-- The current chat response -->
+    <div eui-sidesheet-content class="response-container">
+      @for (chatEntry of chatEntries; track chatEntry.chatId) {
+        <mat-card class="query-card">
+          <span class="format-text">
+            {{ chatEntry.prompt }}
+          </span>
+        </mat-card>
+        <mat-accordion class="response-accordion" multi>
+          @if (chatEntry.sqlQuery) {
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">{{ '#LDS#Heading Generated Query' | translate }}</mat-panel-title>
+                <mat-panel-description>{{ '#LDS#Query the chatbot created from your prompt' | translate }}</mat-panel-description>
+              </mat-expansion-panel-header>
+              <span class="format-text">
+                {{ chatEntry.sqlQuery }}
+              </span>
+            </mat-expansion-panel>
+          }
+          <mat-expansion-panel [expanded]="$last">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="panel-title">
+                {{ '#LDS#Heading Results' | translate }}
+                <button
+                  mat-icon-button
+                  color="primary"
+                  (click)="onExportData(chatEntry); $event.stopPropagation()"
+                  [disabled]="chatEntry.response.TotalCount === 0"
+                  [matTooltip]="'#LDS#Export data' | translate"
+                >
+                  <eui-icon icon="export"></eui-icon>
+                </button>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <imx-chatbot-dynamic-table [response]="chatEntry.response" [properties]="chatEntry?.properties"></imx-chatbot-dynamic-table>
+          </mat-expansion-panel>
+        </mat-accordion>
+      }
+    </div>
+    <div eui-sidesheet-actions class="under-response-container">
+      @if (isLoading) {
+        <imx-busy-indicator></imx-busy-indicator>
+      } @else {
+        <ng-container *ngTemplateOutlet="queryForm"></ng-container>
+      }
+    </div>
+  } @else {
+    <!-- Only the query form -->
+    @if (isLoading) {
+      <imx-busy-indicator></imx-busy-indicator>
+    } @else {
+      <div eui-sidesheet-content class="no-query">
+        <ng-container *ngTemplateOutlet="queryForm"></ng-container>
+      </div>
+    }
+  }
+</div>
+
+<ng-template #queryForm>
+  <eui-form-field>
+    <eui-label>{{ '#LDS#Enter which data should be queried' | translate }}</eui-label>
+    <textarea
+      matInput
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="5"
+      cdkAutosizeMaxRows="5"
+      [formControl]="controlPromptInput"
+      [placeholder]="placeholderText"
+      [@fadeInOut]="placeholderFadeState"
+      required
+      (input)="onChangePrompt()"
+      (keydown.enter)="onEnterKey($event)"
+      (keydown.control.enter)="onEnterKey($event)"
+    ></textarea>
+    @if (controlPromptInput.hasError('required')) {
+      <mat-error>{{ '#LDS#Enter which data should be queried by the chatbot.' | translate }}</mat-error>
+    } @else if (controlPromptInput.hasError('minlength')) {
+      <mat-error>{{ '#LDS#Enter more text so that the chatbot can create a valid query.' | translate }}</mat-error>
+    } @else if (controlPromptInput.hasError('invalidPrompt')) {
+      <mat-error>{{ controlPromptInput.errors?.invalidPrompt }}</mat-error>
+    }
+  </eui-form-field>
+  <div class="under-form-container">
+    <eui-alert type="warning" [condensed]="true">
+      <a href="https://www.oneidentity.com/legal/AI.aspx" target="_blank" rel="noopener noreferrer">
+        {{'#LDS#Note that AI-generated content may not be accurate.' | translate}}
+      </a>
+    </eui-alert>
+    <div class="button-container">
+      @if (chatEntries.length > 0) {
+        <button mat-stroked-button (click)="onNewChat()">
+          <eui-icon icon="refresh" size="s"></eui-icon>
+          {{ '#LDS#Start new chat' | translate }}
+        </button>
+      }
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="controlPromptInput.invalid"
+        (click)="onSendQuery()"
+      >
+        <eui-icon icon="run" size="s"></eui-icon>
+        {{ '#LDS#Send query' | translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,22 +26,21 @@
 
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { EUI_SIDESHEET_DATA } from '@elemental-ui/core';
 import { PortalServiceitems, QerProjectConfig } from '@imx-modules/imx-api-qer';
 import { TranslateService } from '@ngx-translate/core';
-import { LdsReplacePipe, SnackBarService } from 'qbm';
+import { HELP_CONTEXTUAL, LdsReplacePipe, SnackBarService } from 'qbm';
 import { NEW_REQUEST_ROUTE } from '../../constants';
 
 @Component({
-  selector: 'imx-product-details-sidesheet',
-  templateUrl: './product-details-sidesheet.component.html',
-  styleUrls: ['./product-details-sidesheet.component.scss'],
+    selector: 'imx-product-details-sidesheet',
+    templateUrl: './product-details-sidesheet.component.html',
+    styleUrls: ['./product-details-sidesheet.component.scss'],
+    standalone: false
 })
 export class ProductDetailsSidesheetComponent implements OnInit {
   public hasEntitlements: boolean;
-  public onEntitlements = false;
 
   /**
    * A list of AccProduct properties, that can be customized in the Admin Portal:
@@ -52,8 +51,7 @@ export class ProductDetailsSidesheetComponent implements OnInit {
   /** A list of properties, that cannot be customized in the Admin Portal. */
   protected fixedProductProperties = ['ServiceCategoryFullPath', 'TableName', 'Tags'];
 
-  protected ldsEntitlementInfo =
-    '#LDS#Here you can get an overview of the entitlements associated with the product. If you request the product, the recipient will get the listed entitlements.';
+  public entitlementInfoContextId = HELP_CONTEXTUAL.NewRequestProductDetailsEntitlements;
 
   /** A mapping between properties/columns and a css class to visualize the property value. */
   private cssPropertyMapping = new Map<string, string>([
@@ -84,10 +82,6 @@ export class ProductDetailsSidesheetComponent implements OnInit {
   public ngOnInit(): void {
     this.hasEntitlements = ['ESet', 'QERAssign'].includes(this.getValue('TableName'));
     this.accProductProperties = this.data?.projectConfig?.ITShopConfig?.AccProductProperties ?? [];
-  }
-
-  public onTabChange(change: MatTabChangeEvent) {
-    this.onEntitlements = change.index === 1;
   }
 
   /** Returns the display value for the given property/column. */

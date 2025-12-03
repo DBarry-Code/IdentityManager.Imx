@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,8 +36,9 @@ export interface SourceDetectiveSidesheetData {
 }
 
 @Component({
-  styleUrls: ['./sourcedetective-sidesheet.component.scss'],
-  templateUrl: './sourcedetective-sidesheet.component.html',
+    styleUrls: ['./sourcedetective-sidesheet.component.scss'],
+    templateUrl: './sourcedetective-sidesheet.component.html',
+    standalone: false
 })
 export class SourceDetectiveSidesheetComponent {
   constructor(@Inject(EUI_SIDESHEET_DATA) public data: SourceDetectiveSidesheetData) {}

@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 .imx-spacer {
   flex: 1 1 auto;
@@ -40,7 +40,8 @@
       width: 32px;
       height: auto;
     }
-    .imx-request-col{
+
+    .imx-request-col {
       display: flex;
       gap: 8px;
     }
@@ -48,6 +49,7 @@
     .imx-request-col-image {
       display: flex;
       align-items: center;
+      gap: 6px;
     }
 
     .imx-request-col-display {
@@ -75,26 +77,29 @@
 
   // Theming
   :host {
+
     .imx-request-col-text,
     .imx-request-col-status {
-      color: $color-gray-60;
+      color: eui.$color-gray-60;
     }
   }
 
   .eui-dark-theme {
     :host {
+
       .imx-request-col-text,
       .imx-request-col-status {
-        color: $color-gray-20;
+        color: eui.$color-gray-20;
       }
     }
   }
 
   .eui-contrast-theme {
     :host {
+
       .imx-request-col-text,
       .imx-request-col-status {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

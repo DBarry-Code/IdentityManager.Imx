@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -54,6 +54,12 @@ import { ExcludedColumnsPipe } from './excluded-columns.pipe';
 import { GroupPaginatorComponent } from './group-paginator/group-paginator.component';
 import { TableAccessiblilityDirective } from './table-accessibility.directive';
 
+
+/**
+ * @deprecated since v10.0.0
+ * 
+ * Use DataViewModule instead.
+ */
 @NgModule({
   declarations: [
     DataTableCellComponent,

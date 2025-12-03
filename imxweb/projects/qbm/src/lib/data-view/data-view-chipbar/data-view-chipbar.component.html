@@ -1,92 +1,94 @@
-<div class="imx-chipbar" *ngIf="showChipBar()">
-  <!-- Keywords -->
-  <span *ngIf="!!keywords()?.length">{{ '#LDS#Keywords' | translate }}:</span>
-  <mat-chip-listbox *ngFor="let item of keywords()">
-    <mat-chip-option color="primary" class="imx-chip" (removed)="removeItem(item)" [selectable]="false">
-      <span class="tag-name">{{ item.value }}</span>
-      <button matChipRemove>
-        <eui-icon size="s" icon="close"></eui-icon>
+@if (showChipBar()) {
+  <div class="imx-chipbar">
+    <!-- Keywords -->
+    @if (!!keywords()?.length) {
+      <span>{{ '#LDS#Keywords' | translate }}:</span>
+    }
+    @for (item of keywords(); track item) {
+      <mat-chip-listbox>
+        <mat-chip-option color="primary" class="imx-chip" (removed)="removeItem(item)" [selectable]="false">
+          <span class="tag-name">{{ item.value }}</span>
+          <button matChipRemove>
+            <eui-icon size="s" icon="close"></eui-icon>
+          </button>
+        </mat-chip-option>
+      </mat-chip-listbox>
+    }
+    @if (!!predefinedFilters()?.length || !!externalFilters()?.length || !!customFilters()?.length || !!dataSource.filterTreeSelection()) {
+      <span>{{ '#LDS#Filters' | translate }}:</span>
+    }
+    <!-- Custom filters -->
+    @if (!!customFilters()?.length) {
+      @for (item of customFilters(); track item) {
+        <mat-chip-listbox>
+          <mat-chip-option color="primary" class="imx-chip" (removed)="removeItem(item)" [selectable]="false">
+            <span class="tag-name">{{ '#LDS#Custom filter' | translate }} ({{ item.value?.Expression?.Expressions?.length }})</span>
+            <button matChipRemove>
+              <eui-icon size="s" icon="close"></eui-icon>
+            </button>
+          </mat-chip-option>
+        </mat-chip-listbox>
+      }
+    }
+    <!-- External filters -->
+    @if (!!externalFilters()?.length) {
+      @for (item of externalFilters(); track item) {
+        <mat-chip-listbox>
+          @if (item.CurrentValue) {
+            <mat-chip-option
+              color="primary"
+              class="imx-chip"
+              (removed)="removeFilterItem(item, dataSource.externalFilters)"
+              [selectable]="false"
+            >
+              <span class="tag-name">{{ item?.CurrentValue }}</span>
+              <button matChipRemove>
+                <eui-icon size="s" icon="close"></eui-icon>
+              </button>
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+      }
+    }
+    <!-- Predefined filters -->
+    @if (!!predefinedFilters()?.length) {
+      @for (item of predefinedFilters(); track item) {
+        <mat-chip-listbox>
+          @if (item.CurrentValue) {
+            <mat-chip-option
+              color="primary"
+              class="imx-chip"
+              (removed)="removeFilterItem(item, dataSource.predefinedFilters)"
+              [selectable]="false"
+            >
+              <span class="tag-name">{{ getFilterDisplay(item) }}</span>
+              <button matChipRemove>
+                <eui-icon size="s" icon="close"></eui-icon>
+              </button>
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+      }
+    }
+    <!--Filter tree -->
+    @if (!!dataSource.filterTreeSelection()) {
+      <mat-chip-listbox>
+        <mat-chip-option color="primary" class="imx-chip" (removed)="removeFilterTree()" [selectable]="false">
+          <span class="tag-name"
+            >{{ !!dataSource.filterTreeData().Description ? dataSource.filterTreeData().Description + ': ' : ''
+            }}{{ dataSource.filterTreeSelection()?.display }}</span
+          >
+          <button matChipRemove>
+            <eui-icon size="s" icon="close"></eui-icon>
+          </button>
+        </mat-chip-option>
+      </mat-chip-listbox>
+    }
+    @if (showResetButton()) {
+      <button mat-button (click)="onClearAll()" color="primary" data-imx-identifier="dataview-button-clear-all-filter">
+        <eui-icon icon="close" size="s"></eui-icon>
+        {{ '#LDS#Reset all' | translate }}
       </button>
-    </mat-chip-option>
-  </mat-chip-listbox>
-
-  <span
-    *ngIf="!!predefinedFilters()?.length || !!externalFilters()?.length || !!customFilters()?.length || !!dataSource.filterTreeSelection()"
-    >{{ '#LDS#Filters' | translate }}:</span
-  >
-  <!-- Custom filters -->
-  <ng-container *ngIf="!!customFilters()?.length">
-    <mat-chip-listbox *ngFor="let item of customFilters()">
-      <mat-chip-option
-        color="primary"
-        class="imx-chip"
-        (removed)="removeItem(item)"
-        [selectable]="false"
-        *ngIf="item.value?.Expression?.Expressions?.length"
-      >
-        <span class="tag-name">{{ '#LDS#Custom filter' | translate }} ({{ item.value?.Expression?.Expressions?.length }})</span>
-        <button matChipRemove>
-          <eui-icon size="s" icon="close"></eui-icon>
-        </button>
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </ng-container>
-
-  <!-- External filters -->
-  <ng-container *ngIf="!!externalFilters()?.length">
-    <mat-chip-listbox *ngFor="let item of externalFilters()">
-      <mat-chip-option
-        color="primary"
-        class="imx-chip"
-        *ngIf="item.CurrentValue"
-        (removed)="removeFilterItem(item, this.dataSource.externalFilters)"
-        [selectable]="false"
-      >
-        <span class="tag-name">{{ item?.CurrentValue }}</span>
-        <button matChipRemove>
-          <eui-icon size="s" icon="close"></eui-icon>
-        </button>
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </ng-container>
-
-  <!-- Predefined filters -->
-  <ng-container *ngIf="!!predefinedFilters()?.length">
-    <mat-chip-listbox *ngFor="let item of predefinedFilters()">
-      <mat-chip-option
-        color="primary"
-        class="imx-chip"
-        *ngIf="item.CurrentValue"
-        (removed)="removeFilterItem(item, dataSource.predefinedFilters)"
-        [selectable]="false"
-      >
-        <span class="tag-name">{{ getFilterDisplay(item) }}</span>
-        <button matChipRemove>
-          <eui-icon size="s" icon="close"></eui-icon>
-        </button>
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </ng-container>
-  <!--Filter tree -->
-  <mat-chip-listbox *ngIf="!!dataSource.filterTreeSelection()">
-    <mat-chip-option color="primary" class="imx-chip" (removed)="removeFilterTree()" [selectable]="false">
-      <span class="tag-name"
-        >{{ !!dataSource.filterTreeData().Description ? dataSource.filterTreeData().Description + ': ' : ''
-        }}{{ dataSource.filterTreeSelection()?.display }}</span
-      >
-      <button matChipRemove>
-        <eui-icon size="s" icon="close"></eui-icon>
-      </button>
-    </mat-chip-option>
-  </mat-chip-listbox>
-  <button
-    mat-button
-    (click)="onClearAll()"
-    color="primary"
-    data-imx-identifier="dataview-button-clear-all-filter"
-    *ngIf="showResetButton()"
-  >
-    <eui-icon icon="close" size="s"></eui-icon>
-    {{ '#LDS#Reset all' | translate }}
-  </button>
-</div>
+    }
+  </div>
+}

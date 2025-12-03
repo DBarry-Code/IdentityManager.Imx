@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -78,7 +78,7 @@ export class NewRequestAddToCartService {
   ) {}
 
   public async addItemsToCart(): Promise<void> {
-    if (this.orchestration.recipients == null) {
+    if (this.orchestration.recipients() == null) {
       return;
     }
 
@@ -119,8 +119,8 @@ export class NewRequestAddToCartService {
   }
 
   private getRecipients(): ValueStruct<string>[] {
-    const recipientsUids = MultiValue.FromString(this.orchestration.recipients.value).GetValues();
-    const recipientsDisplays = MultiValue.FromString(this.orchestration.recipients.Column.GetDisplayValue()).GetValues();
+    const recipientsUids = MultiValue.FromString(this.orchestration.recipients()?.value || '').GetValues();
+    const recipientsDisplays = MultiValue.FromString(this.orchestration.recipients()?.Column.GetDisplayValue() || '').GetValues();
 
     return recipientsUids.map((uid, index) => ({
       DataValue: uid,
@@ -156,8 +156,8 @@ export class NewRequestAddToCartService {
     const roles = this.selectionService.selectedProducts.filter(
       (x) => x.source === SelectedProductSource.PeerGroupOrgs || x.source === SelectedProductSource.ReferenceUserOrgs,
     );
-    if (roles && roles.length > 0) {
-      const recipientsWrapper = new RecipientsWrapper(this.orchestration.recipients);
+    if (roles && roles.length > 0 && this.orchestration.recipients()) {
+      const recipientsWrapper = new RecipientsWrapper(this.orchestration.recipients()!);
       this.showBusyIndicator();
       try {
         const orgs = roles.map((x) => x.item) as PortalItshopPeergroupMemberships[];
@@ -165,8 +165,8 @@ export class NewRequestAddToCartService {
           orgs.map((item) => item.XObjectKey.value),
           recipientsWrapper?.uids,
         );
-        this.possibleItems = roles.length;
-        this.savedItems = roles.length;
+        this.possibleItems += roles.length;
+        this.savedItems += roles.length;
       } finally {
         this.busyIndicator.hide();
       }
@@ -230,26 +230,29 @@ export class NewRequestAddToCartService {
   }
 
   private async openOptionalSideSheet(serviceItems: PortalShopServiceitems[]): Promise<RequestableProductForPerson[] | undefined> {
-    const serviceItemTree = await this.optionalItemsService.checkForOptionalTree(serviceItems, this.orchestration.recipients);
-    if (!!serviceItemTree?.totalOptional) {
-      const selectedOptionalOrder: ServiceItemOrder = await this.sidesheetService
-        .open(OptionalItemsSidesheetComponent, {
-          title: await this.translate.get('#LDS#Heading Request Optional Products').toPromise(),
-          padding: '0px',
-          width: calculateSidesheetWidth(1000),
-          testId: 'optional-items-sidesheet',
-          disableClose: true,
-          data: {
-            serviceItemTree,
-            projectConfig: this.projectConfig,
-          },
-        })
-        .afterClosed()
-        .toPromise();
-      if (selectedOptionalOrder) {
-        return selectedOptionalOrder.requestables || [];
-      } else {
-        return undefined;
+    if (this.orchestration.recipients()) {
+      const serviceItemTree = await this.optionalItemsService.checkForOptionalTree(serviceItems, this.orchestration.recipients()!);
+      if (!!serviceItemTree?.totalOptional) {
+        const selectedOptionalOrder: ServiceItemOrder = await this.sidesheetService
+          .open(OptionalItemsSidesheetComponent, {
+            title: await this.translate.instant('#LDS#Heading Request Optional Products'),
+            padding: '0px',
+            width: calculateSidesheetWidth(1000),
+            testId: 'optional-items-sidesheet',
+            disableClose: true,
+            data: {
+              serviceItemTree,
+              projectConfig: this.projectConfig,
+              recipients: this.orchestration.recipients()!,
+            },
+          })
+          .afterClosed()
+          .toPromise();
+        if (selectedOptionalOrder) {
+          return selectedOptionalOrder.requestables || [];
+        } else {
+          return undefined;
+        }
       }
     }
     return [];

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,8 +34,9 @@ import { BaseReadonlyCdr, ColumnDependentReference, ElementalUiConfigService } f
 import { PoliciesService } from '../policies.service';
 
 @Component({
-  selector: 'imx-policies-sidesheet',
-  templateUrl: './policies-sidesheet.component.html',
+    selector: 'imx-policies-sidesheet',
+    templateUrl: './policies-sidesheet.component.html',
+    standalone: false
 })
 export class PoliciesSidesheetComponent implements OnDestroy {
   public reportDownload: EuiDownloadOptions;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,11 +24,18 @@
  *
  */
 
-import { ErrorHandler, Injectable, OnDestroy } from '@angular/core';
+import { ErrorHandler, Injectable, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
 
-import { PortalItshopPatternRequestable, PortalServicecategories, PortalShopServiceitems } from '@imx-modules/imx-api-qer';
+import {
+  CartPatternItemDataRead,
+  PortalItshopPatternItem,
+  PortalItshopPatternRequestable,
+  PortalItshopPeergroupMemberships,
+  PortalServicecategories,
+  PortalShopServiceitems,
+  ServiceItemsExtendedData,
+} from '@imx-modules/imx-api-qer';
 import {
   CollectionLoadParameters,
   CompareOperator,
@@ -43,15 +50,7 @@ import {
 } from '@imx-modules/imx-qbm-dbts';
 
 import { TranslateService } from '@ngx-translate/core';
-import {
-  AuthenticationService,
-  DataSourceToolbarComponent,
-  DataSourceToolbarSettings,
-  EntityService,
-  ISessionState,
-  LdsReplacePipe,
-  SettingsService,
-} from 'qbm';
+import { AuthenticationService, DataViewSource, EntityService, ISessionState, LdsReplacePipe } from 'qbm';
 import { PersonService } from '../person/person.service';
 import { QerApiService } from '../qer-api-client.service';
 import { CurrentProductSource } from './current-product-source';
@@ -70,187 +69,40 @@ export class NewRequestOrchestrationService implements OnDestroy {
   private lastLoggedInUser: string;
   //#endregion
 
-  //#region Public properties
-
-  //#region Recipients
-  private recipientsProperty: IWriteValue<string>;
-  public get recipients(): IWriteValue<string> {
-    return this.recipientsProperty;
-  }
-  public set recipients(value: IWriteValue<string>) {
-    this.recipientsProperty = value;
-    this.recipients$.next(value);
-  }
-  public recipients$ = new BehaviorSubject<IWriteValue<string> | undefined>(undefined);
+  //#region DataViewSources
+  public dataViewAllProducts: WritableSignal<DataViewSource<PortalShopServiceitems, ServiceItemsExtendedData> | undefined> =
+    signal(undefined);
+  public dataViewPeerGroupProducts: WritableSignal<DataViewSource<PortalShopServiceitems, ServiceItemsExtendedData> | undefined> =
+    signal(undefined);
+  public dataViewPeerGroupOrgs: WritableSignal<DataViewSource<PortalItshopPeergroupMemberships, ServiceItemsExtendedData> | undefined> =
+    signal(undefined);
+  public dataViewReferenceUserProducts: WritableSignal<DataViewSource<PortalShopServiceitems, ServiceItemsExtendedData> | undefined> =
+    signal(undefined);
+  public dataViewReferenceUserOrgs: WritableSignal<DataViewSource<PortalItshopPeergroupMemberships, ServiceItemsExtendedData> | undefined> =
+    signal(undefined);
+  public dataViewProductBundles: WritableSignal<DataViewSource<PortalItshopPatternItem, CartPatternItemDataRead> | undefined> =
+    signal(undefined);
   //#endregion
 
-  //#region Current Product Source
-  private currentProductSourceProperty: CurrentProductSource | undefined;
-  public get currentProductSource(): CurrentProductSource | undefined {
-    return this.currentProductSourceProperty;
-  }
-  public set currentProductSource(value: CurrentProductSource | undefined) {
-    if (value) {
-      value!.dst.itemStatus = {
-        enabled: (prod: PortalShopServiceitems): boolean => {
-          return prod.IsRequestable === undefined || prod.IsRequestable?.value;
-        },
-      };
-    }
-    this.currentProductSourceProperty = value;
-    this.currentProductSource$.next(value);
-  }
-
-  public currentProductSource$ = new BehaviorSubject<CurrentProductSource | undefined>(undefined);
-  //#endregion
-
-  //#region DST Settings
-  public dstSettingsAllProducts: DataSourceToolbarSettings | undefined;
-  public dstSettingsPeerGroupProducts: DataSourceToolbarSettings | undefined;
-  public dstSettingsPeerGroupOrgs: DataSourceToolbarSettings | undefined;
-  public dstSettingsReferenceUserProducts: DataSourceToolbarSettings | undefined;
-  public dstSettingsReferenceUserOrgs: DataSourceToolbarSettings | undefined;
-  public dstSettingsProductBundles: DataSourceToolbarSettings | undefined;
-  //#endregion
-
-  //#region Search Api
-  public searchApi$ = new BehaviorSubject<((keywords: string) => Observable<any> | undefined) | undefined>(undefined);
-
-  private disableSearchProperty: boolean;
-  public get disableSearch(): boolean {
-    return this.disableSearchProperty;
-  }
-  public set disableSearch(value: boolean) {
-    this.disableSearchProperty = value;
-    this.disableSearch$.next(value);
-  }
-  public disableSearch$ = new BehaviorSubject<boolean | undefined>(undefined);
-
-  public keywords: string = '';
-  //#endregion
-
-  //#region Navigation State
-  private navigationStateProperty: CollectionLoadParameters | ServiceItemParameters;
-  public get navigationState(): CollectionLoadParameters | ServiceItemParameters {
-    return this.navigationStateProperty;
-  }
-  public set navigationState(value: CollectionLoadParameters | ServiceItemParameters) {
-    this.navigationStateProperty = value;
-    this.navigationState$.next(value);
-  }
-  public navigationState$ = new BehaviorSubject<CollectionLoadParameters | ServiceItemParameters | undefined>(undefined);
-  //#endregion
-
-  //#region Selected Tab
-  private selectedTabProperty: NewRequestTabModel | undefined;
-  public get selectedTab(): NewRequestTabModel | undefined {
-    return this.selectedTabProperty;
-  }
-  public set selectedTab(value: NewRequestTabModel | undefined) {
-    this.selectedTabProperty = value;
-    // this.dst?.clearSearch();
-
-    this.selectedTab$.next(value);
-    // this.clearSearch$.next(true);
-  }
-  public selectedTab$ = new BehaviorSubject<NewRequestTabModel | undefined>(undefined);
-  //#endregion
-
-  // CHECK - Do we need this
-  //#region Search
-  // public searchInProgress$ = new BehaviorSubject<boolean>(false);
-  // public clearSearch$ = new BehaviorSubject<boolean>(false);
-  //#endregion
-
-  //#region Selected Chip
-  private selectedChipProperty: number;
-  public get selectedChip(): number {
-    return this.selectedChipProperty;
-  }
-  public set selectedChip(value: number) {
-    this.selectedChipProperty = value;
-    this.selectedChip$.next(value);
-  }
-  public selectedChip$ = new BehaviorSubject<number | undefined>(undefined);
-  //#endregion
-
-  //#region Selected Category. If no category is selected (we are on root level) show root level text.
-  private selectedCategoryProperty: PortalServicecategories | undefined;
-  public get selectedCategory(): PortalServicecategories | undefined {
-    return this.selectedCategoryProperty;
-  }
-  public set selectedCategory(value: PortalServicecategories | undefined) {
-    this.selectedCategoryProperty = value;
-    this.selectedCategory$.next(value);
-  }
-  public selectedCategory$ = new BehaviorSubject<PortalServicecategories | undefined>(undefined);
-  //#endregion
-
-  //#region Product Selection: Include Child Categories
-  private includeChildCategoriesProperty: boolean;
-  public get includeChildCategories(): boolean {
-    return this.includeChildCategoriesProperty;
-  }
-  public set includeChildCategories(value: boolean) {
-    this.includeChildCategoriesProperty = value;
-    this.includeChildCategories$.next(value);
-  }
-  public includeChildCategories$ = new BehaviorSubject<boolean>(false);
-  //#endregion
-
-  //#region Reference User
-  private referenceUserProperty: ValueStruct<string> | undefined;
-  public get referenceUser(): ValueStruct<string> | undefined {
-    return this.referenceUserProperty;
-  }
-  public set referenceUser(value: ValueStruct<string> | undefined) {
-    this.referenceUserProperty = value;
-    this.referenceUser$.next(value);
-  }
-  public referenceUser$ = new BehaviorSubject<ValueStruct<string> | undefined>(undefined);
-  //#endregion
-
-  //#region Product Bundle
-  private productBundleProperty: PortalItshopPatternRequestable | undefined;
-  public get productBundle(): PortalItshopPatternRequestable | undefined {
-    return this.productBundleProperty;
-  }
-  public set productBundle(value: PortalItshopPatternRequestable | undefined) {
-    this.productBundleProperty = value;
-    this.productBundle$.next(value);
-  }
-  public productBundle$ = new BehaviorSubject<PortalItshopPatternRequestable | undefined>(undefined);
-  //#endregion
-
-  //#region SelectedView
-  private selectedViewProperty: SelectedProductSource;
-  public get selectedView(): SelectedProductSource {
-    return this.selectedViewProperty;
-  }
-  public set selectedView(value: SelectedProductSource) {
-    this.selectedViewProperty = value;
-    this.selectedView$.next(value);
-  }
-  public selectedView$ = new BehaviorSubject<SelectedProductSource | undefined>(undefined);
+  //#region Signals
+  public recipients: WritableSignal<IWriteValue<string> | undefined> = signal(undefined);
+  public recipientsIds: WritableSignal<string | undefined> = signal(undefined);
+  public currentProductSource: WritableSignal<CurrentProductSource | undefined> = signal(undefined);
+  public selectedProductStore: WritableSignal<SelectedProductSource> = signal(SelectedProductSource.Undefined);
+  public disableSearch: WritableSignal<boolean> = signal(false);
+  public navigationState: WritableSignal<CollectionLoadParameters | ServiceItemParameters | undefined> = signal(undefined);
+  public selectedTab: WritableSignal<NewRequestTabModel | undefined> = signal(undefined);
+  public selectedChip: WritableSignal<number | undefined> = signal(undefined);
+  public selectedCategory: WritableSignal<PortalServicecategories | undefined> = signal(undefined);
+  public includeChildCategories: WritableSignal<boolean> = signal(true);
+  public referenceUser: WritableSignal<ValueStruct<string> | undefined> = signal(undefined);
+  public productBundle: WritableSignal<PortalItshopPatternRequestable | undefined> = signal(undefined);
+  public selectedView: WritableSignal<SelectedProductSource> = signal(SelectedProductSource.Undefined);
   //#endregion
 
   //#region AbortController
   public abortController = new AbortController();
-
   public serviceCategoryAbortController = new AbortController();
-  //#endregion
-
-  //#region loggin State
-  private isLoggedInStateProperty: boolean;
-  public get isLoggedIn(): boolean {
-    return this.isLoggedInStateProperty;
-  }
-  public set isLoggedIn(value: boolean) {
-    this.isLoggedInStateProperty = value;
-    this.isLoggedInState$.next(value);
-  }
-  public isLoggedInState$ = new BehaviorSubject<boolean>(false);
-
   //#endregion
 
   constructor(
@@ -263,18 +115,9 @@ export class NewRequestOrchestrationService implements OnDestroy {
     private errorHandler: ErrorHandler,
     private translator: TranslateService,
     private ldsReplace: LdsReplacePipe,
-    settingsService: SettingsService,
   ) {
-    this.navigationState = { PageSize: settingsService.DefaultPageSize, StartIndex: 0 };
     authentication.onSessionResponse.subscribe(async (session: ISessionState) => {
       this.userUid = session.UserUid || '';
-
-      this.isLoggedIn = session.IsLoggedIn ?? false;
-
-      if (!this.isLoggedIn) {
-        this.navigationState = { PageSize: settingsService.DefaultPageSize, StartIndex: 0 };
-        return;
-      }
 
       if (this.userUid == null) {
         return;
@@ -289,36 +132,27 @@ export class NewRequestOrchestrationService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.dstSettingsAllProducts = undefined;
-    this.dstSettingsPeerGroupProducts;
-    this.dstSettingsPeerGroupOrgs = undefined;
-    this.dstSettingsReferenceUserProducts = undefined;
-    this.dstSettingsReferenceUserOrgs = undefined;
-    this.dstSettingsProductBundles = undefined;
-    this.referenceUser = undefined;
+    this.referenceUser.set(undefined);
   }
 
-  public preselectBySource(source: SelectedProductSource, dst: DataSourceToolbarComponent): void {
-    if (this.selectionService.selectedProducts == null || dst == null) {
+  public preselectBySource(dataSource: DataViewSource): void {
+    if (this.selectionService.selectedProducts == null || dataSource == null) {
       return;
     }
-
-    dst.preSelection = this.selectionService.selectedProducts.filter((x) => x.source === source).map((x) => x.item);
-
-    dst.selection.clear();
-    dst.preSelection.forEach((item) => dst.selection.checked(item));
+    const preSelection = this.selectionService.selectedProducts.map((x) => x.item);
+    dataSource?.selection?.setSelection(preSelection);
   }
 
   public async setDefaultUser(): Promise<void> {
-    await this.recipients.Column.PutValueStruct(this.defaultUser);
-    this.recipients$.next(this.recipients);
+    await this.recipients()?.Column.PutValueStruct(this.defaultUser);
+    this.recipientsIds.set(this.recipients()?.value);
   }
 
   public async setRecipients(value: ValueStruct<string> | undefined): Promise<void> {
     if (value != null) {
-      await this.recipients.Column.PutValueStruct(value);
+      await this.recipients()?.Column.PutValueStruct(value);
+      this.recipientsIds.set(this.recipients()?.value);
     }
-    this.recipients$.next(this.recipients);
   }
 
   /**
@@ -417,10 +251,11 @@ export class NewRequestOrchestrationService implements OnDestroy {
     })) as FkProviderItem[];
 
     const column = this.entityService.createLocalEntityColumn(recipientsProp, fkProviderItems, { Value: this.userUid });
-    this.recipients = new EntityValue(column);
+    this.recipients.set(new EntityValue(column));
+    this.recipientsIds.set(this.userUid);
 
     // preset recipient to the current user
-    await this.recipients.Column.PutValueStruct({
+    await this.recipients()?.Column.PutValueStruct({
       DataValue: this.userUid,
       DisplayValue: await this.getPersonDisplay(this.userUid),
     });
@@ -429,7 +264,7 @@ export class NewRequestOrchestrationService implements OnDestroy {
     const DisplayValue = await this.getPersonDisplay(uidPerson);
 
     if (uidPerson && DisplayValue) {
-      await this.recipients.Column.PutValueStruct({
+      await this.recipients()?.Column.PutValueStruct({
         DataValue: uidPerson,
         DisplayValue,
       });
@@ -437,8 +272,8 @@ export class NewRequestOrchestrationService implements OnDestroy {
       // TODO in this case, CanRequestForSomebodyElse is false
     }
     this.defaultUser = {
-      DataValue: this.recipients.Column.GetValue(),
-      DisplayValue: this.recipients.Column.GetDisplayValue(),
+      DataValue: this.recipients()?.Column.GetValue(),
+      DisplayValue: this.recipients()?.Column.GetDisplayValue(),
     };
   }
 

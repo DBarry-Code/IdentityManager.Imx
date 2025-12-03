@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -64,7 +64,6 @@ import { DynamicDataSource } from './sidenav-tree-dynamic-extension';
   selector: 'imx-sidenav-tree',
   templateUrl: './sidenav-tree.component.html',
   styleUrls: ['./sidenav-tree.component.scss'],
-  standalone: true,
   imports: [
     CommonModule,
     MatTreeModule,
@@ -116,6 +115,7 @@ import { DynamicDataSource } from './sidenav-tree-dynamic-extension';
         style({
           width: '0px',
           visibility: 'hidden',
+          height: '0px',
         }),
       ),
       state(

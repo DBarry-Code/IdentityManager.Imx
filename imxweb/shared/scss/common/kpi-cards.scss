@@ -1,0 +1,39 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+.imx-kpi-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.imx-kpi-content {
+  padding: 0 !important;
+  margin: auto;
+  text-align: center;
+}
+
+// Theming
+.eui-light-theme {
+  :host {
+    .imx-kpi-container {
+      background-color: eui.$color-gray-2;
+    }
+  }
+}
+
+.eui-dark-theme {
+  :host {
+    .imx-kpi-container {
+      background-color: eui.$color-gray-80;
+    }
+  }
+}
+
+.eui-contrast-theme {
+  :host {
+    .imx-kpi-container {
+      background-color: eui.$color-gray-10;
+    }
+  }
+}

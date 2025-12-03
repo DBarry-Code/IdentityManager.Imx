@@ -1,56 +1,56 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
-@import 'base/colors';
-@import 'base/fonts';
-@import 'base/margins-paddings';
-@import 'base/mixins';
-@import 'base/variables';
+@use 'base/variables' as imx-variables;
+@use 'base/colors' as colors;
+@use 'base/fonts' as fonts;
+@use 'base/margins-paddings' as margins-paddings;
+@use 'base/mixins' as mixins;
 
-@import 'components/alert';
-@import 'components/autocomplete';
-@import 'components/badge';
-@import 'components/button';
-@import 'components/button-toggle';
-@import 'components/card';
-@import 'components/chart';
-@import 'components/checkbox';
-@import 'components/chips';
-@import 'components/scrollbar';
-@import 'components/search';
-@import 'components/sidesheet';
-@import 'components/side-navigation';
-@import 'components/clickable';
-@import 'components/data-source-toolbar';
-@import 'components/date-picker';
-@import 'components/dialog';
-@import 'components/divider';
-@import 'components/download';
-@import 'components/expansion-panel';
-@import 'components/form-field';
-@import 'components/icon';
-@import 'components/input';
-@import 'components/layout-grid';
-@import 'components/list';
-@import 'components/logo';
-@import 'components/masthead';
-@import 'components/menu';
-@import 'components/paginator';
-@import 'components/progress-bar';
-@import 'components/radio-button';
-@import 'components/ripple';
-@import 'components/spinner';
-@import 'components/select';
-@import 'components/slide-toggle';
-@import 'components/slider';
-@import 'components/stepper';
-@import 'components/table';
-@import 'components/tabs';
-@import 'components/theme-switcher';
-@import 'components/time-picker';
-@import 'components/toolbar';
-@import 'components/tooltip';
-@import 'components/tree';
-@import 'components/top-navigation';
+@use 'components/alert' as *;
+@use 'components/autocomplete' as *;
+@use 'components/badge' as *;
+@use 'components/button' as *;
+@use 'components/button-toggle' as *;
+@use 'components/card' as *;
+@use 'components/chart' as *;
+@use 'components/checkbox' as *;
+@use 'components/chips' as *;
+@use 'components/scrollbar' as *;
+@use 'components/search' as *;
+@use 'components/sidesheet' as *;
+@use 'components/side-navigation' as *;
+@use 'components/clickable' as *;
+@use 'components/data-source-toolbar' as *;
+@use 'components/date-picker' as *;
+@use 'components/dialog' as *;
+@use 'components/divider' as *;
+@use 'components/download' as *;
+@use 'components/expansion-panel' as *;
+@use 'components/form-field' as *;
+@use 'components/icon' as *;
+@use 'components/input' as *;
+@use 'components/layout-grid' as *;
+@use 'components/list' as *;
+@use 'components/logo' as *;
+@use 'components/masthead' as *;
+@use 'components/menu' as *;
+@use 'components/paginator' as *;
+@use 'components/progress-bar' as *;
+@use 'components/radio-button' as *;
+@use 'components/ripple' as *;
+@use 'components/spinner' as *;
+@use 'components/select' as *;
+@use 'components/slide-toggle' as *;
+@use 'components/slider' as *;
+@use 'components/stepper' as *;
+@use 'components/table' as *;
+@use 'components/tabs' as *;
+@use 'components/theme-switcher' as *;
+@use 'components/time-picker' as *;
+@use 'components/toolbar' as *;
+@use 'components/tooltip' as *;
+@use 'components/tree' as *;
+@use 'components/top-navigation' as *;
 
 /* Imx */
 .imx-flex-container-100 {
@@ -72,9 +72,13 @@
   display: none !important;
 }
 
+.imx-visible{
+  visibility: visible;
+}
+
 /* #region VI_Styles_RendererSettings_Default (Flex styles) */
 /* not a smartphone and not a tablet... */
-@media not #{$IMX_Mediaquery_Smartphone} {
+@media not #{imx-variables.$IMX_Mediaquery_Smartphone} {
   .imx-flex {
     display: flex;
     flex-flow: column;
@@ -84,6 +88,7 @@
   .imx-flex-child {
     flex: 1 1 auto;
     overflow: auto;
+
     &-hidden {
       flex: 1 1 auto;
       overflow: hidden;
@@ -92,7 +97,7 @@
 }
 
 /* This rule is a workaround for Safari bug Viper146020 */
-.imx-flex > * {
+.imx-flex>* {
   flex-shrink: 0;
   flex-basis: auto;
 }
@@ -139,6 +144,7 @@
   line-height: 1;
   text-transform: none;
 }
+
 .cux-icon--caret-down:before {
   content: '\f0d7';
 }
@@ -162,6 +168,7 @@
 .cux-icon--table:before {
   content: '\f0ce';
 }
+
 /*#endregion*/
 
 /* #region VI_Styles_RendererSettings_Default (ReportStyles) */
@@ -177,6 +184,7 @@
 .ReportViewer {
   height: 100% !important;
 }
+
 /*#endregion*/
 
 /* #region VI_Styles_RendererSettings_Default (AccessKeys) */
@@ -192,8 +200,9 @@ textarea[accesskey]:after {
   padding-left: 0.3em;
   display: inline;
   content: '[' attr(accesskey) ']';
-  color: $white;
+  color: eui.$color-gray-0;
 }
+
 /*#endregion*/
 
 /* #region VI_Styles_RendererSettings_Default (Timeline styles) */
@@ -210,7 +219,7 @@ div.timeline-content {
 }
 
 div.timeline-axis {
-  border-color: $color-gray-60;
+  border-color: eui.$color-gray-60;
   border-top-style: solid;
   border-width: 1px;
   box-sizing: border-box;
@@ -224,44 +233,44 @@ div.timeline-axis-grid {
 
 div.timeline-axis-grid-major,
 div.timeline-axis-grid-minor {
-  border-color: $black-c;
+  border-color: eui.$color-gray-20;
 }
 
 div.timeline-axis-text {
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
   padding: 3px;
   white-space: nowrap;
   font-size: 14px;
 }
 
 div.timeline-event {
-  background-color: $black-6;
-  border-color: $black-6;
+  background-color: eui.$color-gray-60;
+  border-color: eui.$color-gray-60;
   box-sizing: border-box;
-  color: $white;
+  color: eui.$color-gray-0;
   display: inline-block;
   font-size: 14px;
 }
 
 div.timeline-event-selected {
-  background-color: $color-blue-40;
-  border-color: $black-6;
-  color: $color-gray-80;
+  background-color: eui.$color-blue-40;
+  border-color: eui.$color-gray-60;
+  color: eui.$color-gray-80;
   z-index: 999;
 }
 
 div.timeline-event-dot {
-  border-color: $iris-blue;
-  background-color: $iris-blue;
+  border-color: eui.$color-blue-60;
+  background-color: eui.$color-blue-60;
 }
 
 div.timeline-event-cluster {
-  background: $color-blue-40;
-  color: $color-gray-80;
+  background: eui.$color-blue-40;
+  color: eui.$color-gray-80;
 }
 
 div.timeline-event-cluster div.timeline-event-dot {
-  border-color: $color-blue-40;
+  border-color: eui.$color-blue-40;
 }
 
 div.timeline-event-box {
@@ -307,7 +316,7 @@ div.timeline-event-content {
 }
 
 div.timeline-groups-axis {
-  border-color: $color-gray-60;
+  border-color: eui.$color-gray-60;
   border-width: 1px;
   box-sizing: border-box;
 }
@@ -321,19 +330,19 @@ div.timeline-groups-axis-onright {
 }
 
 div.timeline-groups-text {
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
   padding-left: 10px;
   padding-right: 10px;
 }
 
 div.timeline-currenttime {
-  background-color: $color-orange-60;
+  background-color: eui.$color-orange-60;
   box-sizing: border-box;
   width: 2px;
 }
 
 div.timeline-customtime {
-  background-color: $iris-blue;
+  background-color: eui.$color-blue-60;
   box-sizing: border-box;
   cursor: move;
   width: 2px;
@@ -360,13 +369,13 @@ div.timeline-navigation-new {
 
 /* separator between new and navigation buttons */
 div.timeline-navigation-new-line {
-  border-right: 1px solid $color-gray-60;
+  border-right: 1px solid eui.$color-gray-60;
 }
 
 div.imx-timeline-event-objectcreate,
 div.imx-timeline-event-propertychange {
-  border-color: $iris-blue;
-  background-color: $color-blue-40;
+  border-color: eui.$color-blue-60;
+  background-color: eui.$color-blue-40;
 }
 
 div.imx-timeline-event-addaccount,
@@ -374,7 +383,7 @@ div.imx-timeline-event-addmembership,
 div.imx-timeline-event-addpermission,
 div.imx-timeline-event-addresponsibility,
 div.imx-timeline-event-removenoncompliance {
-  border-color: $aspen-green;
+  border-color: eui.$color-green-60;
   /* TODO use color variable */
   background-color: lightgreen;
 }
@@ -384,8 +393,8 @@ div.imx-timeline-event-removeaccount,
 div.imx-timeline-event-removemembership,
 div.imx-timeline-event-removepermission,
 div.imx-timeline-event-removeresponsibility {
-  border-color: $phoenix-red;
-  background-color: $color-orange-60;
+  border-color: eui.$color-red-60;
+  background-color: eui.$color-orange-60;
 }
 
 .imx-timeline-detail-header {
@@ -422,11 +431,12 @@ div.imx-timeline-event-removeresponsibility {
 }
 
 /* mobile phone */
-@media #{$IMX_Mediaquery_Smartphone} {
+@media #{imx-variables.$IMX_Mediaquery_Smartphone} {
   .state-indicator:before {
     content: 'mobile';
   }
 }
+
 /*#endregion*/
 
 /* #region VI_Styles_RendererSettings_Mobile (Performance improvements) */
@@ -442,7 +452,7 @@ div.imx-timeline-event-removeresponsibility {
 
 .mat-primary .mat-mdc-pseudo-checkbox-checked,
 .mat-primary .mat-mdc-pseudo-checkbox-indeterminate {
-  background-color: $iris-blue;
+  background-color: eui.$color-blue-60;
 }
 
 input:focus,
@@ -451,7 +461,7 @@ textarea:focus {
 }
 
 .simpleText {
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
 }
 
 .mat-icon-button.imx-searchbar-tablecellsmall {
@@ -462,11 +472,12 @@ textarea:focus {
     text-decoration: none;
   }
 }
+
 /*#endregion*/
 
 .mat-mdc-table {
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  font-family: $IMX_Base_FontFamily;
+  @include mixins.eui-elevation-5;
+  font-family: imx-variables.$IMX_Base_FontFamily;
 }
 
 .imx-title {
@@ -477,7 +488,7 @@ textarea:focus {
   font-stretch: normal;
   line-height: 1.5;
   letter-spacing: normal;
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
 }
 
 .imx-subtitle {
@@ -488,7 +499,7 @@ textarea:focus {
   font-stretch: normal;
   line-height: 1.71;
   letter-spacing: normal;
-  color: $color-gray-60;
+  color: eui.$color-gray-60;
 }
 
 .imx_processTitle {
@@ -499,7 +510,7 @@ textarea:focus {
   font-stretch: normal;
   line-height: 1.6;
   letter-spacing: normal;
-  color: $color-gray-60;
+  color: eui.$color-gray-60;
 }
 
 .imx-normalCell {
@@ -510,7 +521,7 @@ textarea:focus {
   font-stretch: normal;
   line-height: 2;
   letter-spacing: normal;
-  color: $color-gray-60;
+  color: eui.$color-gray-60;
 }
 
 /* #region overrides Angular Material styles*/
@@ -524,7 +535,7 @@ textarea:focus {
 
 .imx-messageDialog {
   margin: auto auto;
-  max-width: $IMX_MessageDialog_MaxWidth;
+  max-width: imx-variables.$IMX_MessageDialog_MaxWidth;
   min-width: 550px;
   font-size: 14px;
   top: 100px;
@@ -534,14 +545,14 @@ textarea:focus {
 /* Extends the properties of .imx-messageDialog */
 .imx-messageDialog-error {
   @extend .imx-messageDialog;
-  border-left: 4px solid $color-red-60;
+  border-left: 4px solid eui.$color-red-60;
   border-radius: 6px;
 }
 
 /* Sets the error icon style in the error dialog */
 .imx-error-icon-in-error-dialog {
   display: inline-block;
-  color: $color-red-60;
+  color: eui.$color-red-60;
   margin-right: 10px;
 }
 
@@ -553,20 +564,20 @@ textarea:focus {
 }
 
 .h2-in-session-expired-dialog {
-  color: $color-red-60;
+  color: eui.$color-red-60;
 }
 
 .eui-dark-theme {
   .imx-messageDialog-error {
-    border-left-color: $color-red-40;
+    border-left-color: eui.$color-red-40;
   }
 
   .imx-error-icon-in-error-dialog {
-    color: $color-red-40;
+    color: eui.$color-red-40;
   }
 
   .h2-in-session-expired-dialog {
-    color: $color-red-40;
+    color: eui.$color-red-40;
   }
 }
 
@@ -587,16 +598,19 @@ button {
 .mat-mdc-card-title {
   margin-bottom: 16px;
 }
+
 /*#endregion*/
 
 /* #region Fix for the bug with mat-hint of Angular Material */
 .imx-form .mat-mdc-form-field .mat-mdc-form-field-wrapper {
   padding-bottom: 0;
+
   .mat-mdc-form-field-underline {
     position: initial;
     display: block;
     margin-top: -1px;
   }
+
   .mat-mdc-form-field-subscript-wrapper,
   .mat-mdc-form-field-ripple {
     position: relative;
@@ -606,10 +620,12 @@ button {
       flex-wrap: wrap;
     }
   }
+
   .mat-mdc-form-field-subscript-wrapper {
     min-height: calc(1em + 1px);
   }
 }
+
 /* #endregion */
 
 /* bugfix for the mat-error overlapping error
@@ -651,30 +667,32 @@ https://github.com/angular/components/issues/4580#issuecomment-510290576
 .cdk-overlay-pane .mat-mdc-menu-panel {
   max-width: initial;
 }
+
 /* Show recaptcha badge only in login page */
 .recaptcha .grecaptcha-badge {
   visibility: visible;
 }
+
 .grecaptcha-badge {
   visibility: hidden;
 }
 
 .eui-dark-theme {
   .imx-title {
-    color: $color-gray-5;
+    color: eui.$color-gray-5;
   }
 
   .simpleText {
-    color: $color-gray-5;
+    color: eui.$color-gray-5;
   }
 }
 
 .eui-contrast-theme {
   .imx-title {
-    color: $color-gray-0;
+    color: eui.$color-gray-0;
   }
 
   .simpleText {
-    color: $color-gray-0;
+    color: eui.$color-gray-0;
   }
 }

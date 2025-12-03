@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { BulkItem, BulkItemStatus } from './bulk-item';
 import { BulkItemIcon } from './bulk-item-icon';
 
 @Component({
-  selector: 'imx-bulk-item',
-  templateUrl: './bulk-item.component.html',
-  styleUrls: ['./bulk-item.component.scss'],
+    selector: 'imx-bulk-item',
+    templateUrl: './bulk-item.component.html',
+    styleUrls: ['./bulk-item.component.scss'],
+    standalone: false
 })
 export class BulkItemComponent implements OnInit {
   public get icon(): BulkItemIcon {

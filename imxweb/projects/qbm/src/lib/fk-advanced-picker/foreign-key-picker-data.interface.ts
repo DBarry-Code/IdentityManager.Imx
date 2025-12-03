@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,15 @@
  *
  */
 
-import { IForeignKeyInfo, IWriteValue } from '@imx-modules/imx-qbm-dbts';
+import { DataModel, IForeignKeyInfo } from '@imx-modules/imx-qbm-dbts';
+import { DataSourceToolbarViewConfig } from '../data-source-toolbar/data-source-toolbar-view-config.interface';
+
+export interface FKViewConfig {
+  getViewConfig: (dataModel: DataModel) => Promise<DataSourceToolbarViewConfig>;
+  getViewUpdates: () => Promise<DataSourceToolbarViewConfig>;
+  updateConfig: (config: any) => Promise<void>;
+  deleteConfigById: (id: string) => Promise<void>;
+}
 
 export interface ForeignKeyPickerData {
   fkRelations: IForeignKeyInfo[];
@@ -33,4 +41,5 @@ export interface ForeignKeyPickerData {
   isMultiValue?: boolean;
   isRequired?: boolean;
   disabledIds?: string[];
+  viewConfigSettings?: FKViewConfig;
 }

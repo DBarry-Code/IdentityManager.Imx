@@ -11,9 +11,13 @@
   },
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "options": {
         "aot": true,
+        "outputPath": {
+          "base": "dist/qer-app-portal",
+          "browser": ""
+        },
         "allowedCommonJsDependencies": [
           "lodash",
           "highlight.js",
@@ -35,10 +39,11 @@
           "moment",
           "@elemental-ui/cadence-icon/codepoints"
         ],
-        "outputPath": "dist/qer-app-portal",
         "index": "projects/qer-app-portal/src/index.html",
-        "main": "projects/qer-app-portal/src/main.ts",
-        "polyfills": ["projects/qer-app-portal/src/polyfills.ts"],
+        "browser": "projects/qer-app-portal/src/main.ts",
+        "polyfills": [
+          "projects/qer-app-portal/src/polyfills.ts"
+        ],
         "tsConfig": "projects/qer-app-portal/tsconfig.app.json",
         "assets": [
           "projects/qer-app-portal/src/assets",
@@ -84,8 +89,6 @@
           "namedChunks": false,
           "aot": true,
           "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
           "budgets": [
             {
               "type": "initial",
@@ -99,9 +102,7 @@
           ]
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -113,9 +114,7 @@
               "with": "../imxweb_envs/qer-app-portal/environments/environment.remote-dev.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -127,9 +126,7 @@
               "with": "../imxweb_envs/qer-app-portal/environments/environment.remote-qs.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -138,21 +135,33 @@
           "tsConfig": "./projects/qer-app-portal/tsconfig-es5.app.json"
         }
       },
-      "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build", "prebuild"]
-    },
-    "prebuild": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["node prebuild.js qer-app-portal"]
-      },
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "dependsOn": [
+        "^build",
         {
-          "projects": ["qer", "aad", "aob", "apc", "att", "cpl", "hds", "olg", "pol", "qam", "rmb", "rms", "rps", "sac", "tsb"],
+          "projects": [
+            "qer",
+            "aad",
+            "aob",
+            "apc",
+            "att",
+            "cpl",
+            "hds",
+            "iqc",
+            "olg",
+            "pol",
+            "qam",
+            "rmb",
+            "rms",
+            "rps",
+            "sac",
+            "tsb"
+          ],
           "target": "build"
         }
-      ],
-      "cache": false
+      ]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -190,7 +199,9 @@
         "polyfills": "projects/qer-app-portal/src/polyfills.ts",
         "tsConfig": "projects/qer-app-portal/tsconfig.spec.json",
         "karmaConfig": "projects/qer-app-portal/karma.conf.js",
-        "styles": ["projects/qer-app-portal/src/styles.scss"],
+        "styles": [
+          "projects/qer-app-portal/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./shared/assets",
@@ -200,14 +211,24 @@
             "./node_modules/@elemental-ui/core"
           ]
         },
-        "assets": ["projects/qer-app-portal/src/appconfig.json", "projects/qer-app-portal/src/assets"]
+        "assets": [
+          "projects/qer-app-portal/src/appconfig.json",
+          "projects/qer-app-portal/src/assets"
+        ]
       }
     },
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/qer-app-portal/tsconfig.app.json", "projects/qer-app-portal/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/qer-app-portal/tsconfig.app.json",
+          "projects/qer-app-portal/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

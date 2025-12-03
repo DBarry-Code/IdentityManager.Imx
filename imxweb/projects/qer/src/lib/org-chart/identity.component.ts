@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { OrgChartService } from './org-chart.service';
 
 @Component({
-  styleUrls: ['./identity.component.scss'],
-  selector: 'imx-orgchart-identity',
-  templateUrl: './identity.component.html',
+    styleUrls: ['./identity.component.scss'],
+    selector: 'imx-orgchart-identity',
+    templateUrl: './identity.component.html',
+    standalone: false
 })
 export class IdentityComponent {
   constructor(

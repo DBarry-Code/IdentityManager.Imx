@@ -1,5 +1,5 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
+
 :host {
-  @include flex-column-container($overflow: hidden);
-  height: inherit;
+  @include mixins.flex-column-container($overflow: hidden, $height: inherit, $padding: true);
 }

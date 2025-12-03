@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 @mixin eui-elevation-1 {
   box-shadow:
@@ -21,11 +21,28 @@
     0px 11px 15px rgba(0, 0, 0, 0.2);
 }
 
+@mixin eui-elevation-4{
+  box-shadow:
+    0px 1px 3px 0px rgba($color: eui.$color-gray-100, $alpha: 0.20),
+    0px 2px 1px 0px rgba($color: eui.$color-gray-100, $alpha: 0.12),
+    0px 1px 1px 0px rgba($color: eui.$color-gray-100, $alpha: 0.14);
+}
+@mixin eui-elevation-5{
+  box-shadow: 0px 4px 4px 0px rgba($color: eui.$color-gray-100, $alpha: 0.25);
+}
+@mixin eui-elevation-6{
+  box-shadow:
+    0px 2px 4px 0px rgba($color: eui.$color-gray-100, $alpha: 0.2),
+    0px 1px 10px 0px rgba($color: eui.$color-gray-100, $alpha: 0.12),
+    0px 4px 5px 0px rgba($color: eui.$color-gray-100, $alpha: 0.14);
+}
+
+
 @mixin ease-transition($duration: 0.4s) {
   transition: all $duration ease;
 }
 
-@mixin flex-column-container($overflow: null, $height: null, $width: null, $max-height: null, $max-width: null) {
+@mixin flex-column-container($overflow: null, $height: null, $width: null, $max-height: null, $max-width: null, $padding: false, $gap: null) {
   display: flex;
   flex-direction: column;
   overflow: $overflow;
@@ -33,9 +50,13 @@
   width: $width;
   max-height: $max-height;
   max-width: $max-width;
+  gap: $gap;
+  @if $padding {
+    padding: 2px;
+  }
 }
 
-@mixin flex-row-container($overflow: null, $height: null, $width: null, $max-height: null, $max-width: null) {
+@mixin flex-row-container($overflow: null, $height: null, $width: null, $max-height: null, $max-width: null, $align: null, $justify: null, $gap: null) {
   display: flex;
   flex-direction: row;
   overflow: $overflow;
@@ -43,10 +64,13 @@
   width: $width;
   max-height: $max-height;
   max-width: $max-width;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
 }
 
-@mixin flex-column-container-fill {
-  @include flex-column-container($overflow: hidden);
+@mixin flex-column-container-fill($padding: false) {
+  @include flex-column-container($overflow: hidden, $padding: $padding);
   flex: 1 1 auto;
 }
 
@@ -76,7 +100,7 @@
   justify-content: flex-end;
   margin-top: 16px;
 
-  > button:not(:last-of-type) {
+  >button:not(:last-of-type) {
     margin-right: 16px;
   }
 
@@ -120,16 +144,22 @@
   font-size: 14px;
   font-weight: 600;
 
-  @if $header-type == title {
+  @if $header-type ==title {
     font-size: 26px;
     line-height: 33px;
-  } @else if $header-type == emphasize {
+  }
+
+  @else if $header-type ==emphasize {
     font-size: 20px;
     line-height: 25px;
-  } @else if $header-type == label {
+  }
+
+  @else if $header-type ==label {
     line-height: 18px;
-  } @else if $header-type == description {
-    color: $color-gray-40;
+  }
+
+  @else if $header-type ==description {
+    color: eui.$color-gray-40;
     font-weight: 400;
     line-height: 18px;
     margin-left: 5px;
@@ -143,20 +173,23 @@
   outline-width: 1px;
   outline-style: solid;
 
-  @if $theme == eui-light-theme {
-    outline-color: $color-orange-40;
-    border-color: $color-orange-40;
-  } @else if $theme == eui-dark-theme {
-    outline-color: $color-orange-60;
-    border-color: $color-orange-60;
-  } @else if $theme == eui-contrast-theme {
-    outline-color: $color-orange-60;
-    border-color: $color-orange-60;
+  @if $theme ==eui-light-theme {
+    outline-color: eui.$color-orange-40;
+    border-color: eui.$color-orange-40;
+  }
+
+  @else if $theme ==eui-dark-theme {
+    outline-color: eui.$color-orange-60;
+    border-color: eui.$color-orange-60;
+  }
+
+  @else if $theme ==eui-contrast-theme {
+    outline-color: eui.$color-orange-60;
+    border-color: eui.$color-orange-60;
   }
 }
 
-@mixin eui-sidesheet-actions__mixin_01(
-  $align-items: null,
+@mixin eui-sidesheet-actions__mixin_01($align-items: null,
   $overflow-y: null,
   $flex-wrap: null,
   $padding: null,
@@ -164,8 +197,7 @@
   $margin-top: null,
   $margin-right: null,
   $margin-bottom: null,
-  $margin-left: null
-) {
+  $margin-left: null) {
   display: flex;
   justify-content: flex-end;
   align-items: $align-items;
@@ -173,65 +205,11 @@
   flex-wrap: $flex-wrap;
   padding: $padding;
   margin: $margin;
-  > * {
+
+  >* {
     margin-top: $margin-top;
     margin-right: $margin-right;
     margin-bottom: $margin-bottom;
     margin-left: $margin-left;
-  }
-}
-
-// Approval-workflow styles
-@mixin Awm-Colors($theme: eui-light-theme) {
-  @if $theme == eui-light-theme {
-    --awm-node-level: #{$color-gray-20};
-    --awm-node-step: #{$color-gray-2};
-    --awm-edge-root: #{$color-gray-100};
-    --awm-edge-approval: #{$color-green-60};
-    --awm-edge-reject: #{$color-red-60};
-    --awm-edge-escalation: #{$color-orange-60};
-    --awm-edge-redirect: #{$color-blue-80};
-    --awm-text: #{$color-gray-80};
-    --awm-selected: #{$color-blue-40};
-  } @else if $theme == eui-dark-theme {
-    --awm-node-level: #{$color-gray-50};
-    --awm-node-step: #{$color-gray-70};
-    --awm-edge-root: #{$color-gray-10};
-    --awm-edge-approval: #{$color-green-40};
-    --awm-edge-reject: #{$color-red-40};
-    --awm-edge-escalation: #{$color-orange-40};
-    --awm-edge-redirect: #{$color-blue-40};
-    --awm-text: #{$color-gray-2};
-    --awm-selected: #{$color-blue-60};
-  } @else if $theme == eui-contrast-theme {
-    --awm-node-level: #{$color-gray-70};
-    --awm-node-step: #{$color-gray-90};
-    --awm-edge-root: #{$color-gray-0};
-    --awm-edge-approval: #{$color-green-40};
-    --awm-edge-reject: #{$color-red-40};
-    --awm-edge-escalation: #{$color-orange-40};
-    --awm-edge-redirect: #{$color-blue-40};
-    --awm-text: #{$color-gray-0};
-    --awm-selected: #{$color-blue-60};
-  } @else {
-    @error "#{$theme} is not defined in approval-workflow-styles: Awm-Colors";
-  }
-}
-
-@mixin Awm-Form-Sidesheet {
-  :host {
-    .form-wrapper {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      overflow: auto;
-      .mat-mdc-card {
-        @include eui-elevation-1;
-      }
-    }
-
-    .eui-sidesheet-actions {
-      column-gap: 15px;
-    }
   }
 }

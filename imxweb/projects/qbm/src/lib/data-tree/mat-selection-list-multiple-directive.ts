@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Directive, Host, Input, OnChanges } from '@angular/core';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: 'mat-selection-list[multiple]',
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: 'mat-selection-list[multiple]',
+    standalone: false
 })
 // TODO Later: kann wieder weg, wenn wir mal auf einen neuere Material - Version migrieren
 export class MatSelectionListMultipleDirective implements OnChanges {

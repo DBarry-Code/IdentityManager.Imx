@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,9 +25,10 @@
  */
 
 import { Injectable } from '@angular/core';
+import { EventStreamConfig, SystemInfoData } from '@imx-modules/imx-api-qbm';
+import { CachedPromise, EntityCollectionChangeData } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
-import { EventStreamConfig } from '@imx-modules/imx-api-qbm';
-import { EntityCollectionChangeData } from '@imx-modules/imx-qbm-dbts';
+import { CacheService } from '../cache/cache.service';
 import { ClassloggerService } from '../classlogger/classlogger.service';
 import { imx_SessionService } from '../session/imx-session.service';
 
@@ -45,12 +46,21 @@ export class StatusService {
   // Config Params
   public configParams: EventStreamConfig;
 
+  private systemInfo: CachedPromise<SystemInfoData>;
+
   private stream: EventSource;
   constructor(
     public session: imx_SessionService,
     public translateService: TranslateService,
     private logger: ClassloggerService,
-  ) {}
+    cacheService: CacheService,
+  ) {
+    this.systemInfo = cacheService.buildCache(() => this.session.Client.admin_systeminfo_get());
+  }
+
+  public getSystemInfo(): Promise<SystemInfoData> {
+    return this.systemInfo.get();
+  }
 
   public async setUp(path: string): Promise<void> {
     // Setup connection and event triggers

@@ -1,135 +1,155 @@
 <ul class="imx-eventbar">
-  <ng-container *ngFor="let step of workflow; index as i">
-    <li
-      *ngIf="!step.approveHistory.IsToHideInHistory.value"
-      class="{{ 'imx-event ' + decisionHistory.getDecisionTypeCssClass(step.approveHistory.DecisionType.value) }}"
-    >
-      <mat-card [attr.data-imx-identifier]="'workflow-step-' + i">
-        <mat-card-header>
-          <mat-card-title [attr.data-imx-identifier]="'workflow-step-title-card-' + i">
-            <span *ngIf="step.approveHistory.DecisionType.value" [attr.data-imx-identifier]="'workflow-step-title-' + i">{{
-              step.approveHistory.DecisionType.Column.GetDisplayValue()
-            }}</span>
-            <span class="imx-spacing"> - </span>
-            <span *ngIf="step.approveHistory.XDateInserted.value || step.approveHistory.DateHead.value"
-              >{{ step.approveHistory.XDateInserted.value ?? step.approveHistory.DateHead.value | localizedDate }}
-            </span>
-          </mat-card-title>
-          <mat-card-subtitle class="imx-approveHistory-pwodecisionstep">
-            <span *ngIf="step.approveHistory.Ident_PWODecisionStep?.value">
-              {{ step.approveHistory.Ident_PWODecisionStep?.Column?.GetDisplayValue() }}
-            </span>
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <eui-badge
-            [attr.data-imx-identifier]="'chief-approval-badge-' + i"
-            class="chief-approval-badge"
-            color="green"
-            *ngIf="step.approveHistory.RulerLevel.value == 2"
-            >{{ '#LDS#Approval decision by chief approval team' | translate }}</eui-badge
-          >
-
-          <imx-cdr-editor *ngIf="step.approver" [cdr]="step.approver"></imx-cdr-editor>
-          <div class="imx-reason" *ngIf="step.approveHistory.UID_QERJustification.value || step.approveHistory.ReasonHead.value">
-            <span class="column-display">{{ step.getReasonDisplay() | translate }}</span>
-            <span *ngIf="step.approveHistory.UID_QERJustification.value" class="column-value">
-              {{ step.approveHistory.UID_QERJustification.Column.GetDisplayValue() }}
-            </span>
-            <span *ngIf="step.approveHistory.ReasonHead.value" class="column-value">
-              {{ step.approveHistory.ReasonHead.Column.GetDisplayValue() }}
-            </span>
-          </div>
-          <div class="imx-reason" *ngIf="step.complianceRule">
-            <span class="column-display">{{ '#LDS#Compliance rule' | translate }}</span>
-            <span class="column-value">
-              {{ step.complianceRule }}
-            </span>
-          </div>
-          <imx-cdr-editor *ngFor="let cdr of step.columns" [cdr]="cdr"></imx-cdr-editor>
-        </mat-card-content>
-      </mat-card>
-    </li>
-  </ng-container>
-  <div *ngIf="approverContainer">
-    <li
-      data-imx-identifier="decision-step-is-calculating"
-      class="imx-event imx-pending"
-      *ngIf="approverContainer.approverNow.length === 0 && approverContainer.isInWorkflow"
-    >
-      <mat-card>
-        {{
-          (approverContainer.config.VI_ITShop_CurrentApproversCanBeSeen
-            ? '#LDS#The next approval step is currently being calculated. The request might also be waiting on a pending approval decision of another request.'
-            : '#LDS#The request is waiting for an approval decision by the approvers of the current approval step.'
-          ) | translate
-        }}
-      </mat-card>
-    </li>
-    <li
-      data-imx-identifier="decision-step-current-approvers"
-      class="imx-event imx-pending"
-      *ngIf="
+  @for (step of workflow; track step; let i = $index) {
+    @if (!step.approveHistory.IsToHideInHistory.value) {
+      <li class="{{ 'imx-event ' + decisionHistory.getDecisionTypeCssClass(step.approveHistory.DecisionType.value) }}">
+        <mat-card [attr.data-imx-identifier]="'workflow-step-' + i">
+          <mat-card-header>
+            <mat-card-title [attr.data-imx-identifier]="'workflow-step-title-card-' + i">
+              @if (step.approveHistory.DecisionType.value) {
+                <span [attr.data-imx-identifier]="'workflow-step-title-' + i">{{
+                  step.approveHistory.DecisionType.Column.GetDisplayValue()
+                }}</span>
+              }
+              <span class="imx-spacing"> - </span>
+              @if (step.approveHistory.XDateInserted.value || step.approveHistory.DateHead.value) {
+                <span>{{ step.approveHistory.XDateInserted.value ?? step.approveHistory.DateHead.value | localizedDate }} </span>
+              }
+            </mat-card-title>
+            <mat-card-subtitle class="imx-approveHistory-pwodecisionstep">
+              @if (step.approveHistory.Ident_PWODecisionStep?.value) {
+                <span>
+                  {{ step.approveHistory.Ident_PWODecisionStep?.Column?.GetDisplayValue() }}
+                </span>
+              }
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            @if (step.approveHistory.RulerLevel.value == 2) {
+              <eui-badge [attr.data-imx-identifier]="'chief-approval-badge-' + i" class="chief-approval-badge" color="green">{{
+                '#LDS#Approval decision by chief approval team' | translate
+              }}</eui-badge>
+            }
+            @if (step.approver) {
+              <imx-cdr-editor [cdr]="step.approver"></imx-cdr-editor>
+            }
+            @if (step.approveHistory.UID_QERJustification.value || step.approveHistory.ReasonHead.value) {
+              <div class="imx-reason">
+                <span class="column-display">{{ step.getReasonDisplay() | translate }}</span>
+                @if (step.approveHistory.UID_QERJustification.value) {
+                  <span class="column-value">
+                    {{ step.approveHistory.UID_QERJustification.Column.GetDisplayValue() }}
+                  </span>
+                }
+                @if (step.approveHistory.ReasonHead.value) {
+                  <span class="column-value">
+                    {{ step.approveHistory.ReasonHead.Column.GetDisplayValue() }}
+                  </span>
+                }
+              </div>
+            }
+            @if (step.complianceRule) {
+              <div class="imx-reason">
+                <span class="column-display">{{ '#LDS#Compliance rule' | translate }}</span>
+                <span class="column-value">
+                  {{ step.complianceRule }}
+                </span>
+              </div>
+            }
+            @for (cdr of step.columns; track cdr) {
+              <imx-cdr-editor [cdr]="cdr"></imx-cdr-editor>
+            }
+          </mat-card-content>
+        </mat-card>
+      </li>
+    }
+  }
+  @if (approverContainer) {
+    <div>
+      @if (approverContainer.approverNow.length === 0 && approverContainer.isInWorkflow) {
+        <li data-imx-identifier="decision-step-is-calculating" class="imx-event imx-pending">
+          <mat-card>
+            {{
+              (approverContainer.config.VI_ITShop_CurrentApproversCanBeSeen
+                ? '#LDS#The next approval step is currently being calculated. The request might also be waiting on a pending approval decision of another request.'
+                : '#LDS#The request is waiting for an approval decision by the approvers of the current approval step.'
+              ) | translate
+            }}
+          </mat-card>
+        </li>
+      }
+      @if (
         !!approverContainer.approverNow.length &&
         approverContainer.isInWorkflow &&
         approverContainer.config.VI_ITShop_CurrentApproversCanBeSeen
-      "
-    >
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            {{ '#LDS#The following identities are currently entitled to approve this request.' | translate }}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngFor="let approvalStep of approverNow">
-            <div step>
-              <div step-caption>
-                <span caption translate>#LDS#Approval step</span>
-                <span class="imx-spacing"> - </span>
-                <span>{{ approvalStep.display }}</span>
-              </div>
-              <div approver *ngFor="let pnow of approvalStep.data" class="imx-approver">
-                <span>{{ pnow.Columns?.UID_PersonHead?.DisplayValue ?? '' }}</span>
-                <ng-container *ngIf="approverAdditionalInfo[approvalStep.display][pnow.Columns?.UID_PersonHead?.DisplayValue ?? '']">
-                  <span>{{ approverAdditionalInfo[approvalStep.display][pnow.Columns?.UID_PersonHead?.DisplayValue ?? ''] }}</span>
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </li>
-    <li
-      data-imx-identifier="decision-step-next-approvers"
-      class="imx-event imx-pending"
-      *ngIf="
+      ) {
+        <li data-imx-identifier="decision-step-current-approvers" class="imx-event imx-pending">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                {{ '#LDS#The following identities are currently entitled to approve this request.' | translate }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              @for (approvalStep of approverNow; track approvalStep) {
+                <div>
+                  <div step>
+                    <div step-caption>
+                      <span caption translate>#LDS#Approval step</span>
+                      <span class="imx-spacing"> - </span>
+                      <span>{{ approvalStep.display }}</span>
+                    </div>
+                    @for (pnow of approvalStep.data; track pnow) {
+                      <div>
+                        <span>{{ pnow.Columns?.UID_PersonHead?.DisplayValue }}</span>
+                        @if (approverAdditionalInfo[approvalStep.display][pnow.Columns?.UID_PersonHead?.DisplayValue ?? '']) {
+                          <ng-container>
+                            <span class="imx-additional-info imx-margin-left-5">{{
+                              approverAdditionalInfo[approvalStep.display][pnow.Columns?.UID_PersonHead?.DisplayValue ?? '']
+                            }}</span>
+                          </ng-container>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </li>
+      }
+      @if (
         !!approverContainer.approverFuture.length &&
         approverContainer.isInWorkflow &&
         approverContainer.config.VI_ITShop_NextApproverCanBeSeen
-      "
-    >
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>
-            {{ '#LDS#The following identities are entitled to approve this request after the current aproval step.' | translate }}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngFor="let approvalStep of approverFuture">
-            <div step>
-              <div step-caption>
-                <span caption translate>#LDS#Approval step</span>
-                <span class="imx-spacing"> - </span>
-                <span>{{ approvalStep.display }}</span>
-              </div>
-              <div approver *ngFor="let pnext of approvalStep.data" class="imx-approver">
-                {{ pnext.Columns?.UID_PersonHead?.DisplayValue }}
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </li>
-  </div>
+      ) {
+        <li data-imx-identifier="decision-step-next-approvers" class="imx-event imx-pending">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>
+                {{ '#LDS#The following identities are entitled to approve this request after the current aproval step.' | translate }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              @for (approvalStep of approverFuture; track approvalStep) {
+                <div>
+                  <div step>
+                    <div step-caption>
+                      <span caption translate>#LDS#Approval step</span>
+                      <span class="imx-spacing"> - </span>
+                      <span>{{ approvalStep.display }}</span>
+                    </div>
+                    @for (pnext of approvalStep.data; track pnext) {
+                      <div approver class="imx-approver">
+                        {{ pnext.Columns?.UID_PersonHead?.DisplayValue }}
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        </li>
+      }
+    </div>
+  }
 </ul>

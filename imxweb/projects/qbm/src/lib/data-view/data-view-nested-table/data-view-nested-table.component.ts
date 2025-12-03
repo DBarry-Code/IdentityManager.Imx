@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,7 +33,6 @@ import {
   Input,
   OnInit,
   Output,
-  QueryList,
   Signal,
   ViewChild,
   WritableSignal,
@@ -49,6 +48,7 @@ import { ExecuteFunction, HightlightEntityFunction } from '../data-view.interfac
   selector: 'imx-data-view-nested-table',
   templateUrl: './data-view-nested-table.component.html',
   providers: [DataViewSource],
+  standalone: false,
 })
 export class DataViewNestedTableComponent implements OnInit {
   /**
@@ -98,7 +98,7 @@ export class DataViewNestedTableComponent implements OnInit {
    */
   @Input() highlightedEntity: WritableSignal<any>;
 
-  /**
+  /**v
    *
    */
 
@@ -115,12 +115,15 @@ export class DataViewNestedTableComponent implements OnInit {
    * Inherited table mode from auto table component.
    */
   @Input() public mode: 'auto' | 'manual';
-  @Input() columnDefs: QueryList<MatColumnDef>;
+  @Input() columnDefs: readonly MatColumnDef[];
   @Input() additionalColumns: IClientProperty[] = [];
   /**
    * Inherited data tabal item status;
    */
   @Input() itemStatus: DataSourceItemStatus;
+  @Input() set refreshTable($value: boolean) {
+    this.dataSource.updateState();
+  }
   /**
    * An event emitter on table selection change.
    */
@@ -148,14 +151,11 @@ export class DataViewNestedTableComponent implements OnInit {
     public changeDetectionRef: ChangeDetectorRef,
   ) {
     // use effect to update the parent highlightedEntity with the current highlightedEntity.
-    effect(
-      () => {
-        if (this.dataSource.highlightedEntity() && !!this.highlightedEntity) {
-          this.highlightedEntity.set(this.dataSource.highlightedEntity());
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.dataSource.highlightedEntity() && !!this.highlightedEntity) {
+        this.highlightedEntity.set(this.dataSource.highlightedEntity());
+      }
+    });
     effect(() => {
       if (this.dataSource.columnsToDisplay() && this.columnDefs && this.table) {
         this.columnDefs.forEach((columnDef) => {

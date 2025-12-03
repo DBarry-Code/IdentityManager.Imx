@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,6 +37,7 @@ import { ShapeClickArgs } from './hyperview-types';
   selector: 'imx-hyperview-propertyshape',
   templateUrl: './propertyshape.component.html',
   styleUrls: ['./propertyshape.component.scss'],
+  standalone: false,
 })
 export class PropertyShapeComponent {
   @Input() public shape: ShapeData;
@@ -53,11 +54,15 @@ export class PropertyShapeComponent {
    */
   public onClick(shape: ShapeProperty): void {
     if (this.isLinkEnabled() && !!shape.ObjectKey) {
-      this.selected.emit({ objectKey: shape.ObjectKey, caption: this.GetPropertyDisplayValue(shape.Value) });
+      this.selected.emit({
+        shape: this.shape,
+        objectKey: shape.ObjectKey,
+        caption: this.GetPropertyDisplayValue(shape.Value),
+      });
     }
   }
 
   public isLinkEnabled(): boolean {
-    return this.selected.observers.length > 0;
+    return this.selected.observed;
   }
 }

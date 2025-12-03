@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,6 +42,7 @@ import {
   EntitySchema,
   ExtendedTypedEntityCollection,
   GroupInfoData,
+  LogOp,
 } from '@imx-modules/imx-qbm-dbts';
 import { SnackBarService } from 'qbm';
 import { QerApiService } from '../qer-api-client.service';
@@ -164,10 +165,18 @@ export class TeamResponsibilitiesService {
       );
     }
     if (!reassign) {
-      const snackbarMessage =
-        identities.length === 1
-          ? '#LDS#The responsibility has been successfully assigned to "{0}".'
-          : '#LDS#The responsibility has been successfully assigned to {0} additional identities.';
+      let snackbarMessage: string;
+      if (extendedData?.IsRequestable) {
+        snackbarMessage =
+          identities.length === 1
+            ? '#LDS#The responsibility for "{0}" has been successfully added to your shopping cart.'
+            : '#LDS#The responsibility has been successfully added to your shopping cart for {0} identities.';
+      } else {
+        snackbarMessage =
+          identities.length === 1
+            ? '#LDS#The responsibility has been successfully assigned to "{0}".'
+            : '#LDS#The responsibility has been successfully assigned to {0} identities.';
+      }
       const snackbarParam = identities.length === 1 ? identities[0].GetEntity().GetDisplay() : identities.length;
       this.snackbar.open({ key: snackbarMessage, parameters: [snackbarParam] }, '#LDS#Close', { duration: 3000 });
     }
@@ -225,5 +234,53 @@ export class TeamResponsibilitiesService {
           }
         });
     }
+  }
+
+  public async manageResponsibility(
+    responsibility: PortalRespTeamResponsibilities,
+    addIdentities: (PortalPersonReports | PortalAdminPerson)[] = [],
+    removeIdentities: (PortalPersonReports | PortalAdminPerson)[] = [],
+    extendedData: ResponsibilityData | undefined,
+  ): Promise<void> {
+    if (!!addIdentities.length) {
+      await this.assignResponsibility(responsibility, addIdentities, extendedData);
+    }
+    if (!!removeIdentities.length) {
+      const responsibilitiesToRemove = await this.loadResponsibilitiesToRemove(responsibility.XObjectKey.value, removeIdentities);
+      await this.removeResponsibilities(responsibilitiesToRemove);
+    }
+  }
+
+  private async loadResponsibilitiesToRemove(
+    objectKey: string,
+    identities: (PortalPersonReports | PortalAdminPerson)[],
+  ): Promise<PortalRespTeamResponsibilities[]> {
+    return this.get({
+      filter: [
+        {
+          Type: 2,
+          Expression: {
+            Expressions: [
+              {
+                PropertyId: 'UID_Person',
+                Operator: 'IN',
+                LogOperator: LogOp.AND,
+                Value: identities.map((identity) => identity.GetEntity().GetKeys()[0]),
+                Negate: false,
+              },
+              {
+                PropertyId: 'XObjectKey',
+                Operator: 'IN',
+                LogOperator: LogOp.AND,
+                Value: objectKey,
+                Negate: false,
+              },
+            ],
+            LogOperator: LogOp.AND,
+            Negate: false,
+          },
+        },
+      ],
+    }).then((res) => res.Data);
   }
 }

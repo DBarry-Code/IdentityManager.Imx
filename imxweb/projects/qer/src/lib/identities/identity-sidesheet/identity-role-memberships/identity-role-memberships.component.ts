@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -46,8 +46,9 @@ import { SourceDetectiveType } from '../../../sourcedetective/sourcedetective-ty
 import { IdentityRoleMembershipsService } from './identity-role-memberships.service';
 
 @Component({
-  templateUrl: './identity-role-memberships.component.html',
-  styleUrls: ['./identity-role-memberships.component.scss'],
+    templateUrl: './identity-role-memberships.component.html',
+    styleUrls: ['./identity-role-memberships.component.scss'],
+    standalone: false
 })
 export class IdentityRoleMembershipsComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { DataSourceToolbarSettings } from 'qbm';
 import { NotRequestableMembershipsEntity } from './not-requestable-memberships-entity';
 
 @Component({
-  selector: 'imx-not-requestable-memberships',
-  templateUrl: './not-requestable-memberships.component.html',
-  styleUrls: ['./not-requestable-memberships.component.scss'],
+    selector: 'imx-not-requestable-memberships',
+    templateUrl: './not-requestable-memberships.component.html',
+    styleUrls: ['./not-requestable-memberships.component.scss'],
+    standalone: false
 })
 export class NotRequestableMembershipsComponent {
   public readonly DisplayColumns = DisplayColumns; // Enables use of this static class in Angular Templates.

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,24 +24,24 @@
  *
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 
-import { HyperviewComponent } from './hyperview.component';
-import { PropertyShapeComponent } from './propertyshape.component';
-import { ListShapeComponent } from './listshape.component';
-import { SimpleShapeComponent } from './simpleshape.component';
-import { ShapeComponent } from './shape.component';
-import { ZoomPanDirective } from './zoom-pan.directive';
-import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
+import { HyperviewComponent } from './hyperview.component';
+import { ListShapeComponent } from './listshape.component';
+import { PropertyShapeComponent } from './propertyshape.component';
+import { ShapeComponent } from './shape.component';
+import { SimpleShapeComponent } from './simpleshape.component';
+import { ZoomPanDirective } from './zoom-pan.directive';
 
 @NgModule({
   declarations: [HyperviewComponent, PropertyShapeComponent, ListShapeComponent, SimpleShapeComponent, ShapeComponent, ZoomPanDirective],
   imports: [CommonModule, EuiCoreModule, EuiMaterialModule, MatTooltipModule, MatBadgeModule, TranslateModule, MatButtonModule],
   exports: [HyperviewComponent],
 })
-export class HyperViewModule { }
+export class HyperViewModule {}

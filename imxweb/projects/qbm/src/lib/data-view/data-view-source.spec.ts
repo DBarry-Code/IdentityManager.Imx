@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -50,6 +50,7 @@ export const FakeDataViewSource: Pick<DataViewSource, keyof DataViewSource> = {
   getAllSelectableEntities: signal([]),
   data: [],
   loading: signal(false),
+  triggerRender: signal(false),
   isLimitReached: signal(false),
   selection: new SelectionModelWrapper<TypedEntity>(),
   selectionChanged: signal(undefined),
@@ -92,16 +93,17 @@ export const FakeDataViewSource: Pick<DataViewSource, keyof DataViewSource> = {
   settings: new SettingsService(),
   customIdentifier: '',
   log: {
-    debug: () => {},
-    info: () => {},
+    debug: () => { },
+    info: () => { },
   } as unknown as ClassloggerService,
   confirmService: {} as ConfirmationService,
   sqlWizardApiService: {} as SqlWizardApiService,
-  ngOnDestroy: function (): void {},
+  ngOnDestroy: function (): void { },
   connect: function (): Observable<readonly TypedEntity[]> {
     return of([]);
   },
-  disconnect: function (): void {},
+  disconnect: function (): void { },
+  renderRows: () => { },
   init: async function (initParameters: DataViewInitParameters<TypedEntity>): Promise<void> {
     this.execute = initParameters.execute;
     await this.updateState();
@@ -115,25 +117,25 @@ export const FakeDataViewSource: Pick<DataViewSource, keyof DataViewSource> = {
   getLocalPage: function (data: TypedEntity[]): TypedEntity[] {
     return [];
   },
-  searchLocally: function (): void {},
+  searchLocally: function (): void { },
   updateState: async function (): Promise<void> {
     let collectionData = await this.execute();
     console.log(collectionData);
     this.collectionData.set(collectionData);
     return Promise.resolve();
   },
-  sortChange: function (sortState: Sort): void {},
-  abortCall: function (): void {},
+  sortChange: function (sortState: Sort): void { },
+  abortCall: function (): void { },
   resetView: function (): Promise<void> {
     return Promise.resolve();
   },
   applyConfig: function (config: DSTViewConfig): Promise<void> {
     return Promise.resolve();
   },
-  setKeywords: function (keywords: string): void {},
-  updateEntitySchema: function (additionalColumnNames: string[]): void {},
-  debouncedHighlightRow: debounce((entity: TypedEntity, event?) => {}, 250),
-  highlightRow: function (entity: TypedEntity, event?: MouseEvent): void {},
+  setKeywords: function (keywords: string): void { },
+  updateEntitySchema: function (additionalColumnNames: string[]): void { },
+  debouncedHighlightRow: debounce((entity: TypedEntity, event?) => { }, 250),
+  highlightRow: function (entity: TypedEntity, event?: MouseEvent): void { },
   isSortable: function (column: string | undefined): boolean {
     return false;
   },
@@ -145,5 +147,5 @@ export const FakeDataViewSource: Pick<DataViewSource, keyof DataViewSource> = {
   // },
   initFilters: function (initParameters: DataViewInitParameters<TypedEntity>): Promise<void> {
     return Promise.resolve();
-  },
+  }
 };

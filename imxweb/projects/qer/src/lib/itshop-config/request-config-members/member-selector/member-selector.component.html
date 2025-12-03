@@ -11,25 +11,27 @@
 </div>
 
 <div eui-sidesheet-actions class="request-config__action-buttons">
-  <button
-    class="justify-start"
-    *ngIf="data?.isMultiValue"
-    [disabled]="selectedItems?.length === 0"
-    mat-stroked-button
-    type="button"
-    (click)="fkSelector.clearSelection()"
-    data-imx-identifier="requests-selector-clear-selection"
-  >
-    <span translate>#LDS#Clear selection</span>
-  </button>
-  <button
-    *ngIf="data?.isMultiValue"
-    mat-flat-button
-    color="primary"
-    [disabled]="selectedItems?.length === 0"
-    (click)="applySelection()"
-    data-imx-identifier="requests-selector-apply-selection"
-  >
-    <span translate>#LDS#Add members</span>
-  </button>
+  @if (data?.isMultiValue) {
+    <button
+      class="justify-start"
+      [disabled]="selectedItems?.length === 0"
+      mat-stroked-button
+      type="button"
+      (click)="fkSelector.clearSelection()"
+      data-imx-identifier="requests-selector-clear-selection"
+      >
+      <span translate>#LDS#Clear selection</span>
+    </button>
+  }
+  @if (data?.isMultiValue) {
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="selectedItems?.length === 0"
+      (click)="applySelection()"
+      data-imx-identifier="requests-selector-apply-selection"
+      >
+      <span translate>#LDS#Add members</span>
+    </button>
+  }
 </div>

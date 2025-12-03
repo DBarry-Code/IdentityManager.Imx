@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,9 +43,10 @@ import {
 import { RoleService } from '../role.service';
 
 @Component({
-  selector: 'imx-new-role',
-  templateUrl: './new-role.component.html',
-  styleUrls: ['./new-role.component.scss'],
+    selector: 'imx-new-role',
+    templateUrl: './new-role.component.html',
+    styleUrls: ['./new-role.component.scss'],
+    standalone: false
 })
 export class NewRoleComponent implements OnInit, OnDestroy {
   public readonly formGroup = new FormGroup({});

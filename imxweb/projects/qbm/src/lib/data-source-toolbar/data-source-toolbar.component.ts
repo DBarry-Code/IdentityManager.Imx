@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,7 +45,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
-import { EuiSelectFeedbackMessages, EuiSelectOption, EuiSidesheetService } from '@elemental-ui/core';
+import { EuiSelectOption, EuiSidesheetService } from '@elemental-ui/core';
 import {
   CollectionLoadParameters,
   DataModelFilterOption,
@@ -63,9 +63,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { v4 as uuid } from 'uuid';
-import { AppConfigService } from '../appConfig/appConfig.service';
 import { BusyService } from '../base/busy.service';
 import { calculateSidesheetWidth } from '../base/sidesheet-helper';
+import { ElementalUiConfigService } from '../configuration/elemental-ui-config.service';
 import { ConfirmationService } from '../confirmation/confirmation.service';
 import { DataExportComponent } from '../data-export/data-export.component';
 import { SnackBarService } from '../snackbar/snack-bar.service';
@@ -106,6 +106,7 @@ import { SelectionModelWrapper } from './selection-model-wrapper';
   templateUrl: './data-source-toolbar.component.html',
   styleUrls: ['./data-source-toolbar.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  standalone: false,
 })
 export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy {
   @ViewChild('savedConfigsTrigger') savedConfigsTrigger: MatMenuTrigger;
@@ -160,7 +161,6 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
     selectedSortControl: this.selectedSortControl,
     ascendingSortControl: this.ascendingSortControl,
   });
-  public sortFeedbackMessages: EuiSelectFeedbackMessages;
   public sortOptions: EuiSelectOption[] = [];
   public sortOptionsFilter = (option: EuiSelectOption, searchInputValue: string) =>
     option.display.toLowerCase().includes(searchInputValue.toLowerCase());
@@ -754,10 +754,10 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
     searchColumns: string[];
     keywords: string;
   } = {
-    filterColumns: {},
-    searchColumns: [],
-    keywords: '',
-  };
+      filterColumns: {},
+      searchColumns: [],
+      keywords: '',
+    };
 
   /** Marker that prevents the emitting of a selectionChanged event, when items are preselected */
   private isUpdatingPreselection = false;
@@ -793,7 +793,7 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
     private readonly injector: Injector,
     private readonly translate: TranslateService,
     private readonly confirm: ConfirmationService,
-    private readonly config: AppConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly snackbar: SnackBarService,
     private readonly filterService: FilterWizardService,
     private readonly systemInfoService: SystemInfoService,
@@ -820,18 +820,6 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
         this.selectedFilterType = filterType as FilterTypeIdentifier;
       }),
     );
-    this.sortFeedbackMessages = {
-      search: this.translate.instant('#LDS#Search'),
-      selected: '',
-      clear: '',
-      plusOther: '',
-      plusOtherPlural: '',
-      unsupportedCharacter: '',
-      noResults: '',
-      clearAll: '',
-      ok: '',
-      keyboardOptionsListAria: '',
-    };
   }
 
   /**
@@ -1459,7 +1447,7 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
     const sidesheetRef = this.sidesheet.open(FilterWizardComponent, {
       title: await this.translate.get('#LDS#Heading Filter Data').toPromise(),
       icon: 'filter',
-      width: calculateSidesheetWidth(800, 0.5),
+      width: calculateSidesheetWidth(850, 0.5),
       padding: '0px',
       testId: 'filter-wizard-sidesheet',
       disableClose: true,
@@ -1808,10 +1796,9 @@ export class DataSourceToolbarComponent implements OnChanges, OnInit, OnDestroy 
   public isRedundant(value: string | null | undefined): boolean {
     // Prevent redundant api call from adding search to searchterm list
     return (
-      (!value &&
-        this.searchTerms.length > 0 &&
-        this.settings.navigationState?.search === this.searchTerms[this.searchTerms.length - 1].selectedOption?.Value) ??
-      false
+      !value &&
+      this.searchTerms.length > 0 &&
+      this.settings.navigationState?.search === this.searchTerms[this.searchTerms.length - 1].selectedOption?.Value
     );
   }
 

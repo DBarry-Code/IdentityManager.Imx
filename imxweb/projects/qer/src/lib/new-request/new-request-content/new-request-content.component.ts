@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,11 +30,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { PortalServicecategories } from '@imx-modules/imx-api-qer';
-import { IWriteValue, MultiValue } from '@imx-modules/imx-qbm-dbts';
 
 import { EuiSidesheetService } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LdsReplacePipe, calculateSidesheetWidth } from 'qbm';
+import { calculateSidesheetWidth, LdsReplacePipe } from 'qbm';
 import { ProjectConfigurationService } from '../../project-configuration/project-configuration.service';
 import { NewRequestAddToCartService } from '../new-request-add-to-cart.service';
 import { NewRequestOrchestrationService } from '../new-request-orchestration.service';
@@ -51,10 +50,10 @@ import { NewRequestTabModel } from '../new-request-tab/new-request-tab-model';
   selector: 'imx-new-request-content',
   templateUrl: './new-request-content.component.html',
   styleUrls: ['./new-request-content.component.scss'],
+  standalone: false,
 })
 export class NewRequestContentComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
-  private selectedTab: NewRequestTabModel;
 
   public navLinks: NewRequestTabModel[] = [];
   public catSlider: MatSlideToggle;
@@ -76,25 +75,10 @@ export class NewRequestContentComponent implements OnDestroy {
       this.router.events.subscribe(async (event) => {
         if (event instanceof NavigationEnd) {
           await this.setupNavLinks();
-          this.orchestration.selectedTab = this.navLinks.find((tab) => `/newrequest/${tab.link}` === this.router.url);
-          this.orchestration.selectedTab?.component === NewRequestProductComponent
+          this.orchestration.selectedTab.set(this.navLinks.find((tab) => this.router.url.includes(`/newrequest/${tab.link}`)));
+          this.orchestration.selectedTab()?.component === NewRequestProductComponent
             ? (this.showCatSlider = true)
             : (this.showCatSlider = false);
-        }
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.selectedCategory$.subscribe(
-        (selectedCategory: PortalServicecategories) => (this.selectedCategory = selectedCategory),
-      ),
-    );
-    this.subscriptions.push(
-      this.orchestration.recipients$.subscribe((recipients: IWriteValue<string>) => {
-        this.peerGroupEnabled = MultiValue.FromString(recipients.value).GetValues().length === 1 ? true : false;
-
-        if (this.selectedTab && this.selectedTab.link === 'productsByPeerGroup' && !this.peerGroupEnabled) {
-          this.router.navigate(['/newrequest']);
         }
       }),
     );
@@ -105,18 +89,17 @@ export class NewRequestContentComponent implements OnDestroy {
   }
 
   public onSelectedTabChange(selectedTab: NewRequestTabModel): void {
-    this.selectedTab = selectedTab;
-    this.orchestration.selectedTab = selectedTab;
+    this.orchestration.selectedTab.set(selectedTab);
   }
 
   public onCatSliderChanged(event: MatSlideToggleChange): void {
-    this.orchestration.includeChildCategories = event.checked;
+    this.orchestration.includeChildCategories.set(event.checked);
   }
 
   public async openSelected(): Promise<void> {
     const sidesheetRef = this.sidesheetService.open(NewRequestSelectedProductsComponent, {
       title: this.ldsReplace.transform(
-        await this.translate.get('#LDS#Heading View Selected Products ({0})').toPromise(),
+        await this.translate.instant('#LDS#Heading View Selected Products ({0})'),
         this.selectionService.selectedProducts.length,
       ),
       width: calculateSidesheetWidth(800, 0.5),

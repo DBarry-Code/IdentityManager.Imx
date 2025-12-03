@@ -7,22 +7,27 @@
     [readonly]="true"
     [attr.data-imx-identifier]="imxIdentifier"
     [required]="columnContainer.isValueRequired"
-  />
+    />
   <div matSuffix class="imx-suffix-container">
-    <mat-spinner diameter="30" *ngIf="loading"></mat-spinner>
+    @if (loading) {
+      <mat-spinner diameter="30"></mat-spinner>
+    }
     <div class="imx-spacer"></div>
-    <button
-      *ngIf="columnContainer?.canEdit"
-      mat-button
-      color="primary"
-      type="button"
-      (click)="editAssignment()"
-      [attr.data-imx-identifier]="imxIdentifier"
-    >
-      {{ control?.value?.length ? ('#LDS#Change' | translate) : ('#LDS#Select' | translate) }}
-    </button>
+    @if (columnContainer?.canEdit) {
+      <button
+        mat-button
+        color="primary"
+        type="button"
+        (click)="editAssignment()"
+        [attr.data-imx-identifier]="imxIdentifier"
+        >
+        {{ control?.value?.length ? ('#LDS#Change' | translate) : ('#LDS#Select' | translate) }}
+      </button>
+    }
   </div>
-  <mat-error *ngIf="control.errors?.['required']">
-    {{ '#LDS#This field is mandatory.' | translate }}
-  </mat-error>
+  @if (control.errors?.['required']) {
+    <mat-error>
+      {{ '#LDS#This field is mandatory.' | translate }}
+    </mat-error>
+  }
 </mat-form-field>

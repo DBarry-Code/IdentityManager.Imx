@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -48,6 +48,7 @@ import { AccountsService } from '../accounts.service';
   selector: 'imx-account-sidesheet',
   templateUrl: './account-sidesheet.component.html',
   styleUrls: ['./account-sidesheet.component.scss'],
+  standalone: false
 })
 export class AccountSidesheetComponent implements OnInit {
   public readonly detailsFormGroup: UntypedFormGroup;
@@ -68,7 +69,7 @@ export class AccountSidesheetComponent implements OnInit {
     private readonly busyService: EuiLoadingService,
     private readonly snackbar: SnackBarService,
     private readonly sidesheetRef: EuiSidesheetRef,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly configService: ProjectConfigurationService,
     private readonly identitiesService: IdentitiesService,
     private readonly accountsService: AccountsService,

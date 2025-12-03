@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,9 +37,10 @@ import { TermsOfUseService } from './terms-of-use.service';
  * to a given list of {@link PortalTermsofuse} items.
  */
 @Component({
-  selector: 'imx-terms-of-use-list',
-  templateUrl: './terms-of-use-list.component.html',
-  styleUrls: ['./terms-of-use-list.component.scss'],
+    selector: 'imx-terms-of-use-list',
+    templateUrl: './terms-of-use-list.component.html',
+    styleUrls: ['./terms-of-use-list.component.scss'],
+    standalone: false
 })
 export class TermsOfUseListComponent {
   /** The list of terms of use {@link items|PortalTermsofuse} to show. */

@@ -1,16 +1,18 @@
 <ng-container [matColumnDef]="entityColumn?.ColumnName">
   <th class="imx-table-column" mat-header-cell *matHeaderCellDef [style.text-align]="align" [style.width]="width">
-    <ng-container *ngIf="columnLabel">
+    @if (columnLabel) {
       {{ columnLabel }}
-    </ng-container>
-    <ng-container *ngIf="columnLabel == null">
+    }
+    @if (columnLabel == null) {
       {{ translateProvider.GetColumnDisplay(entityColumn?.ColumnName ?? '', entitySchema) }}
-    </ng-container>
+    }
   </th>
   <td class="imx-table-column" mat-cell *matCellDef="let entity" [style.text-align]="align">
-    <ng-content [ngIf]="templateRef" *ngTemplateOutlet="templateRef; context: { $implicit: entity }"></ng-content>
-    <ng-container *ngIf="!templateRef">
+    @if (templateRef) {
+      <ng-content *ngTemplateOutlet="templateRef; context: { $implicit: entity }"></ng-content>
+    }
+    @if (!templateRef) {
       <imx-data-table-cell [entity]="entity" [property]="entityColumn"></imx-data-table-cell>
-    </ng-container>
+    }
   </td>
 </ng-container>

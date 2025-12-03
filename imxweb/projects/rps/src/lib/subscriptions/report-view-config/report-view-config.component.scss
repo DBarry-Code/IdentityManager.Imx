@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   flex: 1 1 auto;
@@ -98,7 +98,7 @@
 :host {
   .imx-no-results {
     p {
-      color: $color-gray-40;
+      color: eui.$color-gray-40;
     }
   }
 }
@@ -107,7 +107,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -117,7 +117,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

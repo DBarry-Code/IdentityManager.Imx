@@ -8,13 +8,17 @@
   [matAutocomplete]="auto"
   [(ngModel)]="filterText"
   (ngModelChange)="filterOptions()"
-/>
-<button mat-icon-button (click)="clearText()" *ngIf="filterText !== ''">
-  <eui-icon icon="close"></eui-icon>
-</button>
+  />
+@if (filterText !== '') {
+  <button mat-icon-button (click)="clearText()">
+    <eui-icon icon="close"></eui-icon>
+  </button>
+}
 
 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="EmitValueChangedEvent()">
-  <mat-option *ngFor="let option of filteredOptions" [value]="option">
-    {{ option }}
-  </mat-option>
+  @for (option of filteredOptions; track option) {
+    <mat-option [value]="option">
+      {{ option }}
+    </mat-option>
+  }
 </mat-autocomplete>

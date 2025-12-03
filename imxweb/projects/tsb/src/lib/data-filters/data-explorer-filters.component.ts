@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,19 +28,28 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { EuiSelectComponent, EuiSelectOption } from '@elemental-ui/core';
 import { PortalTargetsystemUnsSystem } from '@imx-modules/imx-api-tsb';
 import { IEntity } from '@imx-modules/imx-qbm-dbts';
-import { DataSourceToolbarComponent, DataSourceToolbarSelectedFilter } from 'qbm';
+import { DataSourceToolbarComponent, DataSourceToolbarSelectedFilter, ElementalUiConfigService } from 'qbm';
 import { ContainerTreeDatabaseWrapper } from '../container-list/container-tree-database-wrapper';
 import { DeHelperService } from '../de-helper.service';
 
+/**
+ * @deprecated since v10.0.0
+ */
 export enum DataExplorerFilterTypes {
   TargetSystem = 'targetsystem',
   Container = 'container',
 }
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use the DataViewFilterComponent instead.
+ */
 @Component({
   selector: 'imx-target-system-filter',
   templateUrl: './data-explorer-filters.component.html',
   styleUrls: ['./data-explorer-filters.component.scss'],
+  standalone: false
 })
 export class DataExplorerFiltersComponent implements OnInit {
   public targetSystemOptions: EuiSelectOption[] = [];
@@ -65,7 +74,11 @@ export class DataExplorerFiltersComponent implements OnInit {
 
   private skipSelectionEmitMode = false;
 
-  constructor(private readonly dataHelper: DeHelperService) {}
+  constructor(
+    private readonly dataHelper: DeHelperService,
+    public elementalUiConfigService: ElementalUiConfigService,
+
+  ) { }
 
   public get selectedTreeNodeFilterDisplay(): string {
     let display = '';

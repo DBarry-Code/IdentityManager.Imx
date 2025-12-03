@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   display: flex;
@@ -31,7 +31,7 @@
 
 .imx-data-table-selection-info {
   padding-right: 5px;
-  color: $iris-blue;
+  color: eui.$color-blue-60;
 }
 
 .hidden {

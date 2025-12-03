@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -46,8 +46,9 @@ import { SelectedElementsDialogParameter, TypedEntityTableFilter } from './selec
  *   });
  */
 @Component({
-  templateUrl: './selected-elements-dialog.component.html',
-  styleUrls: ['./selected-elements-dialog.component.scss'],
+    templateUrl: './selected-elements-dialog.component.html',
+    styleUrls: ['./selected-elements-dialog.component.scss'],
+    standalone: false
 })
 export class SelectedElementsDialog implements OnInit {
   public readonly DisplayColumns = DisplayColumns; // Enables use of this static class in Angular Templates.

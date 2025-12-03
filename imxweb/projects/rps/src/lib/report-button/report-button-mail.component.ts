@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,6 +36,7 @@ import { ParameterSidesheetComponent } from './parameter-sidesheet/parameter-sid
 @Component({
   templateUrl: './report-button-mail.component.html',
   styleUrls: ['./report-button-mail.component.scss'],
+  standalone: false
 })
 export class ReportButtonMailComponent implements OnDestroy {
   public referrer: { uid: string; presetParameters: { [key: string]: string } };
@@ -48,7 +49,7 @@ export class ReportButtonMailComponent implements OnDestroy {
     private readonly sideSheet: EuiSidesheetService,
     private readonly translator: TranslateService,
     private readonly snackbarService: SnackBarService,
-  ) {}
+  ) { }
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribeEvents;
@@ -63,6 +64,7 @@ export class ReportButtonMailComponent implements OnDestroy {
         this.subscription = undefined;
       }
       this.subscription = await this.reportSubscriptionService.createNewSubscription(this.referrer.uid, Date.now().toFixed());
+      await this.subscription.fillColumnsWithPreset(this.referrer?.presetParameters);
     } finally {
       this.busy.hide(over);
     }
@@ -71,6 +73,7 @@ export class ReportButtonMailComponent implements OnDestroy {
     }
 
     this.subscription.subscription.ExportFormat.value = 'PDF';
+
 
     if (this.hasParametersToCompleteByUser()) {
       const result = await this.sideSheet
@@ -88,6 +91,7 @@ export class ReportButtonMailComponent implements OnDestroy {
         return;
       }
     }
+
 
     let errors = false;
     over = this.busy.show();

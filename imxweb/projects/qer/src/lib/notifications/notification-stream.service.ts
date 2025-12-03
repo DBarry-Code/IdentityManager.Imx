@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,10 +25,10 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { NotificationRegistryService } from './notification-registry.service';
-import { TranslateService } from '@ngx-translate/core';
 import { V2ApiClientMethodFactory } from '@imx-modules/imx-api-qer';
-import { ClassloggerService, AppConfigService } from 'qbm';
+import { TranslateService } from '@ngx-translate/core';
+import { AppConfigService, ClassloggerService } from 'qbm';
+import { NotificationRegistryService } from './notification-registry.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationStreamService implements OnDestroy {

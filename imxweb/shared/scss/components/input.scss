@@ -1,3 +1,5 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 /* Elemental UI */
 
 /* Angular Material */
@@ -5,7 +7,7 @@
 /* Imx */
 .imx-input {
   &-info {
-    color: $color-blue-60;
+    color: eui.$color-blue-60;
   }
 
   &-file-hidden {
@@ -15,7 +17,7 @@
   }
 
   &-login {
-    width: $IMX_PropertyLabel_Width;
+    width: imx-variables.$IMX_PropertyLabel_Width;
     box-sizing: content-box;
     height: 30px;
     padding-left: 6px;
@@ -53,12 +55,12 @@
 .eui-contrast-theme {
   .imx-input {
     &-info {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
 
     &-login {
       border: none;
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
   }
 }

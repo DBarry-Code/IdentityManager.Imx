@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,7 +26,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { EuiLoadingService } from '@elemental-ui/core';
-import { ChartInfoTyped } from 'qer';
+import { ChartInfoTyped } from 'qbm';
 import { ChartDto } from '../TypedClient';
 import { DugDashboardsService } from './dug-dashboards.service';
 
@@ -34,6 +34,7 @@ import { DugDashboardsService } from './dug-dashboards.service';
   selector: 'imx-dug-dashboards',
   templateUrl: './dug-dashboards.component.html',
   styleUrls: ['./dug-dashboards.component.scss'],
+  standalone: false,
 })
 export class DugDashboardsComponent implements OnInit {
   @Input() public isAdmin = false;
@@ -43,28 +44,22 @@ export class DugDashboardsComponent implements OnInit {
   constructor(
     public readonly dashboardsService: DugDashboardsService,
     private readonly loadingServiceEui: EuiLoadingService,
-  ) { }
+  ) {}
 
   public async ngOnInit(): Promise<void> {
     const over = this.loadingServiceEui.show();
     try {
       const test = await this.dashboardsService.getDashboards();
-      const filteredData = test.Data?.filter(elem =>
-        this.isAdmin
-          ? elem.Name === "QAMMostActiveResources"
-          : elem.Name !== "QAMMostActiveResources"
-      ) ?? [];
-      const filteredCharts = test.Charts?.filter(elem =>
-        this.isAdmin
-          ? elem.Id === "QAMMostActiveResources"
-          : elem.Id !== "QAMMostActiveResources"
-      ) ?? [];
+      const filteredData =
+        test.Data?.filter((elem) => (this.isAdmin ? elem.Name === 'QAMMostActiveResources' : elem.Name !== 'QAMMostActiveResources')) ?? [];
+      const filteredCharts =
+        test.Charts?.filter((elem) => (this.isAdmin ? elem.Id === 'QAMMostActiveResources' : elem.Id !== 'QAMMostActiveResources')) ?? [];
       this.stats =
         filteredData.map((elem) => {
-          if (elem.Name == "QAMResourcesOfCurrentUserByHost") {
+          if (elem.Name == 'QAMResourcesOfCurrentUserByHost') {
             elem.Data?.forEach((item) => {
               item.Name = item.Name + '(' + (item?.ObjectDisplay ?? '') + ')';
-            })
+            });
           }
           return elem;
         }) ?? [];

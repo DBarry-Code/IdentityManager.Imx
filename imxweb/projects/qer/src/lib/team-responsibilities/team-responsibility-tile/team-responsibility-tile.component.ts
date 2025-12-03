@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,8 +31,9 @@ import { QerPermissionsService } from '../../admin/qer-permissions.service';
 import { DashboardService } from '../../wport/start/dashboard.service';
 
 @Component({
-  selector: 'imx-team-responsibility-tile',
-  templateUrl: './team-responsibility-tile.component.html',
+    selector: 'imx-team-responsibility-tile',
+    templateUrl: './team-responsibility-tile.component.html',
+    standalone: false
 })
 export class TeamResponsibilityTileComponent implements OnInit {
   public inactiveResponsibilitiesCount: number;

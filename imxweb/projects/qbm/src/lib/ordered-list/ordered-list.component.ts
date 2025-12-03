@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EuiTheme } from '@elemental-ui/core';
 
 @Component({
-  selector: 'imx-ordered-list',
-  templateUrl: './ordered-list.component.html',
-  styleUrls: ['./ordered-list.component.scss'],
+    selector: 'imx-ordered-list',
+    templateUrl: './ordered-list.component.html',
+    styleUrls: ['./ordered-list.component.scss'],
+    standalone: false
 })
 export class OrderedListComponent {
   @Input() addNewText: string;

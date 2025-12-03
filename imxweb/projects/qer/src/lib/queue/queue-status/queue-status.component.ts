@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { CommonModule } from '@angular/common';
+
 import { Component, effect, HostListener } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCommonModule } from '@angular/material/core';
@@ -45,21 +45,19 @@ import {
 import { QueueSidesheetComponent } from '../queue-sidesheet/queue-sidesheet.component';
 
 @Component({
-  selector: 'imx-queue-status',
-  standalone: true,
-  imports: [
-    CommonModule,
-    EuiCoreModule,
-    EuiMaterialModule,
-    MatBadgeModule,
-    MatCommonModule,
-    MatIconModule,
-    LdsReplaceModule,
-    TranslateModule,
-    HelpContextualModule,
-  ],
-  templateUrl: './queue-status.component.html',
-  styleUrls: ['./queue-status.component.scss'],
+    selector: 'imx-queue-status',
+    imports: [
+        EuiCoreModule,
+        EuiMaterialModule,
+        MatBadgeModule,
+        MatCommonModule,
+        MatIconModule,
+        LdsReplaceModule,
+        TranslateModule,
+        HelpContextualModule
+    ],
+    templateUrl: './queue-status.component.html',
+    styleUrls: ['./queue-status.component.scss']
 })
 export class QueueStatusComponent {
   public totalCount: number;

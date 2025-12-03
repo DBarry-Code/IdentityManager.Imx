@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,8 +59,8 @@ export class FilterWizardService {
     this.applyFiltersEvent.emit();
   }
 
-  public clearFilters(): void {
-    this.clearFiltersEvent.emit();
+  public clearFilters(emit = true): void {
+    this.clearFiltersEvent.emit(emit);
   }
 
   public formStatusChanged(formState: FilterFormState): void {

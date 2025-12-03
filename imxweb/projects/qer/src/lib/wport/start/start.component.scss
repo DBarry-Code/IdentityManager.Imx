@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as imx-variables;
 
 :host {
   display: flex;
@@ -13,7 +13,7 @@
 }
 
 .mat-mdc-card {
-  width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
   height: 108px;
   overflow: auto;
   padding: 0;

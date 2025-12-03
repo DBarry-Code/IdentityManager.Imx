@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { DataViewSource } from '../data-view-source';
  */
 
 @Component({
-  selector: 'imx-data-view-selection',
-  templateUrl: './data-view-selection.component.html',
-  styleUrls: ['./data-view-selection.component.scss'],
+    selector: 'imx-data-view-selection',
+    templateUrl: './data-view-selection.component.html',
+    styleUrls: ['./data-view-selection.component.scss'],
+    standalone: false
 })
 export class DataViewSelectionComponent {
   /**

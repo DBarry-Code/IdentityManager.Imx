@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   display: flex;
@@ -6,4 +6,3 @@
   overflow: hidden;
   height: 100%;
 }
-

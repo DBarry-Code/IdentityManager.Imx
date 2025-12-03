@@ -1,9 +1,9 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   flex-grow: 1;
 }
-.imx-slider-label-container{
+.imx-slider-label-container {
   display: flex;
   align-items: center;
   min-height: 24px;
@@ -19,11 +19,11 @@
     }
   }
 }
-.imx-slider-container{
+.imx-slider-container {
   display: flex;
   align-items: center;
   gap: 12px;
-  .mat-mdc-slider{
+  .mat-mdc-slider {
     flex-grow: 1;
   }
 }

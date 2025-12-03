@@ -1,14 +1,16 @@
 <div eui-sidesheet-content>
-  <eui-alert *ngIf="showHelperAlert" type="info" [condensed]="true" [colored]="true" [dismissable]="true">
-    {{
+  @if (showHelperAlert) {
+    <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true">
+      {{
       (showTree
         ? (isSharePointAccess
           ? '#LDS#Please choose a resource from the tree.'
           : '#LDS#Please choose a resource. You can select resource paths or manually enter them.')
         : '#LDS#Please enter the resource paths manually.'
       ) | translate
-    }}
-  </eui-alert>
+      }}
+    </eui-alert>
+  }
   <mat-card>
     <form [formGroup]="formGroup">
       <div [hidden]="!showTree || isSharePointAccess">
@@ -18,9 +20,9 @@
       </div>
       <div class="imx-manual-folder-container" [hidden]="!toggle.checked || isSharePointAccess">
         <span [translate]="'#LDS#Please enter resource path using the UNC format (i.e. \\\\server\\path).'"> </span>
-        <ng-container *ngFor="let folder of folderList">
+        @for (folder of folderList; track folder) {
           <imx-cdr-editor [cdr]="folder" (controlCreated)="formGroup.controls.folderArray.push($event)"></imx-cdr-editor>
-        </ng-container>
+        }
         @if (!formValid) {
           <eui-alert type="error" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="showSnackBar()">
             {{ validationMessage | translate }}
@@ -42,7 +44,7 @@
           [filters]="filterOptions"
           [isNodeSelectable]="false"
           [hideSelection]="true"
-        >
+          >
         </imx-data-tree-wrapper>
       </div>
     </form>
@@ -55,7 +57,7 @@
     mat-flat-button
     color="primary"
     (click)="submitValues()"
-  >
+    >
     {{ '#LDS#Apply' | translate }}
   </button>
 </div>

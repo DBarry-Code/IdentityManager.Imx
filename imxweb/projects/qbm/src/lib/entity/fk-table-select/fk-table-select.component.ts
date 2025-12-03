@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,11 +30,13 @@ import { EuiSelectOption } from '@elemental-ui/core';
 
 import { IForeignKeyInfo } from '@imx-modules/imx-qbm-dbts';
 import { MetadataService } from '../../base/metadata.service';
+import { ElementalUiConfigService } from '../../configuration/elemental-ui-config.service';
 
 @Component({
   selector: 'imx-fk-table-select',
   templateUrl: './fk-table-select.component.html',
   styleUrls: ['./fk-table-select.component.scss'],
+  standalone: false
 })
 export class FkTableSelectComponent implements OnInit {
   public readonly control = new UntypedFormControl(undefined);
@@ -47,7 +49,10 @@ export class FkTableSelectComponent implements OnInit {
 
   @Output() public selectionChanged = new EventEmitter<string>();
 
-  constructor(private readonly metadata: MetadataService) {}
+  constructor(
+    public elementalUiConfigService: ElementalUiConfigService,
+    private readonly metadata: MetadataService
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     this.loading = true;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,8 +29,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 
 @Component({
-  selector: 'imx-info-badge',
-  templateUrl: './info-badge.component.html'
+    selector: 'imx-info-badge',
+    templateUrl: './info-badge.component.html',
+    standalone: false
 })
 export class InfoBadgeComponent {
   // width string = '400px'. Sets the width of the appearing dialog.

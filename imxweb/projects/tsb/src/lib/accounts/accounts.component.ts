@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,11 @@ import {
   DisplayColumns,
   EntitySchema,
   IClientProperty,
+  IEntity,
   TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
 import {
+  buildAdditionalElementsString,
   BusyService,
   calculateSidesheetWidth,
   ClassloggerService,
@@ -65,6 +67,7 @@ import { TargetSystemReportComponent } from './target-system-report/target-syste
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class DataExplorerAccountsComponent implements OnInit, OnDestroy, SideNavigationComponent {
   /**
@@ -198,6 +201,10 @@ export class DataExplorerAccountsComponent implements OnInit, OnDestroy, SideNav
       width: calculateSidesheetWidth(700, 0.4),
       testId: 'accounts-report-sidesheet',
     });
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 
   private async viewAccount(data: AccountSidesheetData): Promise<void> {

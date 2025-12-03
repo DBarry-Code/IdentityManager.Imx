@@ -1,7 +1,7 @@
+@use 'base/mixins' as mixins;
 
-@import 'base/mixins';
-:host{
-  @include flex-column-container-fill();
+:host {
+  @include mixins.flex-column-container-fill();
   height: 100%
 }
 
@@ -9,4 +9,3 @@
 .trusteetype {
   font-style: italic;
 }
-

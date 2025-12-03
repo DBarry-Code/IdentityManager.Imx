@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { EffectivePermissionTreeDatabase } from './effective-permission-tree-dat
 import { TrusteeEntityHierarchy } from './trustee-entity-hierarchy';
 
 @Component({
-  selector: 'imx-effective-permission',
-  templateUrl: './effective-permission.component.html',
-  styleUrls: ['./effective-permission.component.scss', '../../../qam.scss'],
+    selector: 'imx-effective-permission',
+    templateUrl: './effective-permission.component.html',
+    styleUrls: ['./effective-permission.component.scss', '../../../qam.scss'],
+    standalone: false
 })
 export class EffectivePermissionComponent implements OnChanges {
   @Input() trustees: AssignedResourceAccessData;

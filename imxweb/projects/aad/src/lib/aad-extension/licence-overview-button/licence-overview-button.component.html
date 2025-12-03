@@ -1,10 +1,11 @@
-<button
-  class="imx-margin-horizontal-10"
-  *ngIf="licenceOverview"
-  mat-stroked-button
-  color="primary"
-  [euiDownload]="licenceOverview"
-  data-imx-identifier="licence-overview-button-download-license overview"
->
-  <span translate>#LDS#Download licence overview</span>
-</button>
+@if (licenceOverview) {
+  <button
+    class="imx-margin-horizontal-10"
+    mat-stroked-button
+    color="primary"
+    [euiDownload]="licenceOverview"
+    data-imx-identifier="licence-overview-button-download-license overview"
+    >
+    <span translate>#LDS#Download licence overview</span>
+  </button>
+}

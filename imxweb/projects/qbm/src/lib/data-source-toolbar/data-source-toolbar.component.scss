@@ -1,6 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 .imx-data-source-toolbar-container {
   display: flex;
@@ -95,7 +94,7 @@
 }
 
 .imx-filter-tree-dialog>.mat-mdc-dialog-container {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
 }
 
 .mat-mdc-menu-content {
@@ -137,32 +136,32 @@
 // Theming
 imx-data-source-toolbar {
   .themed-style .imx-data-source-toolbar-middle {
-    background-color: $color-gray-0;
+    background-color: eui.$color-gray-0;
     border-radius: 5px;
   }
 
   .eui-search-icon {
-    color: $color-blue-60;
+    color: eui.$color-blue-60;
   }
 
   .imx-data-source-filter-select {
-    background-color: $color-gray-10;
+    background-color: eui.$color-gray-10;
   }
 }
 
 .eui-dark-theme {
   imx-data-source-toolbar {
     .themed-style .imx-data-source-toolbar-middle {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
       border-radius: 5px;
     }
 
     .eui-search-icon {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
 
     .imx-data-source-filter-select {
-      background-color: $color-gray-10;
+      background-color: eui.$color-gray-10;
     }
   }
 }
@@ -170,16 +169,16 @@ imx-data-source-toolbar {
 .eui-contrast-theme {
   imx-data-source-toolbar {
     .themed-style .imx-data-source-toolbar-middle {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
       border-radius: 4px;
     }
 
     .eui-search-icon {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
 
     .imx-data-source-filter-select {
-      background-color: $color-gray-10;
+      background-color: eui.$color-gray-10;
     }
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,28 +26,28 @@
 
 import { Injectable } from '@angular/core';
 import {
-  EntityWriteDataBulk,
-  PortalRespUnsgroup,
-  PortalTargetsystemUnsDirectmembers,
-  PortalTargetsystemUnsGroup,
-  PortalTargetsystemUnsGroupServiceitem,
-  PortalTargetsystemUnsGroupmembers,
-  PortalTargetsystemUnsNestedmembers,
-  V2ApiClientMethodFactory,
+    EntityWriteDataBulk,
+    PortalRespUnsgroup,
+    PortalTargetsystemUnsDirectmembers,
+    PortalTargetsystemUnsGroup,
+    PortalTargetsystemUnsGroupServiceitem,
+    PortalTargetsystemUnsGroupmembers,
+    PortalTargetsystemUnsNestedmembers,
+    V2ApiClientMethodFactory,
 } from '@imx-modules/imx-api-tsb';
 import {
-  CollectionLoadParameters,
-  CompareOperator,
-  DataModel,
-  DataModelFilter,
-  EntityCollectionData,
-  EntitySchema,
-  FilterData,
-  FilterTreeData,
-  FilterType,
-  MethodDefinition,
-  MethodDescriptor,
-  TypedEntityCollectionData,
+    CollectionLoadParameters,
+    CompareOperator,
+    DataModel,
+    DataModelFilter,
+    EntityCollectionData,
+    EntitySchema,
+    FilterData,
+    FilterTreeData,
+    FilterType,
+    MethodDefinition,
+    MethodDescriptor,
+    TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
 import { ClassloggerService, DataSourceToolbarExportMethod } from 'qbm';
 import { DbObjectKeyBase } from '../target-system/db-object-key-wrapper.interface';
@@ -200,7 +200,11 @@ export class GroupsService {
     return this.tsbClient.typedClient.PortalTargetsystemUnsGroupmembers.Get(groupId, navigationState);
   }
 
-  /** @deprecated Will be removed. Please load the data model first.*/
+  /** 
+  * @deprecated since v10.0.0
+  * 
+  * Use load the data model first instead.
+ */
   public async getFilterOptions(forAdmin: boolean): Promise<DataModelFilter[]> {
     const filters = forAdmin
       ? (await this.tsbClient.client.portal_targetsystem_uns_group_datamodel_get(undefined)).Filters

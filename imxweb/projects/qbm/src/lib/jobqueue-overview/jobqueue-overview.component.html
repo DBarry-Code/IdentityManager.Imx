@@ -1,15 +1,29 @@
 <div class="imx-jobqueue-container">
-  <mat-form-field appearance="fill">
-    <mat-label>
-      {{ '#LDS#Select queue' | translate }}
-    </mat-label>
-    <mat-select [(value)]="queue" (selectionChange)="updatePlot()" data-imx-identifier="jobqueue-overview-select-queue">
-      <mat-option *ngFor="let queue of queueNames" [value]="queue">
-        {{ queue }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-card *ngIf="chartOptions" class="imx-card-fill">
-    <eui-billboard [options]="chartOptions" (chart)="onChart($event)"></eui-billboard>
-  </mat-card>
+  <div class="imx-toolbar">
+    <mat-form-field appearance="fill">
+      <mat-label>
+        {{ '#LDS#Select queue' | translate }}
+      </mat-label>
+      <mat-select [(value)]="queue" (selectionChange)="updatePlot()" data-imx-identifier="jobqueue-overview-select-queue">
+        @for (queue of queueNames; track queue) {
+          <mat-option [value]="queue">
+            {{ queue }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-button-toggle-group [(ngModel)]="isShowGraph" (change)="viewChange.emit()" [hideSingleSelectionIndicator]="true">
+      <mat-button-toggle [value]="false" [matTooltip]="'#LDS#Table view' | translate">
+        <eui-icon icon="table"></eui-icon>
+      </mat-button-toggle>
+      <mat-button-toggle [value]="true" [matTooltip]="'#LDS#Chart view' | translate">
+        <eui-icon icon="linechart"></eui-icon>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  @if (chartOptions) {
+    <mat-card class="imx-card-fill">
+      <eui-billboard [options]="chartOptions" (chart)="onChart($event)"></eui-billboard>
+    </mat-card>
+  }
 </div>

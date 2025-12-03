@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -12,9 +12,9 @@
 }
 
 .mat-mdc-outlined-button {
-  @include image-button-icon();
+  @include mixins.image-button-icon();
 }
 
-.mat-mdc-card.imx-card-fill{
+.mat-mdc-card.imx-card-fill {
   margin: 0 0 3px 0;
 }

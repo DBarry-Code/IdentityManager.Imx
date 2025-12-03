@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -51,6 +51,7 @@ import { SubscriptionsService } from './subscriptions.service';
   selector: 'imx-subscriptions',
   templateUrl: './subscriptions.component.html',
   styleUrls: ['./subscriptions.component.scss'],
+  standalone: false,
 })
 export class SubscriptionsComponent implements OnInit {
   public readonly entitySchema: EntitySchema;

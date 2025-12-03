@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,6 +32,8 @@ import { buildAdditionalElementsString, ParameterizedText } from 'qbm';
 @Component({
   selector: 'imx-attestation-display',
   templateUrl: './attestation-display.component.html',
+  styleUrl: './attestation-display.component.scss',
+  standalone: false,
 })
 export class AttestationDisplayComponent implements OnInit, OnChanges {
   public parameterizedText: ParameterizedText;

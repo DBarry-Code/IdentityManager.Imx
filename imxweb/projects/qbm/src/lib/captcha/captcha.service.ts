@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class CaptchaService {
@@ -36,12 +36,17 @@ export class CaptchaService {
   /**
    * Url parameter for One Identity's ReCaptcha
    */
-  public builtInUrlParameter: string;
+  public builtInUrlParameter: WritableSignal<string> = signal('');
 
   /**
    * Url parameter for captcha image.
    */
   public captchaImageUrl: string;
+
+  /**
+   * Boolean to show loading spinner
+   */
+  public captchaLoading = true;
 
   /**
    * This variable holds the public key for ReCaptcha V3.
@@ -86,13 +91,18 @@ export class CaptchaService {
     this._recaptchaPublicKey = publicKey;
   }
 
+  public onLoad(): void {
+    this.captchaLoading = false;
+  }
+
   /** Reinitializes the image to help users who cannot read a particular CAPTCHA, or if an authentication
    * attempt has failed.   */
   public ReinitCaptcha() {
     this.Response = '';
+    this.captchaLoading = true;
 
     // Add a cache-busting parameter
-    this.builtInUrlParameter = '?t=' + new Date().getTime();
+    this.builtInUrlParameter.set('?t=' + new Date().getTime());
   }
 }
 

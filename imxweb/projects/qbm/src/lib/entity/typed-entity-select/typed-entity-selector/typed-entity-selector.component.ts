@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { IForeignKeyInfo, TypedEntity } from '@imx-modules/imx-qbm-dbts';
 import { TypedEntityFkData } from '../typed-entity-fk-data.interface';
 
 @Component({
-  selector: 'imx-typed-entity-selector',
-  templateUrl: './typed-entity-selector.component.html',
-  styleUrls: ['./typed-entity-selector.component.scss'],
+    selector: 'imx-typed-entity-selector',
+    templateUrl: './typed-entity-selector.component.html',
+    styleUrls: ['./typed-entity-selector.component.scss'],
+    standalone: false
 })
 export class TypedEntitySelectorComponent {
   public selectedItems: TypedEntity[];

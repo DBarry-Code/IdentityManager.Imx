@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -56,6 +56,11 @@ export class SelectionModelWrapper<T extends TypedEntity = TypedEntity> {
    * Keeps track of if individual items are selectable.
    */
   private selectableItems: boolean[] = [];
+
+  /**
+   * Use a column of the entity instead of the keys to identify the selection.
+   */
+  public uniqueColumn: string;
 
   public itemIsSelectable(index: number): boolean {
     return this.selectableItems.length > index && this.selectableItems[index];
@@ -122,6 +127,10 @@ export class SelectionModelWrapper<T extends TypedEntity = TypedEntity> {
   }
 
   private getId(item: T): string {
-    return item.GetEntity().GetKeys().join(',');
+    try {
+      return this.uniqueColumn ? item.GetEntity().GetColumn(this.uniqueColumn).GetValue() : item.GetEntity().GetKeys().join(',');
+    } catch {
+      return item.GetEntity().GetKeys().join(',');
+    }
   }
 }

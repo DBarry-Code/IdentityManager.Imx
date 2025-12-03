@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,10 +26,16 @@
 
 import { Component, Input } from '@angular/core';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use the DataViewComponent instead.
+ */
 @Component({
-  selector: 'imx-data-explorer-no-data',
-  templateUrl: './no-data.component.html',
-  styleUrls: ['./no-data.component.scss'],
+    selector: 'imx-data-explorer-no-data',
+    templateUrl: './no-data.component.html',
+    styleUrls: ['./no-data.component.scss'],
+    standalone: false
 })
 export class DataExplorerNoDataComponent {
   @Input() public mode: string;

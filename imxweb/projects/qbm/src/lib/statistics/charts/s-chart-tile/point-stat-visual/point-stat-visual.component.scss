@@ -1,0 +1,76 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use '../../../stat-mixins.scss' as stat-mixins;
+
+:host {
+  height: 100%;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .icon,
+    .only-status-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 24px; //half of xl size
+      margin-bottom: 10px;
+
+      .colored-icon {
+        border-radius: 24px; //half of xl size
+        margin: -1px;
+      }
+
+      .trend-icon {
+        margin-right: 6px;
+      }
+    }
+  }
+}
+
+// Theming
+:host {
+  @include stat-mixins.Stat-Colors;
+
+  .icon {
+    background-color: eui.$color-gray-10;
+    .colored-icon {
+      background-color: eui.$color-gray-0;
+    }
+  }
+  @include stat-mixins.Point-Stat-Colors;
+}
+
+.eui-dark-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+    @include stat-mixins.Point-Stat-Colors(eui-dark-theme);
+    .icon {
+      background-color: eui.$color-gray-50;
+      .colored-icon {
+        background-color: eui.$color-gray-70;
+      }
+      :nth-child(2) {
+        color: eui.$color-gray-20;
+      }
+    }
+  }
+}
+
+.eui-contrast-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+    @include stat-mixins.Point-Stat-Colors(eui-dark-theme);
+    .icon {
+      background-color: eui.$color-gray-70;
+      .colored-icon {
+        background-color: eui.$color-gray-90;
+      }
+      :nth-child(2) {
+        color: eui.$color-gray-0;
+      }
+    }
+  }
+}

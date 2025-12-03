@@ -1,8 +1,9 @@
-<mat-form-field class="imx-form-field-width-full" appearance="outline" *ngIf="columnContainer?.canEdit; else isReadonly">
-  <mat-label>{{ columnContainer.display | translate }}</mat-label>
-  <input matInput type="text" [formControl]="control" [attr.data-imx-identifier]="'cdr-edit-binary-input-' + columnContainer?.name" />
-</mat-form-field>
-
-<ng-template #isReadonly>
+@if (columnContainer?.canEdit) {
+  <mat-form-field class="imx-form-field-width-full" appearance="outline">
+    <mat-label>{{ columnContainer.display | translate }}</mat-label>
+    <input matInput type="text" [formControl]="control" [attr.data-imx-identifier]="'cdr-edit-binary-input-' + columnContainer?.name" />
+  </mat-form-field>
+} @else {
   <imx-view-property [columnContainer]="columnContainer" defaultValue="#LDS#Not set"> </imx-view-property>
-</ng-template>
+}
+

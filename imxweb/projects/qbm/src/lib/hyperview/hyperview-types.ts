@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,6 +24,7 @@
  *
  */
 
+import { ShapeData } from '@imx-modules/imx-api-qbm';
 import { IConnectorProvider } from './connector-provider';
 
 /**
@@ -62,6 +63,7 @@ export interface HvCell {
  * Event arguments when the user has clicked a shape.
  */
 export interface ShapeClickArgs {
+  shape: ShapeData;
   objectKey: string;
   caption: string;
 }
@@ -104,3 +106,8 @@ export interface HyperViewNavigation {
   forward: boolean;
   navigation: boolean;
 }
+
+/**
+ * Chooses which layout algorithm we want to use, unless env settings override
+ */
+export type HyperViewLayoutAlgorithm = 'Hierarchical' | 'Vertical' | 'Horizontal';

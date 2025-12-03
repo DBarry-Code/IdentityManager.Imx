@@ -1,4 +1,4 @@
-<ng-container *ngIf="!hideFilter && personData && !!personData.length">
+@if (!hideFilter && personData && !!personData.length) {
   <p>
     {{ '#LDS#Recipient or requester' | translate }}
   </p>
@@ -9,7 +9,8 @@
     (optionsClear)="clearPersonFilterSelection({})"
     [options]="directReportsOptions"
     [isPending]="pendingAsyncApiCall"
+    [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
     #personSelect
-  >
+    >
   </eui-select>
-</ng-container>
+}

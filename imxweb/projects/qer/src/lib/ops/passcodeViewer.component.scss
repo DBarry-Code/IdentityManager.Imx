@@ -1,8 +1,8 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-message-CreatePassCode {
-  color: $white;
-  background-color: $aspen-green;
+  color: eui.$color-gray-0;
+  background-color: eui.$color-green-60;
   font-size: large;
   font-weight: 600;
   padding: 20px;

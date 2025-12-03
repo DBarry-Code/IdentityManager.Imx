@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { SideNavigationComponent } from '../../side-navigation-view/side-navigat
 declare const SwaggerUIBundle: any;
 
 @Component({
-  selector: 'imx-swagger',
-  templateUrl: './swagger.component.html',
-  styleUrls: ['./swagger.component.scss'],
+    selector: 'imx-swagger',
+    templateUrl: './swagger.component.html',
+    styleUrls: ['./swagger.component.scss'],
+    standalone: false
 })
 export class SwaggerComponent implements AfterViewInit, SideNavigationComponent {
   @Input() public isAdmin: boolean;

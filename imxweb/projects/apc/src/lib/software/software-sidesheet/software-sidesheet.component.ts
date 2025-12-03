@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -49,8 +49,9 @@ interface SoftwareFormGroup {
 }
 
 @Component({
-  templateUrl: './software-sidesheet.component.html',
-  styleUrls: ['./software-sidesheet.component.scss'],
+    templateUrl: './software-sidesheet.component.html',
+    styleUrls: ['./software-sidesheet.component.scss'],
+    standalone: false
 })
 export class SoftwareSidesheetComponent implements OnInit, OnDestroy {
   public cdrList: ColumnDependentReference[];

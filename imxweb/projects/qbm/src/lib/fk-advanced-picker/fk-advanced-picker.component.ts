@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,8 +36,9 @@ import { FkSelectorComponent } from './fk-selector.component';
 import { ForeignKeyPickerData } from './foreign-key-picker-data.interface';
 
 @Component({
-  templateUrl: './fk-advanced-picker.component.html',
-  styleUrls: ['./fk-advanced-picker.component.scss'],
+    templateUrl: './fk-advanced-picker.component.html',
+    styleUrls: ['./fk-advanced-picker.component.scss'],
+    standalone: false
 })
 export class FkAdvancedPickerComponent implements OnInit, OnDestroy {
   @ViewChild(FkSelectorComponent) public selector: FkSelectorComponent;
@@ -94,7 +95,7 @@ export class FkAdvancedPickerComponent implements OnInit, OnDestroy {
    * Assigns foreign key(s) by passing the value and the displayvalue to the parent component
    */
   public applySelection(selected?: TypedEntity): void {
-    const entityList = selected == null ? this.selector.selectedCandidates : [selected];
+    const entityList = selected == null ? this.selector.dataSource.selection.selected : [selected];
     this.sidesheetRef.close({
       table: this.selector.selectedTable,
       candidates: entityList.map((typedEntity) => {

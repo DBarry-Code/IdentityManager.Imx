@@ -1,12 +1,14 @@
 <div eui-sidesheet-content>
   <mat-card>
     <!-- role creation errors should appear here -->
-    <imx-usermessage *ngIf="errorState" class="errormessages" panelClass="imx-small-message" [target]="'sidesheet'"></imx-usermessage>
+    @if (errorState) {
+      <imx-usermessage class="errormessages" panelClass="imx-small-message" [target]="'sidesheet'"></imx-usermessage>
+    }
 
     <form class="imx-cdr-group" [formGroup]="formGroup">
-      <ng-container *ngFor="let cdr of cdrList">
+      @for (cdr of cdrList; track cdr) {
         <imx-cdr-editor [cdr]="cdr" (controlCreated)="addControl(cdr?.column?.ColumnName, $event)"> </imx-cdr-editor>
-      </ng-container>
+      }
     </form>
   </mat-card>
 </div>
@@ -17,7 +19,7 @@
     color="primary"
     [disabled]="formGroup.invalid || !formGroup.dirty"
     (click)="save()"
-  >
+    >
     <span translate>#LDS#Create</span>
   </button>
 </div>

@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 :host {
   display: flex;
   flex-direction: column;
@@ -7,6 +7,6 @@
 
   .imx-dirty-indicator {
     margin-right: 10px;
-    color: $color-orange-60;
+    color: eui.$color-orange-60;
   }
 }

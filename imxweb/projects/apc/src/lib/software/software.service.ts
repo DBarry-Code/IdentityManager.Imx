@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -139,9 +139,7 @@ export class SoftwareService {
 
   public async deleteGroupMembers(uidSoftware: string, uidPersonList: string[]): Promise<any[]> {
     return await Promise.all(
-      uidPersonList.map(async (item) => {
-        (await this.api.typedClient.PortalResourcesApplicationsMembership.Delete(uidSoftware, item)).Data[0];
-      }),
+      uidPersonList.map((item) => this.api.typedClient.PortalResourcesApplicationsMembership.Delete(uidSoftware, item)),
     );
   }
 

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,9 +59,10 @@ export interface EntitlementCountUpdateData {
 }
 
 @Component({
-  selector: 'imx-request-shelf-entitlements',
-  templateUrl: './request-shelf-entitlements.component.html',
-  styleUrls: ['../request-config-sidesheet-common.scss'],
+    selector: 'imx-request-shelf-entitlements',
+    templateUrl: './request-shelf-entitlements.component.html',
+    styleUrls: ['../request-config-sidesheet-common.scss'],
+    standalone: false
 })
 export class RequestShelfEntitlementsComponent implements OnInit {
   @Input() public shelfId: string;

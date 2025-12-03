@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { RoleComplianceViolationsWrapperService } from './role-compliance-violat
 import { RoleComplianceViolationsService } from './role-compliance-violations.service';
 
 @Component({
-  templateUrl: './role-compliance-violations.component.html',
-  styleUrls: ['./role-compliance-violations.component.scss'],
+    templateUrl: './role-compliance-violations.component.html',
+    styleUrls: ['./role-compliance-violations.component.scss'],
+    standalone: false
 })
 export class RoleComplianceViolationsComponent implements OnInit {
   public tablename: string;

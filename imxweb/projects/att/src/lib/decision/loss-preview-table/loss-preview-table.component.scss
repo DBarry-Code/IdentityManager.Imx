@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   overflow-y: auto;
@@ -45,18 +45,18 @@
 // Theming
 :host {
   .table-subtitle {
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
   }
 
   .imx-data-no-results {
-    color: $color-gray-20;
+    color: eui.$color-gray-20;
   }
 }
 
 .eui-dark-theme {
   :host {
     .table-subtitle {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
   }
 }
@@ -64,7 +64,7 @@
 .eui-contrast-theme {
   :host {
     .table-subtitle {
-      color: $color-gray-10;
+      color: eui.$color-gray-10;
     }
   }
 }

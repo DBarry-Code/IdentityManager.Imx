@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { SettingsService } from '../../settings/settings-service';
 import { TreeDatabase } from '../tree-database';
 
 @Component({
-  selector: 'imx-data-tree-search-results',
-  templateUrl: './data-tree-search-results.component.html',
-  styleUrls: ['./data-tree-search-results.component.scss', '../data-tree-no-results.scss'],
+    selector: 'imx-data-tree-search-results',
+    templateUrl: './data-tree-search-results.component.html',
+    styleUrls: ['./data-tree-search-results.component.scss', '../data-tree-no-results.scss'],
+    standalone: false
 })
 
 /** A component, that can display the search result for a{@link DataTreeComponent|data tree} */

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -456,10 +456,6 @@ export class RoleService {
 
   public exists(tableName: string | undefined): boolean {
     return tableName != null && this.targetMap.has(tableName);
-  }
-
-  public async getCanEdit(tablename: string): Promise<boolean | undefined> {
-    return this.targetMap.get(tablename)?.canEdit ? this.targetMap.get(tablename)?.canEdit!() : undefined;
   }
 
   public async get(

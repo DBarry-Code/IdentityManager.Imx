@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,7 +38,8 @@ import { EntitlementToAddDataWrapperService } from './entitlement-to-add-data-wr
 import { MappedEntitlementsPreviewComponent } from './mapped-entitlements-preview/mapped-entitlements-preview.component';
 
 @Component({
-  templateUrl: './entitlement-edit-auto-add.component.html',
+    templateUrl: './entitlement-edit-auto-add.component.html',
+    standalone: false
 })
 export class EntitlementEditAutoAddComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];

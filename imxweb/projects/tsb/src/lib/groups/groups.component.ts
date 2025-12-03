@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,6 +43,7 @@ import {
   DisplayColumns,
   EntitySchema,
   IClientProperty,
+  IEntity,
   TypedEntityCollectionData,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
@@ -57,6 +58,7 @@ import {
   HelpContextualValues,
   SideNavigationComponent,
   SnackBarService,
+  buildAdditionalElementsString,
   calculateSidesheetWidth,
 } from 'qbm';
 import { SourceDetectiveSidesheetComponent, SourceDetectiveSidesheetData, SourceDetectiveType, ViewConfigService } from 'qer';
@@ -74,6 +76,7 @@ import { ProductOwnerSidesheetComponent } from './product-owner-sidesheet/produc
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class DataExplorerGroupsComponent implements OnInit, OnDestroy, SideNavigationComponent {
   @Input() public unsAccountIdFilter: string;
@@ -301,6 +304,10 @@ export class DataExplorerGroupsComponent implements OnInit, OnDestroy, SideNavig
     if (selectedOwner) {
       return this.updateOwnerForSelectedGroups(selectedOwner);
     }
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 
   private async updateOwnerForSelectedGroups(selectedOwner: { uidPerson?: string; uidRole?: string }): Promise<void> {

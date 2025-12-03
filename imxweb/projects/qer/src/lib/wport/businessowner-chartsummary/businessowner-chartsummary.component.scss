@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 
 :host {
   display: flex;
@@ -106,8 +106,8 @@
   ::ng-deep .mat-mdc-card {
     height: 140px;
     display: flex;
-    width: $IMX_Tile_Width;
-    min-width: $IMX_Tile_Width;
+    width: imx-variables.$IMX_Tile_Width;
+    min-width: imx-variables.$IMX_Tile_Width;
     flex-direction: column;
     cursor: auto;
     padding: 25px;
@@ -146,36 +146,36 @@
 // Theming
 :host {
   .imx-valuelist a {
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
   }
 
   .imx-valuelist a:focus,
   .imx-valuelist a:hover {
-    background-color: $color-gray-10;
+    background-color: eui.$color-gray-10;
   }
 
   .imx-generic-tile-caption h3 > :last-child {
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
   }
 
   .imx-generic-tile-caption h4 {
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
   }
 
   .mat-mdc-card-subtitle {
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-valuelist a {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
 
     .imx-valuelist a:focus,
     .imx-valuelist a:hover {
-      background-color: $color-gray-80;
+      background-color: eui.$color-gray-80;
     }
   }
 }
@@ -183,12 +183,12 @@
 .eui-contrast-theme {
   :host {
     .imx-valuelist a {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
 
     .imx-valuelist a:focus,
     .imx-valuelist a:hover {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 }

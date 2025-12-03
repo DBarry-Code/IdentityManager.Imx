@@ -1,7 +1,8 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import '../../new-request-global.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use '../../new-request-global.scss' as new-request-global;
 
-@include Table-Styles;
+@include new-request-global.Table-Styles;
 
 :host {
   display: flex;
@@ -67,15 +68,17 @@
           font-size: min(64px, max(3vw, 20px));
           font-weight: 700;
         }
+
         span {
           max-width: 806px;
           text-align: center;
         }
       }
     }
+
     button {
       &:hover {
-        @include ease-transition;
+        @include mixins.ease-transition;
       }
 
       eui-icon {
@@ -90,49 +93,54 @@
 // Theming
 :host {
   .imx-bundle-header h3 {
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
   }
 
   .imx-bundle-header h3.bundleSelected {
-    color: $color-orange-40;
+    color: eui.$color-orange-40;
   }
 
   .imx-no-data-top {
+
     h2,
     eui-icon {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
+
     span {
-      color: $color-gray-60;
+      color: eui.$color-gray-60;
     }
   }
+
   .imx-no-data button:hover {
-    background-color: $color-orange-60;
+    background-color: eui.$color-orange-60;
   }
 }
 
-.eui-contrast-theme{
+.eui-contrast-theme {
   :host {
     .imx-bundle-header h3 {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .imx-bundle-header h3.bundleSelected {
-      color: $color-orange-20;
+      color: eui.$color-orange-20;
     }
 
     .imx-no-data-top {
+
       h2,
       eui-icon {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
+
       span {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
 
     .imx-no-data button:hover {
-      background-color: $color-orange-20;
+      background-color: eui.$color-orange-20;
     }
   }
 }
@@ -140,25 +148,27 @@
 .eui-dark-theme {
   :host {
     .imx-bundle-header h3 {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
 
     .imx-bundle-header h3.bundleSelected {
-      color: $color-orange-20;
+      color: eui.$color-orange-20;
     }
 
     .imx-no-data-top {
+
       h2,
       eui-icon {
-        color: $color-gray-20;
+        color: eui.$color-gray-20;
       }
+
       span {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
 
     .imx-no-data button:hover {
-      background-color: $color-orange-40;
+      background-color: eui.$color-orange-40;
     }
   }
 }

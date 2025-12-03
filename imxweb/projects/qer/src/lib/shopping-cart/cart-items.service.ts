@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -156,7 +156,7 @@ export class CartItemsService {
           parentCartUid = this.getKey(parent);
         } else {
           // Get parent cart ID from known cart items
-          parentCartUid = await this.getFromExistingCartItems(addedItems[0].UID_ShoppingCartOrder.value, requestable);
+          parentCartUid = await this.getFromExistingCartItems(addedItems[0]?.UID_ShoppingCartOrder.value, requestable);
         }
       }
 
@@ -198,7 +198,7 @@ export class CartItemsService {
       return this.getKey(parent);
     }
     // Mandatory item isn't there, no well-defined fall back. Report error move on
-    this.errorHandler.handleError('There is a missing mandatory item, cannot link optional item to parent. Ordering with no parent.');
+    this.logger.trace(this, 'There is a missing mandatory item, cannot link optional item to parent. Ordering with no parent.');
   }
 
   public async removeItems(cartItems: PortalCartitem[], filter?: (cartItem: PortalCartitem) => boolean): Promise<void> {

@@ -1,17 +1,17 @@
-@import 'base/mixins';
-@import 'pick-category-common.scss';
+@use 'base/mixins' as mixins;
+@use './pick-category-common.scss' as pick-category-common;
 
 :host {
-  @include flex-column-container($overflow: hidden, $height: inherit, $max-width: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: inherit, $max-width: 100%);
 }
 
 .imx-pickcategory-page {
   background-color: inherit;
-  @include flex-column-container($overflow: hidden);
+  @include mixins.flex-column-container($overflow: hidden, $padding: true);
   flex: 1 1 auto;
 
   .mat-mdc-card {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
   }
 }
 

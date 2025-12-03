@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { Moment } from 'moment-timezone';
  * Internal wrapper component around material calendar to pick a Moment date value.
  */
 @Component({
-  selector: 'imx-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+    selector: 'imx-calendar',
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss'],
+    standalone: false
 })
 export class CalendarComponent implements OnInit, AfterViewInit {
   /**
@@ -120,7 +121,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   public onDateChanged(event: MatCalendarUserEvent<Moment>): void {
     this.datePickerDate = moment(event.value).clone();
     this.control.setValue(this.datePickerDate);
-    this.close.emit();
   }
 
   /**

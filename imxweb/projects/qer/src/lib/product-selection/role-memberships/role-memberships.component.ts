@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { ItshopService } from '../../itshop/itshop.service';
 import { RecipientsWrapper } from '../recipients-wrapper';
 
 @Component({
-  selector: 'imx-role-memberships',
-  templateUrl: './role-memberships.component.html',
-  styleUrls: ['./role-memberships.component.scss'],
+    selector: 'imx-role-memberships',
+    templateUrl: './role-memberships.component.html',
+    styleUrls: ['./role-memberships.component.scss'],
+    standalone: false
 })
 export class RoleMembershipsComponent implements OnChanges {
   @Input() public recipients: RecipientsWrapper;

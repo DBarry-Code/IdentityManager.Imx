@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -51,10 +51,11 @@ import { LifecycleAction } from './lifecycle-action.enum';
  *
  */
 @Component({
-  selector: 'imx-entitlements-action',
-  templateUrl: './lifecycle-action.component.html',
-  styleUrls: ['./lifecycle-action.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-entitlements-action',
+    templateUrl: './lifecycle-action.component.html',
+    styleUrls: ['./lifecycle-action.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class LifecycleActionComponent implements OnDestroy, OnInit {
   public readonly DisplayColumns = DisplayColumns; // Enables use of this static class in Angular Templates.

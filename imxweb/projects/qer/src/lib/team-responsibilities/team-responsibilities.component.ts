@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,11 +41,12 @@ import { TeamResponsibilitySidesheetComponent } from './team-responsibility-side
   templateUrl: './team-responsibilities.component.html',
   styleUrls: ['./team-responsibilities.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class TeamResponsibilitiesComponent implements OnInit {
   public entitySchema: EntitySchema;
   public busyService = new BusyService();
-  public displayColumns: ClientPropertyForTableColumns[];
+  public displayColumns: ClientPropertyForTableColumns[] = [];
   public tableSelection: PortalRespTeamResponsibilities[] = [];
   public customFilterValue = true;
   public extendedData: Map<string, ResponsibilityData | undefined> = new Map();
@@ -73,8 +74,9 @@ export class TeamResponsibilitiesComponent implements OnInit {
     const extendedData = this.getExtendedData(responsibility);
     return 1 + (extendedData?.OtherIdentities || []).length;
   }
-  public isResponsibilitiesDeletable(): boolean {
-    return this.tableSelection.some((responsibility) => !!responsibility.UID_SourceColumn.value);
+
+  public isResponsibilitiesDeletable(responsibilities: PortalRespTeamResponsibilities[]): boolean {
+    return responsibilities.some((responsibility) => !!responsibility.UID_SourceColumn.value);
   }
 
   public isDirectResponsibility(responsibility: PortalRespTeamResponsibilities): boolean {
@@ -118,14 +120,14 @@ export class TeamResponsibilitiesComponent implements OnInit {
       });
   }
 
-  public onDeleteResponsibilities(): void {
-    if (!!this.tableSelection.length) {
+  public onDeleteResponsibilities(responsibilities: PortalRespTeamResponsibilities[]): void {
+    if (!!responsibilities.length) {
       this.dialogService
-        .open(TeamResponsibilityDialogComponent, { data: this.tableSelection })
+        .open(TeamResponsibilityDialogComponent, { data: responsibilities })
         .afterClosed()
         .subscribe(async (result) => {
           if (result) {
-            await this.teamResponsibilitiesService.removeResponsibilities(this.tableSelection);
+            await this.teamResponsibilitiesService.removeResponsibilities(responsibilities);
             this.dataSource.selection.clear();
             this.dataSource.updateState();
           }
@@ -133,21 +135,19 @@ export class TeamResponsibilitiesComponent implements OnInit {
     }
   }
 
-  public onReassignResponsibilities(): void {
-    const extendedData: (ResponsibilityData | undefined)[] = this.tableSelection.map((responsibility) =>
-      this.getExtendedData(responsibility),
-    );
+  public onReassignResponsibilities(responsibilities: PortalRespTeamResponsibilities[]): void {
+    const extendedData: (ResponsibilityData | undefined)[] = responsibilities.map((responsibility) => this.getExtendedData(responsibility));
     this.sideSheet
       .open(TeamResponsibilityAssignSidesheetComponent, {
         title: this.translateService.instant(
-          this.tableSelection.length > 1 ? '#LDS#Heading Reassign Responsibilities' : '#LDS#Heading Reassign Responsibility',
+          responsibilities.length > 1 ? '#LDS#Heading Reassign Responsibilities' : '#LDS#Heading Reassign Responsibility',
         ),
-        subTitle: this.tableSelection.length > 1 ? undefined : this.tableSelection[0].GetEntity().GetDisplay(),
+        subTitle: responsibilities.length > 1 ? undefined : responsibilities[0].GetEntity().GetDisplay(),
         icon: 'forward',
         padding: '0',
         width: calculateSidesheetWidth(600, 0.4),
         testId: 'team-responsibilities-assign-sidesheet',
-        data: { responsibility: this.tableSelection, reassign: true, extendedData },
+        data: { responsibility: responsibilities, reassign: true, extendedData },
       })
       .afterClosed()
       .subscribe((result: boolean) => {
@@ -184,7 +184,7 @@ export class TeamResponsibilitiesComponent implements OnInit {
       selectionChange: (selection: PortalRespTeamResponsibilities[]) => {
         this.tableSelection = selection;
       },
-      groupExecute: (column, params, signal) =>
+      groupExecute: (column: string, params: CollectionLoadParameters, signal: AbortSignal) =>
         this.teamResponsibilitiesService.getGroups(column, { ...params, forinactive: this.customFilterValue ? '1' : undefined }, signal),
     };
     this.dataSource.init(dataViewInitParameters);
@@ -209,6 +209,10 @@ export class TeamResponsibilitiesComponent implements OnInit {
       this.entitySchema.Columns.UID_Person,
       {
         ColumnName: 'identitiesCount',
+        Type: ValType.String,
+      },
+      {
+        ColumnName: 'actions',
         Type: ValType.String,
       },
     ];

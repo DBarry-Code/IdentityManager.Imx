@@ -55,28 +55,30 @@
       data-imx-identifier="itshop-pattern-button-delete"
       [disabled]="!selectedItemsCanBeDeleted()"
       (click)="delete()"
-    >
+      >
       <eui-icon icon="delete"></eui-icon>
       <span>{{ '#LDS#Delete' | translate }}</span>
     </button>
-    <button
-      mat-stroked-button
-      data-imx-identifier="itshop-pattern-button-view-publish"
-      *ngIf="adminMode"
-      [disabled]="!selectedItemsCanBeUnpublished()"
-      (click)="unpublish(selectedPatterns)"
-    >
-      {{ '#LDS#Unshare' | translate }}
-    </button>
-    <button
-      mat-stroked-button
-      data-imx-identifier="itshop-pattern-button-view-publish"
-      *ngIf="adminMode"
-      [disabled]="!selectedItemsCanBePublished()"
-      (click)="publish(selectedPatterns)"
-    >
-      {{ '#LDS#Share' | translate }}
-    </button>
+    @if (adminMode) {
+      <button
+        mat-stroked-button
+        data-imx-identifier="itshop-pattern-button-view-publish"
+        [disabled]="!selectedItemsCanBeUnpublished()"
+        (click)="unpublish(selectedPatterns)"
+        >
+        {{ '#LDS#Unshare' | translate }}
+      </button>
+    }
+    @if (adminMode) {
+      <button
+        mat-stroked-button
+        data-imx-identifier="itshop-pattern-button-view-publish"
+        [disabled]="!selectedItemsCanBePublished()"
+        (click)="publish(selectedPatterns)"
+        >
+        {{ '#LDS#Share' | translate }}
+      </button>
+    }
     <button mat-flat-button color="primary" data-imx-identifier="itshop-pattern-button-create" (click)="createNewPattern()">
       <eui-icon icon="add"></eui-icon>
       <span>{{ '#LDS#Create product bundle' | translate }}</span>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,9 +37,10 @@ import { PasswordQuestionService } from '../password-question.service';
 import { checkMatchValidator } from '../password-questions-validator';
 
 @Component({
-  selector: 'imx-password-questions-sidesheet',
-  templateUrl: './password-questions-sidesheet.component.html',
-  styleUrls: ['./password-questions-sidesheet.component.scss'],
+    selector: 'imx-password-questions-sidesheet',
+    templateUrl: './password-questions-sidesheet.component.html',
+    styleUrls: ['./password-questions-sidesheet.component.scss'],
+    standalone: false
 })
 export class PasswordQuestionsSidesheetComponent implements AfterViewInit, OnDestroy {
   /**

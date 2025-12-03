@@ -4,8 +4,6 @@
 <ng-container>
   <table
     mat-table
-    matSort
-    (matSortChange)="dataSource?.sortChange($event)"
     [dataSource]="dataSource"
     [ngClass]="{
       'imx-hidden': dataSource?.loading() || !dataSource?.totalCount(),
@@ -14,8 +12,6 @@
     role="grid"
     tableAccessiblility
     eui-scroll
-    [matSortActive]="dataSource.sortId()"
-    [matSortDirection]="dataSource.sortDirection()"
   >
     @if (selectable) {
       <ng-container matColumnDef="select">
@@ -62,35 +58,27 @@
     }
 
     @if (mode === 'auto') {
-      <ng-container [matColumnDef]="column.ColumnName" *ngFor="let column of dataSource?.columnsToDisplay()">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          [disabled]="!dataSource.isSortable(column.ColumnName || '')"
-          class="imx-header-cell"
-        >
-          {{ dataSource.GetColumnDisplay(column.ColumnName || '', dataSource?.entitySchema()) }}
-        </th>
-        <td mat-cell class="imx-header-cell" *matCellDef="let element" role="gridcell">
-          <span>{{ element?.GetEntity()?.GetColumn(column.ColumnName)?.GetDisplayValue() }}</span>
-        </td>
-      </ng-container>
+      @for (column of dataSource?.columnsToDisplay(); track column) {
+        <ng-container [matColumnDef]="column.ColumnName">
+          <th mat-header-cell *matHeaderCellDef class="imx-header-cell">
+            {{ dataSource.GetColumnDisplay(column.ColumnName || '', dataSource?.entitySchema()) }}
+          </th>
+          <td mat-cell class="imx-header-cell" *matCellDef="let element" role="gridcell">
+            <span>{{ element?.GetEntity()?.GetColumn(column.ColumnName)?.GetDisplayValue() }}</span>
+          </td>
+        </ng-container>
+      }
     } @else {
-      <ng-container [matColumnDef]="column.ColumnName" *ngFor="let column of dataSource?.additionalColumns()">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          [disabled]="!dataSource.isSortable(column.ColumnName || '')"
-          class="imx-header-cell"
-        >
-          {{ dataSource.GetColumnDisplay(column.ColumnName || '', dataSource?.entitySchema()) }}
-        </th>
-        <td mat-cell class="imx-header-cell" *matCellDef="let element" role="gridcell">
-          <span>{{ element?.GetEntity()?.GetColumn(column.ColumnName)?.GetDisplayValue() }}</span>
-        </td>
-      </ng-container>
+      @for (column of dataSource?.additionalColumns(); track column) {
+        <ng-container [matColumnDef]="column.ColumnName">
+          <th mat-header-cell *matHeaderCellDef class="imx-header-cell">
+            {{ dataSource.GetColumnDisplay(column.ColumnName || '', dataSource?.entitySchema()) }}
+          </th>
+          <td mat-cell class="imx-header-cell" *matCellDef="let element" role="gridcell">
+            <span>{{ element?.GetEntity()?.GetColumn(column.ColumnName)?.GetDisplayValue() }}</span>
+          </td>
+        </ng-container>
+      }
     }
     <tr mat-header-row *matHeaderRowDef="namesOfDisplayedColumns(); sticky: true"></tr>
     <tr

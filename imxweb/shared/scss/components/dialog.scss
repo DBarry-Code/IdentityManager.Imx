@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 /* Elemental UI */
 
@@ -30,7 +30,7 @@
     &-flex {
       &-column {
         &.mat-mdc-dialog-content {
-          @include flex-column-container($overflow: auto, $height: 100%);
+          @include mixins.flex-column-container($overflow: auto, $height: 100%);
         }
       }
     }

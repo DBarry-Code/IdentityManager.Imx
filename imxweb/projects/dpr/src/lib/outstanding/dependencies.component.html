@@ -1,16 +1,22 @@
 <div eui-sidesheet-content class="sidesheet-margin">
-  <eui-alert type="info" [condensed]="true" [colored]="true" *ngIf="isPublish()">
-    <span translate>#LDS#The following objects must also be added to the target system, as they depend on the objects to be added.</span>
-  </eui-alert>
+  @if (isPublish()) {
+    <eui-alert type="info" [condensed]="true" [colored]="true">
+      <span translate>#LDS#The following objects must also be added to the target system, as they depend on the objects to be added.</span>
+    </eui-alert>
+  }
 
-  <eui-alert type="warning" [condensed]="true" [colored]="true" *ngIf="isDelete()">
-    <span translate>#LDS#The following objects must also be deleted, as they depend on the objects to be deleted.</span>
-  </eui-alert>
+  @if (isDelete()) {
+    <eui-alert type="warning" [condensed]="true" [colored]="true">
+      <span translate>#LDS#The following objects must also be deleted, as they depend on the objects to be deleted.</span>
+    </eui-alert>
+  }
 
   <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let u of data.dependencies"
-      >{{ u.Display }} -&nbsp;<span class="object-type">{{ u.ObjectType }}</span>
-    </mat-list-item>
+    @for (u of data.dependencies; track u) {
+      <mat-list-item role="listitem"
+        >{{ u.Display }} -&nbsp;<span class="object-type">{{ u.ObjectType }}</span>
+      </mat-list-item>
+    }
   </mat-list>
 </div>
 

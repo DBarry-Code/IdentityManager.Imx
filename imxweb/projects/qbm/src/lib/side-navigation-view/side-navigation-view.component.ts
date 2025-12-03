@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { HelpContextualValues } from '../help-contextual/help-contextual.service
 import { SideNavigationExtension, SideNavigationItem } from './side-navigation-view-interfaces';
 
 @Component({
-  selector: 'imx-side-navigation-view',
-  templateUrl: './side-navigation-view.component.html',
+    selector: 'imx-side-navigation-view',
+    templateUrl: './side-navigation-view.component.html',
+    standalone: false
 })
 export class SideNavigationViewComponent implements OnDestroy {
   @Input() public baseUrl = '';

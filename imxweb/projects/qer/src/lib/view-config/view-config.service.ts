@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,7 +27,7 @@
 import { Injectable } from '@angular/core';
 import { ViewConfigData } from '@imx-modules/imx-api-qer';
 import { DataModel } from '@imx-modules/imx-qbm-dbts';
-import { DataSourceToolbarViewConfig, DSTViewConfig, isConfigDefault, isDefaultId } from 'qbm';
+import { DataSourceToolbarViewConfig, DSTViewConfig, FKViewConfig, isConfigDefault, isDefaultId } from 'qbm';
 import { QerApiService } from '../qer-api-client.service';
 
 @Injectable({
@@ -43,24 +43,36 @@ export class ViewConfigService {
    * @param viewId ViewConfigData.ViewId
    * @returns viewConfigData[]
    */
-  public async getViewConfig(viewId: string, signal?: AbortSignal): Promise<ViewConfigData[]> {
-    return (await this.qerClient.v2Client.portal_viewconfig_get(undefined, { signal })).filter((config) => config.ViewId === viewId);
+  public async getViewConfig(viewId: string, signal?: AbortSignal, opsupport = false): Promise<ViewConfigData[]> {
+    if (opsupport) {
+      return (await this.qerClient.v2Client.opsupport_viewconfig_get(undefined, { signal })).filter((config) => config.ViewId === viewId);
+    } else {
+      return (await this.qerClient.v2Client.portal_viewconfig_get(undefined, { signal })).filter((config) => config.ViewId === viewId);
+    }
   }
 
   /**
    * Post/put the config.
    * @param config ViewConfigData
    */
-  public async putViewConfig(config: ViewConfigData): Promise<void> {
-    await this.qerClient.v2Client.portal_viewconfig_put(config);
+  public async putViewConfig(config: ViewConfigData, opsupport = false): Promise<void> {
+    if (opsupport) {
+      await this.qerClient.v2Client.opsupport_viewconfig_put(config);
+    } else {
+      await this.qerClient.v2Client.portal_viewconfig_put(config);
+    }
   }
 
   /**
    * Delete the config with the supplied id
    * @param id ViewConfigData.Id
    */
-  public async deleteViewConfig(id: string): Promise<void> {
-    await this.qerClient.v2Client.portal_viewconfig_delete(id);
+  public async deleteViewConfig(id: string, opsupport = false): Promise<void> {
+    if (opsupport) {
+      await this.qerClient.v2Client.opsupport_viewconfig_delete(id);
+    } else {
+      await this.qerClient.v2Client.portal_viewconfig_delete(id);
+    }
   }
 
   /**
@@ -69,9 +81,14 @@ export class ViewConfigService {
    * @param viewId ViewConfigData.ViewId
    * @returns The list of available configs along with the viewId for the DST
    */
-  public async getInitialDSTExtension(dataModel: DataModel, viewId: string, signal?: AbortSignal): Promise<DataSourceToolbarViewConfig> {
+  public async getInitialDSTExtension(
+    dataModel: DataModel,
+    viewId: string,
+    signal?: AbortSignal,
+    opsupport = false,
+  ): Promise<DataSourceToolbarViewConfig> {
     // Take configs from the data model, this should be a superset of the user's configs.
-    const userConfigs = await this.getViewConfig(viewId, signal);
+    const userConfigs = await this.getViewConfig(viewId, signal, opsupport);
     const userDefault = userConfigs.find((config) => config.UseAsDefault);
     this.allConfigs =
       dataModel?.Configurations?.map<DSTViewConfig>((config) => {
@@ -107,8 +124,8 @@ export class ViewConfigService {
    * @param viewId ViewConfigData.ViewId
    * @returns The list of available configs along with the viewId for the DST
    */
-  public async getDSTExtensionChanges(viewId: string): Promise<DataSourceToolbarViewConfig> {
-    const userConfigs = await this.getViewConfig(viewId);
+  public async getDSTExtensionChanges(viewId: string, signal?: AbortSignal, opsupport = false): Promise<DataSourceToolbarViewConfig> {
+    const userConfigs = await this.getViewConfig(viewId, signal, opsupport);
     const userConfigIds = userConfigs.map((config) => config?.Id);
     // Filter out any removed configs that aren't marked as readonly
     this.allConfigs = this.allConfigs.filter((config) => config.IsReadOnly || userConfigIds.includes(config.Id));
@@ -120,6 +137,20 @@ export class ViewConfigService {
     return {
       viewConfigs: this.allConfigs,
       viewId,
+    };
+  }
+
+  /**
+   * Get the settings object to imbed into components within qbm
+   * @param viewId for posting/deleting configs by an id
+   * @returns
+   */
+  public viewConfigSettings(viewId: string): FKViewConfig {
+    return {
+      getViewConfig: (dataModel: DataModel) => this.getInitialDSTExtension(dataModel, viewId),
+      getViewUpdates: () => this.getDSTExtensionChanges(viewId),
+      updateConfig: (config: ViewConfigData) => this.putViewConfig(config),
+      deleteConfigById: (id: string) => this.deleteViewConfig(id),
     };
   }
 

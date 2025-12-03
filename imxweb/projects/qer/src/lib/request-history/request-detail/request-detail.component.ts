@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { RequestActionService } from '../request-action/request-action.service';
 import { RequestDetailParameter } from './request-detail-parameter.interface';
 
 @Component({
-  templateUrl: './request-detail.component.html',
-  selector: 'imx-request-detail',
-  styleUrls: ['./request-detail.component.scss'],
+    templateUrl: './request-detail.component.html',
+    selector: 'imx-request-detail',
+    styleUrls: ['./request-detail.component.scss'],
+    standalone: false
 })
 export class RequestDetailComponent implements OnDestroy {
   public readonly allowedActionCount: number;

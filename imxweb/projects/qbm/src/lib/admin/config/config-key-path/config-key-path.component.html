@@ -1,0 +1,6 @@
+@for (elem of path; track elem; let last = $last) {
+  {{ elem }}
+  @if (!last) {
+    <span class="key-path-separator"> / </span>
+  }
+}

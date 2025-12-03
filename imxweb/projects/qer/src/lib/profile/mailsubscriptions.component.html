@@ -11,14 +11,16 @@
         [indeterminate]="partiallySelected"
         (change)="onSelectAllChange($event.checked)"
         [attr.aria-label]="allSelected ? ('#LDS#Deselect all' | translate) : ('#LDS#Select all' | translate)"
-      >
+        >
         {{ '#LDS#Selection' | translate }}
       </mat-checkbox>
       <mat-list>
-        <mat-list-option *ngFor="let m of filteredMailInfo" [value]="m.UidMail">
-          <div>{{ m.Display }}</div>
-          <span class="imx-list-subtitle">{{ m.Description }}</span>
-        </mat-list-option>
+        @for (m of filteredMailInfo; track m) {
+          <mat-list-option [value]="m.UidMail">
+            <div>{{ m.Display }}</div>
+            <span class="imx-list-subtitle">{{ m.Description }}</span>
+          </mat-list-option>
+        }
       </mat-list>
     </mat-selection-list>
   </div>

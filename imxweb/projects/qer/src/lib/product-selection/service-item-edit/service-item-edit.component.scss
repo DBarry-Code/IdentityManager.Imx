@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   width: 100%;
@@ -8,7 +8,7 @@
   flex-direction: column;
 
   .eui-sidesheet-content {
-    @include flex-column-container($height: initial);
+    @include mixins.flex-column-container($height: initial);
 
     imx-bulk-editor {
       padding: 2px;

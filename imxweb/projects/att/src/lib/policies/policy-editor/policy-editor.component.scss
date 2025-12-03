@@ -1,8 +1,8 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container($overflow: auto);
+  @include mixins.flex-column-container($overflow: auto);
   padding-top: 10px;
   padding-left: 30px;
   padding-right: 30px;
@@ -18,7 +18,7 @@ h3 {
 }
 
 .imx-title {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
   align-items: center;
 }
 
@@ -31,8 +31,9 @@ h3 {
 }
 
 .imx-policy-actions {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
   justify-content: flex-end;
+
   .mat-mdc-progress-spinner {
     margin: inherit;
     margin-right: 5px;
@@ -41,12 +42,12 @@ h3 {
 
 .eui-dark-theme {
   :host {
-    background-color: $color-gray-80;
+    background-color: eui.$color-gray-80;
   }
 }
 
 .eui-contrast-theme {
   :host {
-    background-color: $color-gray-100;
+    background-color: eui.$color-gray-100;
   }
 }

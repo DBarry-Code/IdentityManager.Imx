@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,6 +34,8 @@ import { MethodDefinition, MethodDescriptor } from '@imx-modules/imx-qbm-dbts';
 export const BASE_URL = new InjectionToken<string>('BASE_URL');
 
 /**
+ * @deprecated since v10.0.0
+  * 
  * Processes HTTP requests using the Angular HttpClient and imx-api method descriptors
  */
 @Injectable()

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,20 +24,21 @@
  *
  */
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { IEntityColumn } from '@imx-modules/imx-qbm-dbts';
 import { BaseCdr, BaseReadonlyCdr } from 'qbm';
-import { OwnerCandidateOptions } from './owner.model';
 import { OwnerControlService } from './owner-control.service';
+import { OwnerCandidateOptions } from './owner.model';
 
 @Component({
-  selector: 'imx-owner-control',
-  templateUrl: './owner-control.component.html',
-  styleUrls: ['./owner-control.component.scss'],
+    selector: 'imx-owner-control',
+    templateUrl: './owner-control.component.html',
+    styleUrls: ['./owner-control.component.scss'],
+    standalone: false
 })
 export class OwnerControlComponent implements OnChanges, OnDestroy {
   @Input() public column: IEntityColumn;
@@ -49,10 +50,10 @@ export class OwnerControlComponent implements OnChanges, OnDestroy {
   public productOwnerPersonCdr: BaseCdr;
   public ownerSelectionCtrl = new UntypedFormControl(this.ownerCandidateOptions.roles);
 
-  public get uidPersonSelected(): string {
+  public get uidPersonSelected(): string | undefined {
     return this.productOwnerPersonCdr ? this.productOwnerPersonCdr.column.GetValue() : undefined;
   }
-  public get uidRoleSelected(): string {
+  public get uidRoleSelected(): string | undefined {
     return this.productOwnerCdr ? this.productOwnerCdr.column.GetValue() : undefined;
   }
 

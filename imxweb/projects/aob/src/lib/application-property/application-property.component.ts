@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,9 +27,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'imx-application-property',
-  templateUrl: './application-property.component.html',
-  styleUrls: ['./application-property.component.scss'],
+    selector: 'imx-application-property',
+    templateUrl: './application-property.component.html',
+    styleUrls: ['./application-property.component.scss'],
+    standalone: false
 })
 export class ApplicationPropertyComponent {
   @Input() public display: string;

@@ -1,0 +1,39 @@
+<div class="item-count">
+  <div>{{ '#LDS#Considered items' | translate }}:</div>
+  <div class="item-bold">
+    {{ summaryStat.CountGreen + summaryStat.CountYellow + summaryStat.CountRed }}
+  </div>
+</div>
+<div class="grid">
+  @for (_ of [].constructor(12); track _; let i = $index) {
+    <div class="grid-item">
+      @if (i === 2) {
+        <div class="grid-base grid-error"></div>
+      }
+      @if (i === 3) {
+        <div class="grid-text">
+          {{ summaryStat.CountRed }}
+        </div>
+      }
+      @if (i === 6) {
+        <div class="grid-base grid-warn"></div>
+      }
+      @if (i === 7) {
+        <div class="grid-text">
+          {{ summaryStat.CountYellow }}
+        </div>
+      }
+      @if (i === 10) {
+        <div class="grid-base grid-ok"></div>
+      }
+      @if (i === 11) {
+        <div class="grid-text">
+          {{ summaryStat.CountGreen }}
+        </div>
+      }
+      @if ([0, 1, 4, 5, 8, 9].includes(i)) {
+        <div class="grid-base"></div>
+      }
+    </div>
+  }
+</div>

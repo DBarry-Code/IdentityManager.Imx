@@ -1,0 +1,120 @@
+<mat-expansion-panel class="imx-margin-right-5">
+  <mat-expansion-panel-header>
+    <mat-panel-title class="key-title">
+      <config-key-path [path]="conf.DisplayPath"></config-key-path>
+      @if (conf.HasCustomGlobalValue) {
+        <eui-badge>
+          {{ '#LDS#Customized' | translate }}
+        </eui-badge>
+      }
+      @if (conf.HasCustomLocalValue) {
+        <eui-badge>
+          {{ '#LDS#Customized locally' | translate }}
+        </eui-badge>
+      }
+    </mat-panel-title>
+    <mat-panel-description class="right-aligned-description">
+      @if (isBoolean(conf)) {
+        @if (conf.Value) {
+          {{ '#LDS#Enabled' | translate }}
+        }
+        @if (!conf.Value) {
+          {{ '#LDS#Disabled' | translate }}
+        }
+      }
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <!-- defer content rendering until panel is opened-->
+  <ng-template matExpansionPanelContent>
+    @if (isArray(conf)) {
+      <p class="key-description">{{ conf.Description }}</p>
+      <imx-list-setting [setting]="conf"></imx-list-setting>
+    }
+    @if (!isArray(conf)) {
+      @if (isBoolean(conf)) {
+        <mat-checkbox [(ngModel)]="conf.Value" (change)="onChangeEvent(conf)"
+          >{{ conf.DisplayPath[conf.DisplayPath.length - 1] }}
+        </mat-checkbox>
+        <p class="key-description">{{ conf.Description }}</p>
+      }
+      @if (!isBoolean(conf)) {
+        <p class="key-description">{{ conf.Description }}</p>
+        @if (conf.Type == ConfigSettingType.LimitedValues) {
+          <imx-config-select [conf]="conf"> </imx-config-select>
+        }
+        @if (conf.Type != ConfigSettingType.LimitedValues) {
+          <mat-form-field appearance="outline" class="wide-field">
+            <mat-label>{{ '#LDS#Value' | translate }}</mat-label>
+            @if (conf.Type == ConfigSettingType.PositiveInt) {
+              <input matInput [(ngModel)]="conf.Value" type="number" min="0" step="1" (change)="onChangeEvent(conf)" />
+            }
+            @if (conf.Type == ConfigSettingType.Int) {
+              <input matInput [(ngModel)]="conf.Value" type="number" step="1" (change)="onChangeEvent(conf)" />
+            }
+            @if (conf.Type == ConfigSettingType.Double) {
+              <input matInput [(ngModel)]="conf.Value" type="number" step="0.01" (change)="onChangeEvent(conf)" />
+            }
+            @if (conf.Type == ConfigSettingType.PositiveDouble) {
+              <input matInput [(ngModel)]="conf.Value" type="number" min="0" step="0.01" (change)="onChangeEvent(conf)" />
+            }
+            @if (conf.Type == ConfigSettingType.RiskIndex) {
+              <input matInput [(ngModel)]="conf.Value" type="number" min="0" max="1" step="0.01" (change)="onChangeEvent(conf)" />
+            }
+            @if (conf.Type == ConfigSettingType.None || conf.Type == ConfigSettingType.Sql) {
+              <textarea matInput [(ngModel)]="conf.Value" (change)="onChangeEvent(conf)"></textarea>
+            }
+          </mat-form-field>
+        }
+      }
+    }
+    @if (conf.HasCustomLocalValue || conf.HasCustomGlobalValue) {
+      @if (isArray(conf) && conf.OriginalValue && conf.OriginalValue.length > 0) {
+        <mat-label>{{ '#LDS#Original value' | translate }}</mat-label>
+        <ul>
+          @for (originalElem of conf.OriginalValue; track originalElem) {
+            <li>
+              {{ originalElem }}
+            </li>
+          }
+        </ul>
+      }
+      @if (!isArray(conf)) {
+        @if (isBoolean(conf)) {
+          {{ '#LDS#This setting has been customized and no longer uses its original value.' | translate }}
+        }
+        @if (!isBoolean(conf)) {
+          @if (
+            conf.Type == ConfigSettingType.PositiveInt ||
+            conf.Type == ConfigSettingType.Int ||
+            conf.Type == ConfigSettingType.Double ||
+            conf.Type == ConfigSettingType.PositiveDouble ||
+            conf.Type == ConfigSettingType.RiskIndex
+          ) {
+            <mat-form-field appearance="outline" class="wide-field">
+              <mat-label>{{ '#LDS#Original value' | translate }}</mat-label>
+              <input matInput readonly [(ngModel)]="conf.OriginalValue" type="number" />
+            </mat-form-field>
+          }
+          @if (conf.Type == ConfigSettingType.None || conf.Type == ConfigSettingType.Sql) {
+            <mat-form-field appearance="outline" class="wide-field">
+              <mat-label>{{ '#LDS#Original value' | translate }}</mat-label>
+              <textarea readonly matInput>{{ conf.OriginalValue }}</textarea>
+            </mat-form-field>
+          }
+        }
+      }
+      <div class="imx-margin-top-15">
+        <button
+          mat-flat-button
+          matTooltip="{{ '#LDS#Resets this setting to its original value.' | translate }}"
+          color="primary"
+          data-imx-identifier="admin-revert-setting"
+          (click)="configSvc.revert(conf)"
+        >
+          {{ '#LDS#Reset' | translate }}
+        </button>
+      </div>
+    }
+    <p class="key-path">{{ conf.Path }}</p>
+  </ng-template>
+</mat-expansion-panel>

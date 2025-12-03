@@ -1,5 +1,5 @@
-@import 'base/mixins';
-@import 'base/margins-paddings';
+@use 'base/mixins' as mixins;
+@use 'base/margins-paddings' as margins-paddings;
 
 /* Elemental UI */
 .eui-sidesheet {
@@ -8,13 +8,16 @@
       display: flex;
       flex-direction: row;
     }
+
     .justify-start {
       margin-right: auto;
     }
+
     button:not(:last-child):not(.justify-start) {
       margin-right: 10px;
     }
-    .mat-mdc-button-base + .mat-mdc-button-base {
+
+    .mat-mdc-button-base+.mat-mdc-button-base {
       margin-left: 0;
     }
   }
@@ -22,6 +25,7 @@
 
 .eui-sidesheet {
   max-width: 90% !important;
+
   &__content {
     width: 100% !important;
   }
@@ -37,15 +41,15 @@
     }
 
     &-flex-container.eui-sidesheet-content {
-      @include flex-column-container();
+      @include mixins.flex-column-container();
     }
 
     &-flex-container-row.eui-sidesheet-content {
-      @include flex-row-container();
+      @include mixins.flex-row-container();
     }
 
     &__overflow {
-      @include flex-column-container($overflow: hidden, $height: inherit);
+      @include mixins.flex-column-container($overflow: hidden, $height: inherit);
     }
 
     &__flex {

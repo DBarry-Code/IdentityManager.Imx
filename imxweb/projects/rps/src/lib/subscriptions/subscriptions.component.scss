@@ -1,8 +1,8 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 }
 
 imx-data-table {
@@ -15,17 +15,17 @@ imx-data-table {
 }
 
 .imx-separate-menu-item {
-  border-top: 1px solid $black-c;
+  border-top: 1px solid eui.$color-gray-20;
 }
 
 .mat-mdc-card {
   .mat-mdc-card-content {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     overflow-y: auto;
     overflow-x: hidden;
   }
 }
 
 .mat-mdc-outlined-button {
-  @include image-button-icon();
+  @include mixins.image-button-icon();
 }

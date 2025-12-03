@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,8 @@ import { PortalPersonAll } from '@imx-modules/imx-api-qer';
 import { QerApiService } from 'qer';
 
 @Component({
-  templateUrl: './start.component.html',
+    templateUrl: './start.component.html',
+    standalone: false
 })
 export class StartComponent {
   constructor(private qerApi: QerApiService) {}

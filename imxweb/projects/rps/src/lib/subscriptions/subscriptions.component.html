@@ -9,7 +9,7 @@
         [options]="['search']"
         (search)="onSearch($event)"
         (navigationStateChanged)="onNavigationStateChanged($event)"
-      >
+        >
       </imx-data-source-toolbar>
 
       <imx-data-table
@@ -18,11 +18,11 @@
         mode="manual"
         data-imx-identifier="subscriptions-table"
         (highlightedEntityChanged)="editSubscription($event)"
-      >
+        >
         <imx-data-table-column
           [entityColumn]="entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]"
           columnLabel="{{ '#LDS#Subscription' | translate }}"
-        >
+          >
         </imx-data-table-column>
         <imx-data-table-generic-column columnName="actions" columnLabel="">
           <ng-template let-subscription>
@@ -33,7 +33,7 @@
               (click)="$event.stopPropagation()"
               title="{{ '#LDS#Actions' | translate }}"
               [matMenuTriggerFor]="actionsMenu"
-            >
+              >
               <eui-icon icon="ellipsisvertical"></eui-icon>
               {{ '#LDS#Actions' | translate }}
             </button>
@@ -47,7 +47,7 @@
                 class="imx-separate-menu-item"
                 (click)="sendMail(subscription, false)"
                 data-imx-identifier="subscriptions-send-mail"
-              >
+                >
                 {{ '#LDS#Send report to me' | translate }}
               </button>
               <button
@@ -55,18 +55,19 @@
                 color="primary"
                 (click)="sendMail(subscription, true)"
                 data-imx-identifier="subscriptions-send-mail-to-subscribers"
-              >
+                >
                 {{ '#LDS#Send report to all subscribers' | translate }}
               </button>
-              <button
-                mat-menu-item
-                color="primary"
-                *ngIf="subscription.IsListReport.value"
-                (click)="viewReportSubscription(subscription)"
-                data-imx-identifier="subscriptions-send-mail-to-subscribers"
-              >
-                {{ '#LDS#View report' | translate }}
-              </button>
+              @if (subscription.IsListReport.value) {
+                <button
+                  mat-menu-item
+                  color="primary"
+                  (click)="viewReportSubscription(subscription)"
+                  data-imx-identifier="subscriptions-send-mail-to-subscribers"
+                  >
+                  {{ '#LDS#View report' | translate }}
+                </button>
+              }
             </mat-menu>
           </ng-template>
         </imx-data-table-generic-column>
@@ -86,7 +87,7 @@
     (click)="createSubscription()"
     color="primary"
     data-imx-identifier="subscriptions-create-new-subscription"
-  >
+    >
     <eui-icon icon="add"></eui-icon>
     {{ '#LDS#Add subscription' | translate }}
   </button>

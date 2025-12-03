@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,8 +29,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { MitigatingControlData } from './mitigating-control-data.interface';
 
 @Pipe({
-  name: 'filtered',
-  pure: false,
+    name: 'filtered',
+    pure: false,
+    standalone: false
 })
 export class RequestMitigatingControlFilterPipe implements PipeTransform {
   transform(items: MitigatingControlData[], filter: 'active' | 'inactive' | 'deferred'): any {

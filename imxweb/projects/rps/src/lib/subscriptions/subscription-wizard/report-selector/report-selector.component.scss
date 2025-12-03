@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   flex: 1;
@@ -35,7 +35,7 @@
   }
 
   &-longdisplay {
-    color: $black-9;
+    color: eui.$color-gray-40;
     font-size: 12px;
     text-overflow: ellipsis;
     overflow: hidden;

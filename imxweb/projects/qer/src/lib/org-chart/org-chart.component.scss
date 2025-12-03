@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 
 ol {
   list-style-type: none;
@@ -10,11 +10,11 @@ li {
 }
 
 .peers {
-  margin-left: $IMX_OrgChart_PeersMargin;
+  margin-left: imx-variables.$IMX_OrgChart_PeersMargin;
 }
 
 .reports {
-  margin-left: $IMX_OrgChart_ReportsMargin;
+  margin-left: imx-variables.$IMX_OrgChart_ReportsMargin;
 }
 
 .border-outside {
@@ -26,10 +26,10 @@ li {
   position: absolute;
   top: 0;
   bottom: 20px;
-  left: $IMX_OrgChart_HalfPhotoSize;
-  width: $IMX_OrgChart_Width;
+  left: imx-variables.$IMX_OrgChart_HalfPhotoSize;
+  width: imx-variables.$IMX_OrgChart_Width;
   border-style: dotted;
-  border-width: 0 0 $IMX_OrgChart_BorderWidth $IMX_OrgChart_BorderWidth;
+  border-width: 0 0 imx-variables.$IMX_OrgChart_BorderWidth imx-variables.$IMX_OrgChart_BorderWidth;
   border-color: gray;
 }
 
@@ -37,11 +37,11 @@ li {
 .border-container-reports {
   position: absolute;
   top: -20px;
-  left: $IMX_OrgChart_BorderContainerReportsLeft;
-  width: $IMX_OrgChart_Width;
-  height: $IMX_Identity_PhotoSize;
+  left: imx-variables.$IMX_OrgChart_BorderContainerReportsLeft;
+  width: imx-variables.$IMX_OrgChart_Width;
+  height: imx-variables.$IMX_Identity_PhotoSize;
   border-style: dotted;
-  border-width: 0 0 $IMX_OrgChart_BorderWidth $IMX_OrgChart_BorderWidth;
+  border-width: 0 0 imx-variables.$IMX_OrgChart_BorderWidth imx-variables.$IMX_OrgChart_BorderWidth;
   border-color: gray;
 }
 
@@ -49,26 +49,26 @@ li {
 .connector-reports {
   position: absolute;
   top: 0;
-  left: $IMX_OrgChart_ConnectorReportsLeft;
+  left: imx-variables.$IMX_OrgChart_ConnectorReportsLeft;
   width: 10px;
   bottom: 0;
   border-style: dotted;
-  border-width: 0 0 0 $IMX_OrgChart_BorderWidth;
+  border-width: 0 0 0 imx-variables.$IMX_OrgChart_BorderWidth;
   border-color: gray;
 }
 
 .eui-dark-theme {
   :host {
     .border-container {
-      border-color: $color-gray-5;
+      border-color: eui.$color-gray-5;
     }
 
     .connector-reports {
-      border-color: $color-gray-5;
+      border-color: eui.$color-gray-5;
     }
 
     .border-container-reports {
-      border-color: $color-gray-5;
+      border-color: eui.$color-gray-5;
     }
   }
 }
@@ -76,15 +76,15 @@ li {
 .eui-contrast-theme {
   :host {
     .border-container {
-      border-color: $color-gray-0;
+      border-color: eui.$color-gray-0;
     }
 
     .connector-reports {
-      border-color: $color-gray-0;
+      border-color: eui.$color-gray-0;
     }
 
     .border-container-reports {
-      border-color: $color-gray-0;
+      border-color: eui.$color-gray-0;
     }
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,8 +29,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
-import { ClassloggerService, HELP_CONTEXTUAL, RouteGuardService } from 'qbm';
+import { ClassloggerModule, ClassloggerService, HELP_CONTEXTUAL, LdsReplaceModule, QbmModule, RouteGuardService } from 'qbm';
 import { TilesModule } from 'qer';
 import { AobService } from './aob.service';
 import { ApplicationDetailComponent } from './applications/application-detail.component';
@@ -39,15 +43,15 @@ import { ApplicationsComponent } from './applications/applications.component';
 import { ApplicationsModule } from './applications/applications.module';
 import { EntitlementsModule } from './entitlements/entitlements.module';
 import { LockInfoAlertComponent } from './extensions/service-items-edit/lock-info-alert/lock-info-alert.component';
-import { GlobalKpiComponent } from './global-kpi/global-kpi.component';
+import { GlobalKpiHomeComponent } from './global-kpi/global-kpi-home/global-kpi-home.component';
 import { AobApplicationsGuardService } from './guards/aob-applications-guard.service';
 import { AobKpiGuardService } from './guards/aob-kpi-guard.service';
-import { StartPageModule } from './start-page/start-page.module';
+import { AobUserModule } from './user/user.module';
 
 const routes: Routes = [
   {
     path: 'applications/kpi',
-    component: GlobalKpiComponent,
+    component: GlobalKpiHomeComponent,
     canActivate: [AobKpiGuardService],
     resolve: [RouteGuardService],
   },
@@ -85,7 +89,15 @@ const routes: Routes = [
     EntitlementsModule,
     EuiCoreModule,
     EuiMaterialModule,
-    StartPageModule,
+    CommonModule,
+    LdsReplaceModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    ClassloggerModule,
+    AobUserModule,
+    QbmModule,
+    RouterModule,
     TilesModule,
     TranslateModule,
     RouterModule.forChild(routes),

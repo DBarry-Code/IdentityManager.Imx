@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,6 +32,12 @@ import { MastHeadService } from '../mast-head/mast-head.service';
 import { StorageService } from '../storage/storage.service';
 import { isIE } from './user-agent-helper';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use Chrome/FF instead.
+ * IE hasn't been supported for many versions now
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -42,25 +48,28 @@ export class IeWarningService {
     private readonly translate: TranslateService,
     private readonly ldsReplace: LdsReplacePipe,
     private readonly mastHeadService: MastHeadService,
-  ) {}
+  ) { }
 
-  public async showIe11Banner(): Promise<void> {
+  /**
+   * @deprecated since v10.0.0
+    * 
+  * Use Chrome/FF instead.
+  * IE hasn't been supported for many versions now
+  */
+  public showIe11Banner() {
     if (isIE()) {
       const alertKey = 'warningAlertDismissed_ieSupportBanner';
-      const docSpecificPage = '#Sources/WebPortalUserGuide/WPORTGettingStart/WPortGettingStart.htm?Highlight=Supported browsers';
-      const docUrl = `${this.mastHeadService.getDocumentationLink()}${docSpecificPage}`;
-      const supportedBrowsersTranslation = await this.translate.get('#LDS#Supported browsers').toPromise();
-      const docLink = `<a href='${docUrl}' target='_blank' rel='noopener noreferrer'>${supportedBrowsersTranslation}</a>`;
+      const supportedBrowsersTranslation = this.translate.instant('#LDS#Supported browsers');
+      const docLink = `<a href='${this.mastHeadService.externalDocumentationLink()}' target='_blank' rel='noopener noreferrer'>${supportedBrowsersTranslation}</a>`;
       if (!this.storageService.isHelperAlertDismissed(alertKey)) {
         this.alertBanner.open({
           type: 'warning',
           dismissable: true,
           message: this.ldsReplace.transform(
-            await this.translate
-              .get(
+            this.translate
+              .instant(
                 '#LDS#Internet Explorer is no longer supported and the application may not work properly. Please use a browser from the following list: {0}.',
-              )
-              .toPromise(),
+              ),
             docLink,
           ),
         });

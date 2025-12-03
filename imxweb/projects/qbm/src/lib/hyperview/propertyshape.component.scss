@@ -1,5 +1,5 @@
-@import 'base/variables';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use 'base/variables' as imx-variables;
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 table.LayoutpPropItems {
   cursor: pointer;
@@ -8,17 +8,17 @@ table.LayoutpPropItems {
 
 .LayoutpPropRow {
   display: flex;
-  min-height: $IMX_PropCell_MinHeight;
+  min-height: imx-variables.$IMX_PropCell_MinHeight;
 }
 
 .LayoutpPropCol {
-  min-height: $IMX_PropCell_MinHeight;
+  min-height: imx-variables.$IMX_PropCell_MinHeight;
   padding: 2px 4px 3px 0;
   vertical-align: top;
 }
 
 .LayoutpPropCol:nth-child(1) {
-  width: $IMX_PropertyLabel_Width;
+  width: imx-variables.$IMX_PropertyLabel_Width;
 }
 
 .LayoutpPropCol0 {
@@ -47,7 +47,7 @@ table.LayoutpPropItems {
   &:focus,
   &:hover {
     cursor: pointer;
-    background-color: rgba($color: $color-gray-100, $alpha: 0.2);
+    background-color: rgba($color: eui.$color-gray-100, $alpha: 0.2);
   }
 }
 

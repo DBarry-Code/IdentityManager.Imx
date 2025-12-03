@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,6 +45,7 @@ interface DugResourceFormGroup {
 
 
 @Component({
+  standalone: false,
   selector: 'imx-dug-assign-ownership-sidesheet',
   templateUrl: './dug-assign-ownership-sidesheet.component.html',
   styleUrl: './dug-assign-ownership-sidesheet.component.scss'

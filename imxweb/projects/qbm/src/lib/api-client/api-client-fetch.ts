@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -118,8 +118,10 @@ export class ApiClientFetch implements ApiClient {
 
       if (response.status >= 200 && response.status <= 299) {
         if (method.responseType === 'blob') return <any>response.blob();
-
-        if (actualContentType && 'text/plain' == getFirstContentType()){
+        if (actualContentType && 'text/css' == getFirstContentType()) {
+          return response.text() as T;
+        }
+        if (actualContentType && 'text/plain' == getFirstContentType()) {
           throw new Error(await response.text());
         }
 

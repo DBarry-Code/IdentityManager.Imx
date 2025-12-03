@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -46,8 +46,9 @@ import { ApplicationContent } from '../application-content.interface';
 import { SelectionContainer } from './selection-container';
 
 @Component({
-  selector: 'imx-edit-application',
-  templateUrl: './edit-application.component.html',
+    selector: 'imx-edit-application',
+    templateUrl: './edit-application.component.html',
+    standalone: false
 })
 export class EditApplicationComponent implements ApplicationContent {
   public readonly applicationForm = new UntypedFormGroup({});

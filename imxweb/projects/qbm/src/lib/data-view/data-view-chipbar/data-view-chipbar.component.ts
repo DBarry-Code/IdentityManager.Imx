@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { ExpressionFilter, KeywordFilter, SelectedFilter, SelectedFilterType } f
  * <imx-data-view-chipbar [dataSource]="dataSource"></imx-data-view-chipbar>
  */
 @Component({
-  selector: 'imx-data-view-chipbar',
-  templateUrl: './data-view-chipbar.component.html',
-  styleUrls: ['./data-view-chipbar.component.scss'],
+    selector: 'imx-data-view-chipbar',
+    templateUrl: './data-view-chipbar.component.html',
+    styleUrls: ['./data-view-chipbar.component.scss'],
+    standalone: false
 })
 export class DataViewChipbarComponent {
   /**

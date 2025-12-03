@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { calculateSidesheetWidth } from 'qbm';
 import { RelatedApplicationsSidesheetComponent } from './related-applications-sidesheet/related-applications-sidesheet.component';
 
 @Component({
-  selector: 'imx-related-applications',
-  template: '',
+    selector: 'imx-related-applications',
+    template: '',
+    standalone: false
 })
 export class RelatedApplicationsComponent implements OnInit {
   constructor(

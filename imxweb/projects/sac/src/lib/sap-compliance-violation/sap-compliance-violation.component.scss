@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .eui-sidesheet-content {
   display: flex;
@@ -33,7 +33,7 @@
     p {
       margin: 0;
       font-size: 18px;
-      color: $color-gray-80;
+      color: eui.$color-gray-80;
     }
   }
 }
@@ -42,7 +42,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }

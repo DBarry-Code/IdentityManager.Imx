@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,10 +38,12 @@ import {
   DisplayColumns,
   EntitySchema,
   IClientProperty,
+  IEntity,
   TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
 import {
   AuthenticationService,
+  buildAdditionalElementsString,
   BusyService,
   calculateSidesheetWidth,
   ClassloggerService,
@@ -71,6 +73,7 @@ import { IdentitySidesheetComponent } from './identity-sidesheet/identity-sidesh
   templateUrl: './identities.component.html',
   styleUrls: ['./identities.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class DataExplorerIdentitiesComponent implements OnInit, OnDestroy, SideNavigationComponent {
   @Input() public applyIssuesFilter = false;
@@ -175,7 +178,6 @@ export class DataExplorerIdentitiesComponent implements OnInit, OnDestroy, SideN
     }
   }
 
-  // !!TODO - Fix mat menu dynamic report components
   // Create dynamic report components and call viewReport function
   public async showDynamicReport(extension: IExtension): Promise<void> {
     if (!extension.instance) {
@@ -188,6 +190,7 @@ export class DataExplorerIdentitiesComponent implements OnInit, OnDestroy, SideN
     if (dynamicReportComponent.instance.viewReport) {
       dynamicReportComponent.instance.viewReport();
     }
+    this.dynamicReport.clear();
   }
 
   public async personsManagedReport(): Promise<void> {
@@ -248,6 +251,10 @@ export class DataExplorerIdentitiesComponent implements OnInit, OnDestroy, SideN
       .toPromise();
 
     return this.dataSource.updateState();
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 
   private async init(): Promise<void> {

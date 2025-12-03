@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,15 +28,15 @@ import { Component } from '@angular/core';
 import { EuiSidesheetService } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { calculateSidesheetWidth } from 'qbm';
-import { ChartInfoTyped } from 'qer';
+import { calculateSidesheetWidth, ChartInfoTyped } from 'qbm';
 import { ListReportViewerSidesheetComponent } from '../subscriptions/list-report-viewer-sidesheet/list-report-viewer-sidesheet.component';
 import { StatisticReportButtonService } from './statistic-report-button.service';
 
 @Component({
-  selector: 'imx-statistic-report-button',
-  templateUrl: './statistic-report-button.component.html',
-  styleUrls: ['./statistic-report-button.component.scss'],
+    selector: 'imx-statistic-report-button',
+    templateUrl: './statistic-report-button.component.html',
+    styleUrls: ['./statistic-report-button.component.scss'],
+    standalone: false
 })
 export class StatisticReportButtonComponent {
   public referrer: ChartInfoTyped;

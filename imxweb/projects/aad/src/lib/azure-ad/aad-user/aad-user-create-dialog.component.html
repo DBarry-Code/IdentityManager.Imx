@@ -2,7 +2,9 @@
   <div>
     <h2 class="imx-margin-bottom-10">{{ data.title | translate }}</h2>
     <form [formGroup]="detailsFormGroup">
-      <imx-cdr-editor *ngFor="let cdr of cdrList" [cdr]="cdr" (controlCreated)="formArray.push($event)"></imx-cdr-editor>
+      @for (cdr of cdrList; track cdr) {
+        <imx-cdr-editor [cdr]="cdr" (controlCreated)="formArray.push($event)"></imx-cdr-editor>
+      }
     </form>
   </div>
 </div>
@@ -16,7 +18,7 @@
     (click)="create()"
     [disabled]="detailsFormGroup.pristine || detailsFormGroup.invalid"
     data-imx-identifier="aad-user-create-dialog-add"
-  >
+    >
     <span translate>#LDS#Add</span>
   </button>
 </div>

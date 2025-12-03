@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,9 +43,10 @@ interface reportForm {
   parameters: FormArray<any>;
 }
 @Component({
-  selector: 'imx-report-view-config',
-  templateUrl: './report-view-config.component.html',
-  styleUrls: ['./report-view-config.component.scss'],
+    selector: 'imx-report-view-config',
+    templateUrl: './report-view-config.component.html',
+    styleUrls: ['./report-view-config.component.scss'],
+    standalone: false
 })
 export class ReportViewConfigComponent implements OnDestroy {
   public readonly reportFormGroup = new FormGroup<reportForm>({

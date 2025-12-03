@@ -1,18 +1,21 @@
 <div eui-sidesheet-content>
   <mat-card class="contactCard">
-    <mat-card-content *ngIf="!busy">
-      <p translate>#LDS#Fill out the following fields.</p>
-      <form id="personalDataForm" [formGroup]="profileForm">
-        <imx-cdr-editor
-          *ngFor="let cdr of cdrList"
-          [cdr]="cdr"
-          (controlCreated)="profileForm.addControl(cdr?.column?.ColumnName || '', $event)"
-        ></imx-cdr-editor>
-      </form>
-      <imx-captcha [showAllButtons]="false"></imx-captcha>
-      <!-- error messages should appear here, and not on the main login component, where they would be hidden by the sidesheet-->
-      <imx-usermessage class="errormessages" panelClass="imx-small-message" [target]="'sidesheet'"></imx-usermessage>
-    </mat-card-content>
+    @if (!busy) {
+      <mat-card-content>
+        <p translate>#LDS#Fill out the following fields.</p>
+        <form id="personalDataForm" [formGroup]="profileForm">
+          @for (cdr of cdrList; track cdr) {
+            <imx-cdr-editor
+              [cdr]="cdr"
+              (controlCreated)="profileForm.addControl(cdr?.column?.ColumnName || '', $event)"
+            ></imx-cdr-editor>
+          }
+        </form>
+        <imx-captcha [showAllButtons]="false"></imx-captcha>
+        <!-- error messages should appear here, and not on the main login component, where they would be hidden by the sidesheet-->
+        <imx-usermessage class="errormessages" panelClass="imx-small-message" [target]="'sidesheet'"></imx-usermessage>
+      </mat-card-content>
+    }
   </mat-card>
 </div>
 

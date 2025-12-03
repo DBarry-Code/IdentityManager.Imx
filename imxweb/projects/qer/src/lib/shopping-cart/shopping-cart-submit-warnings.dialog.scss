@@ -1,1 +1,11 @@
-/* You can add styles to this file, and also import other style files */
+@use 'base/mixins' as mixins;
+
+.cart-item-warning-content {
+  @include mixins.flex-row-container();
+  align-items: center;
+}
+
+.cart-item-warning-content-text {
+  @include mixins.flex-column-container();
+  margin-left: 20px;
+}

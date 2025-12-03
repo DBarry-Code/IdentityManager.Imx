@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   display: flex;
@@ -31,22 +31,22 @@
 //Theming
 :host {
   .imx-state-caption {
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
   }
 
   .imx-dirty-indicator {
-    color: $color-orange-60;
+    color: eui.$color-orange-60;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-state-caption {
-      color: $color-gray-10;
+      color: eui.$color-gray-10;
     }
 
     .imx-dirty-indicator {
-      color: $color-orange-40;
+      color: eui.$color-orange-40;
     }
   }
 }
@@ -54,11 +54,11 @@
 .eui-contrast-theme {
   :host {
     .imx-state-caption {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .imx-dirty-indicator {
-      color: $color-orange-60;
+      color: eui.$color-orange-60;
     }
   }
 }

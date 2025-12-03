@@ -1,5 +1,5 @@
-@import 'base/mixins';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 /* Elemental UI */
 
@@ -9,18 +9,20 @@
   flex-grow: 1;
   overflow: auto;
   height: 100%;
+
   .mat-mdc-tab-header {
     padding: 0;
   }
 }
 
 .mat-mdc-tab-body-content {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
 }
 
 .mat-mdc-tab-body-wrapper {
   height: 100%;
   flex: 1 1 auto;
+
   .mat-mdc-tab-body {
     display: flex;
     flex-direction: column;
@@ -31,13 +33,13 @@
 /* Imx */
 
 .imx-tab-content {
-  @include flex-column-container($height: 100%);
+  @include mixins.flex-column-container($height: 100%);
 
   .imx-tab-content-body {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
 
     .mat-mdc-card {
-      > form {
+      >form {
         padding-right: 10px;
       }
     }
@@ -49,7 +51,7 @@
   padding: 0;
 
   .imx-sidesheet-content__overflow {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
 
     .imx-sidesheet-content__overflow {
       imx-data-table {
@@ -79,13 +81,13 @@
   padding: 20px;
 
   &-full {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     height: 100%;
   }
 }
 
 .imx-tab-group-wrapper {
-  @include flex-row-container-fill();
+  @include mixins.flex-row-container-fill();
   overflow: auto;
 
   .mat-mdc-tab-group {
@@ -96,27 +98,34 @@
 .imx-nested-group {
   &.eui-sidesheet-content {
     padding: 20px;
+
     .mat-mdc-card {
       height: 100%;
       padding: 0;
+
       .mat-mdc-card:not(.imx-card-shadow) {
         box-shadow: none;
         border-style: none;
       }
+
       ::ng-deep .mat-mdc-tab-group {
         border-radius: 4px;
+
         imx-object-hyperview {
           .imx-tab-content-body {
             padding: 0;
           }
         }
+
         .mat-mdc-ink-bar {
-          background-color: $color-blue-90;
+          background-color: eui.$color-blue-90;
         }
+
         .governance-sidesheet {
           &__tab-content-body {
             ng-component {
               height: 100%;
+
               .mat-mdc-card {
                 padding: 0;
                 box-shadow: none;
@@ -136,7 +145,7 @@
     font-stretch: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
     min-width: 10px !important;
   }
 
@@ -151,11 +160,11 @@
   }
 
   .mat-mdc-tab-nav-bar {
-    background-color: $color-gray-0;
+    background-color: eui.$color-gray-0;
 
     .mat-mdc-tab-link {
       font-size: 16px;
-      color: $color-gray-60;
+      color: eui.$color-gray-60;
     }
   }
 }
@@ -164,7 +173,7 @@
 
 .mat-mdc-tab-group.imx-card-heading {
   .mat-mdc-tab-header {
-    background-color: $color-gray-0;
+    background-color: eui.$color-gray-0;
   }
 }
 
@@ -173,48 +182,50 @@
 .eui-dark-theme {
   .mat-mdc-tab-group {
     .mat-mdc-tab-header {
-      background-color: $color-gray-80;
+      background-color: eui.$color-gray-80;
     }
   }
 
   .mat-mdc-tab-group.imx-card-heading {
     .mat-mdc-tab-header {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 
   .mat-mdc-tab-group.imx-aob {
     .mat-mdc-tab-body {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
+
     .mat-mdc-tab-header {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 
   .imx-nested-group {
     .mat-mdc-tab-group {
       .mat-mdc-tab-header {
-        background-color: $color-gray-70;
+        background-color: eui.$color-gray-70;
+
         .mat-mdc-ink-bar {
-          background-color: $color-gray-0;
+          background-color: eui.$color-gray-0;
         }
       }
     }
   }
 
   .imx-menu-like-tabs {
-    background-color: $color-gray-80;
+    background-color: eui.$color-gray-80;
 
     .mat-mdc-tab-link {
-      color: $color-gray-5;
+      color: eui.$color-gray-5;
     }
 
     .mat-mdc-tab-nav-bar {
-      background-color: $color-gray-80;
+      background-color: eui.$color-gray-80;
 
       .mat-mdc-tab-link {
-        color: $color-gray-5;
+        color: eui.$color-gray-5;
       }
     }
   }
@@ -225,37 +236,40 @@
 .eui-contrast-theme {
   .mat-mdc-tab-group {
     .mat-mdc-tab-header {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 
   .mat-mdc-tab-group.imx-card-heading {
     .mat-mdc-tab-header {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
     }
   }
+
   .imx-nested-group {
     .mat-mdc-tab-group {
       .mat-mdc-tab-header {
-        background-color: $color-gray-90;
+        background-color: eui.$color-gray-90;
+
         .mat-mdc-ink-bar {
-          background-color: $color-gray-0;
+          background-color: eui.$color-gray-0;
         }
       }
     }
   }
+
   .imx-menu-like-tabs {
-    background-color: $color-gray-100;
+    background-color: eui.$color-gray-100;
 
     .mat-mdc-tab-link {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .mat-mdc-tab-nav-bar {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
 
       .mat-mdc-tab-link {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

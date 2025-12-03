@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  height: $IMX_Application_Details_Component_Height;
+  height: imx-variables.$IMX_Application_Details_Component_Height;
   overflow: hidden;
 }
 
@@ -72,7 +72,7 @@
   font-size: 24px;
   min-height: 40px;
   margin: 0 15px 0 10px;
-  @include text-overflow-ellipsis;
+  @include mixins.text-overflow-ellipsis;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -85,7 +85,7 @@
   grid-row-end: 2;
   font-size: 14px;
   margin: 0 15px 0 10px;
-  @include text-overflow-ellipsis;
+  @include mixins.text-overflow-ellipsis;
 }
 
 .imx-info {
@@ -100,34 +100,32 @@ imx-application-hyperview {
   padding: 1em;
 }
 
-
 :host {
-
   .imx-application-content {
-    background-color: $color-gray-0;
+    background-color: eui.$color-gray-0;
   }
 
   .imx-application-details-subtitle {
-    color: $color-gray-70;
+    color: eui.$color-gray-70;
   }
 }
 
 .eui-dark-theme {
   :host {
-
     .imx-application-content {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
 
     .imx-application-content-no-app {
+
       .imx-application-content-no-app-text,
       .imx-application-content-no-app-description {
-        color: $color-gray-20;
+        color: eui.$color-gray-20;
       }
     }
 
     .imx-application-details-subtitle {
-      color: $color-gray-50;
+      color: eui.$color-gray-50;
     }
   }
 }
@@ -135,11 +133,11 @@ imx-application-hyperview {
 .eui-contrast-theme {
   :host {
     .imx-application-content {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
     }
 
     .imx-application-details-subtitle {
-      color: $color-gray-50;
+      color: eui.$color-gray-50;
     }
   }
 }

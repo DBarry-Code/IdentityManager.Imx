@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,16 @@ import { EuiCoreModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { MatTableModule } from '@angular/material/table';
-import { CdrModule, DataSourceToolbarModule, DataTableModule, DataViewModule, ExtModule, HelpContextualModule } from 'qbm';
-import { ObjectHyperviewModule, StatisticsModule } from 'qer';
+import {
+  CdrModule,
+  DataSourceToolbarModule,
+  DataTableModule,
+  DataViewModule,
+  ExtModule,
+  HelpContextualModule,
+  StatisticsModule,
+} from 'qbm';
+import { ObjectHyperviewModule } from 'qer';
 import { RulesViolationsModule } from '../rules-violations/rules-violations.module';
 import { MitigatingControlsRulesComponent } from './mitigating-controls-rules/mitigating-controls-rules.component';
 import { RulesSidesheetComponent } from './rules-sidesheet/rules-sidesheet.component';

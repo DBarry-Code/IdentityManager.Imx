@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { MetadataService } from '../../base/metadata.service';
 import { CdrFactoryService } from '../../cdr/cdr-factory.service';
 
 @Component({
-  templateUrl: './tree-selection-list.component.html',
-  styleUrls: ['./tree-selection-list.component.scss'],
+    templateUrl: './tree-selection-list.component.html',
+    styleUrls: ['./tree-selection-list.component.scss'],
+    standalone: false
 })
 export class TreeSelectionListComponent implements OnInit {
   public items: { entities: IEntity[]; tableName: string }[];

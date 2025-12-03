@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { Subscription } from 'rxjs';
 import { ViewDevicesService } from '../view-devices.service';
 
 @Component({
-  selector: 'imx-view-devices-sidesheet',
-  templateUrl: './view-devices-sidesheet.component.html',
-  styleUrls: ['./view-devices-sidesheet.component.scss'],
+    selector: 'imx-view-devices-sidesheet',
+    templateUrl: './view-devices-sidesheet.component.html',
+    styleUrls: ['./view-devices-sidesheet.component.scss'],
+    standalone: false
 })
 export class ViewDevicesSidesheetComponent implements OnDestroy {
   public readonly formGroup = new UntypedFormGroup({});

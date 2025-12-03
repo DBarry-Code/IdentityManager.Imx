@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { DataViewSource } from 'qbm';
 import { RunsGridComponent } from './runs-grid/runs-grid.component';
 
 @Component({
-  templateUrl: './runs.component.html',
-  styleUrls: ['./runs.component.scss'],
+    templateUrl: './runs.component.html',
+    styleUrls: ['./runs.component.scss'],
+    standalone: false
 })
 export class RunsComponent implements AfterViewInit {
   public dataSource: WritableSignal<DataViewSource<PortalAttestationRun> | undefined> = signal(undefined);

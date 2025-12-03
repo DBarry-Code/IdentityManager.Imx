@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,9 +59,10 @@ function getLocalDataForPage<T>(allData: T[], state: { page: number; pageSize: n
 // TODO: One class per file.
 // eslint-disable-next-line max-classes-per-file
 @Component({
-  selector: 'imx-object-history-gridview',
-  templateUrl: './object-history-gridview.component.html',
-  styleUrls: ['./object-history-gridview.component.scss'],
+    selector: 'imx-object-history-gridview',
+    templateUrl: './object-history-gridview.component.html',
+    styleUrls: ['./object-history-gridview.component.scss'],
+    standalone: false
 })
 export class ObjectHistoryGridviewComponent implements OnInit, OnChanges {
   @Input() public historyData: ObjectHistoryEvent[];

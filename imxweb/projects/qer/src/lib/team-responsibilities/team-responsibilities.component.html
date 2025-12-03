@@ -20,16 +20,16 @@
     [selectable]="true"
   >
     <ng-container [matColumnDef]="entitySchema.Columns.DisplayName.ColumnName">
-      <ng-container *ngIf="dataSource.isSortable(entitySchema?.Columns?.DisplayName?.ColumnName)">
+      @if (dataSource.isSortable(entitySchema?.Columns?.DisplayName?.ColumnName)) {
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{ entitySchema?.Columns?.DisplayName?.Display }}
         </th>
-      </ng-container>
-      <ng-container *ngIf="!dataSource.isSortable(entitySchema?.Columns?.DisplayName?.ColumnName)">
+      }
+      @if (!dataSource.isSortable(entitySchema?.Columns?.DisplayName?.ColumnName)) {
         <th mat-header-cell *matHeaderCellDef>
           {{ entitySchema?.Columns?.DisplayName?.Display }}
         </th>
-      </ng-container>
+      }
       <td mat-cell *matCellDef="let item" role="gridcell">
         <span>
           {{ item.DisplayName.Column.GetDisplayValue() }}
@@ -59,14 +59,15 @@
     <ng-container [matColumnDef]="'status'">
       <th mat-header-cell *matHeaderCellDef>{{ '#LDS#Status' | translate }}</th>
       <td mat-cell *matCellDef="let item" role="gridcell">
-        <div
-          *ngIf="isActionNeeded(item)"
-          class="imx-action-needed"
-          [matTooltip]="'#LDS#The responsible identity will leave or has already left the organization.' | translate"
-        >
-          <eui-icon icon="warning"></eui-icon>
-          <span>{{ '#LDS#Action needed' | translate }}</span>
-        </div>
+        @if (isActionNeeded(item)) {
+          <div
+            class="imx-action-needed"
+            [matTooltip]="'#LDS#The responsible identity will leave or has already left the organization.' | translate"
+          >
+            <eui-icon icon="warning"></eui-icon>
+            <span>{{ '#LDS#Action needed' | translate }}</span>
+          </div>
+        }
       </td>
     </ng-container>
     <ng-container [matColumnDef]="'identitiesCount'">
@@ -81,6 +82,31 @@
         <span>{{ (!isDirectResponsibility(item) ? '#LDS#Role assignment' : '#LDS#Direct assignment') | translate }}</span>
       </td>
     </ng-container>
+    <ng-container [matColumnDef]="'actions'">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let item" class="imx-hover-action-column">
+        <div class="imx-action-cell-flex">
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="onReassignResponsibilities([item])"
+            [matTooltip]="'#LDS#Reassign responsibility' | translate"
+          >
+            <eui-icon icon="forward"></eui-icon>
+          </button>
+          @if (!isResponsibilitiesDeletable([item])) {
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="onDeleteResponsibilities([item])"
+              [matTooltip]="'#LDS#Remove responsibility' | translate"
+            >
+              <eui-icon icon="delete"></eui-icon>
+            </button>
+          }
+        </div>
+      </td>
+    </ng-container>
   </imx-data-view-auto-table>
   <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator>
 </mat-card>
@@ -88,10 +114,10 @@
   <imx-data-view-selection [dataSource]="dataSource"></imx-data-view-selection>
   <div class="imx-action-buttons">
     <button
-      [disabled]="!tableSelection.length || isResponsibilitiesDeletable()"
+      [disabled]="!tableSelection.length || isResponsibilitiesDeletable(tableSelection)"
       mat-flat-button
       color="warn"
-      (click)="onDeleteResponsibilities()"
+      (click)="onDeleteResponsibilities(tableSelection)"
     >
       <eui-icon icon="delete"></eui-icon>
       <span translate>#LDS#Remove responsibilities</span>
@@ -100,7 +126,7 @@
       [disabled]="!tableSelection.length || !isResponsibilitiesReassignable()"
       mat-flat-button
       color="primary"
-      (click)="onReassignResponsibilities()"
+      (click)="onReassignResponsibilities(tableSelection)"
     >
       <eui-icon icon="forward"></eui-icon>
       <span translate>#LDS#Reassign responsibilities</span>

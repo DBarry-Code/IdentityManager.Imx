@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,6 +34,7 @@ import {
   DataModel,
   EntitySchema,
   IClientProperty,
+  IEntity,
   TypedEntityCollectionData,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
@@ -41,6 +42,7 @@ import {
 import { PortalRules } from '@imx-modules/imx-api-cpl';
 import { ViewConfigData } from '@imx-modules/imx-api-qer';
 import {
+  buildAdditionalElementsString,
   BusyService,
   calculateSidesheetWidth,
   ClassloggerService,
@@ -70,6 +72,7 @@ import { RulesViolationsService } from './rules-violations.service';
   templateUrl: './rules-violations.component.html',
   styleUrls: ['./rules-violations.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class RulesViolationsComponent implements OnInit, OnDestroy {
   @Input() public isMControlPerViolation: boolean;
@@ -212,6 +215,10 @@ export class RulesViolationsComponent implements OnInit, OnDestroy {
     if (result) {
       this.dataSource.updateState();
     }
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 
   private updateFiltersFromRouteParams(params: Params): void {

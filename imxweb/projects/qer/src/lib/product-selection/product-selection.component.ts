@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,28 +32,28 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import {
-  PortalItshopPatternRequestable,
-  PortalItshopPeergroupMemberships,
-  PortalShopCategories,
-  PortalShopServiceitems,
-  QerProjectConfig,
-  RequestableProductForPerson,
+    PortalItshopPatternRequestable,
+    PortalItshopPeergroupMemberships,
+    PortalShopCategories,
+    PortalShopServiceitems,
+    QerProjectConfig,
+    RequestableProductForPerson,
 } from '@imx-modules/imx-api-qer';
 import { EntityValue, IWriteValue, LocalProperty, MultiValue, TypedEntity, ValueStruct } from '@imx-modules/imx-qbm-dbts';
 
 import { MatRadioChange } from '@angular/material/radio';
 import {
-  AuthenticationService,
-  BaseCdr,
-  BaseReadonlyCdr,
-  calculateSidesheetWidth,
-  ColumnDependentReference,
-  DataTileMenuItem,
-  EntityService,
-  FkAdvancedPickerComponent,
-  ISessionState,
-  LdsReplacePipe,
-  SnackBarService,
+    AuthenticationService,
+    BaseCdr,
+    BaseReadonlyCdr,
+    calculateSidesheetWidth,
+    ColumnDependentReference,
+    DataTileMenuItem,
+    EntityService,
+    FkAdvancedPickerComponent,
+    ISessionState,
+    LdsReplacePipe,
+    SnackBarService,
 } from 'qbm';
 import { ShelfService } from '../itshop/shelf.service';
 import { PatternItemListComponent } from '../pattern-item-list/pattern-item-list.component';
@@ -76,13 +76,16 @@ import { CategoryTreeComponent } from './servicecategory-list/category-tree.comp
 import { ServiceCategoryListComponent } from './servicecategory-list/servicecategory-list.component';
 
 /**
+ * @deprecated since v10.0.0
+  * 
+ * Use NewRequestComponent instead.
  * Main entry component for the product selection page.
- * @deprecated Use NewRequestComponent
  */
 @Component({
-  templateUrl: './product-selection.component.html',
-  styleUrls: ['./product-selection.component.scss'],
-  selector: 'imx-product-selection',
+    templateUrl: './product-selection.component.html',
+    styleUrls: ['./product-selection.component.scss'],
+    selector: 'imx-product-selection',
+    standalone: false
 })
 export class ProductSelectionComponent implements OnInit, OnDestroy {
   @ViewChild(ServiceitemListComponent) public serviceitemListComponent: ServiceitemListComponent;

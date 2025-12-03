@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -50,9 +50,10 @@ import { FkCandidateEntityBuilderService } from './fk-candidate-entity-builder.s
 import { FkCandidatesData } from './fk-candidates-data.interface';
 
 @Component({
-  selector: 'imx-fk-candidates',
-  templateUrl: './fk-candidates.component.html',
-  styleUrls: ['./fk-candidates.component.scss'],
+    selector: 'imx-fk-candidates',
+    templateUrl: './fk-candidates.component.html',
+    styleUrls: ['./fk-candidates.component.scss'],
+    standalone: false
 })
 export class FkCandidatesComponent implements OnChanges {
   @Input() public data: FkCandidatesData | TypedEntityFkData;

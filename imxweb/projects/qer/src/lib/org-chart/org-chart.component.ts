@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { PortalPersonOrgdata } from '@imx-modules/imx-api-qer';
 import { QerApiService } from '../qer-api-client.service';
 
 @Component({
-  templateUrl: './org-chart.component.html',
-  selector: 'imx-orgchart',
-  styleUrls: ['./org-chart.component.scss'],
+    templateUrl: './org-chart.component.html',
+    selector: 'imx-orgchart',
+    styleUrls: ['./org-chart.component.scss'],
+    standalone: false
 })
 export class OrgChartComponent implements OnInit {
   constructor(

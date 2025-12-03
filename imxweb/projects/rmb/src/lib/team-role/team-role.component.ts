@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,8 +43,9 @@ import {
 import { RmbApiService } from '../rmb-api-client.service';
 
 @Component({
-  selector: 'imx-team-role',
-  templateUrl: './team-role.component.html',
+    selector: 'imx-team-role',
+    templateUrl: './team-role.component.html',
+    standalone: false
 })
 export class TeamRoleComponent implements OnInit {
   public teamRole: TeamRoleData;

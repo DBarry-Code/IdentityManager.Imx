@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "sac",
   "sourceRoot": "projects/sac/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "generators": {
     "@schematics/angular:component": {
@@ -21,11 +23,13 @@
         "production": {
           "tsConfig": "projects/sac/tsconfig.lib.prod.json"
         },
-        "dynamic": {
-          "project": "projects/sac/ng-package.dynamic.json"
+        "development": {
+          "tsConfig": "projects/rps/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/sac"]
+      "outputs": [
+        "{workspaceRoot}/dist/sac"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -34,15 +38,25 @@
         "tsConfig": "projects/sac/tsconfig.spec.json",
         "karmaConfig": "projects/sac/karma.conf.js",
         "stylePreprocessorOptions": {
-          "includePaths": ["./shared/assets", "./shared/scss"]
+          "includePaths": [
+            "./shared/assets",
+            "./shared/scss"
+          ]
         }
       }
     },
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/sac/tsconfig.lib.json", "projects/sac/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/sac/tsconfig.lib.json",
+          "projects/sac/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

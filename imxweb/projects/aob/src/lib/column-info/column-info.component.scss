@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-user-properties {
   overflow: hidden;
@@ -7,7 +6,7 @@
 
   > span {
     font-weight: 600;
-    color: $black-6;
+    color: eui.$color-gray-60;
   }
 }
 
@@ -15,7 +14,7 @@
   :host {
     .imx-user-properties {
       > span {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -25,7 +24,7 @@
   :host {
     .imx-user-properties {
       > span {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

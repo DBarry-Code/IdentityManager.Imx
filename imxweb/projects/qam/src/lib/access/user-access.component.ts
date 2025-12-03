@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,8 @@ import { imx_SessionService } from 'qbm';
 
 /** Shows access information for the authenticated user's identity. */
 @Component({
-  templateUrl: './user-access.component.html',
+    templateUrl: './user-access.component.html',
+    standalone: false
 })
 export class UserAccessComponent implements OnInit {
   constructor(private readonly session: imx_SessionService) {}

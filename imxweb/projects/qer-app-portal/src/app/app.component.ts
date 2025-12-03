@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,11 +28,11 @@ import { Event, EventType, NavigationEnd, NavigationStart, Router } from '@angul
 import { Subscription } from 'rxjs';
 
 import {
+  AppConfigService,
   AuthenticationService,
   ClassloggerService,
   ConfirmationService,
   IeWarningService,
-  imx_SessionService,
   ImxTranslationProviderService,
   ISessionState,
   MenuService,
@@ -54,6 +54,7 @@ import { getBaseHref, HEADLESS_BASEHREF } from './app.module';
   selector: 'imx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   public menuItems: EuiTopNavigationItem[];
@@ -79,10 +80,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private qerClient: QerApiService,
     private readonly themeService: EuiThemeService,
     private readonly errorHandler: ErrorHandler,
-    private readonly session: imx_SessionService,
     private readonly translationProvider: ImxTranslationProviderService,
     private readonly confirmationService: ConfirmationService,
     private readonly userMessageService: UserMessageService,
+    private readonly appConfigService: AppConfigService,
   ) {
     this.subscriptions.push(
       this.authentication.onSessionResponse.subscribe(async (sessionState: ISessionState) => {
@@ -120,6 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const systemInfo = await systemInfoService.get();
           const groups = (await userModelService.getGroups()).map((group) => group.Name || '');
 
+          // To be removed after 10.0
           ieWarningService.showIe11Banner();
 
           await this.applyProfileSettings();
@@ -166,6 +168,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public async ngOnInit(): Promise<void> {
     await this.authentication.update();
+    this.appConfigService.loadCustomStyle();
   }
 
   public ngOnDestroy(): void {
@@ -196,10 +199,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         this.routerStatus = event.type;
-        if (this.isLoggedIn && event.url === '/') {
-          // show the splash screen, when the user logs out!
-          this.splash.init({ applicationName: 'One Identity Manager Portal' });
-        }
       }
       if (event instanceof NavigationEnd) {
         this.routerStatus = event.type;

@@ -1,6 +1,6 @@
-@import 'base/variables';
+@use 'base/variables' as imx-variables;
 
-.pageContent{
+.pageContent {
   h2.mat-headline-5 {
     margin: 0 0 16px;
     font-size: 26px;
@@ -10,19 +10,19 @@
       white-space: nowrap;
     }
 
-    @media #{$IMX_Mediaquery_Smartphone} {
+    @media #{imx-variables.$IMX_Mediaquery_Smartphone} {
       margin: 0 0 10px;
     }
-    @media #{$IMX_Mediaquery_SmallDesktops} {
+    @media #{imx-variables.$IMX_Mediaquery_SmallDesktops} {
       margin: 0 0 20px;
     }
   }
-  .imx-header-toolbar{
+  .imx-header-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    &-container{
-      display:flex;
+    &-container {
+      display: flex;
       flex-direction: column;
     }
   }

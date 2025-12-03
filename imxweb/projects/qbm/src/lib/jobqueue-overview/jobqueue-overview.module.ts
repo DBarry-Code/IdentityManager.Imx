@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,18 +26,30 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { EuiCoreModule } from '@elemental-ui/core';
 
+import { FormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppConfigService } from '../appConfig/appConfig.service';
 import { imx_SessionService } from '../session/imx-session.service';
 import { JobQueueOverviewComponent } from './jobqueue-overview.component';
 import { JobQueueOverviewService } from './jobqueue-overview.service';
 @NgModule({
-  imports: [CommonModule, EuiCoreModule, MatSelectModule, MatCardModule, TranslateModule],
+  imports: [
+    CommonModule,
+    EuiCoreModule,
+    MatSelectModule,
+    MatCardModule,
+    TranslateModule,
+    MatButtonToggleModule,
+    FormsModule,
+    MatTooltipModule,
+  ],
   declarations: [JobQueueOverviewComponent],
   exports: [JobQueueOverviewComponent],
   providers: [JobQueueOverviewService, imx_SessionService, AppConfigService],

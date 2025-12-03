@@ -1,10 +1,10 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container($height: 100%);
+  @include mixins.flex-column-container($height: 100%);
   overflow-y: auto;
-  background-color: $color-gray-2;
+  background-color: eui.$color-gray-2;
 
   imx-data-table {
     flex-grow: 2;
@@ -16,7 +16,7 @@ h2 {
 }
 
 .imx-cases-card {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
   margin: 0px;
   overflow-y: auto;
   flex: 1 1 auto;
@@ -47,7 +47,7 @@ imx-data-table {
 }
 
 .heading-wrapper {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
 
   .imx-helper-title {
     font-size: larger;
@@ -56,7 +56,7 @@ imx-data-table {
 }
 
 .imx-sample-data-info {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
   text-align: center;
   margin: 20px 0;
   flex: 1 1 auto;
@@ -65,7 +65,7 @@ imx-data-table {
   p {
     margin: 0;
     font-size: 18px;
-    color: $color-gray-80;
+    color: eui.$color-gray-80;
   }
 
   button {
@@ -84,17 +84,17 @@ imx-data-table {
 }
 
 .imx-attestation-tree-container {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
   flex: 1 1 auto;
 }
 
 .eui-dark-theme {
   :host {
-    background-color: $color-gray-80;
+    background-color: eui.$color-gray-80;
 
     .imx-sample-data-info {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -102,6 +102,6 @@ imx-data-table {
 
 .eui-contrast-theme {
   :host {
-    background-color: $color-gray-100;
+    background-color: eui.$color-gray-100;
   }
 }

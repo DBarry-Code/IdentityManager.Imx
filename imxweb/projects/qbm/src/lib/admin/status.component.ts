@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,15 @@
  */
 
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ImxConfig, MethodSetInfo, PingResult, SystemInfo, UpdaterState, V2ApiClientMethodFactory } from '@imx-modules/imx-api-qbm';
+import {
+  ConfigInfoData,
+  ImxConfig,
+  MethodSetInfo,
+  PingResult,
+  SystemInfoData,
+  UpdaterState,
+  V2ApiClientMethodFactory,
+} from '@imx-modules/imx-api-qbm';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartOptions } from 'billboard.js';
 import { Observable, Subscription, interval } from 'rxjs';
@@ -35,6 +43,7 @@ import { SeriesInformation } from '../chart-options/series-information';
 import { XAxisInformation } from '../chart-options/x-axis-information';
 import { YAxisInformation } from '../chart-options/y-axis-information';
 import { ClassloggerService } from '../classlogger/classlogger.service';
+import { HELP_CONTEXTUAL } from '../help-contextual/help-contextual.service';
 import { SideNavigationComponent } from '../side-navigation-view/side-navigation-view-interfaces';
 import { SnackBarService } from '../snackbar/snack-bar.service';
 import { SystemInfoService } from '../system-info/system-info.service';
@@ -77,6 +86,7 @@ class StatusBuffer {
   host: {
     '[class.loading]': '!dataReady',
   },
+  standalone: false,
 })
 export class StatusComponent implements OnInit, OnDestroy, SideNavigationComponent {
   @Input() isAdmin: boolean;
@@ -84,7 +94,7 @@ export class StatusComponent implements OnInit, OnDestroy, SideNavigationCompone
   public pingResult: PingResult;
   public apiProjects: MethodSetInfo[];
   public updaterState: UpdaterState;
-  public systemInfo: SystemInfo;
+  public systemInfo: SystemInfoData;
   public config: ImxConfig;
   public dataReady: boolean;
   public UpdateText: string;
@@ -101,6 +111,9 @@ export class StatusComponent implements OnInit, OnDestroy, SideNavigationCompone
     OpenSessions: number;
     TotalSessions: number;
   };
+  public configInfo: ConfigInfoData;
+  public applicationTokenId = HELP_CONTEXTUAL.AdminApplicationToken;
+  public sourceKeyId = HELP_CONTEXTUAL.AdminTrustedSourceKey;
 
   private buffer: StatusBuffer;
   public chartOptions: ChartOptions | null = null;
@@ -141,8 +154,8 @@ export class StatusComponent implements OnInit, OnDestroy, SideNavigationCompone
       this.logger.debug(this, 'Status stream has been opened');
     };
 
+    this.loadConfigInfo();
     await this.buildOptions();
-
     await this.reloadChart();
   }
 
@@ -157,7 +170,7 @@ export class StatusComponent implements OnInit, OnDestroy, SideNavigationCompone
 
     const client = this.appConfigService.client;
     this.pingResult = await client.imx_ping_get();
-    this.systemInfo = await this.systemInfoService.get();
+    this.systemInfo = await this.statusService.getSystemInfo();
     this.apiProjects = await client.admin_projects_get();
     const s = await client.admin_systeminfo_software_status_get();
     this.config = await this.systemInfoService.getImxConfig();
@@ -216,5 +229,9 @@ export class StatusComponent implements OnInit, OnDestroy, SideNavigationCompone
 
   private updateChart() {
     this.chart?.load({ columns: [this.buffer.buildLabels(), this.buffer.buildData(this.seriesName)] });
+  }
+
+  private async loadConfigInfo(): Promise<void> {
+    this.configInfo = await this.appConfigService.client.admin_configinfo_get();
   }
 }

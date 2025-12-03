@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,6 +34,7 @@ import { fromEvent, Subscription } from 'rxjs';
   selector: 'imx-case-chart',
   templateUrl: './case-chart.component.html',
   styleUrls: ['./case-chart.component.scss'],
+  standalone: false,
 })
 export class CaseChartComponent implements OnInit, OnDestroy {
   @Input() public run: PortalAttestationRun;
@@ -70,6 +71,7 @@ export class CaseChartComponent implements OnInit, OnDestroy {
 
   public saveChart(chart: Chart): void {
     this.chart = chart;
+    this.chart.flush();
     this.chart.resize({
       height: this.chartWrapper?.nativeElement.offsetHeight,
       width: this.chartWrapper?.nativeElement.offsetWidth,

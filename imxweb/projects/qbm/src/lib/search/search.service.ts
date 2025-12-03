@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,6 +33,9 @@ import { imx_ISearchService } from '../searchbar/iSearchService';
 import { imx_SessionService } from '../session/imx-session.service';
 import { DbObjectInfo } from './db-object-info';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Injectable()
 export class imx_QBM_SearchService implements imx_ISearchService {
   public readonly searchTermStream = new Subject<string>();

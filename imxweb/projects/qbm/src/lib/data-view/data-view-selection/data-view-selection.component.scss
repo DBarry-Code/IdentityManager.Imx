@@ -1,31 +1,33 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
-:host{
+:host {
+  display: flex;
+  height: 36px;
+  min-height: 36px;
   margin-right: auto;
-  .imx-selection{
+  .imx-selection {
     display: flex;
     align-items: center;
-    &-info{
+    &-info {
       font-size: 14px;
       font-weight: 600;
       margin-right: 8px;
-      &-title{
+      &-title {
         font-weight: 400;
         margin-right: 8px;
       }
     }
-    .mdc-icon-button{
+    .mdc-icon-button {
       margin-right: 0;
     }
   }
 }
 
-
-:host{
-  .imx-selection{
-    &-info{
-      &-itle{
-        color: $color-gray-10;
+:host {
+  .imx-selection {
+    &-info {
+      &-itle {
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -33,11 +35,11 @@
 
 /* Dark theme */
 .eui-dark-theme {
-  :host{
+  :host {
     .imx-selection {
       &-info {
-        &-title{
-          color: $color-gray-20;
+        &-title {
+          color: eui.$color-gray-20;
         }
       }
     }
@@ -46,11 +48,11 @@
 
 /* High-contrast theme */
 .eui-contrast-theme {
-  :host{
+  :host {
     .imx-selection {
-      &-info{
-        &-title{
-          color: $color-gray-0;
+      &-info {
+        &-title {
+          color: eui.$color-gray-0;
         }
       }
     }

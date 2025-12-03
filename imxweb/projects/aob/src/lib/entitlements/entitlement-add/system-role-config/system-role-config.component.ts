@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,8 +38,9 @@ import { SettingsService } from 'qbm';
 import { SystemRoleConfigService } from './system-role-config.service';
 
 @Component({
-  templateUrl: './system-role-config.component.html',
-  styleUrls: ['./system-role-config.component.scss'],
+    templateUrl: './system-role-config.component.html',
+    styleUrls: ['./system-role-config.component.scss'],
+    standalone: false
 })
 export class SystemRoleConfigComponent implements AfterViewInit, OnDestroy {
   public readonly form: UntypedFormGroup;

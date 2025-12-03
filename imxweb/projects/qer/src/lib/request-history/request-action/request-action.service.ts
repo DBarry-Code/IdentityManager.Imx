@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -144,10 +144,10 @@ export class RequestActionService {
 
     const unsubscribeProperty = this.requestHistoryService.PortalItshopRequestsSchema.Columns.ValidUntilUnsubscribe;
     unsubscribeProperty.IsReadOnly = false;
-    const minDate = new Date();
-    minDate.setHours(0, 0, 0, 0); // Set time to midnight
+    const today = new Date();
+    today.setHours(0,0,0,0);
     const unsubscription = new BaseCdr(
-      this.entityService.createLocalEntityColumn(unsubscribeProperty, undefined, { ValueConstraint: { MinValue: minDate } }),
+      this.entityService.createLocalEntityColumn(unsubscribeProperty, undefined, { ValueConstraint: { MinValue: today } })
     );
 
     return this.editAction({

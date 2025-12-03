@@ -1,4 +1,4 @@
-@import '../pick-category-common.scss';
+@use '../pick-category-common.scss' as pick-category-common;
 
 :host {
   ::ng-deep .cdk-column-select {

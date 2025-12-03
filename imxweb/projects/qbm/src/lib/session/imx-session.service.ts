@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 
 import { PreAuthResponseData, TypedClient, V2Client } from '@imx-modules/imx-api-qbm';
 import { AppConfigService } from '../appConfig/appConfig.service';
@@ -46,6 +46,7 @@ export class imx_SessionService {
 
   constructor(
     private appConfigService: AppConfigService,
+    private errorHandler: ErrorHandler,
     private readonly logger: ClassloggerService,
   ) {}
 
@@ -74,11 +75,12 @@ export class imx_SessionService {
   }
 
   public async preAuthVerify(captchaCode: string): Promise<boolean> {
-    return await this.appConfigService.client
+    return this.appConfigService.client
       .imx_login_preauth_verify_post(this.appConfigService.Config.WebAppIndex, { Code: captchaCode })
       .then(() => true)
       .catch((error) => {
-        throw Error(error);
+        this.errorHandler.handleError(error);
+        return false;
       });
   }
 }

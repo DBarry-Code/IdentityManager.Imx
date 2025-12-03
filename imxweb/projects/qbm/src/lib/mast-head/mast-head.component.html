@@ -1,45 +1,59 @@
-<eui-masthead [ngClass]="{ 'no-logo': logoUrl }" data-imx-identifier="masthead" (logoClicked)="goHome()">
-  <mat-toolbar color="primary" data-imx-identifier="masthead-toolbar">
-    <mat-toolbar-row>
-      <!-- custom logo-->
-      <img
-        class="custom-logo"
-        *ngIf="logoUrl"
-        [src]="logoUrl"
-        data-imx-identifier="masthead-custom-logo"
-        tabindex="0"
-        (keydown.enter)="goHome()"
-        (click)="goHome()"
-        alt=""
-      />
+@if (isAuthenticated) {
+  <eui-masthead [ngClass]="{ 'no-logo': logoUrl }" data-imx-identifier="masthead" (logoClicked)="goHome()">
+    <mat-toolbar color="primary" data-imx-identifier="masthead-toolbar">
+      <mat-toolbar-row>
+        <!-- custom logo-->
+        @if (logoUrl) {
+          <img
+            class="custom-logo"
+            [src]="logoUrl"
+            data-imx-identifier="masthead-custom-logo"
+            tabindex="0"
+            (keydown.enter)="goHome()"
+            (click)="goHome()"
+            alt=""
+            [matTooltip]="'#LDS#Back to home page' | translate"
+          />
+        }
 
-      <h1
-        class="imx-masthead-app-name"
-        data-imx-identifier="masthead-button-goHome"
-        tabindex="0"
-        [ngStyle]="{ cursor: isAppOverview ? 'default' : 'pointer' }"
-        (keydown.enter)="goHome()"
-        (click)="goHome()"
-      >
-        {{ productName }} {{ appConfig?.Config?.Title }}
-      </h1>
-      <span class="imx-masthead-space"></span>
-      <span class="imx-masthead--controls">
-        <ng-template *ngIf="isAuthenticated && !isMobile" [ngTemplateOutlet]="mastHeadMenu"></ng-template>
-      </span>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</eui-masthead>
-
-<eui-top-navigation *ngIf="isAuthenticated && !!menuItems?.length" [items]="menuItems">
-  <div eui-top-navigation-mobile-footer *ngIf="isMobile">
-    <ng-template *ngIf="isAuthenticated" [ngTemplateOutlet]="mastHeadMenu"></ng-template>
-  </div>
-</eui-top-navigation>
+        <h1
+          class="imx-masthead-app-name"
+          data-imx-identifier="masthead-button-goHome"
+          tabindex="0"
+          [ngStyle]="{ cursor: isAppOverview ? 'default' : 'pointer' }"
+          (keydown.enter)="goHome()"
+          (click)="goHome()"
+          [matTooltip]="'#LDS#Back to home page' | translate"
+        >
+          {{ productName }} - {{ appConfig?.Config?.Title }}
+        </h1>
+        <span class="imx-masthead-space"></span>
+        <span class="imx-masthead--controls">
+          @if (isAuthenticated && !isMobile) {
+            <ng-template [ngTemplateOutlet]="mastHeadMenu"></ng-template>
+          }
+        </span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </eui-masthead>
+  @if (!!menuItems?.length) {
+    <eui-top-navigation [items]="menuItems">
+      @if (isMobile) {
+        <div eui-top-navigation-mobile-footer>
+          <ng-template [ngTemplateOutlet]="mastHeadMenu"></ng-template>
+        </div>
+      }
+    </eui-top-navigation>
+  }
+}
 
 <ng-template #mastHeadMenu>
+  <imx-global-search />
   <imx-ext id="queueMastButton" />
-  <imx-ext id="mastheadButton" />
+  <imx-ext id="shoppingCartMastButton" />
+  @if (canUseChatbot) {
+    <imx-ext id="chatbotMastButton" />
+  }
   <button
     mat-button
     class="imx-masthead-user-button"
@@ -64,19 +78,31 @@
     <button mat-menu-item data-imx-identifier="help-menu-connection" (click)="openConnection()">
       <span translate>#LDS#Menu Entry Connection</span>
     </button>
-    <button mat-menu-item data-imx-identifier="help-menu-documentation" *ngIf="hasDocumentationConfig" (click)="navigateToDocumentation()">
-      <span translate>#LDS#Menu Entry Documentation</span>
-    </button>
-    <ng-container *ngFor="let extension of extensions; let index">
-      <button *ngIf="extension.inputData; else instanceView" mat-menu-item (click)="showExtension(extension)">
-        <span translate>{{ extension.inputData.label }}</span>
-      </button>
-      <ng-template #instanceView>
+    @if (mastHeadService.externalDocumentationLink()) {
+      <a
+        mat-menu-item
+        [href]="mastHeadService.getDocumentLink(mastHeadService.externalDocumentationLink())"
+        [matTooltip]="'#LDS#Show documentation' | translate"
+        target="_blank"
+        data-imx-identifier="help-menu-documentation"
+        translate
+        >{{ '#LDS#Menu Entry Documentation' | translate }}</a
+      >
+    }
+    @for (extension of extensions; track extension) {
+      @if (extension.inputData) {
+        <button mat-menu-item (click)="showExtension(extension)">
+          <span translate>{{ extension.inputData.label }}</span>
+        </button>
+      } @else {
         <ng-container *ngComponentOutlet="extension.instance"></ng-container>
-      </ng-template>
-    </ng-container>
-    <button mat-menu-item data-imx-identifier="help-menu-about" (click)="openAboutDialog()">
-      <span translate>#LDS#Menu Entry Info</span>
-    </button>
+      }
+    }
+    @if (aboutInfoService) {
+      <button mat-menu-item data-imx-identifier="help-menu-about" (click)="openAboutDialog()">
+        <span translate>#LDS#Menu Entry Info</span>
+      </button>
+    }
   </mat-menu>
+  <imx-portal-switcher />
 </ng-template>

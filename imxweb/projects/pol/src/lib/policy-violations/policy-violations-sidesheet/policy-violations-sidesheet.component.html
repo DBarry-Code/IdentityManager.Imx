@@ -32,6 +32,7 @@
             [label]="'#LDS#Related objects' | translate"
             [inputControl]="selectedHyperviewOption"
             [options]="hyperviewOptions"
+            [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
             (selectionChange)="onHyperviewOptionSelected($event.length ? $event[0] : $event)"
             >
             </eui-select>

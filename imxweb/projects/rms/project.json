@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "rms",
   "sourceRoot": "projects/rms/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "prefix": "imx",
   "generators": {
@@ -24,9 +26,6 @@
         "development": {
           "tsConfig": "projects/rms/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/rms/ng-package.dynamic.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/rms/tsconfig.lib.json"
         },
@@ -34,7 +33,9 @@
           "tsConfig": "projects/rms/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/rms"]
+      "outputs": [
+        "{workspaceRoot}/dist/rms"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -56,8 +57,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/rms/tsconfig.lib.json", "projects/rms/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/rms/tsconfig.lib.json",
+          "projects/rms/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

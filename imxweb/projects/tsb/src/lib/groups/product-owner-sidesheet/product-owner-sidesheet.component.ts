@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,8 +35,9 @@ import { OwnerControlComponent } from 'qer';
 import { ProductOwnerSidesheetService } from './product-owner-sidesheet.service';
 
 @Component({
-  templateUrl: './product-owner-sidesheet.component.html',
-  styleUrls: ['./product-owner-sidesheet.component.scss'],
+    templateUrl: './product-owner-sidesheet.component.html',
+    styleUrls: ['./product-owner-sidesheet.component.scss'],
+    standalone: false
 })
 export class ProductOwnerSidesheetComponent {
   public productOwnerCdr: BaseCdr;

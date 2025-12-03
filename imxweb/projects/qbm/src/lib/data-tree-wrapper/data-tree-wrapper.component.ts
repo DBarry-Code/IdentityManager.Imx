@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { TreeDatabase } from '../data-tree/tree-database';
 import { TreeNodeInfo } from '../data-tree/tree-node';
 
 @Component({
-  selector: 'imx-data-tree-wrapper',
-  templateUrl: './data-tree-wrapper.component.html',
-  styleUrls: ['./data-tree-wrapper.component.scss'],
+    selector: 'imx-data-tree-wrapper',
+    templateUrl: './data-tree-wrapper.component.html',
+    styleUrls: ['./data-tree-wrapper.component.scss'],
+    standalone: false
 })
 export class DataTreeWrapperComponent implements OnChanges {
   public dstSettings: DataSourceToolbarSettings;

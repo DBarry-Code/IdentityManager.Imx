@@ -17,7 +17,7 @@
           *cdkVirtualFor="let candidate of candidates; index as i"
           [value]="candidate"
           class="imx-candidate-option"
-          [attr.data-imx-identifier]="'multi-select-formcontrol-list' + candidate.Keys[0]"
+          [attr.data-imx-identifier]="'multi-select-formcontrol-list' + candidate.Keys?.[0]"
         >
           <div class="imx-candidate-content">
             <div class="imx-candidate-display">{{ candidate.Display }}</div>
@@ -29,7 +29,9 @@
 </div>
 
 <div>
-  <mat-spinner diameter="16" class="imx-margin-top-15" *ngIf="loading"></mat-spinner>
+  @if (loading) {
+    <mat-spinner diameter="16" class="imx-margin-top-15"></mat-spinner>
+  }
 </div>
 
 <mat-form-field class="imx-form-field-flex" appearance="outline">
@@ -38,22 +40,23 @@
   </mat-label>
   <input value="_hidden" matInput hidden class="input-hidden" />
   <mat-list #selectedList role="list" class="imx-selected-candidates">
-    <mat-list-item
-      role="listitem"
-      *ngFor="let selectedCandidate of selectedCandidates; index as i"
-      checkboxPosition="before"
-      class="imx-candidate-option"
-      [attr.data-imx-identifier]="'multi-select-formcontrol-selector-list' + selectedCandidate?.Keys?.[0]"
-    >
-      <div class="imx-candidate-content">
-        <div class="imx-candidate-display">{{ selectedCandidate.Display }}</div>
-        <eui-icon
-          icon="close"
-          (click)="removeSelectedAtIndex(i)"
-          [attr.data-imx-identifier]="'multi-select-formcontrol-button-delete-selected-' + i"
-        ></eui-icon>
-      </div>
-    </mat-list-item>
+    @for (selectedCandidate of selectedCandidates; track selectedCandidate; let i = $index) {
+      <mat-list-item
+        role="listitem"
+        checkboxPosition="before"
+        class="imx-candidate-option"
+        [attr.data-imx-identifier]="'multi-select-formcontrol-selector-list' + selectedCandidate?.Keys?.[0]"
+      >
+        <div class="imx-candidate-content">
+          <div class="imx-candidate-display">{{ selectedCandidate.Display }}</div>
+          <eui-icon
+            icon="close"
+            (click)="removeSelectedAtIndex(i)"
+            [attr.data-imx-identifier]="'multi-select-formcontrol-button-delete-selected-' + i"
+          ></eui-icon>
+        </div>
+      </mat-list-item>
+    }
   </mat-list>
   <button
     class="imx-button-icon-14"

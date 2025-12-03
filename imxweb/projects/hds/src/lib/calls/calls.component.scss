@@ -1,8 +1,8 @@
+@use 'base/mixins';
+
+
 :host {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $padding: true);
 }
 
 .create-ticket-button {

@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 /* Elemental UI */
 
@@ -15,7 +15,7 @@
 /* Imx */
 .imx-badge {
   &-gray {
-    background-color: $color-gray-60;
+    background-color: eui.$color-gray-60;
   }
 }
 
@@ -38,7 +38,7 @@
 .eui-contrast-theme {
   .imx-badge {
     &-gray {
-      background-color: $color-gray-40;
+      background-color: eui.$color-gray-40;
     }
   }
 }

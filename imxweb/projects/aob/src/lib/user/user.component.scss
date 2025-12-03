@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-user {
   display: flex;
@@ -10,8 +9,8 @@
 }
 
 .imx-user-icon {
-  color: $white;
-  background-color: $black-c;
+  color: eui.$color-gray-0;
+  background-color: eui.$color-gray-20;
   border-radius: 50%;
   text-align: center;
   vertical-align: middle;
@@ -38,7 +37,7 @@
 
   > span:last-child {
     font-size: 10px;
-    color: $black-b;
+    color: eui.$color-gray-30;
   }
 }
 
@@ -62,8 +61,8 @@
 
 .imx-user.noUser {
   .imx-user-icon {
-    color: $corbin-orange;
-    background-color: $corbin-pastel;
+    color: eui.$color-orange-60;
+    background-color: eui.$color-orange-20;
   }
 
   .imx-user-properties > span {
@@ -82,12 +81,12 @@
 .eui-dark-theme {
   :host {
     .imx-user-icon {
-      color: $color-gray-80;
-      background-color: $color-gray-60;
+      color: eui.$color-gray-80;
+      background-color: eui.$color-gray-60;
     }
     .imx-user-properties {
       > span:last-child {
-        color: $color-gray-60;
+        color: eui.$color-gray-60;
       }
     }
   }
@@ -96,12 +95,12 @@
 .eui-contrast-theme {
   :host {
     .imx-user-icon {
-      color: $color-gray-100;
-      background-color: $color-gray-80;
+      color: eui.$color-gray-100;
+      background-color: eui.$color-gray-80;
     }
     .imx-user-properties {
       > span:last-child {
-        color: $color-gray-80;
+        color: eui.$color-gray-80;
       }
     }
   }

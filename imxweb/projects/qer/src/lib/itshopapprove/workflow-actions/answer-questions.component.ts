@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,12 +25,16 @@
  */
 
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ImxTranslationProviderService, imx_SessionService } from 'qbm';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImxTranslationProviderService, imx_SessionService } from 'qbm';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  templateUrl: './answer-questions.component.html',
+    templateUrl: './answer-questions.component.html',
+    standalone: false
 })
 export class AnswerQuestionsComponent implements OnInit {
   constructor(

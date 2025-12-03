@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,15 +34,18 @@ import { getCartItemValidationStatus } from './cart-items/cart-item-validation-s
   selector: 'imx-shopping-cart-submit-result',
   templateUrl: './shopping-cart-submit-warnings.dialog.html',
   styleUrls: ['./shopping-cart-submit-warnings.dialog.scss'],
+  standalone: false,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class ShoppingCartSubmitWarningsDialog {
   constructor(
     public dialogRef: MatDialogRef<ShoppingCartSubmitWarningsDialog>,
     @Inject(MAT_DIALOG_DATA) public readonly data: any,
-  ) {}
+  ) {
+    console.log('data', data);
+  }
 
-  public getStatus(check: ICartItemCheck): { status: string; icon: string } {
+  public getStatus(check: ICartItemCheck): { status: string; icon: string; colorClass?: string } {
     return getCartItemValidationStatus(check);
   }
 }

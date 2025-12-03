@@ -1,0 +1,67 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
+
+:host {
+  min-width: 800px;
+  margin-bottom: 1em;
+}
+
+.config-summary {
+  display: flex;
+  flex-direction: row;
+}
+
+.config-changes {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: end;
+
+  button:not(:last-of-type) {
+    margin-right: 16px;
+  }
+}
+
+.flex-container {
+  position: absolute;
+  inset: 32px;
+  display: flex;
+  flex-flow: column;
+  align-items: stretch;
+}
+
+.setting-novalue {
+  font-style: italic;
+}
+
+.project-selector {
+  min-width: 450px;
+}
+
+.scroll-container {
+  padding: 0.5em 0.5em 0.5em 0;
+  flex: 1 1 auto;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &.loading {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.imx-no-results {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: eui.$color-gray-60;
+
+  eui-icon {
+    color: eui.$color-gray-60;
+  }
+}
+
+.cdk-virtual-scroll-viewport {
+  flex-grow: 1;
+}

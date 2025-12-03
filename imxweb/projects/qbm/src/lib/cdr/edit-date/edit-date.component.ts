@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, ErrorHandler, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, ErrorHandler, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import moment, { Moment } from 'moment-timezone';
 import { Subject, Subscription } from 'rxjs';
@@ -45,8 +45,9 @@ import { EntityColumnContainer } from '../entity-column-container';
   selector: 'imx-edit-date',
   templateUrl: './edit-date.component.html',
   styleUrls: ['./edit-date.component.scss'],
+  standalone: false,
 })
-export class EditDateComponent implements CdrEditor, OnDestroy {
+export class EditDateComponent implements CdrEditor, OnDestroy, OnInit {
   /**
    * The form control associated with the editor.
    */
@@ -73,27 +74,34 @@ export class EditDateComponent implements CdrEditor, OnDestroy {
   public isBusy = false;
 
   public validateOnlyOnChange: boolean = false;
+  public dateFormat: DateFormat;
 
   private readonly subscribers: Subscription[] = [];
   private isWriting = false;
   private previousValue: Moment | undefined;
 
-  private resetValue: Date | undefined;
+  /**
+   * We need to track error states incase external validation scripts are erroring on the current value.
+   * i.e original value is now invalid as too much time has passed while being in the shopping cart
+   */
+  private errorCount = 0;
 
   /**
    * Determines, if a time control should be added.
    */
   public get withTime(): boolean {
-    // try to get the date format detail from metadata; defaulting to DateTime.
-    const dateFormat = this.columnContainer.metaData?.GetDateFormat() ?? DateFormat.DateTime;
-
-    return dateFormat === DateFormat.DateTime || dateFormat === DateFormat.UtcDateTime;
+    return this.dateFormat === DateFormat.DateTime || this.dateFormat === DateFormat.UtcDateTime || this.dateFormat === DateFormat.EndTime;
   }
 
   public constructor(
     private readonly errorHandler: ErrorHandler,
     private logger: ClassloggerService,
   ) {}
+
+  public ngOnInit(): void {
+    // try to get the date format detail from metadata; defaulting to DateTime.
+    this.dateFormat = this.columnContainer.metaData?.GetDateFormat() ?? DateFormat.DateTime;
+  }
 
   /**
    * Unsubscribes all events, after the 'OnDestroy' hook is triggered.
@@ -127,7 +135,6 @@ export class EditDateComponent implements CdrEditor, OnDestroy {
       this.subscribers.push(
         this.columnContainer.subscribe(() => {
           if (!this.isWriting) {
-            this.resetValue = this.columnContainer.value;
             this.logger.trace(this, 'Control set to new value');
             this.resetControlValue();
             this.valueHasChanged.emit({ value: this.control.value });
@@ -182,13 +189,13 @@ export class EditDateComponent implements CdrEditor, OnDestroy {
    * @param value The Moment object, that is used as the new value for the control.
    */
   private async writeValue(value: Moment | undefined): Promise<void> {
-    const resetMoment = this.resetValue ? moment(this.resetValue) : undefined;
-    if (this.control.errors || value?.isSame(resetMoment) || (value === resetMoment && !value)) {
+    if (this.control.errors || value?.isSame(this.previousValue) || (value === this.previousValue && !value)) {
       return;
     }
     const date = value == null ? undefined : value.toDate();
-
-    if (!this.columnContainer.canEdit || (value && value.isSame(this.columnContainer.value)) || (!value && !this.columnContainer.value)) {
+    const resetDate = this.columnContainer.value ? new Date(this.columnContainer.value) : undefined;
+    const resetMoment = moment(resetDate);
+    if (!this.columnContainer.canEdit) {
       // if the value is the same, we don't need to update the value
       return;
     }
@@ -202,11 +209,14 @@ export class EditDateComponent implements CdrEditor, OnDestroy {
       this.updateControlValue(value);
       this.previousValue = value;
       this.valueHasChanged.emit({ value: this.columnContainer.value, forceEmit: true });
-      this.resetValue = this.columnContainer.value;
+      this.errorCount = 0;
     } catch (error) {
+      this.errorCount += 1;
       this.errorHandler.handleError(error);
       // try to reset, but if we have errors too many times, we break the loop by setting empty
-      this.control?.setValue(resetMoment, { emitEvent: true });
+      const fallbackValue = this.errorCount < 2 && resetDate && resetDate.getTime() !== 0 ? resetMoment : undefined;
+      this.control?.setValue(fallbackValue, { emitEvent: true });
+      this.previousValue = fallbackValue;
     } finally {
       this.isBusy = false;
       this.isWriting = false;

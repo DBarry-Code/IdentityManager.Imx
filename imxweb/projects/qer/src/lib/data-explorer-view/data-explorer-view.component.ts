@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,8 +31,9 @@ import { UserModelService } from '../user/user-model.service';
 import { DataExplorerRegistryService } from './data-explorer-registry.service';
 
 @Component({
-  templateUrl: './data-explorer-view.component.html',
-  styleUrls: ['./data-explorer-view.component.scss'],
+    templateUrl: './data-explorer-view.component.html',
+    styleUrls: ['./data-explorer-view.component.scss'],
+    standalone: false
 })
 export class DataExplorerViewComponent implements OnInit {
   public isAdmin = true;

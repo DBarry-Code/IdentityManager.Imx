@@ -1,14 +1,19 @@
 <div class="chart-container">
-  <mat-card class="stat-card" *ngFor="let stat of stats; let index = index">
-    <mat-card-header [matTooltip]="stat?.Description" matTooltipPosition="above">
-      {{ stat?.Display }}
-    </mat-card-header>
-    <mat-card-content class="card-content center-content">
-      <imx-chart-tile *ngIf="info[index] && showChart[index]" [chartInfo]="info[index]" [summaryStat]="stat">
-      </imx-chart-tile>
-      <div *ngIf="info[index] && !showChart[index]" class="center-content">
-        <mat-spinner [diameter]="40"></mat-spinner>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  @for (stat of stats; track stat; let index = $index) {
+    <mat-card class="stat-card">
+      <mat-card-header [matTooltip]="stat?.Description" matTooltipPosition="above">
+        {{ stat?.Display }}
+      </mat-card-header>
+      <mat-card-content class="card-content center-content">
+        @if(info[index] && showChart[index]){
+          <imx-s-chart-tile [summaryStat]="stat" [chartInfo]="info[index]" [summaryStat]="stat"></imx-s-chart-tile>
+        }      
+        @if(info[index] && !showChart[index]){
+          <div class="center-content">
+            <mat-spinner [diameter]="40"></mat-spinner>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
 </div>

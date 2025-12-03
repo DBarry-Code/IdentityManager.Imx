@@ -11,8 +11,10 @@
       max="1"
       step="0.01"
       [attr.data-imx-identifier]="testId + '-edit-threshold-lower-bounds-input'"
-    />
-    <mat-error *ngIf="lowerControl.invalid"> {{ '#LDS#Specify a value between 0 and 1 for the lower limit.' | translate }}</mat-error>
+      />
+    @if (lowerControl.invalid) {
+      <mat-error> {{ '#LDS#Specify a value between 0 and 1 for the lower limit.' | translate }}</mat-error>
+    }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>{{ '#LDS#Upper limit' | translate }}</mat-label>
@@ -24,7 +26,9 @@
       max="1"
       step="0.01"
       [attr.data-imx-identifier]="testId + '-edit-threshold-upper-bounds-input'"
-    />
-    <mat-error *ngIf="upperControl.invalid"> {{ '#LDS#Specify a value between 0 and 1 for the upper limit.' | translate }}</mat-error>
+      />
+    @if (upperControl.invalid) {
+      <mat-error> {{ '#LDS#Specify a value between 0 and 1 for the upper limit.' | translate }}</mat-error>
+    }
   </mat-form-field>
 </div>

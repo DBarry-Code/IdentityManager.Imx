@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,9 +59,10 @@ import { RoleEntitlementActionService } from './role-entitlement-action.service'
 import { RoleRecommendationResultItem } from './role-recommendations/role-recommendation-result-item';
 import { RoleRecommendationsComponent } from './role-recommendations/role-recommendations.component';
 @Component({
-  selector: 'imx-role-entitlements',
-  templateUrl: './role-entitlements.component.html',
-  styleUrls: ['./role-entitlements.component.scss', '../sidesheet.scss'],
+    selector: 'imx-role-entitlements',
+    templateUrl: './role-entitlements.component.html',
+    styleUrls: ['./role-entitlements.component.scss', '../sidesheet.scss'],
+    standalone: false
 })
 export class RoleEntitlementsComponent implements OnInit, AfterViewInit, OnDestroy {
   public dstSettings: DataSourceToolbarSettings;

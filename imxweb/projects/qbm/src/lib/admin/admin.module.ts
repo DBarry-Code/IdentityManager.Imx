@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,34 +42,38 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { AboutService } from '../about/About.service';
 import { QbmSqlWizardService } from '../base/qbm-sqlwizard.service';
 import { BusyIndicatorModule } from '../busy-indicator/busy-indicator.module';
 import { DataSourceToolbarModule } from '../data-source-toolbar/data-source-toolbar.module';
+import { DataViewModule } from '../data-view/data-view.module';
 import { DateModule } from '../date/date.module';
+import { HelpContextualModule } from '../help-contextual/help-contextual.module';
 import { LdsReplaceModule } from '../lds-replace/lds-replace.module';
 import { SideNavigationViewModule } from '../side-navigation-view/side-navigation-view.module';
 import { SqlWizardApiService } from '../sqlwizard/sqlwizard-api.service';
 import { InfoModalDialogModule } from './../info-modal-dialog/info-modal-dialog.module';
-import { AdminAboutService } from './about/admin-about.service';
-import { AddConfigSidesheetComponent } from './add-config-sidesheet.component';
-import { ApplyConfigSidesheetComponent } from './apply-config-sidesheet.component';
+import { AssembliesComponent } from './assemblies/assemblies.component';
 import { CacheComponent } from './cache.component';
-import { ConfigKeyPathComponent } from './config-key-path.component';
-import { ConfigComponent } from './config.component';
-import { ConfigService } from './config.service';
-import { ConvertConfigSidesheetComponent } from './convert-config-sidesheet.component';
+import { AddConfigSidesheetComponent } from './config/add-config-sidesheet/add-config-sidesheet.component';
+import { ApplyConfigSidesheetComponent } from './config/apply-config-sidesheet/apply-config-sidesheet.component';
+import { ConfigKeyPathComponent } from './config/config-key-path/config-key-path.component';
+import { ConfigSettingComponent } from './config/config-setting/config-setting.component';
+import { ConfigComponent } from './config/config.component';
+import { ConfigService } from './config/config.service';
+import { ConvertConfigSidesheetComponent } from './config/convert-config-sidesheet/convert-config-sidesheet.component';
+import { DeleteConfigSidesheetComponent } from './config/delete-config-sidesheet/delete-config-sidesheet.component';
+import { ListSettingComponent } from './config/list-setting/list-setting.component';
+import { SectionViewComponent } from './config/section-view/section-view.component';
+import { SelectValueComponent } from './config/select-value/select-value.component';
 import { DashboardComponent } from './dashboard.component';
-import { DeleteConfigSidesheetComponent } from './delete-config-sidesheet.component';
-import { ListSettingComponent } from './list-setting.component';
 import { LogDetailsSidesheetComponent } from './log-details-sidesheet.component';
 import { LogsComponent } from './logs.component';
 import { PackagesComponent } from './packages.component';
 import { PluginsComponent } from './plugins.component';
-import { SelectValueComponent } from './select-value.component';
 import { StatusComponent } from './status.component';
 import { StatusService } from './status.service';
 import { SwaggerComponent } from './swagger/swagger.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -96,6 +100,8 @@ import { SwaggerComponent } from './swagger/swagger.component';
     InfoModalDialogModule,
     SideNavigationViewModule,
     BusyIndicatorModule,
+    HelpContextualModule,
+    DataViewModule,
   ],
   providers: [
     ConfigService,
@@ -104,15 +110,12 @@ import { SwaggerComponent } from './swagger/swagger.component';
       provide: SqlWizardApiService,
       useClass: QbmSqlWizardService,
     },
-    {
-      provide: AboutService,
-      useClass: AdminAboutService,
-    },
   ],
   declarations: [
     AddConfigSidesheetComponent,
     ApplyConfigSidesheetComponent,
     CacheComponent,
+    ConfigSettingComponent,
     ConvertConfigSidesheetComponent,
     ConfigComponent,
     ConfigKeyPathComponent,
@@ -121,11 +124,13 @@ import { SwaggerComponent } from './swagger/swagger.component';
     DashboardComponent,
     PackagesComponent,
     PluginsComponent,
+    SectionViewComponent,
     SelectValueComponent,
     StatusComponent,
     LogsComponent,
     LogDetailsSidesheetComponent,
     SwaggerComponent,
+    AssembliesComponent,
   ],
 })
-export class AdminModule {}
+export class AdminModule { }

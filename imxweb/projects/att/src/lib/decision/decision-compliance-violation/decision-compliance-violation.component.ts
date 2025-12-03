@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,10 @@ import { Component, Input } from '@angular/core';
 import { ComplianceViolation } from '@imx-modules/imx-api-att';
 
 @Component({
-  selector: 'imx-decision-compliance-violation',
-  templateUrl: './decision-compliance-violation.component.html',
-  styleUrls: ['./decision-compliance-violation.component.scss'],
+    selector: 'imx-decision-compliance-violation',
+    templateUrl: './decision-compliance-violation.component.html',
+    styleUrls: ['./decision-compliance-violation.component.scss'],
+    standalone: false
 })
 export class DecisionComplianceViolationComponent {
   @Input() public complianceViolations: ComplianceViolation[];

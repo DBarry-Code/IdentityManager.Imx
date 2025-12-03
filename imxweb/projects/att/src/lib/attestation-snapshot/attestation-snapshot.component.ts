@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../api.service';
 
 @Component({
-  templateUrl: './attestation-snapshot.component.html',
-  selector: 'imx-attestation-snapshot',
-  styleUrls: ['./attestation-snapshot.component.scss'],
+    templateUrl: './attestation-snapshot.component.html',
+    selector: 'imx-attestation-snapshot',
+    styleUrls: ['./attestation-snapshot.component.scss'],
+    standalone: false
 })
 export class AttestationSnapshotComponent implements OnInit {
   public snapshot: AttestationSnapshotData;

@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-message-content {
   white-space: pre-wrap;
@@ -10,7 +9,7 @@
 }
 
 .imx-message {
-  color: $black;
+  color: eui.$color-gray-100;
   position: fixed;
   width: 100%;
   top: 64px;
@@ -19,17 +18,17 @@
 }
 
 .imx-small-message {
-  color: $black;
+  color: eui.$color-gray-100;
   display: block;
 }
 
 .eui-dark-theme {
   :host {
     .imx-message {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
     .imx-small-message {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
   }
 }
@@ -37,10 +36,10 @@
 .eui-contrast-theme {
   :host {
     .imx-message {
-      color: $color-gray-2;
+      color: eui.$color-gray-2;
     }
     .imx-small-message {
-      color: $color-gray-2;
+      color: eui.$color-gray-2;
     }
   }
 }

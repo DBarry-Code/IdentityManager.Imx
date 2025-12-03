@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -56,10 +56,11 @@ import { AddressbookService } from './addressbook.service';
  * White pages view. Contains a person details view.
  */
 @Component({
-  selector: 'imx-addressbook',
-  templateUrl: './addressbook.component.html',
-  styleUrls: ['./addressbook.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-addressbook',
+    templateUrl: './addressbook.component.html',
+    styleUrls: ['./addressbook.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class AddressbookComponent implements OnInit {
   public displayedColumns: IClientProperty[];

@@ -1,15 +1,12 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  flex: 1 1 auto;
+  @include mixins.flex-column-container-fill($padding: true)
 }
 
 .imx-request-table-card {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 }
 
 imx-data-table {
@@ -18,9 +15,10 @@ imx-data-table {
 
 .imx-display-column {
   display: flex;
+
   :last-child {
     flex-grow: 1;
-    display:block;
+    display: block;
   }
 }
 
@@ -30,22 +28,22 @@ imx-data-table {
 
 .imx-subtext {
   font-size: smaller;
-  color: $color-gray-30;
+  color: eui.$color-gray-30;
 }
 
 /* Priority=low */
 .imx-priority-100 {
-  color: $color-green-60;
+  color: eui.$color-green-60;
 }
 
 /* Priority=medium */
 .imx-priority-200 {
-  color: $color-orange-60;
+  color: eui.$color-orange-60;
 }
 
 /* Priority=high */
 .imx-priority-300 {
-  color: $color-red-60;
+  color: eui.$color-red-60;
 }
 
 .imx-badge-container {

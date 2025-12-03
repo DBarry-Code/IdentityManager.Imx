@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,8 +28,9 @@ import { Component, Inject } from '@angular/core';
 import { EuiSidesheetRef, EUI_SIDESHEET_DATA } from '@elemental-ui/core';
 
 @Component({
-  templateUrl: './edit-mitigating-controls.component.html',
-  styleUrls: ['./edit-mitigating-controls.component.scss'],
+    templateUrl: './edit-mitigating-controls.component.html',
+    styleUrls: ['./edit-mitigating-controls.component.scss'],
+    standalone: false
 })
 export class EditMitigatingControlsComponent {
   constructor(

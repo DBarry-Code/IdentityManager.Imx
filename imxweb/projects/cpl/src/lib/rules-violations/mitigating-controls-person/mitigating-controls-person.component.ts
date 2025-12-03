@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { MitigatingControlsPersonService } from './mitigating-controls-person.se
 import { PersonMitigatingControls } from './person-mitigating-controls';
 
 @Component({
-  selector: 'imx-mitigating-controls-person',
-  templateUrl: './mitigating-controls-person.component.html',
-  styleUrls: ['../../mitigating-controls-common.scss'],
+    selector: 'imx-mitigating-controls-person',
+    templateUrl: './mitigating-controls-person.component.html',
+    styleUrls: ['../../mitigating-controls-common.scss'],
+    standalone: false
 })
 export class MitigatingControlsPersonComponent implements OnInit {
   @Input() public uidPerson: string;

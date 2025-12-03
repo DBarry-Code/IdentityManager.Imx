@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,9 +43,10 @@ import { Component, Input, TemplateRef } from '@angular/core';
  * </ng-template>
  */
 @Component({
-  selector: 'imx-data-source-toolbar-custom',
-  templateUrl: './data-source-toolbar-custom.component.html',
-  styleUrls: ['./data-source-toolbar-custom.component.scss'],
+    selector: 'imx-data-source-toolbar-custom',
+    templateUrl: './data-source-toolbar-custom.component.html',
+    styleUrls: ['./data-source-toolbar-custom.component.scss'],
+    standalone: false
 })
 export class DataSourceToolbarCustomComponent {
   /**

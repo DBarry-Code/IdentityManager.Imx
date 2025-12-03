@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { EUI_SIDESHEET_DATA, EuiSidesheetRef } from '@elemental-ui/core';
 import { TypedEntity } from '@imx-modules/imx-qbm-dbts';
 
 @Component({
-  selector: 'imx-order-for-additional-users',
-  templateUrl: './order-for-additional-users.component.html',
-  styleUrls: ['./order-for-additional-users.component.scss'],
+    selector: 'imx-order-for-additional-users',
+    templateUrl: './order-for-additional-users.component.html',
+    styleUrls: ['./order-for-additional-users.component.scss'],
+    standalone: false
 })
 export class OrderForAdditionalUsersComponent {
   constructor(
@@ -39,7 +40,7 @@ export class OrderForAdditionalUsersComponent {
     @Inject(EUI_SIDESHEET_DATA) public readonly data: any,
   ) {}
 
-  public close(event: TypedEntity[] | undefined): void {
+  public close(event: readonly TypedEntity[] | undefined): void {
     this.sideSheetRef.close(event);
   }
 

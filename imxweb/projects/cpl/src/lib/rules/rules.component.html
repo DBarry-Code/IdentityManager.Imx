@@ -19,9 +19,17 @@
         <div class="imx-displayColumn" data-imx-identifier="runs-button-show-details">
           <div class="imx-display-column-main">
             <div data-imx-identifier="rules-table-display">{{ item.GetEntity().GetDisplay() }}</div>
-            <div subtitle data-imx-identifier="rules-table-description">{{ item.Description.Column.GetDisplayValue() }}</div>
+            <div subtitle data-imx-identifier="rules-table-description">
+              <span>{{ item.Description.Column.GetDisplayValue() }}</span>
+              @if (item.Description.Column.GetDisplayValue() && getSubtitleText(item?.GetEntity())) {
+                <span class="imx-padding-right-4">;</span>
+              }
+              <span>{{ getSubtitleText(item?.GetEntity()) }}</span>
+            </div>
           </div>
-          <eui-badge class="imx-badge" *ngIf="item.IsInActive.value" color="gray">{{ '#LDS#Deactivated' | translate }}</eui-badge>
+          @if (item.IsInActive.value) {
+            <eui-badge class="imx-badge" color="gray">{{ '#LDS#Deactivated' | translate }}</eui-badge>
+          }
         </div>
       </td>
     </ng-container>

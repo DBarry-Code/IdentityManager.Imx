@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,7 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
@@ -36,6 +36,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-2';
 import {
+  AboutService,
+  AppInitializationService,
   AuthenticationModule,
   CustomThemeModule,
   GlobalErrorHandler,
@@ -50,6 +52,7 @@ import {
 import { PasscodeLoginModule, PasswordModule, QaLoginModule, QerModule } from 'qer';
 import appConfigJson from '../appconfig.json';
 import { environment } from '../environments/environment';
+import { PwdAboutService } from './about/pwd-about.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
@@ -91,11 +94,10 @@ export function getBaseHref(): string {
   providers: [
     { provide: 'environment', useValue: environment },
     { provide: 'appConfigJson', useValue: appConfigJson },
+    provideAppInitializer(() => inject(AppService).init()),
     {
-      provide: APP_INITIALIZER,
-      useFactory: AppService.init,
-      deps: [AppService],
-      multi: true,
+      provide: AboutService,
+      useClass: PwdAboutService,
     },
     {
       provide: ErrorHandler,
@@ -116,7 +118,7 @@ export function getBaseHref(): string {
     },
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: (config: AppService) => {
+      useFactory: (config: AppInitializationService) => {
         return config.recaptchaSiteKeyV3;
       },
       deps: [AppService],
@@ -124,4 +126,4 @@ export function getBaseHref(): string {
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }

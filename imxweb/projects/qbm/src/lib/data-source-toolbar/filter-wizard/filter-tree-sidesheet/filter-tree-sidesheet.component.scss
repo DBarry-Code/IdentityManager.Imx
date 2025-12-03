@@ -1,9 +1,8 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
   height: 100%;
 
   .imx-bold-text {
@@ -19,18 +18,20 @@
   }
 
   .imx-tree-control {
-    @include flex-row-container-fill();
+    @include mixins.flex-row-container-fill();
   }
 
   .imx-top-line {
-    @include flex-row-container-fill();
+    @include mixins.flex-row-container-fill();
     overflow: hidden;
     align-items: center;
+
     p {
       flex: 1 1 auto;
       overflow: hidden;
 
-      @include flex-row-container-fill();
+      @include mixins.flex-row-container-fill();
+
       span {
         vertical-align: middle;
         text-wrap: nowrap;
@@ -52,9 +53,10 @@
 
 :host {
   .imx-filter-tree-node.imx-selected-text {
-    color: $color-orange-60;
+    color: eui.$color-orange-60;
+
     .eui-icon {
-      color: $color-orange-60;
+      color: eui.$color-orange-60;
     }
   }
 }
@@ -62,13 +64,14 @@
 .eui-dark-theme {
   :host {
     .imx-filter-tree-node {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .imx-filter-tree-node.imx-selected-text {
-      color: $color-orange-40;
+      color: eui.$color-orange-40;
+
       .eui-icon {
-        color: $color-orange-40;
+        color: eui.$color-orange-40;
       }
     }
   }
@@ -77,13 +80,14 @@
 .eui-contrast-theme {
   :host {
     .imx-filter-tree-node {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .imx-filter-tree-node.imx-selected-text {
-      color: $color-orange-80;
+      color: eui.$color-orange-80;
+
       .eui-icon {
-        color: $color-orange-80;
+        color: eui.$color-orange-80;
       }
     }
   }

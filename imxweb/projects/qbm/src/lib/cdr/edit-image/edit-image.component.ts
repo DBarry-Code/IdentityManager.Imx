@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, ElementRef, ErrorHandler, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 
@@ -34,6 +34,7 @@ import { Base64ImageService } from '../../images/base64-image.service';
 import { CdrEditor, ValueHasChangedEventArg } from '../cdr-editor.interface';
 import { ColumnDependentReference } from '../column-dependent-reference.interface';
 import { EntityColumnContainer } from '../entity-column-container';
+
 /**
  * Provides a {@link CdrEditor | CDR editor} for editing / viewing image data columns.
  *
@@ -41,9 +42,10 @@ import { EntityColumnContainer } from '../entity-column-container';
  * When set to read-only, it uses an {@link ImageViewComponent | image view component} to display the content.
  */
 @Component({
-  selector: 'imx-edit-image',
-  templateUrl: './edit-image.component.html',
-  styleUrls: ['./edit-image.component.scss'],
+    selector: 'imx-edit-image',
+    templateUrl: './edit-image.component.html',
+    styleUrls: ['./edit-image.component.scss'],
+    standalone: false
 })
 export class EditImageComponent implements CdrEditor, OnDestroy {
   /**
@@ -92,7 +94,6 @@ export class EditImageComponent implements CdrEditor, OnDestroy {
     private readonly logger: ClassloggerService,
     private readonly imageProvider: Base64ImageService,
     private readonly fileSelector: FileSelectorService,
-    private readonly errorHandler: ErrorHandler,
   ) {
     this.subscriptions.push(
       this.fileSelector.fileFormatError.subscribe(() => (this.fileFormatError = true)),
@@ -204,15 +205,10 @@ export class EditImageComponent implements CdrEditor, OnDestroy {
    */
   private async writeValue(value: string | undefined): Promise<void> {
     this.logger.debug(this, 'writeValue called with value', value);
-    if (this.control.errors) {
-      this.logger.debug(this, 'writeValue - client validation failed');
-      return;
-    }
 
     if (!this.columnContainer.canEdit || this.columnContainer.value === value) {
       return;
     }
-    const resetValue = this.columnContainer.value;
 
     this.control.setValue(value, { emitEvent: false });
 
@@ -222,8 +218,7 @@ export class EditImageComponent implements CdrEditor, OnDestroy {
       this.logger.debug(this, 'writeValue - updateCdrValue...');
       await this.columnContainer.updateValue(value);
     } catch (e) {
-      this.errorHandler?.handleError(e);
-      this.control.setValue(resetValue, { emitEvent: true });
+      this.logger.error(this, e);
     } finally {
       this.isLoading = false;
       this.isWriting = false;
@@ -232,7 +227,6 @@ export class EditImageComponent implements CdrEditor, OnDestroy {
         this.control.setValue(this.columnContainer.value, { emitEvent: false });
         this.logger.debug(this, 'form control value is set to', this.control.value);
       }
-      this.control.updateValueAndValidity();
       this.valueHasChanged.emit({ value: this.control.value, forceEmit: true });
     }
 

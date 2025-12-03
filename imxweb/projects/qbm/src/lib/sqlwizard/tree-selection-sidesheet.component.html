@@ -1,0 +1,66 @@
+@if (busy) {
+  <mat-spinner></mat-spinner>
+}
+<mat-card>
+  <div class="imx-toolbar">
+    <button
+      mat-icon-button
+      color="primary"
+      [matTooltip]="'#LDS#Collapse all' | translate"
+      (click)="treeControl.collapseAll()"
+      [disabled]="disabledCollapse"
+    >
+      <eui-icon icon="compress"></eui-icon>
+    </button>
+    <eui-search [placeholder]="'#LDS#Search for properties' | translate" [searchControl]="searchControl"></eui-search>
+  </div>
+  @if (!hasSearchResults()) {
+    <div class="imx-no-results">
+      <eui-icon [icon]="'search'" size="xl"></eui-icon>{{ '#LDS#There is no data matching your search.' | translate }}
+    </div>
+  } @else {
+    <div class="imx-table">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" eui-scroll>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef sticky>
+            <span [style.paddingLeft.px]="40">{{ '#LDS#Name' | translate }} </span>
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let data"
+            (click)="!data.expandable ? apply(data) : undefined"
+            [class]="{ 'imx-clickable': !data.expandable }"
+          >
+            <button
+              mat-icon-button
+              [style.visibility]="!data.expandable ? 'hidden' : ''"
+              [style.marginLeft.px]="data.level * 32"
+              (click)="treeControl.toggle(data)"
+              [matTooltip]="(treeControl.isExpanded(data) ? '#LDS#Collapse' : '#LDS#Expand') | translate"
+            >
+              @if (treeControl.isExpanded(data)) {
+                <eui-icon icon="chevrondown"></eui-icon>
+              } @else {
+                <eui-icon icon="chevronright"></eui-icon>
+              }
+            </button>
+            <div>
+              {{ data.display }}
+              @if (!!data.id) {
+                <span class="imx-subtitle">- {{ data.id }} </span>
+              }
+              @if (!!data.subtitle) {
+                <div class="imx-subtitle imx-subtitle-block">{{ data.subtitle }}</div>
+              }
+            </div>
+            @if (data.helpContextId) {
+              <imx-help-contextual [contextId]="data.helpContextId"></imx-help-contextual>
+            }
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  }
+</mat-card>

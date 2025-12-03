@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,7 @@ import { EUI_SIDESHEET_DATA, EuiLoadingService, EuiSelectOption, EuiSidesheetRef
 
 import { FormControl } from '@angular/forms';
 import { DbObjectKey } from '@imx-modules/imx-qbm-dbts';
-import { ColumnDependentReference, ConfirmationService } from 'qbm';
+import { ColumnDependentReference, ConfirmationService, ElementalUiConfigService } from 'qbm';
 import { Subscription } from 'rxjs';
 import { MitigatingControlsComponent } from '../mitigating-controls/mitigating-controls.component';
 import { PolicyViolation } from '../policy-violation';
@@ -39,12 +39,13 @@ import { PolicyViolationsService } from '../policy-violations.service';
   selector: 'imx-policy-violations-sidesheet',
   templateUrl: './policy-violations-sidesheet.component.html',
   styleUrls: ['./policy-violations-sidesheet.component.scss'],
+  standalone: false,
 })
 export class PolicyViolationsSidesheetComponent implements OnInit, OnDestroy {
   public cdrList: ColumnDependentReference[] = [];
   public selectedHyperviewType: string;
   public selectedHyperviewUID: string;
-  public selectedHyperviewOption = new FormControl<string>('', {nonNullable: true});
+  public selectedHyperviewOption = new FormControl<string>('', { nonNullable: true });
   public hyperviewOptions: EuiSelectOption[];
   public result: boolean = false;
   public closeSubscription: Subscription;
@@ -74,8 +75,9 @@ export class PolicyViolationsSidesheetComponent implements OnInit, OnDestroy {
     public readonly sideSheetRef: EuiSidesheetRef,
     private readonly confirmationService: ConfirmationService,
     private readonly euiLoadingService: EuiLoadingService,
-  ) {}
-  
+    public elementalUiConfigService: ElementalUiConfigService,
+  ) { }
+
   ngOnInit() {
     this.cdrList = this.data.policyViolation.properties;
     this.closeSubscription = this.sideSheetRef.closeClicked().subscribe(async () => {

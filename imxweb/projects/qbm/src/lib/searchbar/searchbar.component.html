@@ -10,7 +10,7 @@
               class="imx-button-icon-hover-info imx-searchbar-tablecellsmall"
               (click)="searchInternal(input.value)"
               data-imx-identifier="searchbar-button-searchInternal"
-            >
+              >
               <eui-icon icon="search" size="21px" [title]="'#LDS#Search' | translate"></eui-icon>
             </button>
             <input
@@ -25,8 +25,10 @@
               (focus)="onInputFocus()"
               (focusout)="onInputLostFocus()"
               data-imx-identifier="searchbar-input-searchText"
-            />
-            <mat-spinner [diameter]="24" *ngIf="isLoading" class="imx-margin-right-10"></mat-spinner>
+              />
+            @if (isLoading) {
+              <mat-spinner [diameter]="24" class="imx-margin-right-10"></mat-spinner>
+            }
           </div>
           <mat-autocomplete
             #auto="matAutocomplete"
@@ -35,17 +37,21 @@
             (optionSelected)="handleSelection($event)"
             [displayWith]="displayItem"
             data-imx-identifier="searchbar-autocomplete"
-          >
-            <mat-option *ngFor="let link of searchResults" [value]="link">
-              <ng-template [ngIf]="resultTemplate">
-                <ng-container [ngTemplateOutlet]="resultTemplate" [ngTemplateOutletContext]="{ $implicit: link }"> </ng-container>
-              </ng-template>
-              <ng-template [ngIf]="!resultTemplate">
-                <ng-container [ngTemplateOutlet]="DefaultTemplate" [ngTemplateOutletContext]="{ $implicit: link }"> </ng-container>
-              </ng-template>
-            </mat-option>
+            >
+            @for (link of searchResults; track link) {
+              <mat-option [value]="link">
+                @if (resultTemplate) {
+                  <ng-container [ngTemplateOutlet]="resultTemplate" [ngTemplateOutletContext]="{ $implicit: link }"> </ng-container>
+                }
+                @if (!resultTemplate) {
+                  <ng-container [ngTemplateOutlet]="DefaultTemplate" [ngTemplateOutletContext]="{ $implicit: link }"> </ng-container>
+                }
+              </mat-option>
+            }
           </mat-autocomplete>
-          <div class="imx-searchbar-noitems" translate *ngIf="noEntriesVisible">#LDS#No entries found.</div>
+          @if (noEntriesVisible) {
+            <div class="imx-searchbar-noitems" translate>#LDS#No entries found.</div>
+          }
         </div>
       </mat-card-content>
     </mat-card>
@@ -63,10 +69,12 @@
         (focusout)="onSelectLostFocus()"
         [id]="filterComponentId"
         data-imx-identifier="searchbar-select-tablefilter"
-      >
-        <mat-option *ngFor="let table of tableList" [value]="searchService.GetTableValue(table)">{{
-          searchService.GetTableDisplay(table)
-        }}</mat-option>
+        >
+        @for (table of tableList; track table) {
+          <mat-option [value]="searchService.GetTableValue(table)">{{
+            searchService.GetTableDisplay(table)
+          }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
   </div>

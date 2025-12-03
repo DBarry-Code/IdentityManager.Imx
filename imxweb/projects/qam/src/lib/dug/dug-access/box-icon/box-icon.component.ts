@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,9 +27,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'imx-box-icon',
-  templateUrl: './box-icon.component.html',
-  styleUrls: ['./box-icon.component.scss'],
+    selector: 'imx-box-icon',
+    templateUrl: './box-icon.component.html',
+    styleUrls: ['./box-icon.component.scss'],
+    standalone: false
 })
 export class BoxIconComponent {
   @Input() public isChecked: boolean;

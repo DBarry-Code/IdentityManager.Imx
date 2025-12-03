@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,10 +34,16 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BusyService } from '../base/busy.service';
 import { imx_ISearchService } from './iSearchService';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataViewComponent instead.
+ */
 @Component({
-  selector: 'imx-searchbar',
-  templateUrl: './searchbar.component.html',
-  styleUrls: ['./searchbar.component.scss'],
+    selector: 'imx-searchbar',
+    templateUrl: './searchbar.component.html',
+    styleUrls: ['./searchbar.component.scss'],
+    standalone: false
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
   public get autoCompleteIsFocused(): boolean {

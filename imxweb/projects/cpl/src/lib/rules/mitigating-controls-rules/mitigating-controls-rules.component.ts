@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { ConfirmationService, SnackBarService } from 'qbm';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'imx-mitigating-controls-rules',
-  templateUrl: './mitigating-controls-rules.component.html',
-  styleUrls: ['./mitigating-controls-rules.component.scss'],
+    selector: 'imx-mitigating-controls-rules',
+    templateUrl: './mitigating-controls-rules.component.html',
+    styleUrls: ['./mitigating-controls-rules.component.scss'],
+    standalone: false
 })
 export class MitigatingControlsRulesComponent implements OnInit, OnDestroy {
   @Input() public isMControlPerViolation: boolean;

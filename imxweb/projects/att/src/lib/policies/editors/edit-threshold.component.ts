@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { FilterChangedArgument } from './filter-changed-argument.interface';
 import { FilterElementModel } from './filter-element-model';
 
 @Component({
-  templateUrl: './edit-threshold.component.html',
-  selector: 'imx-edit-threshold',
-  styleUrls: ['./edit-threshold.component.scss'],
+    templateUrl: './edit-threshold.component.html',
+    selector: 'imx-edit-threshold',
+    styleUrls: ['./edit-threshold.component.scss'],
+    standalone: false
 })
 export class EditThresholdComponent implements OnInit, OnDestroy {
   public readonly riskIndexForm: UntypedFormGroup;

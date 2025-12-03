@@ -1,0 +1,28 @@
+<div mat-dialog-title>
+  {{
+    (getNumberOfIdentities > 1
+      ? '#LDS#Heading Remove Responsibilities'
+      : '#LDS#Heading Remove Responsibility'
+    ) | translate
+  }}
+</div>
+<mat-dialog-content>
+  {{
+    getNumberOfIdentities > 1
+      ? ('#LDS#Are you sure you want to remove the responsibility "{0}" from {1} identities?'
+        | translate
+        | ldsReplace: getResponsibilityName : getNumberOfIdentities)
+      : ('#LDS#Are you sure you want to remove the responsibility "{0}" from "{1}"?'
+        | translate
+        | ldsReplace: getResponsibilityName : getResponsibleIdentity)
+  }}
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-flat-button (click)="dialogRef.close()">
+    {{ '#LDS#Cancel' | translate }}
+  </button>
+  <button mat-button mat-flat-button color="warn" (click)="dialogRef.close(true)">
+    {{ '#LDS#Remove responsibility' | translate }}
+  </button>
+</mat-dialog-actions>

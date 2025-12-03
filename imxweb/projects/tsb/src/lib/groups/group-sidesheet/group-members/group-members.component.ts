@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,10 +52,11 @@ import { GroupsService } from '../../groups.service';
 import { NewMembershipService } from './new-membership/new-membership.service';
 
 @Component({
-  selector: 'imx-group-members',
-  templateUrl: './group-members.component.html',
-  styleUrls: ['./group-members.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-group-members',
+    templateUrl: './group-members.component.html',
+    styleUrls: ['./group-members.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class GroupMembersComponent implements OnInit {
   @Input() public groupDirectMembershipData: TypedEntityCollectionData<PortalTargetsystemUnsDirectmembers>;

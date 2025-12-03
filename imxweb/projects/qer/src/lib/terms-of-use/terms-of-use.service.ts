@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,10 +45,10 @@ export class TermsOfUseService {
 
   constructor(
     private readonly appConfig: AppConfigService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly qerClient: QerApiService,
     private readonly projectConfigService: ProjectConfigurationService,
-  ) {}
+  ) { }
 
   /**
    * Get the list of {@link PortalTermsofuse} for the given UIDs.

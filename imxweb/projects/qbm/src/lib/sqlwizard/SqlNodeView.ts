@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -84,11 +84,12 @@ abstract class SqlViewBase implements ISqlNodeView {
     }
     // prepare recursively
     for (let child of this.views) {
+      child.tableName = this.Property?.SelectionTables?.[0].Name || this.tableName;
       await child.prepare();
     }
   }
 
-  public async addChildNode(): Promise<void> {
+  public async addChildNode(tableName?: string): Promise<void> {
     const e = {
       LogOperator: LogOp.AND,
       Expressions: [],
@@ -98,7 +99,7 @@ abstract class SqlViewBase implements ISqlNodeView {
       this.Data.Expressions = [];
     }
     this.Data.Expressions.push(e);
-    this.childViews.push(new SqlNodeView(this.viewSettings, this, this.tableName, e, undefined));
+    this.childViews.push(new SqlNodeView(this.viewSettings, this, tableName || this.tableName, e, undefined));
   }
 
   public replaceChildNode(oldNode: SqlExpression, newData: SqlExpression) {
@@ -111,16 +112,19 @@ abstract class SqlViewBase implements ISqlNodeView {
     }
   }
 
+  public clearChildNodes(): void {
+    this.views = [];
+  }
+
   private buildViews(): SqlNodeView[] {
-    let exp = this.Data.Expressions;
-    if (!exp) {
+    let expressions = this.Data.Expressions;
+    if (!expressions) {
       return [];
     }
 
-    const result = new Array(exp.length);
-
-    exp.forEach((e, idx) => {
-      let view = new SqlNodeView(this.viewSettings, this, this.tableName, e, undefined);
+    const result = new Array(expressions.length);
+    expressions.forEach((expression, idx) => {
+      let view = new SqlNodeView(this.viewSettings, this, this.tableName, expression, undefined);
       result[idx] = view;
     });
 

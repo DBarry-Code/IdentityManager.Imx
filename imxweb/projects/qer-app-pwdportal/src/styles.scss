@@ -1,26 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@elemental-ui/core/src/styles/core.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
-@import '@elemental-ui/core/src/styles/core.scss';
-@import 'components/toolbar';
+@use 'components/toolbar' as *;
 
 .eui-dark-theme {
   .page {
-    color: $color-gray-5;
-    background-color: $color-gray-80;
+    color: eui.$color-gray-5;
+    background-color: eui.$color-gray-80;
   }
+
   .pageContent {
-    color: $color-gray-5;
-    background-color: $color-gray-80;
+    color: eui.$color-gray-5;
+    background-color: eui.$color-gray-80;
   }
 }
 
 .eui-contrast-theme {
   .page {
-    color: $color-gray-0;
-    background-color: $color-gray-100;
+    color: eui.$color-gray-0;
+    background-color: eui.$color-gray-100;
   }
+
   .pageContent {
-    color: $color-gray-0;
-    background-color: $color-gray-100;
+    color: eui.$color-gray-0;
+    background-color: eui.$color-gray-100;
   }
 }

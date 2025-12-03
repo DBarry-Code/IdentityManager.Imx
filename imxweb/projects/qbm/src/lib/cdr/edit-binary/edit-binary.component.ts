@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,20 +28,23 @@ import { Component } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ColumnDependentReference } from '../column-dependent-reference.interface';
 import { CdrEditor } from '../cdr-editor.interface';
+import { ColumnDependentReference } from '../column-dependent-reference.interface';
 import { EntityColumnContainer } from '../entity-column-container';
 
 /**
+ * @deprecated since v10.0.0
+  * 
  * Provides a {@link CdrEditor | CDR editor} for editing / viewing binary value columns.
  * 
  * It renders an input field for adding data.
  * When set to read-only, it uses a {@link ViewPropertyComponent | view property component} to display the content.
  */
 @Component({
-  selector: 'imx-edit-binary',
-  templateUrl: './edit-binary.component.html',
-  styleUrls: ['./edit-binary.component.scss'],
+    selector: 'imx-edit-binary',
+    templateUrl: './edit-binary.component.html',
+    styleUrls: ['./edit-binary.component.scss'],
+    standalone: false
 })
 export class EditBinaryComponent implements CdrEditor {
   /**

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,8 +37,9 @@ import { ClaimDeviceComponent } from './claim-device.component';
 import { ClaimDeviceService } from './claim-device.service';
 
 @Component({
-  selector: 'imx-cdr-editor',
-  template: '<p>MockCdrEditor</p>',
+    selector: 'imx-cdr-editor',
+    template: '<p>MockCdrEditor</p>',
+    standalone: false
 })
 class MockCdrEditor {
   @Input() public cdr: any;

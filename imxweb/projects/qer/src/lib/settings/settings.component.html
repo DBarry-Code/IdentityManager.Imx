@@ -9,13 +9,17 @@
       [darkThemeDisplayText]="'#LDS#Dark theme' | translate"
       [contrastThemeDisplayText]="'#LDS#High-contrast theme' | translate"
       [customThemes]="customThemes"
-    >
+      >
     </eui-theme-switcher>
     <imx-cdr-editor class="fullwidth" [cdr]="timeZoneCdr"></imx-cdr-editor>
-    <mat-slide-toggle *ngIf="profileSettings" [(ngModel)]="profileSettings.UseProfileLanguage" [disabled]="!userCulture">
-      {{ '#LDS#Use profile language' | translate }}
-      <span *ngIf="userCulture">({{ userCulture }})</span>
-    </mat-slide-toggle>
+    @if (profileSettings) {
+      <mat-slide-toggle [(ngModel)]="profileSettings.UseProfileLanguage" [disabled]="!userCulture">
+        {{ '#LDS#Use profile language' | translate }}
+        @if (userCulture) {
+          <span>({{ userCulture }})</span>
+        }
+      </mat-slide-toggle>
+    }
   </div>
 </div>
 <div mat-dialog-actions>

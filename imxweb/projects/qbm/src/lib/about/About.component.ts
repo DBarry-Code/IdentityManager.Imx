@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { SystemInfoService } from '../system-info/system-info.service';
 import { AboutService } from './About.service';
 
 @Component({
-  templateUrl: './About.component.html',
-  styleUrls: ['./About.component.scss'],
-  selector: 'imx-about',
+    templateUrl: './About.component.html',
+    styleUrls: ['./About.component.scss'],
+    selector: 'imx-about',
+    standalone: false
 })
 export class AboutComponent implements OnInit {
   @HostBinding('class')

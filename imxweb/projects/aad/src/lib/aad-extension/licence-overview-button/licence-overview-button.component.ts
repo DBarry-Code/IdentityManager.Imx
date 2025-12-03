@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,7 +31,8 @@ import { AadPermissionsService } from '../../admin/aad-permissions.service';
 import { AadExtensionService } from '../aad-extension.service';
 
 @Component({
-  templateUrl: './licence-overview-button.component.html',
+    templateUrl: './licence-overview-button.component.html',
+    standalone: false
 })
 export class LicenceOverviewButtonComponent implements OnInit {
   public licenceOverview: EuiDownloadOptions;

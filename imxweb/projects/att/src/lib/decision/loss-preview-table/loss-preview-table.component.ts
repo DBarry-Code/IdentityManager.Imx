@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { AttestationCasesService } from '../attestation-cases.service';
 import { LossPreview } from '../loss-preview.interface';
 
 @Component({
-  selector: 'imx-loss-preview-table',
-  templateUrl: './loss-preview-table.component.html',
-  styleUrls: ['./loss-preview-table.component.scss'],
+    selector: 'imx-loss-preview-table',
+    templateUrl: './loss-preview-table.component.html',
+    styleUrls: ['./loss-preview-table.component.scss'],
+    standalone: false
 })
 export class LossPreviewTableComponent implements OnInit {
   @Input() public lossPreview: LossPreview;

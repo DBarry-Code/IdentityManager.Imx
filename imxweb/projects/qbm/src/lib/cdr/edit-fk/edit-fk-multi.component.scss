@@ -1,4 +1,4 @@
-@import 'common/select';
+@use 'common/select' as select;
 
 :host {
   flex-grow: 1;

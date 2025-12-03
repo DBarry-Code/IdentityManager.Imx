@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 li {
   max-width: 460px;
@@ -12,7 +12,7 @@ li.imx-event {
 
 li.imx-event::before {
   margin-left: -50px;
-  background-color: $color-gray-0;
+  background-color: eui.$color-gray-0;
   height: 24px;
   width: 28px;
   content: '';
@@ -21,14 +21,14 @@ li.imx-event::before {
 }
 
 li.imx-event.imx-pending {
-  background: linear-gradient($color-gray-30, $color-gray-30) no-repeat scroll 9px 0 transparent;
+  background: linear-gradient(eui.$color-gray-30, eui.$color-gray-30) no-repeat scroll 9px 0 transparent;
   background-size: 2px 1000px;
 }
 
 li.imx-event.imx-pending::before {
   font-family: Cadence-Icon;
   font-size: 24px;
-  color: $color-gray-30;
+  color: eui.$color-gray-30;
   content: '\e009';
 }
 
@@ -48,12 +48,12 @@ li.imx-event.imx-pending::before {
 .eui-dark-theme {
   :host {
     li.imx-event::before {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
 
     li {
       .mat-mdc-card {
-        background-color: $color-gray-60;
+        background-color: eui.$color-gray-60;
       }
     }
   }
@@ -62,12 +62,12 @@ li.imx-event.imx-pending::before {
 .eui-contrast-theme {
   :host {
     li.imx-event::before {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
 
     li {
       .mat-mdc-card {
-        background-color: $color-gray-80;
+        background-color: eui.$color-gray-80;
       }
     }
   }

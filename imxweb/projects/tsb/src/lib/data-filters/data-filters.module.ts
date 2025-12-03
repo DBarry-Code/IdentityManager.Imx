@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,8 +24,8 @@
  *
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,10 +34,15 @@ import { RouterModule } from '@angular/router';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { DataSourceToolbarModule, DataTableModule, CdrModule, LdsReplaceModule, DataTreeModule } from 'qbm';
+import { CdrModule, DataSourceToolbarModule, DataTableModule, DataTreeModule, LdsReplaceModule } from 'qbm';
 
 import { DataExplorerFiltersComponent } from './data-explorer-filters.component';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use the DataViewModule instead.
+ */
 @NgModule({
   declarations: [DataExplorerFiltersComponent],
   imports: [

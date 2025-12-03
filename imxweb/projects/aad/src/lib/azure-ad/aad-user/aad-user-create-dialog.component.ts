@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,8 +37,9 @@ export interface AadUserCreateDialogData {
 }
 
 @Component({
-  selector: 'imx-aad-user-create-dialog',
-  templateUrl: './aad-user-create-dialog.component.html',
+    selector: 'imx-aad-user-create-dialog',
+    templateUrl: './aad-user-create-dialog.component.html',
+    standalone: false
 })
 export class AadUserCreateDialogComponent implements OnInit {
   public readonly detailsFormGroup: UntypedFormGroup;

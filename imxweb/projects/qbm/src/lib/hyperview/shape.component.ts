@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,6 +38,7 @@ import { ShapeClickArgs } from './hyperview-types';
   selector: 'imx-hyperview-shape',
   templateUrl: './shape.component.html',
   styleUrls: ['./shape.component.scss'],
+  standalone: false,
 })
 export class ShapeComponent implements OnInit {
   @Input() public shape: ShapeData;
@@ -64,8 +65,12 @@ export class ShapeComponent implements OnInit {
   }
 
   public click(): void {
-    if (this.navigate && !this.isShapeLayoutMiddle && this.shape.ObjectKey) {
-      this.selected?.emit({ objectKey: this.shape.ObjectKey ?? '', caption: this.shape.Caption ?? '' });
+    if (this.navigate) {
+      this.selected?.emit({
+        shape: this.shape,
+        objectKey: this.shape.ObjectKey ?? '',
+        caption: this.shape.Caption ?? '',
+      });
     }
   }
 
@@ -79,9 +84,5 @@ export class ShapeComponent implements OnInit {
   public get showContent() {
     if (!this.canExpand) return true;
     return this.isExpanded;
-  }
-
-  public get isShapeLayoutMiddle(): boolean {
-    return this.shape?.LayoutType === 'MiddleCenter';
   }
 }

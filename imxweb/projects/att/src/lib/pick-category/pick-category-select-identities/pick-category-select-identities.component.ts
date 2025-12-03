@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,10 +44,11 @@ import { DataViewInitParameters, DataViewSource, MetadataService } from 'qbm';
 import { IdentitiesService } from 'qer';
 
 @Component({
-  selector: 'imx-pick-category-select-identities',
-  templateUrl: './pick-category-select-identities.component.html',
-  styleUrls: ['./pick-category-select-identities.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-pick-category-select-identities',
+    templateUrl: './pick-category-select-identities.component.html',
+    styleUrls: ['./pick-category-select-identities.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class PickCategorySelectIdentitiesComponent implements OnInit {
   public displayColumns: IClientProperty[];

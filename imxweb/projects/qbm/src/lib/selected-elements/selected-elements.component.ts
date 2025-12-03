@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { TypedEntity } from '@imx-modules/imx-qbm-dbts';
 import { SelectedElementsDialog } from './selected-elements-dialog/selected-elements-dialog.component';
 
 @Component({
-  selector: 'imx-selected-elements',
-  templateUrl: './selected-elements.component.html',
-  styleUrls: ['./selected-elements.component.scss'],
+    selector: 'imx-selected-elements',
+    templateUrl: './selected-elements.component.html',
+    styleUrls: ['./selected-elements.component.scss'],
+    standalone: false
 })
 export class SelectedElementsComponent {
   @Input() public selectedElements: TypedEntity[] = [];

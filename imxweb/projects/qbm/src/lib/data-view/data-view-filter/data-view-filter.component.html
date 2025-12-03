@@ -1,10 +1,14 @@
-<button
-  *ngIf="dataSource.showFilters()"
-  mat-icon-button
-  (click)="onShowFilterWizard()"
-  matTooltip="{{ '#LDS#Action Filter' | translate }}"
-  data-imx-identifier="dataview-button-filter-wizard"
-  color="primary"
->
-  <eui-icon icon="filter"></eui-icon>
-</button>
+@if (dataSource.showFilters()) {
+  <button
+    mat-icon-button
+    (click)="onShowFilterWizard()"
+    matTooltip="{{ '#LDS#Action Filter' | translate }}"
+    data-imx-identifier="dataview-button-filter-wizard"
+    color="primary"
+    [matBadge]="filterCount()"
+    matBadgeColor="accent"
+    [matBadgeHidden]="!filterCount()"
+  >
+    <eui-icon icon="filter"></eui-icon>
+  </button>
+}

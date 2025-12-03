@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,12 +25,17 @@
  */
 
 import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
+import { EuiCoreModule } from '@elemental-ui/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { TilesModule } from 'qer';
 import { AobPermissionsService } from '../../permissions/aob-permissions.service';
 
 @Component({
-  selector: 'imx-kpi-tile',
-  templateUrl: './kpi-tile.component.html',
+    imports: [EuiCoreModule, MatButtonModule, TilesModule, TranslateModule],
+    selector: 'imx-kpi-tile',
+    templateUrl: './kpi-tile.component.html'
 })
 export class KpiTileComponent {
   constructor(

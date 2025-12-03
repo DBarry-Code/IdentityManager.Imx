@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TileComponent } from 'qbm';
 
 @Component({
-  selector: 'imx-badge-tile',
-  templateUrl: './badge-tile.component.html',
-  styleUrls: ['./badge-tile.component.scss'],
+    selector: 'imx-badge-tile',
+    templateUrl: './badge-tile.component.html',
+    styleUrls: ['./badge-tile.component.scss'],
+    standalone: false
 })
 export class BadgeTileComponent extends TileComponent {
   @Input() public tooltip: string;

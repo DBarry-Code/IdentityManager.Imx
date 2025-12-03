@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,14 +25,15 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConfigService } from './config.service';
+import { ConfigService } from './config/config.service';
 
 import { EuiTheme, EuiThemeService } from '@elemental-ui/core';
 import { Subscription } from 'rxjs';
 import { AppConfigService } from '../appConfig/appConfig.service';
 import { SideNavigationExtension } from '../side-navigation-view/side-navigation-view-interfaces';
+import { AssembliesComponent } from './assemblies/assemblies.component';
 import { CacheComponent } from './cache.component';
-import { ConfigComponent } from './config.component';
+import { ConfigComponent } from './config/config.component';
 import { LogsComponent } from './logs.component';
 import { PackagesComponent } from './packages.component';
 import { PluginsComponent } from './plugins.component';
@@ -42,6 +43,7 @@ import { SwaggerComponent } from './swagger/swagger.component';
 @Component({
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  standalone: false,
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public isAdmin = true;
@@ -117,6 +119,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       sortOrder: 7,
       name: 'documentation',
       caption: '#LDS#API documentation',
+    },
+    {
+      instance: AssembliesComponent,
+      data: {
+        TableName: 'Assemblies',
+        Count: 0,
+      },
+      sortOrder: 8,
+      name: 'assemblies',
+      caption: '#LDS#Loaded assemblies',
     },
   ];
 

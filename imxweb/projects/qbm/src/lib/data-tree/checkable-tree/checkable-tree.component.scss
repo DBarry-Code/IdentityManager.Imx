@@ -1,7 +1,7 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-background-highlight {
-  background-color: $color-gray-2;
+  background-color: eui.$color-gray-2;
 }
 
 .imx-tree-node-panel {
@@ -12,7 +12,7 @@
   text-align: left;
   min-width: 0;
   > ::ng-deep .mdc-button__label {
-    color: $color-gray-100;
+    color: eui.$color-gray-100;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -34,7 +34,7 @@
 }
 
 .imx-tree-node:hover {
-  background-color: $color-gray-2;
+  background-color: eui.$color-gray-2;
 }
 
 .imx-tree-more-button {
@@ -52,10 +52,10 @@
 .eui-dark-theme {
   :host {
     .imx-background-highlight {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
     .imx-tree-node:hover {
-      background-color: $color-gray-60;
+      background-color: eui.$color-gray-60;
     }
   }
 }
@@ -63,11 +63,11 @@
 .eui-contrast-theme {
   :host {
     .imx-background-highlight {
-      background-color: $color-gray-10;
+      background-color: eui.$color-gray-10;
     }
     .imx-tree-node:hover {
-      background-color: $color-gray-0;
-      color: $color-gray-100;
+      background-color: eui.$color-gray-0;
+      color: eui.$color-gray-100;
     }
   }
 }

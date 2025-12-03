@@ -1,3 +1,5 @@
 <ng-container>
-  <imx-cdr-editor *ngFor="let cdr of cdrList" [cdr]="cdr"></imx-cdr-editor>
+  @for (cdr of cdrList; track cdr) {
+    <imx-cdr-editor [cdr]="cdr"></imx-cdr-editor>
+  }
 </ng-container>

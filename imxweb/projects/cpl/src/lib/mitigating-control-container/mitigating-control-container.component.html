@@ -1,53 +1,68 @@
 <div class="content">
-  <div class="imx-mitigating-control bordered" *ngFor="let mControl of mControls; index as i">
-    <!-- editable control-->
-    <div class="imx-mitigating-control-properties" *ngIf="mControl?.editable">
-      <eui-select
-        *ngIf="mControl.editable"
-        (selectionChange)="onSelectionChange(mControl, $event)"
-        [label]="mitigatingCaption"
-        [filterFunction]="filter"
-        [enableFormFieldMargin]="true"
-        [options]="options"
-        [inputControl]="mControl.formControl"
-        (openChange)="onOpenChange($event, mControl)"
-        [hideClearButton]="true"
-        [attr.data-imx-identifier]="'mitigating-control-container-' + i + '-select'"
-      >
-        <mat-error *ngIf="mControl.formControl.errors?.['required']">
-          {{ '#LDS#This field is mandatory.' | translate }}
-        </mat-error>
-        <mat-error *ngIf="mControl.formControl.errors?.['duplicated']">
-          {{ '#LDS#This mitigating control has already been assigned. You can assign a mitigating control only once.' | translate }}
-        </mat-error>
-      </eui-select>
-      <imx-cdr-editor [cdr]="mControl.cdrs[1]"></imx-cdr-editor>
+  @for (mControl of mControls; track mControl; let i = $index) {
+    <div class="imx-mitigating-control bordered">
+      <!-- editable control-->
+      @if (mControl?.editable) {
+        <div class="imx-mitigating-control-properties">
+          @if (mControl.editable) {
+            <eui-select
+              (selectionChange)="onSelectionChange(mControl, $event)"
+              [label]="mitigatingCaption"
+              [filterFunction]="filter"
+              [enableFormFieldMargin]="true"
+              [options]="options"
+              [inputControl]="mControl.formControl"
+              (openChange)="onOpenChange($event, mControl)"
+              [hideClearButton]="true"
+              [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
+              [attr.data-imx-identifier]="'mitigating-control-container-' + i + '-select'"
+              >
+              @if (mControl.formControl.errors?.['required']) {
+                <mat-error>
+                  {{ '#LDS#This field is mandatory.' | translate }}
+                </mat-error>
+              }
+              @if (mControl.formControl.errors?.['duplicated']) {
+                <mat-error>
+                  {{ '#LDS#This mitigating control has already been assigned. You can assign a mitigating control only once.' | translate }}
+                </mat-error>
+              }
+            </eui-select>
+          }
+          <imx-cdr-editor [cdr]="mControl.cdrs[1]"></imx-cdr-editor>
+        </div>
+      }
+      <!-- read only control-->
+      @if (!mControl.editable) {
+        <div class="imx-mitigating-control-properties">
+          @for (cdr of mControl.cdrs; track cdr) {
+            <imx-cdr-editor [cdr]="cdr"></imx-cdr-editor>
+          }
+        </div>
+      }
+      @if (!mControl.isDeferredData) {
+        <button
+          [matTooltip]="'#LDS#Removes the mitigating control' | translate"
+          [attr.aria-label]="'#LDS#Remove mitigating control' | translate"
+          [attr.data-imx-identifier]="'mitigating-control-container-button-delete- + index'"
+          mat-button
+          class="mat-icon-button imx-delete-button"
+          (click)="onDelete(mControl, i)"
+          >
+          <eui-icon icon="delete"></eui-icon>
+        </button>
+      }
     </div>
-    <!-- read only control-->
-    <div class="imx-mitigating-control-properties" *ngIf="!mControl.editable">
-      <imx-cdr-editor *ngFor="let cdr of mControl.cdrs" [cdr]="cdr"></imx-cdr-editor>
-    </div>
-
+  }
+  @if (options.length > 0) {
     <button
-      [matTooltip]="'#LDS#Removes the mitigating control' | translate"
-      [attr.aria-label]="'#LDS#Remove mitigating control' | translate"
-      [attr.data-imx-identifier]="'mitigating-control-container-button-delete- + index'"
-      mat-button
-      *ngIf="!mControl.isDeferredData"
-      class="mat-icon-button imx-delete-button"
-      (click)="onDelete(mControl, i)"
-    >
-      <eui-icon icon="delete"></eui-icon>
+      [matTooltip]="'#LDS#Assigns a mitigating control' | translate"
+      data-imx-identifier="mitigating-control-container-button-add"
+      [attr.aria-label]="'#LDS#Assign mitigating control' | translate"
+      mat-icon-button
+      (click)="onCreateControl()"
+      >
+      <eui-icon icon="add"></eui-icon>
     </button>
-  </div>
-  <button
-    *ngIf="options.length > 0"
-    [matTooltip]="'#LDS#Assigns a mitigating control' | translate"
-    data-imx-identifier="mitigating-control-container-button-add"
-    [attr.aria-label]="'#LDS#Assign mitigating control' | translate"
-    mat-icon-button
-    (click)="onCreateControl()"
-  >
-    <eui-icon icon="add"></eui-icon>
-  </button>
+  }
 </div>

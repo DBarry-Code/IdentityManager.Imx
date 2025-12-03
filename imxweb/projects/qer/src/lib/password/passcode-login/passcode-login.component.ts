@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,6 +38,7 @@ import { QerApiService } from '../../qer-api-client.service';
 @Component({
   templateUrl: './passcode-login.component.html',
   styleUrls: ['./passcode-login.component.scss'],
+  standalone: false,
 })
 export class PasscodeLoginComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];

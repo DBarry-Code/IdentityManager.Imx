@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,10 +29,15 @@ import { MatSortHeader } from '@angular/material/sort';
 import { MatColumnDef, MatTable } from '@angular/material/table';
 import { ImxExpandableItem } from './imx-data-source';
 
+/** 
+ * @deprecated sinve v10.0.0 --
+ * Use native implementations instead.
+ */
 @Component({
   selector: 'imx-column',
   templateUrl: './MatColumn.html',
   styleUrls: ['./MatColumn.scss'],
+  standalone: false,
 })
 export class ImxMatColumnComponent<T> implements OnDestroy, OnInit {
   @Input()
@@ -64,9 +69,7 @@ export class ImxMatColumnComponent<T> implements OnDestroy, OnInit {
 
   private name: string;
 
-  constructor(
-    @Optional() public table: MatTable<any>,
-  ) {}
+  constructor(@Optional() public table: MatTable<any>) {}
 
   public ButtonClass(data: ImxExpandableItem<T>): string {
     if (data.data == null) {

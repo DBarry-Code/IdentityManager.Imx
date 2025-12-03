@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { DataManagementService } from '../data-management.service';
 import { RoleService } from '../role.service';
 
 @Component({
-  selector: 'imx-role-detail',
-  templateUrl: './role-detail.component.html',
-  styleUrls: ['./role-detail.component.scss'],
+    selector: 'imx-role-detail',
+    templateUrl: './role-detail.component.html',
+    styleUrls: ['./role-detail.component.scss'],
+    standalone: false
 })
 export class RoleDetailComponent implements OnInit, OnDestroy {
   @ViewChild('tabs') public tabs: MatTabGroup;

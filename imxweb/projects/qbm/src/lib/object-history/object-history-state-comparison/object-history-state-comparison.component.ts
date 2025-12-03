@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -55,9 +55,10 @@ function getLocalDataForPage<T>(allData: T[], state: { page: number; pageSize: n
 }
 
 @Component({
-  selector: 'imx-object-history-state-comparison',
-  templateUrl: './object-history-state-comparison.component.html',
-  styleUrls: ['./object-history-state-comparison.component.scss'],
+    selector: 'imx-object-history-state-comparison',
+    templateUrl: './object-history-state-comparison.component.html',
+    styleUrls: ['./object-history-state-comparison.component.scss'],
+    standalone: false
 })
 export class ObjectHistoryStateComparisonComponent implements OnInit, OnChanges {
   public get columns(): string[] {

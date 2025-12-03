@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,7 +45,6 @@ import {
   DataExplorerRegistryService,
   IdentityRoleMembershipsService,
   MyResponsibilitiesRegistryService,
-  QerPermissionsService,
   RoleService,
   RolesOverviewComponent,
   isAuditor,
@@ -71,7 +70,6 @@ export class InitService {
     private readonly roleService: RoleService,
     private readonly identityRoleMembershipService: IdentityRoleMembershipsService,
     private readonly myResponsibilitiesRegistryService: MyResponsibilitiesRegistryService,
-    private readonly qerPermissionsService: QerPermissionsService,
   ) {}
 
   public onInit(routes: Route[]): void {
@@ -173,9 +171,6 @@ export class InitService {
       },
       adminHelpContextId: HELP_CONTEXTUAL.DataExplorerSystemRolesRoleEntitlements,
       respHelpContextId: HELP_CONTEXTUAL.MyResponsibilitiesSystemRolesRoleEntitlements,
-      canEdit: () => {
-        return this.qerPermissionsService.isRoleAdmin();
-      },
     });
 
     this.identityRoleMembershipService.addTarget({

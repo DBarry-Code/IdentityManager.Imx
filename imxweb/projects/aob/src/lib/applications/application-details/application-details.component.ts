@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -48,9 +48,10 @@ import { ServiceCategoryComponent } from '../edit-application/service-category/s
 import { AccountDetails } from './account-details.interface';
 
 @Component({
-  selector: 'imx-application-details',
-  templateUrl: './application-details.component.html',
-  styleUrls: ['./application-details.component.scss'],
+    selector: 'imx-application-details',
+    templateUrl: './application-details.component.html',
+    styleUrls: ['./application-details.component.scss'],
+    standalone: false
 })
 export class ApplicationDetailsComponent implements OnChanges, OnInit {
   /**

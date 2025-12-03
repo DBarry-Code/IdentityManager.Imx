@@ -1,8 +1,14 @@
 <div class="imx-parameter-container">
-  <ng-container *ngFor="let textToken of textTokens">
-    <span *ngIf="!textToken.isParameter">{{ textToken.value }}</span>
-    <strong *ngIf="textToken.isParameter">{{ textToken.value }}</strong>
-  </ng-container>
+  @for (textToken of textTokens; track textToken) {
+    @if (!textToken.isParameter) {
+      <span>{{ textToken.value }}</span>
+    }
+    @if (textToken.isParameter) {
+      <strong>{{ textToken.value }}</strong>
+    }
+  }
 
-  <span *ngIf="additionalText !== ''">{{ '; ' + additionalText }}</span>
+  @if (additionalText !== '') {
+    <span>{{ '; ' + additionalText }}</span>
+  }
 </div>

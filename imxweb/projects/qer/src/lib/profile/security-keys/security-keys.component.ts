@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,8 +41,9 @@ import { SecurityKeysSidesheetComponent } from './security-keys-sidesheet/securi
 import { SecurityKeysService } from './security-keys.service';
 
 @Component({
-  selector: 'imx-security-keys',
-  templateUrl: './security-keys.component.html',
+    selector: 'imx-security-keys',
+    templateUrl: './security-keys.component.html',
+    standalone: false
 })
 export class SecurityKeysComponent implements OnInit, OnDestroy {
   public readonly DisplayColumns = DisplayColumns;

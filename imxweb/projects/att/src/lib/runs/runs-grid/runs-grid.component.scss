@@ -1,7 +1,7 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill($padding: true);
 
   ::ng-deep .mat-column-RunCategory,
   ::ng-deep .mat-column-ClosedCases,
@@ -21,5 +21,5 @@
 }
 
 .imx-table-card {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 }

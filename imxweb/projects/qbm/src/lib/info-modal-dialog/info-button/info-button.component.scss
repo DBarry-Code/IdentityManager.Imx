@@ -1,4 +1,4 @@
-@import 'components/button';
+@use 'components/button' as *;
 
 .imx-button-icon-hover-warning {
   @extend .imx-button-icon-hover-warning;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -46,8 +46,9 @@ import {
   DataViewModule,
   HelpContextualModule,
   SelectedElementsModule,
+  StatisticsModule,
 } from 'qbm';
-import { JustificationModule, ObjectHyperviewModule, StatisticsModule } from 'qer';
+import { JustificationModule, ObjectHyperviewModule } from 'qer';
 import { PolicyViolationsActionMultiActionComponent } from './policy-violations-action/policy-violations-action-multi-action/policy-violations-action-multi-action.component';
 import { PolicyViolationsActionSingleActionComponent } from './policy-violations-action/policy-violations-action-single-action/policy-violations-action-single-action.component';
 import { PolicyViolationsActionComponent } from './policy-violations-action/policy-violations-action.component';

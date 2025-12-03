@@ -1,0 +1,89 @@
+<div class="flex-container">
+  <h2 class="mat-headline-5" translate>#LDS#Configuration</h2>
+
+  <div class="config-summary">
+    <!-- Use dynamic subscript as there are no error states -->
+    <mat-form-field class="project-selector" appearance="outline" subscriptSizing="dynamic">
+      <mat-label>{{ '#LDS#Show configuration for the following API project' | translate }}</mat-label>
+      <mat-select (selectionChange)="optionSelected($event.value)" [value]="configSvc.appId">
+        @for (pr of apiProjects; track pr) {
+          <mat-option [value]="pr.AppId">
+            {{ pr.DisplayName }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <div class="config-changes">
+      <button [matMenuTriggerFor]="revertMenu" mat-icon-button color="secondary">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #revertMenu="matMenu">
+        <button mat-menu-item (click)="revertAll(true)">
+          <span>{{ '#LDS#Revert all globally customized settings' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)="revertAll(false)">
+          <span>{{ '#LDS#Revert all locally customized settings' | translate }}</span>
+        </button>
+        @if (configSvc.localCustomizations.length > 0) {
+          <button mat-menu-item (click)="openConvertSidesheet()">
+            <span>{{ '#LDS#Convert locally customized settings to global settings' | translate }}</span>
+          </button>
+        }
+
+        @if (configSvc.addableNodes.length > 0) {
+          <button mat-menu-item data-imx-identifier="admin-add-config-setting-button" (click)="add()">
+            {{ '#LDS#Create configuration key' | translate }}
+          </button>
+        }
+
+        @if (configSvc.deletableKeys.length > 0) {
+          <button mat-menu-item data-imx-identifier="admin-delete-config-setting-button" (click)="openDeleteSidesheet()">
+            {{ '#LDS#Delete configuration key' | translate }}
+          </button>
+        }
+      </mat-menu>
+
+      <button
+        mat-flat-button
+        color="primary"
+        data-imx-identifier="admin-apply-config-change"
+        [disabled]="configSvc.pendingChangeCount == 0"
+        (click)="openApplySidesheet()"
+      >
+        {{ '#LDS#Apply' | translate | ldsReplace: [configSvc.pendingChangeCount] }}
+      </button>
+    </div>
+  </div>
+
+  <div class="scroll-container" [ngClass]="{ loading: loading }">
+    <imx-data-source-toolbar
+      #dataSourceToolbar
+      [alwaysVisible]="true"
+      [settings]="dstSettings"
+      (search)="getData()"
+      (navigationStateChanged)="getData()"
+      [options]="['search', 'filter']"
+    >
+    </imx-data-source-toolbar>
+    @if (loading) {
+      <imx-busy-indicator></imx-busy-indicator>
+    }
+    <cdk-virtual-scroll-viewport itemSize="10">
+      <div class="imx-margin-bottom-2">
+        <ng-container>
+          @if (filteredView.length == 0 && !loading) {
+            <div class="imx-no-results">
+              <eui-icon size="xl" [icon]="'search'"></eui-icon>
+              {{ '#LDS#There are no configuration keys matching your search.' | translate }}
+            </div>
+          }
+
+          @if (!loading) {
+            <imx-section-view [sections]="filteredView"></imx-section-view>
+          }
+        </ng-container>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>

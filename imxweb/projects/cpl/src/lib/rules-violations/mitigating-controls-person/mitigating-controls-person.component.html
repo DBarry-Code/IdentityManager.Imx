@@ -4,13 +4,13 @@
     <eui-alert-content>
       <p>
         {{
-          '#LDS#Here you can assign mitigating controls to the rule violation. NOTE: If no mitigating controls have been assigned to the violated compliance rule, you cannot assign any mitigating controls to the rule violation either.'
-            | translate
+        '#LDS#Here you can assign mitigating controls to the rule violation. NOTE: If no mitigating controls have been assigned to the violated compliance rule, you cannot assign any mitigating controls to the rule violation either.'
+        | translate
         }}
       </p>
     </eui-alert-content>
   </eui-alert>
-  <ng-container *ngIf="mControls != null && mControls.length > 0">
+  @if (mControls != null && mControls.length > 0) {
     <mat-card class="imx-mitigating-control-content">
       <imx-mitigating-control-container
         [mControls]="mControls"
@@ -21,41 +21,46 @@
         (controlDeleted)="onDelete($event)"
       ></imx-mitigating-control-container>
     </mat-card>
-  </ng-container>
+  }
 
-  <mat-card class="imx-no-mitigating-controls" *ngIf="!mControls || mControls.length == 0">
-    <div class="imx-no-results">
-      <eui-icon icon="table"></eui-icon>
-      <p>
-        {{
+  @if (!mControls || mControls.length == 0) {
+    <mat-card class="imx-no-mitigating-controls">
+      <div class="imx-no-results">
+        <eui-icon icon="table"></eui-icon>
+        <p>
+          {{
           (options.length > 0
-            ? '#LDS#There are currently no mitigating controls assigned to this rule violation.'
-            : '#LDS#There are currently no mitigating controls that can be assigned to this rule violation.'
+          ? '#LDS#There are currently no mitigating controls assigned to this rule violation.'
+          : '#LDS#There are currently no mitigating controls that can be assigned to this rule violation.'
           ) | translate
-        }}
-      </p>
-      <button
-        *ngIf="options.length > 0"
-        mat-stroked-button
-        color="primary"
-        data-imx-identifier="mitigating-controls-person-button-add"
-        (click)="onCreateControl()"
-      >
-        {{ '#LDS#Assign mitigating controls' | translate }}
-      </button>
-    </div>
-  </mat-card>
+          }}
+        </p>
+        @if (options.length > 0) {
+          <button
+            mat-stroked-button
+            color="primary"
+            data-imx-identifier="mitigating-controls-person-button-add"
+            (click)="onCreateControl()"
+            >
+            {{ '#LDS#Assign mitigating controls' | translate }}
+          </button>
+        }
+      </div>
+    </mat-card>
+  }
 </div>
 
-<mat-card eui-sidesheet-actions *ngIf="isMControlPerViolation && options.length > 0" class="imx-sidesheet-actions">
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="onSave()"
-    [disabled]="notSaveable"
-    data-imx-identifier="mitigating-controls-person-button-save"
-    class="imx-margin-left-auto"
-  >
-    {{ '#LDS#Save' | translate }}
-  </button>
-</mat-card>
+@if (isMControlPerViolation && options.length > 0) {
+  <mat-card eui-sidesheet-actions class="imx-sidesheet-actions">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="onSave()"
+      [disabled]="notSaveable"
+      data-imx-identifier="mitigating-controls-person-button-save"
+      class="imx-margin-left-auto"
+      >
+      {{ '#LDS#Save' | translate }}
+    </button>
+  </mat-card>
+}

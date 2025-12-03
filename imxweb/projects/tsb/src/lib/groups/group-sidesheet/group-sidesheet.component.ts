@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,6 +52,7 @@ import { GroupMembersComponent } from './group-members/group-members.component';
   selector: 'imx-group-sidesheet',
   templateUrl: './group-sidesheet.component.html',
   styleUrls: ['./group-sidesheet.component.scss'],
+  standalone: false
 })
 export class GroupSidesheetComponent implements OnInit {
   public get groupId(): string {
@@ -86,7 +87,7 @@ export class GroupSidesheetComponent implements OnInit {
     private readonly logger: ClassloggerService,
     private readonly busyService: EuiLoadingService,
     private readonly snackbar: SnackBarService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly systemInfoService: SystemInfoService,
     private readonly reports: GroupsReportsService,
     private readonly configService: ProjectConfigurationService,

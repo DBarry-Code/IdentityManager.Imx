@@ -1,4 +1,12 @@
-$icon-size: (14, 16, 24, 32, 36);
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+$icon-size: (
+  14,
+  16,
+  24,
+  32,
+  36
+);
 
 /* Elemental UI */
 
@@ -10,8 +18,8 @@ $icon-size: (14, 16, 24, 32, 36);
     &-info {
       &.mat-mdc-button-toggle-group {
         .mat-mdc-button-toggle.mat-mdc-button-toggle-appearance-standard.mat-mdc-button-toggle-checked {
-          background-color: $color-blue-60;
-          color: $color-gray-0;
+          background-color: eui.$color-blue-60;
+          color: eui.$color-gray-0;
         }
       }
     }
@@ -19,8 +27,8 @@ $icon-size: (14, 16, 24, 32, 36);
     &-warning {
       &.mat-mdc-button-toggle-group {
         .mat-mdc-button-toggle.mat-mdc-button-toggle-appearance-standard.mat-mdc-button-toggle-checked {
-          background-color: $color-orange-60;
-          color: $color-gray-0;
+          background-color: eui.$color-orange-60;
+          color: eui.$color-gray-0;
         }
       }
     }
@@ -34,6 +42,7 @@ $icon-size: (14, 16, 24, 32, 36);
     }
   }
 }
+
 body {
   .mat-button-toggle-group {
     .mat-button-toggle-label-content {
@@ -51,8 +60,8 @@ body {
       &-info {
         &.mat-mdc-button-toggle-group {
           .mat-mdc-button-toggle.mat-mdc-button-toggle-appearance-standard.mat-mdc-button-toggle-checked {
-            background-color: $color-blue-40;
-            color: $color-gray-80;
+            background-color: eui.$color-blue-40;
+            color: eui.$color-gray-80;
           }
         }
       }
@@ -60,8 +69,8 @@ body {
       &-warning {
         &.mat-mdc-button-toggle-group {
           .mat-mdc-button-toggle.mat-mdc-button-toggle-appearance-standard.mat-mdc-button-toggle-checked {
-            background-color: $color-orange-40;
-            color: $color-gray-80;
+            background-color: eui.$color-orange-40;
+            color: eui.$color-gray-80;
           }
         }
       }

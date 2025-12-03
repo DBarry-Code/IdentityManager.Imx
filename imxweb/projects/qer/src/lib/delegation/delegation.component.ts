@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -63,14 +63,15 @@ import { QerPermissionsService } from '../admin/qer-permissions.service';
  * The user can delegate items for themself or one subordinate
  */
 @Component({
-  templateUrl: './delegation.component.html',
-  styleUrls: ['./delegation.component.scss'],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false },
-    },
-  ],
+    templateUrl: './delegation.component.html',
+    styleUrls: ['./delegation.component.scss'],
+    providers: [
+        {
+            provide: STEPPER_GLOBAL_OPTIONS,
+            useValue: { displayDefaultIndicatorType: false },
+        },
+    ],
+    standalone: false
 })
 export class DelegationComponent implements OnInit, OnDestroy {
   public delegateableItems: PortalDelegable[];

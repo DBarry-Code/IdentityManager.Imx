@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { ClientPropertyForTableColumns, DataSourceToolbarSettings, MetadataServi
 import { ProductEntitlementApiService } from './product-entitlement-api.service';
 
 @Component({
-  selector: 'imx-new-request-product-entitlements',
-  templateUrl: './product-entitlements.component.html',
-  styleUrls: ['./product-entitlements.component.scss'],
+    selector: 'imx-new-request-product-entitlements',
+    templateUrl: './product-entitlements.component.html',
+    styleUrls: ['./product-entitlements.component.scss'],
+    standalone: false
 })
 export class NewRequestProductEntitlementsComponent implements OnInit {
   @Input() public uidAccProduct: string;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,9 +37,10 @@ import { FilterTreeEntityWrapperService } from './filter-tree-entity-wrapper.ser
 import { FilterTreeDialogResultArg, FilterTreeSelectionArg } from './filter-tree-selection-arg.interface';
 
 @Component({
-  selector: 'imx-filter-tree',
-  templateUrl: './filter-tree.component.html',
-  styleUrls: ['./filter-tree.component.scss'],
+    selector: 'imx-filter-tree',
+    templateUrl: './filter-tree.component.html',
+    styleUrls: ['./filter-tree.component.scss'],
+    standalone: false
 })
 export class FilterTreeComponent implements OnInit {
   public database: TreeDatabase | undefined;

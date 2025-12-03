@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,9 +39,8 @@ import { RouterModule } from '@angular/router';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { AboutService, ConfirmationModule, LdsReplaceModule, MetadataService, TileModule } from 'qbm';
+import { ConfirmationModule, LdsReplaceModule, MetadataService, TileModule } from 'qbm';
 import { TilesModule } from '../tiles/tiles.module';
-import { PwdAboutService } from './about/pwd-about.service';
 import { CheckPasswordsComponent } from './check-passwords.component';
 import { PasswordDashboardComponent } from './dashboard.component';
 import { PwdMetadataService } from './metadata/pwd-metadata.service';
@@ -74,10 +73,6 @@ import { PasswordService } from './password.service';
   providers: [
     PasswordService,
     {
-      provide: AboutService,
-      useClass: PwdAboutService,
-    },
-    {
       provide: MetadataService,
       useClass: PwdMetadataService,
     },
@@ -85,4 +80,4 @@ import { PasswordService } from './password.service';
   exports: [PasswordResetComponent],
   declarations: [CheckPasswordsComponent, PasswordDashboardComponent, PasswordResetComponent, PasswordQueryComponent],
 })
-export class PasswordModule {}
+export class PasswordModule { }

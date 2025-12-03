@@ -1,6 +1,3 @@
-
-
-
 @use 'sass:map';
 @use '@angular/material' as mat;
 
@@ -12,14 +9,23 @@
   $is-dark-theme: map.get($color-config, 'is-dark');
 
   body.#{unquote($theme-name)} {
-    @include login-theme($primary-palette);
+    @include login-theme($primary-palette, $is-dark-theme);
   }
 }
 
-
-@mixin login-theme($primary-palette){
+@mixin login-theme($primary-palette, $is-dark-theme) {
   .imx-loginPage {
     background-color: mat.m2-get-color-from-palette($primary-palette, default);
     color: mat.m2-get-color-from-palette($primary-palette, default-contrast);
+  }
+
+  .imx-card-header {
+    @if $is-dark-theme {
+      background-color: mat.m2-get-color-from-palette($primary-palette, 400);
+      color: mat.m2-get-color-from-palette($primary-palette, darker-contrast);
+    } @else {
+      background-color: mat.m2-get-color-from-palette($primary-palette, 800);
+      color: mat.m2-get-color-from-palette($primary-palette, lighter-contrast);
+    }
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -61,9 +61,10 @@ import { ItshopPatternItemEditComponent } from '../itshop-pattern-item-edit/itsh
 import { ItshopPatternService } from '../itshop-pattern.service';
 
 @Component({
-  selector: 'imx-itshop-pattern-sidesheet',
-  templateUrl: './itshop-pattern-sidesheet.component.html',
-  styleUrls: ['./itshop-pattern-sidesheet.component.scss'],
+    selector: 'imx-itshop-pattern-sidesheet',
+    templateUrl: './itshop-pattern-sidesheet.component.html',
+    styleUrls: ['./itshop-pattern-sidesheet.component.scss'],
+    standalone: false
 })
 export class ItshopPatternSidesheetComponent implements OnInit, OnDestroy {
   public get formArray(): UntypedFormArray {

@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   overflow: hidden;
@@ -14,14 +14,14 @@
 // Theming section
 :host {
   .imx-subtext {
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-subtext {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
   }
 }
@@ -29,7 +29,7 @@
 .eui-contrast-theme {
   :host {
     .imx-subtext {
-      color: $color-gray-40;
+      color: eui.$color-gray-40;
     }
   }
 }

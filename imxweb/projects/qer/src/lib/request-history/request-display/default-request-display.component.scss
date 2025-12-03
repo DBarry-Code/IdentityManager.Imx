@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 :host {
   display: block !important;
 }
@@ -19,7 +19,7 @@
 
 @mixin product-details() {
   font-size: smaller;
-  color: $black-9;
+  color: eui.$color-gray-40;
   text-overflow: ellipsis;
   overflow: hidden;
   width: fit-content;

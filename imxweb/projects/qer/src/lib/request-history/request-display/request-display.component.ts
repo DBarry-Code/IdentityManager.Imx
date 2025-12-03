@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { ExtDirective } from 'qbm';
 import { RequestDisplayService } from './request-display.service';
 
 @Component({
-  template: `<ng-template imxExtd></ng-template>`,
-  selector: 'imx-request-display',
+    template: `<ng-template imxExtd></ng-template>`,
+    selector: 'imx-request-display',
+    standalone: false
 })
 export class RequestDisplayComponent implements OnInit, OnChanges {
   @ViewChild(ExtDirective, { static: true }) public readonly directive: ExtDirective;

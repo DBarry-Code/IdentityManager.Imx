@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ interface ExampleFlatNode {
 }
 
 @Component({
-  selector: 'imx-permission-member',
-  templateUrl: './permission-member.component.html',
-  styleUrls: ['./permission-member.component.scss'],
+    selector: 'imx-permission-member',
+    templateUrl: './permission-member.component.html',
+    styleUrls: ['./permission-member.component.scss'],
+    standalone: false
 })
 export class PermissionMemberComponent implements OnChanges {
   /** Methods and functions for the tree*/

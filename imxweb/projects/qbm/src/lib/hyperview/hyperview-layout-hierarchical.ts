@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -60,7 +60,7 @@ export class HyperviewLayoutHierarchical implements HyperViewLayout {
     const elems = this.elements;
     const centerElement = elems.findIndex((e) => e.position === 'MiddleCenter');
     if (centerElement === -1) {
-      throw new Error('A shape with MiddleCenter position is required for hierarchical layout.');
+      // No shape with MiddleCenter position found
     } else if (centerElement !== 0) {
       // make the center element the first in the list, because the rest of the code
       // assumes that the central element comes first.

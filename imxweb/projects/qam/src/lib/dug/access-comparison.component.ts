@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ type ComparisonData = { display: string; trusteeType: number; accessA?: string[]
 
 /** Displays a comparison between security entries on two resources. */
 @Component({
-  templateUrl: './access-comparison.component.html',
-  styleUrls: ['../qam.scss'],
-  selector: 'imx-dge-access-comparison',
+    templateUrl: './access-comparison.component.html',
+    styleUrls: ['../qam.scss'],
+    selector: 'imx-dge-access-comparison',
+    standalone: false
 })
 export class AccessComparisonComponent implements OnInit {
   constructor(

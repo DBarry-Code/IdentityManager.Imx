@@ -1,14 +1,15 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
   flex-direction: row;
 
-   button {
-      display: flex;
-      @include ease-transition;
-      eui-icon {
-        margin-right: 4px;
-      }
+  button {
+    display: flex;
+    @include mixins.ease-transition;
+
+    eui-icon {
+      margin-right: 4px;
     }
+  }
 }

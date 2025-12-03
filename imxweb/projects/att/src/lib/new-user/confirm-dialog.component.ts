@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ParameterizedText } from 'qbm';
 
 @Component({
-  templateUrl: './confirm-dialog.component.html',
+    templateUrl: './confirm-dialog.component.html',
+    standalone: false
 })
 export class ConfirmDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public ptext: ParameterizedText) {}

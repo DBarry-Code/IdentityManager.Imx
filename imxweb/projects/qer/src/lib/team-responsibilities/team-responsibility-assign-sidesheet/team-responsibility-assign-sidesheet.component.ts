@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,6 +25,7 @@
  */
 
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { EUI_SIDESHEET_DATA, EuiLoadingService, EuiSidesheetService } from '@elemental-ui/core';
 import {
   PortalAdminPerson,
@@ -39,37 +40,60 @@ import {
   DisplayColumns,
   EntitySchema,
   IClientProperty,
+  LogOp,
   TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
+import _ from 'lodash';
 import { AuthenticationService, DataViewInitParameters, DataViewSource, ISessionState } from 'qbm';
 import { IdentitiesService } from '../../identities/identities.service';
 import { TeamResponsibilitiesService } from '../team-responsibilities.service';
+import { TeamResponsibilityAssignDialogComponent } from '../team-responsibility-assign-dialog/team-responsibility-assign-dialog.component';
 
 @Component({
   selector: 'imx-team-responsibility-assign-sidesheet',
   templateUrl: './team-responsibility-assign-sidesheet.component.html',
   styleUrl: './team-responsibility-assign-sidesheet.component.scss',
   providers: [DataViewSource],
+  standalone: false,
 })
 export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
   public entitySchema: EntitySchema;
   public readonly DisplayedColumns = DisplayColumns;
   public selection: PortalPersonReports[] = [];
+  public initialSelection: PortalPersonReports[] = [];
   public singleSelection = false;
   public managerSelected = false;
   public managerEntity: PortalAdminPerson;
   private displayedColumns: IClientProperty[];
   private dataModel: DataModel;
   private sessionState: ISessionState;
+
+  public get assignButtonEnabled(): boolean {
+    return (
+      ((!!this.selection.length || !!this.initialSelection.length) &&
+        !_.isEqual(
+          this.selection.map((item) => item.GetEntity().GetKeys()[0]).sort(),
+          this.initialSelection.map((item) => item.GetEntity().GetKeys()[0]).sort(),
+        )) ||
+      this.managerSelected
+    );
+  }
+
   constructor(
     @Inject(EUI_SIDESHEET_DATA)
-    public data: { responsibility: PortalRespTeamResponsibilities[]; reassign: boolean; extendedData: (ResponsibilityData | undefined)[] },
+    public data: {
+      responsibility: PortalRespTeamResponsibilities[];
+      reassign: boolean;
+      extendedData: (ResponsibilityData | undefined)[];
+      manage?: boolean;
+    },
     public dataSource: DataViewSource<PortalPersonReports>,
     private readonly sidesheetService: EuiSidesheetService,
     private readonly identitiesService: IdentitiesService,
     private readonly teamResponsibilitiesService: TeamResponsibilitiesService,
     private readonly busyServiceElemental: EuiLoadingService,
     private readonly authenticationSerivce: AuthenticationService,
+    private readonly dialogService: MatDialog,
   ) {
     this.entitySchema = this.identitiesService.personReportsSchema;
     this.authenticationSerivce.onSessionResponse.subscribe((sessionSate: ISessionState) => {
@@ -87,11 +111,13 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
       this.entitySchema.Columns[this.DisplayedColumns.DISPLAY_PROPERTYNAME],
       this.entitySchema.Columns.UID_Department,
     ];
-    this.dataSource.itemStatus = {
-      enabled: (item: PortalPersonReports) =>
-        !this.otherIdentities().some((otherIdentities) => otherIdentities?.UidPerson === item.GetEntity().GetKeys()[0]) &&
-        !this.data.responsibility.some((responsibility) => responsibility.UID_Person.value === item.GetEntity().GetKeys()[0]),
-    };
+    if (this.data.reassign) {
+      this.dataSource.itemStatus = {
+        enabled: (item: PortalPersonReports) =>
+          !this.otherIdentities().some((otherIdentities) => otherIdentities?.UidPerson === item.GetEntity().GetKeys()[0]) &&
+          !this.data.responsibility.some((responsibility) => responsibility.UID_Person.value === item.GetEntity().GetKeys()[0]),
+      };
+    }
     const dataViewInitParameters: DataViewInitParameters<PortalPersonReports> = {
       execute: (params: CollectionLoadParameters, signal: AbortSignal): Promise<TypedEntityCollectionData<PortalPersonReports>> =>
         this.identitiesService.getReportsOfManager({ ...params, isinactive: '0' }, signal),
@@ -105,8 +131,10 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
         }
       },
     };
-
     this.dataSource.init(dataViewInitParameters);
+    if (this.data.manage) {
+      this.dataSource.selection.select(await this.loadSelectedEntities());
+    }
   }
 
   public closeSidesheet(): void {
@@ -114,20 +142,30 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
   }
 
   public async assignMore(): Promise<void> {
-    const overlayRef = this.busyServiceElemental.show();
     const selection: (PortalAdminPerson | PortalPersonReports)[] = this.selection;
     if (this.managerSelected) {
       selection.push(this.managerEntity);
     }
-    try {
-      if (this.data.reassign) {
-        await this.teamResponsibilitiesService.reassignResponsibilities(this.data.responsibility, selection, this.data.extendedData);
-      } else {
-        await this.teamResponsibilitiesService.assignResponsibility(this.data.responsibility[0], selection, this.data.extendedData[0]);
+    if (!this.data.reassign && this.data.manage && !!this.getIdentitiesToRemove().length) {
+      this.confirmDeletion();
+    } else {
+      const overlayRef = this.busyServiceElemental.show();
+      try {
+        if (this.data.reassign) {
+          await this.teamResponsibilitiesService.reassignResponsibilities(this.data.responsibility, selection, this.data.extendedData);
+        }
+        if (this.data.manage) {
+          await this.teamResponsibilitiesService.manageResponsibility(
+            this.data.responsibility[0],
+            this.getIdentitiesToAssign(),
+            this.getIdentitiesToRemove(),
+            this.data.extendedData[0],
+          );
+        }
+      } finally {
+        this.busyServiceElemental.hide(overlayRef);
+        this.sidesheetService.close(true);
       }
-    } finally {
-      this.busyServiceElemental.hide(overlayRef);
-      this.sidesheetService.close(true);
     }
   }
 
@@ -143,11 +181,75 @@ export class TeamResponsibilityAssignSidesheetComponent implements OnInit {
     }
   }
 
-  public get assignButtonEnabled(): boolean {
-    return !!this.selection.length || this.managerSelected;
-  }
-
   private async getManagerEntity(): Promise<void> {
     this.managerEntity = await this.identitiesService.getAdminPerson(this.sessionState.UserUid!);
+  }
+
+  private async loadSelectedEntities(): Promise<PortalPersonReports[]> {
+    const abortController = new AbortController();
+    const selection = await this.identitiesService.getReportsOfManager(
+      {
+        filter: [
+          {
+            Type: 2,
+            Expression: {
+              Expressions: [
+                {
+                  PropertyId: 'UID_Person',
+                  Operator: 'IN',
+                  LogOperator: LogOp.AND,
+                  Value: [this.data.responsibility[0].UID_Person.value, ...this.otherIdentities().map((identity) => identity.UidPerson)],
+                  Negate: false,
+                },
+              ],
+              LogOperator: LogOp.AND,
+              Negate: false,
+            },
+          },
+        ],
+        isinactive: '0',
+      },
+      abortController.signal,
+    );
+    this.initialSelection = selection.Data || [];
+    return this.initialSelection;
+  }
+
+  private getIdentitiesToAssign(): (PortalPersonReports | PortalAdminPerson)[] {
+    return this.selection.filter(
+      (selectedPerson) =>
+        !this.initialSelection.find((initialPerson) => selectedPerson.GetEntity().GetKeys()[0] === initialPerson.GetEntity().GetKeys()[0]),
+    );
+  }
+
+  private getIdentitiesToRemove(): (PortalPersonReports | PortalAdminPerson)[] {
+    return this.initialSelection.filter(
+      (initialPerson) =>
+        !this.selection.find((selectedPerson) => selectedPerson.GetEntity().GetKeys()[0] === initialPerson.GetEntity().GetKeys()[0]),
+    );
+  }
+
+  private confirmDeletion(): void {
+    this.dialogService
+      .open(TeamResponsibilityAssignDialogComponent, {
+        data: { responsibility: this.data.responsibility[0], identities: this.getIdentitiesToRemove() },
+      })
+      .afterClosed()
+      .subscribe(async (result) => {
+        if (result) {
+          const overlayRef = this.busyServiceElemental.show();
+          try {
+            await this.teamResponsibilitiesService.manageResponsibility(
+              this.data.responsibility[0],
+              this.getIdentitiesToAssign(),
+              this.getIdentitiesToRemove(),
+              this.data.extendedData[0],
+            );
+          } finally {
+            this.busyServiceElemental.hide(overlayRef);
+            this.sidesheetService.close(true);
+          }
+        }
+      });
   }
 }

@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   .imx-main-column {
@@ -7,27 +7,27 @@
 }
 
 .eui-sidesheet-content {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
 }
 
 .heading-wrapper {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
   flex: 0 0 auto;
 }
 
 :host {
-  @include flex-column-container($overflow: hidden, $height: inherit, $width: inherit, $max-width: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: inherit, $width: inherit, $max-width: 100%);
 }
 
 .imx-policyviolation-page {
-  @include flex-column-container($overflow: hidden, $height: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $padding: true);
 
   div.imx-policyviolation-table {
-    @include flex-column-container($overflow: hidden, $height: inherit);
+    @include mixins.flex-column-container($overflow: hidden, $height: inherit);
     flex: 1 1 auto;
 
     .imx-column-container {
-     .imx-main-column {
+      .imx-main-column {
         max-width: 600px;
         margin-right: 10px;
       }

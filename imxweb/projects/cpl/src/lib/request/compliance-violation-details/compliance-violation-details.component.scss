@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host ::ng-deep .mat-expansion-panel-body {
   display: flex;
@@ -14,7 +14,7 @@
 }
 
 .imx-label {
-  color: $black-7;
+  color: eui.$color-gray-50;
   margin-bottom: -10px;
 }
 
@@ -69,7 +69,7 @@
 .imx-accordion .mat-expansion-panel-header-description {
   justify-content: end;
   align-items: center;
-  color: $black-9;
+  color: eui.$color-gray-40;
 }
 
 .imx-no-results {
@@ -79,6 +79,6 @@
   p {
     margin: 0;
     font-size: 18px;
-    color: $black-9;
+    color: eui.$color-gray-40;
   }
 }

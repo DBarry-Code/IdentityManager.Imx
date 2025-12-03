@@ -1,19 +1,18 @@
 :host {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-end;
+  gap:16px;
 }
 
 .value-list {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .value-box {
   display: flex;
   align-items: center;
-}
-
-.imx-column-container {
-  display: flex;
-  align-items: baseline;
-  column-gap: 10px;
 }

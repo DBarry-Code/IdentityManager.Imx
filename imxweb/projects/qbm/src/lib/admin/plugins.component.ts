@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { AppConfigService } from '../appConfig/appConfig.service';
 import { SideNavigationComponent } from '../side-navigation-view/side-navigation-view-interfaces';
 
 @Component({
-  templateUrl: './plugins.component.html',
-  styleUrls: ['./shared.scss'],
-  selector: 'imx-plugins',
+    templateUrl: './plugins.component.html',
+    styleUrls: ['./shared.scss'],
+    selector: 'imx-plugins',
+    standalone: false
 })
 export class PluginsComponent implements OnInit, SideNavigationComponent {
   @Input() public isAdmin: boolean;

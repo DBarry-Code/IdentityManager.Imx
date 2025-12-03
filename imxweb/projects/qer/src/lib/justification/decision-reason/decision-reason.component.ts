@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,11 +39,13 @@ interface ReasonFormGroup {
   selector: 'imx-decision-reason',
   templateUrl: './decision-reason.component.html',
   styleUrls: ['./decision-reason.component.scss'],
+  standalone: false,
 })
 export class DecisionReasonComponent implements OnInit, AfterViewInit {
   @Input() public reasonStandard: ColumnDependentReference;
   @Input() public reasonFreetext: ColumnDependentReference;
   @Input() public maxReasonType: number;
+  @Input() public exceptionValidUntil: ColumnDependentReference;
 
   @Output() public controlCreated = new EventEmitter<AbstractControl>();
 

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { BaseCdr, ColumnDependentReference, SnackBarService } from 'qbm';
 import { ViewDevicesService } from '../view-devices.service';
 
 @Component({
-  selector: 'imx-create-new-device',
-  templateUrl: './create-new-device.component.html',
-  styleUrls: ['./create-new-device.component.scss'],
+    selector: 'imx-create-new-device',
+    templateUrl: './create-new-device.component.html',
+    styleUrls: ['./create-new-device.component.scss'],
+    standalone: false
 })
 export class CreateNewDeviceComponent {
   public readonly formGroup = new UntypedFormGroup({});

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { ColumnDependentReference } from '../column-dependent-reference.interfac
  * Provides a column editor component, that wraps around a {@link CdrEditor | column dependent reference editor}.
  */
 @Component({
-  selector: 'imx-entity-column-editor',
-  templateUrl: './entity-column-editor.component.html',
-  styleUrls: ['./entity-column-editor.component.scss'],
+    selector: 'imx-entity-column-editor',
+    templateUrl: './entity-column-editor.component.html',
+    styleUrls: ['./entity-column-editor.component.scss'],
+    standalone: false
 })
 export class EntityColumnEditorComponent implements OnChanges {
   /**

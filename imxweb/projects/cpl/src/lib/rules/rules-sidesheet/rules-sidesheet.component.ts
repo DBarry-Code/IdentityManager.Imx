@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { RulesMitigatingControls } from '../mitigating-controls-rules/rules-miti
 import { RulesService } from '../rules.service';
 
 @Component({
-  selector: 'imx-rules-sidesheet',
-  templateUrl: './rules-sidesheet.component.html',
-  styleUrls: ['./rules-sidesheet.component.scss'],
+    selector: 'imx-rules-sidesheet',
+    templateUrl: './rules-sidesheet.component.html',
+    styleUrls: ['./rules-sidesheet.component.scss'],
+    standalone: false
 })
 export class RulesSidesheetComponent implements OnDestroy {
   public reportDownload: EuiDownloadOptions;

@@ -1,21 +1,24 @@
 <div eui-sidesheet-content>
-  <mat-card *ngIf="terms" attr.aria-label="{{ terms?.GetEntity()?.GetDisplay() }}">
-    <mat-card-title>
-      {{ terms?.GetEntity()?.GetDisplay() }}
-    </mat-card-title>
-    <mat-card-content class="imx-terms-container">
-      {{ terms?.DisplayContent?.Column?.GetDisplayValue() }}
-    </mat-card-content>
-  </mat-card>
+  @if (terms) {
+    <mat-card attr.aria-label="{{ terms?.GetEntity()?.GetDisplay() }}">
+      <mat-card-title>
+        {{ terms?.GetEntity()?.GetDisplay() }}
+      </mat-card-title>
+      <mat-card-content class="imx-terms-container">
+        {{ terms?.DisplayContent?.Column?.GetDisplayValue() }}
+      </mat-card-content>
+    </mat-card>
+  }
 </div>
 <div eui-sidesheet-actions>
-  <button
-    mat-flat-button
-    color="primary"
-    *ngIf="terms?.HasFile?.value"
-    data-imx-identifier="terms-of-use-viewer-button-download"
-    [euiDownload]="termsOfUseService.getDownloadOptions(terms)"
-  >
-    {{ '#LDS#Download terms of use' | translate }}
-  </button>
+  @if (terms?.HasFile?.value) {
+    <button
+      mat-flat-button
+      color="primary"
+      data-imx-identifier="terms-of-use-viewer-button-download"
+      [euiDownload]="termsOfUseService.getDownloadOptions(terms)"
+      >
+      {{ '#LDS#Download terms of use' | translate }}
+    </button>
+  }
 </div>

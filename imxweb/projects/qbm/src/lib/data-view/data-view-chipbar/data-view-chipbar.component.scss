@@ -1,8 +1,7 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
-.imx-chipbar{
+.imx-chipbar {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
@@ -10,6 +9,7 @@
   align-items: center;
   margin-bottom: 16px;
 }
+
 .imx-chip-avatar {
   width: 50px;
 }
@@ -17,6 +17,7 @@
 .mat-mdc-chip {
   height: 32px;
 }
-span{
+
+span {
   font-size: 14px;
 }

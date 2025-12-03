@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'qbm';
 
 @Component({
-  templateUrl: './my-attestation-cases.component.html',
-  styleUrls: ['./my-attestation-cases.component.scss'],
+    templateUrl: './my-attestation-cases.component.html',
+    styleUrls: ['./my-attestation-cases.component.scss'],
+    standalone: false
 })
 export class MyAttestationCasesComponent implements OnDestroy {
   public attestationParameters: { objecttable: string; objectuid: string } | undefined;

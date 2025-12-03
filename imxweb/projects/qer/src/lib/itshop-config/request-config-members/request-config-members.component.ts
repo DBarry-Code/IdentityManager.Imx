@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -63,9 +63,10 @@ import { ReasonSidesheetComponent } from './reason-sidesheet/reason-sidesheet.co
 const helperAlertKey = `${HELPER_ALERT_KEY_PREFIX}_requestShopAccess`;
 
 @Component({
-  selector: 'imx-request-config-members',
-  templateUrl: './request-config-members.component.html',
-  styleUrls: ['../request-config-sidesheet-common.scss', './request-config-members.component.scss'],
+    selector: 'imx-request-config-members',
+    templateUrl: './request-config-members.component.html',
+    styleUrls: ['../request-config-sidesheet-common.scss', './request-config-members.component.scss'],
+    standalone: false
 })
 export class RequestConfigMembersComponent implements OnInit {
   @Input() public customerNodeId: string;

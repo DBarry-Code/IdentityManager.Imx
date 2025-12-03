@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,6 +30,10 @@ import { EntitySchema, IClientProperty } from '@imx-modules/imx-qbm-dbts';
 import { ImxTranslationProviderService } from '../translation/imx-translation-provider.service';
 
 /**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataView instead.
+ * 
  * Visual representation of a typed entity property as a data table column.
  *
  * @example
@@ -55,9 +59,10 @@ import { ImxTranslationProviderService } from '../translation/imx-translation-pr
  *         </imx-data-table-column>
  */
 @Component({
-  selector: 'imx-data-table-column',
-  templateUrl: './data-table-column.component.html',
-  styleUrls: ['./data-table-column.component.scss'],
+    selector: 'imx-data-table-column',
+    templateUrl: './data-table-column.component.html',
+    styleUrls: ['./data-table-column.component.scss'],
+    standalone: false
 })
 export class DataTableColumnComponent<T> implements OnInit {
   /**

@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -12,5 +12,5 @@ imx-attestation-history {
 }
 
 .mat-mdc-outlined-button {
-  @include image-button-icon();
+  @include mixins.image-button-icon();
 }

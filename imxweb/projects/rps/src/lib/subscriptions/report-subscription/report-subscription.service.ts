@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,7 +53,7 @@ export class ReportSubscriptionService {
 
   constructor(
     private readonly api: RpsApiService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly config: AppConfigService,
     private readonly http: HttpClient,
     private readonly overlay: Overlay,
@@ -61,7 +61,7 @@ export class ReportSubscriptionService {
     private readonly translator: ImxTranslationProviderService,
     private readonly parameterDataService: ParameterDataService,
     private readonly downloadService: EuiDownloadService,
-  ) {}
+  ) { }
 
   public get PortalSubscriptionInteractiveSchema(): EntitySchema {
     return this.api.typedClient.PortalSubscriptionInteractive.GetSchema();
@@ -172,7 +172,7 @@ export class ReportSubscriptionService {
     })();
   }
 
-  public async sendViaMail(uid: string): Promise<void>{
+  public async sendViaMail(uid: string): Promise<void> {
     return this.api.client.portal_subscription_sendmail_post(uid);
   }
 }

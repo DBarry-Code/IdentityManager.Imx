@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 li {
   list-style-type: none;
@@ -20,6 +20,10 @@ a:focus {
   cursor: pointer;
 }
 
+.imx-hyperview-deleted {
+  text-decoration: line-through;
+}
+
 // Theming
 
 li {
@@ -29,11 +33,11 @@ li {
   a:hover,
   a:link,
   visited {
-    color: $color-gray-0;
+    color: eui.$color-gray-0;
   }
 }
 
 a:hover,
 a:focus {
-  background-color: rgba($color: $color-gray-100, $alpha: 0.2);
+  background-color: rgba($color: eui.$color-gray-100, $alpha: 0.2);
 }

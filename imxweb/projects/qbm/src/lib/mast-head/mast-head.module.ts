@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,10 @@ import { NgModule } from '@angular/core';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ExtModule } from '../ext/ext.module';
+import { GlobalSearchComponent } from '../global-search/global-search.component';
+import { PortalSwitcherComponent } from '../portal-switcher/portal-switcher/portal-switcher.component';
 import { ImxMissingTranslationHandler } from '../translation/imx-missing-translation-handler';
 import { ImxTranslateLoader } from '../translation/imx-translate-loader';
 import { MastHeadComponent } from './mast-head.component';
@@ -42,6 +45,9 @@ import { MastHeadService } from './mast-head.service';
     EuiCoreModule,
     EuiMaterialModule,
     ExtModule,
+    PortalSwitcherComponent,
+    GlobalSearchComponent,
+    MatTooltipModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -56,4 +62,4 @@ import { MastHeadService } from './mast-head.service';
   exports: [MastHeadComponent],
   providers: [MastHeadService],
 })
-export class MastHeadModule {}
+export class MastHeadModule { }

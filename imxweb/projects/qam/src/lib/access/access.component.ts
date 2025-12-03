@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { TrusteeAccessData } from '../TypedClient';
 
 /** Shows access information for an account or a system entitlement. */
 @Component({
-  templateUrl: './access.component.html',
-  styleUrls: ['./access.component.scss'],
+    templateUrl: './access.component.html',
+    styleUrls: ['./access.component.scss'],
+    standalone: false
 })
 export class AccessComponent implements OnInit, OnDestroy {
   public data: TrusteeAccessData;

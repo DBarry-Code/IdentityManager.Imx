@@ -1,36 +1,37 @@
 @use 'base/mixins' as mixins;
- 
-  :host {
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+:host {
+  @include mixins.flex-column-container-fill();
+  padding-bottom: 3px;
+}
+
+.governance-sidesheet__tab-content-body {
+  .mat-card {
     @include mixins.flex-column-container-fill();
-    padding-bottom: 3px;
   }
- 
-  .governance-sidesheet__tab-content-body {
-    .mat-card {
-      @include mixins.flex-column-container-fill();
-    }
+}
+
+.governance-sidesheet__tab-content {
+  imx-hyperview {
+    overflow: hidden;
   }
- 
-  .governance-sidesheet__tab-content {
-    imx-hyperview {
-      overflow: hidden;
-    }
-  }
- 
-  .mat-card-title {
-    font-size: medium;
-  }
- 
-  .hidden {
-    display: none;
-  }
- 
-  .imx-busy-loader {
-    height: 100%;
-  }
- 
-  .dug-assign-owner-text {
-    cursor: pointer;
-    text-decoration: underline;
-    color: mixins.$color-blue-60;
-  }
+}
+
+.mat-card-title {
+  font-size: medium;
+}
+
+.hidden {
+  display: none;
+}
+
+.imx-busy-loader {
+  height: 100%;
+}
+
+.dug-assign-owner-text {
+  cursor: pointer;
+  text-decoration: underline;
+  color: eui.$color-blue-60;
+}

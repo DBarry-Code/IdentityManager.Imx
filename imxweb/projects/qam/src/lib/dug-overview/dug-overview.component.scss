@@ -1,11 +1,11 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container($overflow: hidden, $height: 100%, $max-width: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $max-width: 100%);
   padding-bottom: 3px;
 }
 
 .heading-wrapper {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
   flex: 0 0 auto;
 }

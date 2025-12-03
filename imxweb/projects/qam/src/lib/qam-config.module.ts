@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -48,9 +48,10 @@ import {
   HelpContextualModule,
   LdsReplaceModule,
   ObjectHistoryModule,
-  RouteGuardService
+  RouteGuardService,
+  StatisticsModule,
 } from 'qbm';
-import { ObjectHyperviewModule, StatisticsModule } from 'qer';
+import { ObjectHyperviewModule } from 'qer';
 import { AccessRequestModule } from './access-request/access-request.module';
 import { AccessComponent } from './access/access.component';
 import { TrusteeViewComponent } from './access/trustee-view.component';
@@ -88,12 +89,12 @@ const routes: Routes = [
     IdentityComponent,
     DugSidesheetComponent,
     DugAssignOwnershipSidesheetComponent,
+    DugOwnershipComponent,
     DugAccessAnalysisComponent,
     DugAccessDetailComponent,
     UserAccessComponent,
     AccessComparisonComponent,
     DugOverviewComponent,
-    DugOwnershipComponent,
     AuditingGovernedDataComponent,
     DugReportsComponent,
     DugDashboardsComponent,

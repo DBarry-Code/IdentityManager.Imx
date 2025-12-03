@@ -1,54 +1,66 @@
 <div eui-sidesheet-content>
-  <eui-alert *ngIf="showHelperAlert" type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
-    <span translate>{{ LdsKey }}</span>
-  </eui-alert>
+  @if (showHelperAlert) {
+    <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
+      <span translate>{{ LdsKey }}</span>
+    </eui-alert>
+  }
   <form [formGroup]="formGroup">
     <mat-accordion data-imx-identifier="shelf-selection-bulk-accordeon" [multi]="true">
-      <mat-expansion-panel [expanded]="i === 0" *ngFor="let shelfSelectionObject of shelfSelectionObjects; let i = index">
-        <mat-expansion-panel-header>
-          {{ shelfSelectionObject.displayAccProduct }}
-        </mat-expansion-panel-header>
-        <div class="imx-shelf-selector">
-          <mat-form-field class="imx-default-shelf-select" appearance="outline" *ngIf="needsDefaultShelf(shelfSelectionObject)">
-            <mat-label>{{ '#LDS#Select a default shelf' | translate }}</mat-label>
-            <mat-select
-              data-imx-identifier="shelf-selection-global-shelf-object"
-              (selectionChange)="optionSelected($event.value, shelfSelectionObject.uidAccproduct || '')"
-            >
-              <mat-option
-                *ngFor="let so of shelfSelectionObject.possibleShelfObjects"
-                [value]="so.uidItShopOrg"
-                [attr.data-imx-identifier]="'shelf-selection-global-shelf-object-' + so.uidItShopOrg"
-              >
-                {{ so.displayShelf }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <ng-container *ngFor="let personForProduct of shelfSelectionObject.personsForProduct">
-            <div class="imx-person-item" *ngIf="personForProduct.shelfsObjects.length > 1">
-              {{ personForProduct.displayPerson }}
-            </div>
-            <div *ngIf="personForProduct.shelfsObjects.length > 1">
-              <mat-form-field appearance="outline">
-                <mat-label>{{ '#LDS#Select a shelf' | translate }}</mat-label>
+      @for (shelfSelectionObject of shelfSelectionObjects; track shelfSelectionObject; let i = $index) {
+        <mat-expansion-panel [expanded]="i === 0">
+          <mat-expansion-panel-header>
+            {{ shelfSelectionObject.displayAccProduct }}
+          </mat-expansion-panel-header>
+          <div class="imx-shelf-selector">
+            @if (needsDefaultShelf(shelfSelectionObject)) {
+              <mat-form-field class="imx-default-shelf-select" appearance="outline">
+                <mat-label>{{ '#LDS#Select a default shelf' | translate }}</mat-label>
                 <mat-select
-                  [attr.data-imx-identifier]="'shelf-selection-person-shelf-object-' + personForProduct.uidPerson"
-                  [formControl]="getFormControl(shelfSelectionObject, personForProduct)"
-                  [required]="true"
-                >
-                  <mat-option
-                    *ngFor="let so of personForProduct.shelfsObjects"
-                    [value]="so.uidItShopOrg"
-                    [attr.data-imx-identifier]="'shelf-selection-person-shelf-object-' + personForProduct.uidPerson + '-' + so.uidItShopOrg"
+                  data-imx-identifier="shelf-selection-global-shelf-object"
+                  (selectionChange)="optionSelected($event.value, shelfSelectionObject.uidAccproduct || '')"
                   >
-                    {{ so.displayShelf }}
-                  </mat-option>
+                  @for (so of shelfSelectionObject.possibleShelfObjects; track so) {
+                    <mat-option
+                      [value]="so.uidItShopOrg"
+                      [attr.data-imx-identifier]="'shelf-selection-global-shelf-object-' + so.uidItShopOrg"
+                      >
+                      {{ so.displayShelf }}
+                    </mat-option>
+                  }
                 </mat-select>
               </mat-form-field>
-            </div>
-          </ng-container>
-        </div>
-      </mat-expansion-panel>
+            }
+            @for (personForProduct of shelfSelectionObject.personsForProduct; track personForProduct) {
+              @if (personForProduct.shelfsObjects.length > 1) {
+                <div class="imx-person-item">
+                  {{ personForProduct.displayPerson }}
+                </div>
+              }
+              @if (personForProduct.shelfsObjects.length > 1) {
+                <div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>{{ '#LDS#Select a shelf' | translate }}</mat-label>
+                    <mat-select
+                      [attr.data-imx-identifier]="'shelf-selection-person-shelf-object-' + personForProduct.uidPerson"
+                      [formControl]="getFormControl(shelfSelectionObject, personForProduct)"
+                      [required]="true"
+                      >
+                      @for (so of personForProduct.shelfsObjects; track so) {
+                        <mat-option
+                          [value]="so.uidItShopOrg"
+                          [attr.data-imx-identifier]="'shelf-selection-person-shelf-object-' + personForProduct.uidPerson + '-' + so.uidItShopOrg"
+                          >
+                          {{ so.displayShelf }}
+                        </mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              }
+            }
+          </div>
+        </mat-expansion-panel>
+      }
     </mat-accordion>
   </form>
 </div>
@@ -59,7 +71,7 @@
     [disabled]="!formGroup.dirty || formGroup.invalid"
     data-imx-identifier="shelf-selection-button-submit"
     (click)="submit()"
-  >
+    >
     {{ '#LDS#Apply' | translate }}
   </button>
 </div>

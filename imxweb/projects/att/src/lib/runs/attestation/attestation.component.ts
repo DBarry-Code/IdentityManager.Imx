@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,6 +44,7 @@ export interface AttestationParameters {
   selector: 'imx-attestation',
   templateUrl: './attestation.component.html',
   styleUrls: ['./attestation.component.scss'],
+  standalone: false
 })
 export class AttestationComponent implements OnDestroy {
   public get canDecide(): boolean {
@@ -60,6 +61,8 @@ export class AttestationComponent implements OnDestroy {
 
   @Input() public parameters: AttestationParameters;
   @Input() public pendingAttestations: HelperAlertContent;
+
+  @Input() viewEscalation: boolean;
 
   public readonly itemStatus = {
     enabled: (attestationCase) => attestationCase.isPending && this.attestationAction.canDecide(attestationCase, this.userUid),

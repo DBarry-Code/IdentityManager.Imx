@@ -1,0 +1,12 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
+
+.section-header {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.section-subtitle {
+  font-size: smaller;
+  color: eui.$color-gray-60;
+}

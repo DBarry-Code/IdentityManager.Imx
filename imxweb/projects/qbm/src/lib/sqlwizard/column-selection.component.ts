@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,15 +25,20 @@
  */
 
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { EuiSelectOption } from '@elemental-ui/core';
-import { FilterProperty, LogOp, SqlExpression } from '@imx-modules/imx-qbm-dbts';
+import { FormControl } from '@angular/forms';
+import { EuiSelectOption, EuiSidesheetService } from '@elemental-ui/core';
+import { FilterProperty, LogOp, SqlColumnTypes, SqlExpression } from '@imx-modules/imx-qbm-dbts';
+import { TranslateService } from '@ngx-translate/core';
+import { calculateSidesheetWidth } from '../base/sidesheet-helper';
 import { SqlNodeView } from './SqlNodeView';
 import { SqlWizardService } from './sqlwizard.service';
+import { TreeSelectionSidesheetComponent } from './tree-selection-sidesheet.component';
 
 @Component({
   templateUrl: './column-selection.component.html',
   selector: 'imx-sqlwizard-columnselection',
+  styleUrls: ['./column-selection.component.scss'],
+  standalone: false,
 })
 export class ColumnSelectionComponent implements OnInit, OnChanges {
   @Input() public node: SqlNodeView;
@@ -41,32 +46,23 @@ export class ColumnSelectionComponent implements OnInit, OnChanges {
   @Output() public change = new EventEmitter<any>();
 
   public columns: FilterProperty[] = [];
-
   public dataReady = false;
-  public options: EuiSelectOption[] = [];
+  public negateControl = new FormControl();
 
-  public formControl = new UntypedFormControl();
-
-  private lastSelected;
-
-  constructor(private readonly svc: SqlWizardService) {}
+  constructor(
+    private readonly svc: SqlWizardService,
+    private euiSidesheetService: EuiSidesheetService,
+    private translateService: TranslateService,
+  ) {}
 
   public async ngOnInit(): Promise<void> {
     await this.reloadColumns();
-    if (this.node.Property) {
-      this.formControl.setValue(this.node.Property.PropertyId);
-    }
 
-    this.formControl.valueChanges.subscribe((c) => {
-      this.selectColumn(c);
+    this.negateControl.setValue(this.node.Data.Negate || false, { emitEvent: false });
+    this.negateControl.valueChanges.subscribe((c) => {
+      this.node.Data.Negate = c;
+      this.change.emit();
     });
-  }
-
-  public selectionChange(arg: EuiSelectOption | EuiSelectOption[]): void {
-    let value: string = Object.hasOwn(arg, 'value') ? (arg as EuiSelectOption).value : arg[0].option;
-    this.formControl.setValue(value);
-    this.node.columnChanged.emit(value);
-    this.change.emit();
   }
 
   public ngOnChanges(changes: any): void {
@@ -74,14 +70,13 @@ export class ColumnSelectionComponent implements OnInit, OnChanges {
       this.reloadColumns();
     }
   }
-  public async selectColumn(propertyId: string): Promise<void> {
-    if (this.lastSelected === propertyId) {
+  public async selectColumn(column: { PropertyId: string; ColumnType: SqlColumnTypes }): Promise<void> {
+    if (this.node.Property?.PropertyId === column.PropertyId && this.node.Property.ColumnType === column.ColumnType) {
       return;
     }
-    this.lastSelected = propertyId;
-    const found = this.columns.filter((c) => c.PropertyId === propertyId);
+    const found = this.columns.filter((c) => c.PropertyId === column.PropertyId && c.ColumnType === column.ColumnType);
     if (found.length != 1) {
-      throw new Error('Property not found: ' + propertyId);
+      throw new Error('Property not found: ' + column.PropertyId);
     }
     const filterProperty = found[0];
 
@@ -89,20 +84,36 @@ export class ColumnSelectionComponent implements OnInit, OnChanges {
     // this is important for boolean properties that do not show
     // an operator selection.
     let preselectedOperator: string | undefined;
-    if (found[0].Operators?.length === 1) {
+    if (!!found[0].Operators?.length) {
       preselectedOperator = found[0].Operators[0].Type;
     }
 
+    let data: SqlExpression;
     // create new empty node
-    const data: SqlExpression = {
-      PropertyId: propertyId,
-      Operator: preselectedOperator,
-      LogOperator: LogOp.AND,
-      Negate: false,
-    };
+    if (filterProperty.Type === this.node.Property?.Type && !filterProperty.SelectionTables && !this.node.Property.SelectionTables) {
+      data = {
+        ...this.node.Data,
+        PropertyId: column.PropertyId,
+      };
+    } else {
+      data = {
+        PropertyId: column.PropertyId,
+        Operator: preselectedOperator,
+        LogOperator: LogOp.AND,
+        Negate: false,
+        Expressions: filterProperty.ColumnType !== SqlColumnTypes.Normal ? [] : undefined,
+      };
+    }
+
     this.node.Parent.replaceChildNode(this.node.Data, data);
+    this.node.clearChildNodes();
     this.node.Data = data;
     this.node.Property = filterProperty;
+    if (filterProperty.ColumnType !== SqlColumnTypes.Normal) {
+      this.node.addChildNode(this.node.Property.SelectionTables?.[0].Name);
+    }
+    this.node.columnChanged.emit(column.PropertyId);
+    this.change.emit();
   }
   public filter(option: EuiSelectOption, searchInputValue: string): boolean {
     return (
@@ -117,16 +128,25 @@ export class ColumnSelectionComponent implements OnInit, OnChanges {
 
     if (tableName) {
       this.columns = await this.svc.getColumns(this.node.viewSettings, tableName);
-      this.options = [];
-      for (const col of this.columns) {
-        this.options.push({
-          display: col.Display ?? '',
-          displayDetail: col.PropertyId,
-          value: col.PropertyId,
-        });
-      }
-
       this.dataReady = true;
     }
+  }
+
+  selectProperty() {
+    this.euiSidesheetService
+      .open(TreeSelectionSidesheetComponent, {
+        title: this.translateService.instant('#LDS#Heading Select Filter Type and Property'),
+        data: {
+          properties: this.columns,
+          selectedProperty: this.node.Property,
+        },
+        width: calculateSidesheetWidth(600, 0.4),
+        autoFocus: false,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (!result) return;
+        this.selectColumn(result);
+      });
   }
 }

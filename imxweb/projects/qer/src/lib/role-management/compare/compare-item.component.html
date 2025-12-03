@@ -1,8 +1,12 @@
-<eui-badge color="gray" *ngIf="val == 0">
-  {{ '#LDS#Not assigned' | translate }}
-</eui-badge>
-<ng-container *ngFor="let o of origins">
-  <eui-badge color="green" *ngIf="hasBit(o)">
-    {{ getCaption(o) }}
+@if (val == 0) {
+  <eui-badge color="gray">
+    {{ '#LDS#Not assigned' | translate }}
   </eui-badge>
-</ng-container>
+}
+@for (o of origins; track o) {
+  @if (hasBit(o)) {
+    <eui-badge color="green">
+      {{ getCaption(o) }}
+    </eui-badge>
+  }
+}

@@ -1,11 +1,12 @@
 <div class="imx-content">
-  <imx-fk-table-select
-    *ngIf="!!fkRelationData?.fkTables?.length"
-    [fkTables]="fkRelationData.fkTables"
-    [preselectedTableName]="fkRelationData.preselectedTableName"
-    (selectionChanged)="tableSelectionChanged($event)"
-  >
-  </imx-fk-table-select>
+  @if (!!fkRelationData?.fkTables?.length) {
+    <imx-fk-table-select
+      [fkTables]="fkRelationData.fkTables"
+      [preselectedTableName]="fkRelationData.preselectedTableName"
+      (selectionChanged)="tableSelectionChanged($event)"
+      >
+    </imx-fk-table-select>
+  }
 
   <imx-fk-candidates
     class="imx-fk-selector"
@@ -16,30 +17,32 @@
     (selectionChanged)="selectionChanged($event)"
     [showLongDisplay]="true"
     [showSelectedItemsMenu]="false"
-  >
+    >
   </imx-fk-candidates>
 </div>
 
 <div eui-sidesheet-actions>
   <imx-selected-elements class="justify-start" [selectedElements]="selectedItems"></imx-selected-elements>
   <div>
-    <button
-      *ngIf="!!selectedItems?.length"
-      mat-stroked-button
-      type="button"
-      (click)="fkSelector.clearSelection()"
-      data-imx-identifier="selector-clear-selection"
-    >
-      <span translate>#LDS#Clear selection</span>
-    </button>
-    <button
-      *ngIf="fkRelationData.isMultiValue"
-      mat-flat-button
-      color="primary"
-      (click)="applySelection()"
-      data-imx-identifier="selector-apply-selection"
-    >
-      <span translate>#LDS#Apply</span>
-    </button>
+    @if (!!selectedItems?.length) {
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="fkSelector.clearSelection()"
+        data-imx-identifier="selector-clear-selection"
+        >
+        <span translate>#LDS#Clear selection</span>
+      </button>
+    }
+    @if (fkRelationData.isMultiValue) {
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="applySelection()"
+        data-imx-identifier="selector-apply-selection"
+        >
+        <span translate>#LDS#Apply</span>
+      </button>
+    }
   </div>
 </div>

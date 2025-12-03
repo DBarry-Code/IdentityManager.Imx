@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { PasscodeService } from './passcode.service';
 import { OpsPermissionsService } from './permissions/ops-permissions.service';
 
 @Component({
-  templateUrl: './objectOverviewPerson.component.html',
-  styleUrls: ['./objectOverviewPerson.component.scss'],
+    templateUrl: './objectOverviewPerson.component.html',
+    styleUrls: ['./objectOverviewPerson.component.scss'],
+    standalone: false
 })
 export class ObjectOverviewPersonComponent implements OnInit {
   [x: string]: any;
@@ -84,6 +85,6 @@ export class ObjectOverviewPersonComponent implements OnInit {
     if (!passCode) {
       return;
     }
-    return this.passcodeService.showPasscode(passCode, this.referrer.display, managerDisplay, 2);
+    return this.passcodeService.showPasscode(passCode, this.referrer.display, managerDisplay);
   }
 }

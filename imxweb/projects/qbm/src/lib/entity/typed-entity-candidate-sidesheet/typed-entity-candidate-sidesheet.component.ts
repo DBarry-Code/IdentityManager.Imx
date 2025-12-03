@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,13 @@ import { CandidateEntity } from '../../fk-advanced-picker/candidate-entity';
 import { TypedEntityCandidateSidesheetParameter } from './typed-entity-candidate-sidesheet-parameter.interface';
 import { TypedEntityTableFilter } from './typed-entity-table-filter.interface';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  templateUrl: './typed-entity-candidate-sidesheet.component.html',
-  styleUrls: ['./typed-entity-candidate-sidesheet.component.scss'],
+    templateUrl: './typed-entity-candidate-sidesheet.component.html',
+    styleUrls: ['./typed-entity-candidate-sidesheet.component.scss'],
+    standalone: false
 })
 export class TypedEntityCandidateSidesheetComponent implements OnInit {
   public readonly DisplayColumns = DisplayColumns; // Enables use of this static class in Angular Templates.

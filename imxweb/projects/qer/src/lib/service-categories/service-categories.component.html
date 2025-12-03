@@ -5,15 +5,23 @@
   </h2>
 
   <eui-alert class="imx-alert-end-50" type="info" [condensed]="true" [colored]="true" [dismissable]="true">
-    <span *ngIf="config?.hasAccproductparamcategoryCandidates; else withoutAccproductparamcategoryCandidates" translate>
-      {{ LdsKey1 }}
-    </span>
-    <span class="imx-image-info" *ngIf="config?.itshopConfig?.InheritCategoryImagesToItems" translate>
-      {{ LdsKey2 }}
-    </span>
-    <span class="imx-image-info" *ngIf="config?.itshopConfig?.InheritCategoryImagesToCategories" translate>
-      {{ LdsKey3 }}
-    </span>
+    @if (config?.hasAccproductparamcategoryCandidates) {
+      <span translate>
+        {{ LdsKey1 }}
+      </span>
+    } @else {
+      <span translate>{{ LdsKey4 }}</span>
+    }
+    @if (config?.itshopConfig?.InheritCategoryImagesToItems) {
+      <span class="imx-image-info" translate>
+        {{ LdsKey2 }}
+      </span>
+    }
+    @if (config?.itshopConfig?.InheritCategoryImagesToCategories) {
+      <span class="imx-image-info" translate>
+        {{ LdsKey3 }}
+      </span>
+    }
   </eui-alert>
 </div>
 
@@ -25,7 +33,7 @@
     [emptyNodeCaption]="'#LDS#New service category' | translate"
     (nodeSelected)="onServiceCategorySelected($event)"
     data-imx-identifier="servicecategory-list-data-tree-categorytree"
-  >
+    >
   </imx-data-tree-wrapper>
 </mat-card>
 
@@ -37,6 +45,3 @@
 </div>
 
 <!-- Template for non existing -->
-<ng-template #withoutAccproductparamcategoryCandidates>
-  <span translate>{{ LdsKey4 }}</span>
-</ng-template>

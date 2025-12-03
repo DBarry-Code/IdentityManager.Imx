@@ -1,13 +1,11 @@
-<ng-container *ngIf="!data.withGuidance || data.requests.length > 1; else tabView">
+@if (!data.withGuidance || data.requests.length > 1) {
   <div eui-sidesheet-content>
     <ng-container *ngTemplateOutlet="decisionContent"></ng-container>
   </div>
   <div eui-sidesheet-actions>
     <ng-container *ngTemplateOutlet="decisionButtons"></ng-container>
   </div>
-</ng-container>
-
-<ng-template #tabView>
+} @else {
   <div class="workflow-action-sidesheet">
     <mat-tab-group mat-stretch-tabs="false" #tabs>
       <mat-tab data-imx-identifier="workflowAction-tab-main" [label]="'#LDS#Heading Approval Decision' | translate">
@@ -33,32 +31,37 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-</ng-template>
+}
 
 <ng-template #decisionButtons>
-  <button
-    data-imx-identifier="workflow-action-button-save"
-    mat-flat-button
-    color="primary"
-    (click)="sideSheetRef.close(true)"
-    *ngIf="formGroup"
-    [disabled]="formGroup.invalid"
-  >
-    {{ '#LDS#Save' | translate }}
-  </button>
+  @if (formGroup) {
+    <button
+      data-imx-identifier="workflow-action-button-save"
+      mat-flat-button
+      color="primary"
+      (click)="sideSheetRef.close(true)"
+      [disabled]="formGroup.invalid"
+    >
+      {{ '#LDS#Save' | translate }}
+    </button>
+  }
 </ng-template>
 
 <ng-template #decisionContent>
   <form [formGroup]="formGroup">
-    <ng-container *ngIf="data.customValidation">
-      <mat-error *ngIf="formGroup?.errors?.customValidationError">{{ data.customValidation.message | translate }}</mat-error>
-    </ng-container>
-    <p *ngIf="data.description">{{ data.description | translate }}</p>
-    <ng-container *ngIf="data.requests.length > 1">
+    @if (data.customValidation) {
+      @if (formGroup?.errors?.customValidationError) {
+        <mat-error>{{ data.customValidation.message | translate }}</mat-error>
+      }
+    }
+    @if (data.description) {
+      <p>{{ data.description | translate }}</p>
+    }
+    @if (data.requests.length > 1) {
       <imx-workflow-multi-action [formGroup]="formGroup" [data]="data"></imx-workflow-multi-action>
-    </ng-container>
-    <ng-container *ngIf="data.requests.length === 1">
+    }
+    @if (data.requests.length === 1) {
       <imx-workflow-single-action [formGroup]="formGroup" [data]="data"></imx-workflow-single-action>
-    </ng-container>
+    }
   </form>
 </ng-template>

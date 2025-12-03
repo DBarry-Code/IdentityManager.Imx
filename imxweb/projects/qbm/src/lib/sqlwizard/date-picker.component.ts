@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { DateDiffOption, SqlWizardService } from './sqlwizard.service';
 
 @Component({
   templateUrl: './date-picker.component.html',
-  styleUrls: ['./sqlwizard.scss'],
+  styleUrls: ['./sqlwizard.scss', './date-picker.component.scss'],
   selector: 'imx-sqlwizard-datepicker',
+  standalone: false,
 })
 export class DatePickerComponent implements OnInit {
   public absoluteError = false;

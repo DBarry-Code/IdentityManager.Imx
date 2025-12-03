@@ -1,8 +1,8 @@
-@import 'base/mixins';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-row-container-fill();
+  @include mixins.flex-row-container-fill();
   overflow: hidden;
 }
 
@@ -11,17 +11,18 @@
 }
 
 .imx-trustee-content {
-  @include flex-row-container-fill();
+  @include mixins.flex-row-container-fill();
   overflow: hidden;
   gap: 20px;
   padding: 3px;
+
   > :first-child {
     width: 300px;
   }
 }
 
 .imx-selected-trustee {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 }
 
 .imx-trustee-card {
@@ -30,14 +31,16 @@
 
 .imx-permission-card {
   margin: 20px;
+
   .mat-mdc-card-header {
     margin-bottom: 20px;
     font-weight: 600;
     align-items: center;
-    @include flex-column-container();
+    @include mixins.flex-column-container();
   }
+
   .mat-mdc-card-content {
-    @include flex-row-container-fill();
+    @include mixins.flex-row-container-fill();
   }
 }
 
@@ -64,7 +67,7 @@
  * Leaf nodes need to have padding so as to align with other non-leaf nodes
  * under the same parent.
  */
-.imx-trustee-tree div[role='group'] > .mat-tree-node {
+.imx-trustee-tree div[role='group']>.mat-tree-node {
   padding-left: 20px;
 }
 

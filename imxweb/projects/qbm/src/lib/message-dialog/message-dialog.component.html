@@ -1,6 +1,10 @@
 <div mat-dialog-title>
-  <eui-icon *ngIf="data.icon === 'error'" icon="error" class="imx-error-icon-in-error-dialog" aria-label="Error icon"></eui-icon>
-  <eui-icon *ngIf="data.icon === 'clock'" icon="clock" class="imx-error-icon-in-error-dialog" aria-label="Expired session icon"></eui-icon>
+  @if (data.icon === 'error') {
+    <eui-icon icon="error" class="imx-error-icon-in-error-dialog" aria-label="Error icon"></eui-icon>
+  }
+  @if (data.icon === 'clock') {
+    <eui-icon icon="clock" class="imx-error-icon-in-error-dialog" aria-label="Expired session icon"></eui-icon>
+  }
   <h2
     [attr.data-imx-identifier]="data?.identifier + '-title'"
     [ngClass]="{ 'h2-in-error-dialog': data.icon === 'error', 'h2-in-session-expired-dialog': data.icon === 'clock' }"
@@ -9,46 +13,73 @@
   </h2>
 </div>
 <mat-dialog-content>
-  <div *ngFor="let message of messages" class="cmp-messagebox" [attr.data-imx-identifier]="data?.identifier + '-message'">
-    {{ message }}
-  </div>
+  @for (message of messages; track message) {
+    <div class="cmp-messagebox" [attr.data-imx-identifier]="data?.identifier + '-message'">
+      {{ message }}
+    </div>
+  }
+  @if (data.confirmationInput) {
+    <imx-confirmation-input
+      [expectedValue]="data.confirmationInput.expectedValue"
+      [promptMessage]="data.confirmationInput.promptMessage"
+      [inputLabel]="data.confirmationInput.inputLabel"
+      [placeholder]="data.confirmationInput.placeholder"
+      (validationChanged)="isConfirmationValid = $event"
+    >
+    </imx-confirmation-input>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button
-    mat-button
-    *ngIf="data.ShowYesNo"
-    type="button"
-    [attr.data-imx-identifier]="data?.identifier + '-button-yes'"
-    (click)="click(MessageDialogResult.YesResult)"
-  >
-    {{ '#LDS#Yes' | translate }}
-  </button>
-  <button
-    mat-button
-    *ngIf="data.ShowYesNo"
-    type="button"
-    [attr.data-imx-identifier]="data?.identifier + '-button-no'"
-    (click)="click(MessageDialogResult.NoResult)"
-  >
-    {{ '#LDS#No' | translate }}
-  </button>
-  <button
-    mat-button
-    *ngIf="data.ShowOk"
-    type="submit"
-    [attr.data-imx-identifier]="data?.identifier + '-button-ok'"
-    (click)="click(MessageDialogResult.OkResult)"
-  >
-    {{ '#LDS#OK' | translate }}
-  </button>
-  <button
-    mat-button
-    *ngIf="data.ShowCancel"
-    type="button"
-    [attr.data-imx-identifier]="data?.identifier + '-button-cancel'"
-    (click)="click(MessageDialogResult.CancelResult)"
-  >
-    {{ '#LDS#Cancel' | translate }}
-  </button>
+  @if (data.ShowYesNo) {
+    <button
+      mat-button
+      type="button"
+      [attr.data-imx-identifier]="data?.identifier + '-button-yes'"
+      (click)="click(MessageDialogResult.YesResult)"
+    >
+      {{ '#LDS#Yes' | translate }}
+    </button>
+  }
+  @if (data.ShowYesNo) {
+    <button
+      mat-button
+      type="button"
+      [attr.data-imx-identifier]="data?.identifier + '-button-no'"
+      (click)="click(MessageDialogResult.NoResult)"
+    >
+      {{ '#LDS#No' | translate }}
+    </button>
+  }
+  @if (data.ShowOk) {
+    <button
+      mat-button
+      type="submit"
+      [attr.data-imx-identifier]="data?.identifier + '-button-ok'"
+      (click)="click(MessageDialogResult.OkResult)"
+    >
+      {{ '#LDS#OK' | translate }}
+    </button>
+  }
+  @if (data.ShowCancel) {
+    <button
+      mat-stroked-button
+      type="button"
+      [attr.data-imx-identifier]="data?.identifier + '-button-cancel'"
+      (click)="click(MessageDialogResult.CancelResult)"
+    >
+      {{ '#LDS#Cancel' | translate }}
+    </button>
+  }
+  @for (customButton of data.customButtons; track customButton) {
+    <button
+      mat-flat-button
+      type="button"
+      [color]="customButton.type"
+      [disabled]="customButton.action === MessageDialogResult.YesResult && data.confirmationInput && !isConfirmationValid"
+      (click)="click(customButton.action)"
+    >
+      {{ customButton.title | translate }}
+    </button>
+  }
 </mat-dialog-actions>

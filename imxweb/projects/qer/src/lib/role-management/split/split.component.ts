@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,8 +38,9 @@ import { RoleService } from '../role.service';
 import { SplitService } from './split.service';
 
 @Component({
-  templateUrl: './split.component.html',
-  styleUrls: ['./split.component.scss'],
+    templateUrl: './split.component.html',
+    styleUrls: ['./split.component.scss'],
+    standalone: false
 })
 export class SplitComponent implements OnInit {
   // Takes place of the previous injected data

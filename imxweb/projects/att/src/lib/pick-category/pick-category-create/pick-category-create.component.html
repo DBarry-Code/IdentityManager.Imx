@@ -7,20 +7,21 @@
             [cdr]="displayNameCdr"
             data-imx-identifier="pick-category-create-step1-cdr-displayName"
             (controlCreated)="displayNameForm.addControl(displayNameCdr.column.ColumnName, $event)"
-          >
+            >
           </imx-cdr-editor>
         </form>
         <div class="imx-stepper-button-container">
-          <button
-            *ngIf="displayNameForm"
-            mat-stroked-button
-            color="primary"
-            data-imx-identifier="pick-category-create-step1-button-next"
-            [disabled]="displayNameForm.invalid"
-            matStepperNext
-          >
-            {{ '#LDS#Next' | translate }}
-          </button>
+          @if (displayNameForm) {
+            <button
+              mat-stroked-button
+              color="primary"
+              data-imx-identifier="pick-category-create-step1-button-next"
+              [disabled]="displayNameForm.invalid"
+              matStepperNext
+              >
+              {{ '#LDS#Next' | translate }}
+            </button>
+          }
         </div>
       </mat-step>
 
@@ -36,7 +37,7 @@
             data-imx-identifier="pick-category-create-step2-button-next"
             (click)="showSummary()"
             matStepperNext
-          >
+            >
             {{ (!!selectIndentities?.selection?.length ? '#LDS#Next' : '#LDS#Skip') | translate }}
           </button>
         </div>
@@ -67,7 +68,7 @@
             color="primary"
             data-imx-identifier="pick-category-create--step3-button-create"
             (click)="closeSidesheet()"
-          >
+            >
             {{ '#LDS#Save' | translate }}
           </button>
         </div>

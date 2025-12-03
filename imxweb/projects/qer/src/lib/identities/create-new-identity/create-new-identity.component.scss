@@ -1,19 +1,19 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .eui-dark-theme {
   :host {
-    background-color: $color-gray-80;
+    background-color: eui.$color-gray-80;
     .eui-sidesheet-actions.mat-mdc-card.eui-sidesheet-actions--white {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 }
 
 .eui-contrast-theme {
   :host {
-    background-color: $color-gray-100;
+    background-color: eui.$color-gray-100;
     .eui-sidesheet-actions.mat-mdc-card.eui-sidesheet-actions--white {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 }

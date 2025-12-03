@@ -1,6 +1,4 @@
-@use '@angular/material' as mat;
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   display: flex;
@@ -12,6 +10,7 @@
   flex: 1 1 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
 }
 
 .imx-element-chooser {
@@ -35,21 +34,21 @@
   min-height: 60px;
   display: flex;
   flex-direction: column;
-  background: $white;
+  background: eui.$color-gray-0;
   border-radius: 4px;
 }
 
 .example-box {
   padding: 20px 0px 20px 10px;
-  border: solid 1px $black-c;
-  color: $black-3;
+  border: solid 1px eui.$color-gray-20;
+  color: eui.$color-gray-80;
   display: flex;
   flex-direction: row;
   height: 60px;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  background: $white;
+  background: eui.$color-gray-0;
   flex-grow: 1;
   flex-basis: 0;
 
@@ -76,8 +75,8 @@
   border-radius: 4px;
   overflow-y: hidden;
   box-shadow:
-    0 5px 5px -3px $black-c 0 8px 10px 1px mat.m2-get-color-from-palette($asher-gray-palette, 900),
-    0 3px 14px 2px mat.m2-get-color-from-palette($asher-gray-palette, 700);
+    0 5px 5px -3px eui.$color-gray-20 0 8px 10px 1px eui.$color-gray-10,
+    0 3px 14px 2px eui.$color-gray-5;
 }
 
 .cdk-drag-placeholder {
@@ -95,13 +94,13 @@
 .eui-dark-theme {
   :host {
     .example-list {
-      background: $color-gray-70;
+      background: eui.$color-gray-70;
     }
 
     .example-box {
-      border: solid 1px $color-gray-60;
-      color: $color-gray-10;
-      background: $color-gray-70;
+      border: solid 1px eui.$color-gray-60;
+      color: eui.$color-gray-10;
+      background: eui.$color-gray-70;
     }
   }
 }
@@ -109,13 +108,13 @@
 .eui-contrast-theme {
   :host {
     .example-list {
-      background: $color-gray-100;
+      background: eui.$color-gray-100;
     }
 
     .example-box {
-      border: solid 1px $color-gray-0;
-      color: $color-gray-10;
-      background: $color-gray-100;
+      border: solid 1px eui.$color-gray-0;
+      color: eui.$color-gray-10;
+      background: eui.$color-gray-100;
     }
 
     .imx-drag-handle {

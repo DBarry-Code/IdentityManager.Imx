@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { CallsAttachmentActionType, CallsAttachmentDialogData } from './../calls
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'imx-calls-attachment-dialog',
-  templateUrl: './calls-attachment-dialog.component.html',
-  styleUrls: ['./calls-attachment-dialog.component.scss'],
+    selector: 'imx-calls-attachment-dialog',
+    templateUrl: './calls-attachment-dialog.component.html',
+    styleUrls: ['./calls-attachment-dialog.component.scss'],
+    standalone: false
 })
 export class CallsAttachmentDialogComponent implements OnInit {
   form = new FormGroup({

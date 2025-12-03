@@ -3,16 +3,18 @@
     <div eui-sidesheet-content>
       <mat-card>
         <form [formGroup]="formGroup">
-          <imx-cdr-editor
-            *ngFor="let cdr of cdrList"
-            [cdr]="cdr"
-            (controlCreated)="resourceFormGroup.addControl(cdr?.column?.ColumnName ?? '', $event)"
-          ></imx-cdr-editor>
-          <imx-cdr-editor
-            *ngIf="ownerCdr"
-            [cdr]="ownerCdr"
-            (controlCreated)="resourceFormGroup.addControl(ownerCdr.column.ColumnName, $event)"
-          ></imx-cdr-editor>
+          @for (cdr of cdrList; track cdr) {
+            <imx-cdr-editor
+              [cdr]="cdr"
+              (controlCreated)="resourceFormGroup.addControl(cdr?.column?.ColumnName ?? '', $event)"
+            ></imx-cdr-editor>
+          }
+          @if (ownerCdr) {
+            <imx-cdr-editor
+              [cdr]="ownerCdr"
+              (controlCreated)="resourceFormGroup.addControl(ownerCdr.column.ColumnName, $event)"
+            ></imx-cdr-editor>
+          }
         </form>
       </mat-card>
     </div>
@@ -23,7 +25,7 @@
         [disabled]="!formGroup.dirty || formGroup.invalid"
         data-imx-identifier="resource-sidesheet-save-button"
         (click)="submit()"
-      >
+        >
         {{ '#LDS#Save' | translate }}
       </button>
     </div>

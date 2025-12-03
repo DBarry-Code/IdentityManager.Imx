@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,6 +32,8 @@ import { AuthenticationService, BaseReadonlyCdr, ColumnDependentReference, Entit
   providedIn: 'root',
 })
 export class DecisionStepSevice {
+
+  public isEscalationApprover: boolean = false;
   private uidUser: string;
   constructor(
     private readonly entityService: EntityService,
@@ -49,7 +51,7 @@ export class DecisionStepSevice {
   }
 
   public getAdditionalInfoCdr(entity: TypedEntity, extended: any, display: string): ColumnDependentReference | undefined {
-    const step = getWorkflowDataWithSmallestSublevel(extended, entity, this.uidUser);
+    const step = getWorkflowDataWithSmallestSublevel(extended, entity, this.uidUser, this.isEscalationApprover);
 
     if (!step) {
       return undefined;
@@ -59,6 +61,17 @@ export class DecisionStepSevice {
       ? undefined
       : new BaseReadonlyCdr(this.createEntityColumn(step.Columns!.UID_ComplianceRule), display);
   }
+
+  public checkStepForRules(rules: string[], extended: any, entity: TypedEntity): boolean {
+    const step = this.getStep(extended, entity, this.uidUser);
+    const data = extended?.WorkflowData?.Entities?.find(
+      (elem) =>
+        elem?.Columns?.UID_QERWorkingStep.Value === step?.Columns?.UID_QERWorkingStep.Value &&
+        rules.includes(elem?.Columns?.UID_PWODecisionRule.Value),
+    );
+    return !!data;
+  }
+
 
   private createEntityColumn(data: EntityColumnData): IEntityColumn {
     return this.entityService.createLocalEntityColumn({ ColumnName: 'CurrentStep', Type: ValType.String }, undefined, data);
@@ -72,7 +85,7 @@ export class DecisionStepSevice {
    * @returns
    */
   private getStep(extended: any, entity: TypedEntity, uidUser: string): EntityData {
-    const smallest = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser);
+    const smallest = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser, this.isEscalationApprover);
     const uniqueUsersMap =
       extended?.WorkflowSteps?.Entities?.filter(
         (elem: EntityData) => elem.Columns?.UID_QERWorkingStep.Value === smallest?.Columns?.UID_QERWorkingStep.Value,
@@ -91,8 +104,8 @@ export class DecisionStepSevice {
  * @param uidUser The uid of the current user.
  * @returns The sublevel number or null if no step exists for the current user in the current decision level.
  */
-export function getSubLevel(entity: TypedEntity, extended: any, uidUser: string): number | undefined {
-  const step = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser);
+export function getSubLevel(entity: TypedEntity, extended: any, uidUser: string, isEscalationApprover: boolean): number | undefined {
+  const step = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser, isEscalationApprover);
 
   if (!step) {
     return undefined;
@@ -109,12 +122,12 @@ export function getSubLevel(entity: TypedEntity, extended: any, uidUser: string)
  * @returns The step with the smallest sublevel in the current main level, that needs to be approved by the current user.
  *          If no such step exists, the value is undefined.
  */
-export function getWorkflowDataWithSmallestSublevel(extended: any, entity: TypedEntity, uidUser: string): EntityData | undefined {
+export function getWorkflowDataWithSmallestSublevel(extended: any, entity: TypedEntity, uidUser: string, isEscalationApprover: boolean): EntityData | undefined {
   return extended?.WorkflowData?.Entities?.filter(
     (data: EntityData) =>
-      data?.Columns?.UID_PersonHead.Value === uidUser &&
+      (isEscalationApprover || data?.Columns?.UID_PersonHead.Value === uidUser) &&
       (data?.Columns?.Decision?.Value ?? '') === '' &&
-      data.Columns.LevelNumber.Value === entity.GetEntity().GetColumn('DecisionLevel').GetValue(),
+      data.Columns?.LevelNumber.Value === entity.GetEntity().GetColumn('DecisionLevel').GetValue(),
   )?.reduce((lowestSublevel, current) => {
     return current.Columns.SubLevelNumber.Value < lowestSublevel.Columns.SubLevelNumber.Value ? current : lowestSublevel;
   });

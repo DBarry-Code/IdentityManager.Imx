@@ -1,3 +1,5 @@
+import { MessageDialogResult } from './message-dialog-result.enum';
+
 /*
  * ONE IDENTITY LLC. PROPRIETARY INFORMATION
  *
@@ -9,7 +11,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,4 +34,15 @@ export interface MessageParameter {
   identifier?: string;
   Parameter?: any[];
   icon?: string;
+  customButtons?: Array<{
+    type?: 'warn' | 'primary' | 'accent';
+    title: string;
+    action: MessageDialogResult;
+  }>;
+  confirmationInput?: {
+    expectedValue: string;
+    promptMessage?: string;
+    inputLabel?: string;
+    placeholder?: string;
+  };
 }

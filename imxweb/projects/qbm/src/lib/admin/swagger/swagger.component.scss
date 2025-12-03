@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   overflow: auto;
@@ -21,8 +21,8 @@
     padding: 2px 4px;
     vertical-align: super;
     border-radius: 57px;
-    color: $white;
-    background: $black-6;
+    color: eui.$color-gray-0;
+    background: eui.$color-gray-60;
   }
 
   #swagger-ui {

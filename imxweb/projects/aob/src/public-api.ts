@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,6 @@
  */
 
 export { AobConfigModule } from './lib/aob-config.module';
-export { StartPageComponent } from './lib/start-page/start-page.component';
 export { ApplicationsComponent } from './lib/applications/applications.component';
 export { ApplicationsModule } from './lib/applications/applications.module';
 export { EntitlementsComponent } from './lib/entitlements/entitlements.component';

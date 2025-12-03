@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,7 +28,7 @@ import { Injectable } from '@angular/core';
 
 import { PwoData } from '@imx-modules/imx-api-qer';
 import { IEntity, IEntityColumn, ParameterData, WriteExtTypedEntity } from '@imx-modules/imx-qbm-dbts';
-import { AuthenticationService, ISessionState } from 'qbm';
+import { AuthenticationService, EntityService, ISessionState } from 'qbm';
 import { Approval } from '../itshopapprove/approval';
 import { ExtendedCollectionData } from '../parameter-data/extended-collection-data.interface';
 import { ParameterDataService } from '../parameter-data/parameter-data.service';
@@ -42,6 +42,7 @@ export class ItshopRequestService {
   constructor(
     private readonly parameterDataService: ParameterDataService,
     private readonly itshopService: ItshopService,
+    private readonly entityService: EntityService,
     authentication: AuthenticationService,
   ) {
     authentication.onSessionResponse.subscribe((session: ISessionState) => (this.currentUser = session.UserUid || ''));
@@ -71,28 +72,31 @@ export class ItshopRequestService {
       (treeParameters) => this.itshopService.getRequestParameterFilterTree(treeParameters),
     );
 
-    return new Approval({
-      entity,
-      uidCurrentUser: this.currentUser,
-      isChiefApproval: this.itshopService.isChiefApproval,
-      pwoData: {
-        ...extendedDataWrapper.data,
-        WorkflowSteps: extendedCollectionData?.WorkflowSteps,
-        CanRecallDecision: extendedDataWrapper.data?.CanRecallDecision || false,
-        CanRevokeDelegation: extendedDataWrapper.data?.CanRevokeDelegation || false,
-        CanAskForHelp: extendedDataWrapper.data?.CanAskForHelp || false,
+    return new Approval(
+      {
+        entity,
+        uidCurrentUser: this.currentUser,
+        isChiefApproval: this.itshopService.isChiefApproval,
+        pwoData: {
+          ...extendedDataWrapper.data,
+          WorkflowSteps: extendedCollectionData?.WorkflowSteps,
+          CanRecallDecision: extendedDataWrapper.data?.CanRecallDecision || false,
+          CanRevokeDelegation: extendedDataWrapper.data?.CanRevokeDelegation || false,
+          CanAskForHelp: extendedDataWrapper.data?.CanAskForHelp || false,
+        },
+        parameterColumns: extendedDataWrapper.parameterWrapper.columns,
+        commit: async () => {
+          typedEntity.extendedData = extendedDataWrapper.parameterWrapper.getEntityWriteDataColumns();
+          try {
+            await entity.Commit(true);
+          } catch (error) {
+            await entity.DiscardChanges();
+            typedEntity.extendedData = undefined;
+            throw error;
+          }
+        },
       },
-      parameterColumns: extendedDataWrapper.parameterWrapper.columns,
-      commit: async () => {
-        typedEntity.extendedData = extendedDataWrapper.parameterWrapper.getEntityWriteDataColumns();
-        try {
-          await entity.Commit(true);
-        } catch (error) {
-          await entity.DiscardChanges();
-          typedEntity.extendedData = undefined;
-          throw error;
-        }
-      },
-    });
+      this.entityService,
+    );
   }
 }

@@ -1,20 +1,21 @@
 <div eui-sidesheet-content>
   <div class="imx-heading-wrapper">
-    <eui-alert
-      *ngIf="showHelperAlert"
-      type="info"
-      [condensed]="true"
-      [colored]="true"
-      [dismissable]="true"
-      (dismissed)="onHelperDismissed()"
-    >
-      <mat-spinner *ngIf="pendingAttestations?.loading" diameter="30"></mat-spinner>
-      <div *ngIf="!pendingAttestations?.loading && pendingAttestations?.infoItems" class="imx-alert-flex-column">
-        <span *ngFor="let infoItem of pendingAttestations.infoItems">
-          {{ infoItem.description | translate | ldsReplace: infoItem.value }}
-        </span>
-      </div>
-    </eui-alert>
+    @if (showHelperAlert) {
+      <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
+        @if (pendingAttestations?.loading) {
+          <mat-spinner diameter="30"></mat-spinner>
+        }
+        @if (!pendingAttestations?.loading && pendingAttestations?.infoItems) {
+          <div class="imx-alert-flex-column">
+            @for (infoItem of pendingAttestations.infoItems; track infoItem) {
+              <span>
+                {{ infoItem.description | translate | ldsReplace: infoItem.value }}
+              </span>
+            }
+          </div>
+        }
+      </eui-alert>
+    }
   </div>
   <mat-card class="imx-attestation-history-container">
     <imx-attestation-history
@@ -33,7 +34,7 @@
     data-imx-identifier="attestation-deny-selected-button"
     mat-flat-button
     color="warn"
-    (click)="attestationAction.deny(selectedCases)"
+    (click)="attestationAction.deny(selectedCases, viewEscalation)"
     [disabled]="!canDecide"
   >
     <eui-icon icon="ignore" size="24px"></eui-icon>
@@ -43,7 +44,7 @@
     data-imx-identifier="attestation-approve-selected-button"
     mat-flat-button
     color="primary"
-    (click)="attestationAction.approve(selectedCases)"
+    (click)="attestationAction.approve(selectedCases, viewEscalation)"
     [disabled]="!canDecide"
   >
     <eui-icon icon="check" size="24px"></eui-icon>

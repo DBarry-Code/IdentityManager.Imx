@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "dpr",
   "sourceRoot": "projects/dpr/src",
-  "implicitDependencies": ["qbm"],
+  "implicitDependencies": [
+    "qbm"
+  ],
   "projectType": "library",
   "prefix": "imx",
   "generators": {
@@ -24,9 +26,6 @@
         "development": {
           "tsConfig": "projects/dpr/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/dpr/ng-package.dynamic.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/dpr/tsconfig.lib.json"
         },
@@ -34,7 +33,9 @@
           "tsConfig": "projects/dpr/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/dpr"]
+      "outputs": [
+        "{workspaceRoot}/dist/dpr"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -56,8 +57,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/dpr/tsconfig.lib.json", "projects/dpr/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/dpr/tsconfig.lib.json",
+          "projects/dpr/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

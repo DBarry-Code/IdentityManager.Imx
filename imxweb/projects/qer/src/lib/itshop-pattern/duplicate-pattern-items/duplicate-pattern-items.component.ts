@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { DuplicatePatternItem } from './duplicate-pattern-item';
  * This component shows a list of all serviceitems that could not be added to the itshop pattern.
  */
 @Component({
-  selector: 'imx-duplicate-pattern-items',
-  templateUrl: './duplicate-pattern-items.component.html',
-  styleUrls: ['./duplicate-pattern-items.component.scss'],
+    selector: 'imx-duplicate-pattern-items',
+    templateUrl: './duplicate-pattern-items.component.html',
+    styleUrls: ['./duplicate-pattern-items.component.scss'],
+    standalone: false
 })
 export class DuplicatePatternItemsComponent {
   public get columnNames(): string[] {

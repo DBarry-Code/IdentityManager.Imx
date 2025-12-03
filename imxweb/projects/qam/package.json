@@ -1,6 +1,8 @@
 {
   "name": "qam",
-  "version": "9.3.1",
+  "version": "10.0.0",
   "private": true,
-  "bundledDependencies": []
+  "bundledDependencies": [
+    "imx-api-qam"
+  ]
 }

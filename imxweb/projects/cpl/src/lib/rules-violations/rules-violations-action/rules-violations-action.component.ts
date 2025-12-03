@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -40,9 +40,10 @@ import { RulesViolationsAction } from './rules-violations-action.interface';
  * </ul>
  */
 @Component({
-  selector: 'imx-rules-violations-action',
-  templateUrl: './rules-violations-action.component.html',
-  styleUrls: ['./rules-violations-action.component.scss'],
+    selector: 'imx-rules-violations-action',
+    templateUrl: './rules-violations-action.component.html',
+    styleUrls: ['./rules-violations-action.component.scss'],
+    standalone: false
 })
 export class RulesViolationsActionComponent {
   /**

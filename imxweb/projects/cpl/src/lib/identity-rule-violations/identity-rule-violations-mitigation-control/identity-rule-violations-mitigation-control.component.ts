@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import {
 import { DataSourceToolbarSettings } from 'qbm';
 
 @Component({
-  selector: 'imx-identity-rule-violations-mitigation-control',
-  templateUrl: './identity-rule-violations-mitigation-control.component.html',
-  styleUrls: ['./identity-rule-violations-mitigation-control.component.scss'],
+    selector: 'imx-identity-rule-violations-mitigation-control',
+    templateUrl: './identity-rule-violations-mitigation-control.component.html',
+    styleUrls: ['./identity-rule-violations-mitigation-control.component.scss'],
+    standalone: false
 })
 export class IdentityRuleViolationsMitigationControlComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

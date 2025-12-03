@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "olg",
   "sourceRoot": "projects/olg/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "generators": {
     "@schematics/angular:component": {
@@ -24,9 +26,6 @@
         "development": {
           "tsConfig": "projects/olg/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/olg/ng-package.dynamic.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/olg/tsconfig.lib.json"
         },
@@ -34,7 +33,9 @@
           "tsConfig": "projects/olg/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/olg"]
+      "outputs": [
+        "{workspaceRoot}/dist/olg"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -42,7 +43,9 @@
         "main": "projects/olg/src/test.ts",
         "tsConfig": "projects/olg/tsconfig.spec.json",
         "karmaConfig": "projects/olg/karma.conf.js",
-        "codeCoverageExclude": ["projects/olg/src/**/test/*"],
+        "codeCoverageExclude": [
+          "projects/olg/src/**/test/*"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./shared/assets",
@@ -57,8 +60,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/olg/tsconfig.lib.json", "projects/olg/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/olg/tsconfig.lib.json",
+          "projects/olg/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

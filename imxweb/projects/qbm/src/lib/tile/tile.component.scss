@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 // TODO: Cleanup. Do we need all classed?
 
 .imx-generic-tile {
@@ -55,7 +55,7 @@
   font-size: 0.8em;
   line-height: 1.2em;
   margin-top: -8px;
-  color: $black-b;
+  color: eui.$color-gray-30;
 }
 
 section.imx-generic-tile.addon-tile > .mat-mdc-card > a {
@@ -134,7 +134,7 @@ section.imx-generic-tile.addon-tile > .mat-mdc-card > a {
 
 .addon-tile .mat-mdc-card {
   height: 120px;
-  width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
   padding: 0;
   cursor: auto;
 }
@@ -146,7 +146,7 @@ section.imx-generic-tile.addon-tile > .mat-mdc-card > a {
 
 .overview .mat-mdc-card {
   height: 175px;
-  width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
   cursor: auto;
   overflow: auto;
   padding: 0;
@@ -155,7 +155,7 @@ section.imx-generic-tile.addon-tile > .mat-mdc-card > a {
 .dashboard .mat-mdc-card {
   height: 245px;
   display: flex;
-  width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
   cursor: auto;
   overflow: auto;
   padding: 7px;
@@ -165,7 +165,7 @@ section.imx-generic-tile.addon-tile > .mat-mdc-card > a {
 .large-overview .mat-mdc-card {
   display: flex;
   min-height: 415px;
-  width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
   cursor: auto;
   overflow: auto;
   padding: 0;
@@ -213,7 +213,7 @@ section.imx-generic-tile.large-overview {
 .imx-generic-tile-value {
   display: block;
   text-align: center;
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
   font-size: 3em;
 }
 
@@ -227,7 +227,7 @@ section.imx-generic-tile.large-overview {
 .overview .imx-generic-tile-value {
   display: block;
   text-align: left;
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
   font-size: 0.9em;
   width: 280px;
   padding: 12px 0px 0px 0px;
@@ -297,7 +297,7 @@ section.imx-generic-tile.dashboard > .mat-mdc-card {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba($color-gray-100, 0.32);
+    background: rgba(eui.$color-gray-100, 0.32);
     border-radius: 4px;
   }
 }
@@ -308,7 +308,7 @@ section.imx-generic-tile.dashboard > .mat-mdc-card {
 }
 */
 
-@media #{$IMX_Mediaquery_Smartphone} {
+@media #{imx-variables.$IMX_Mediaquery_Smartphone} {
   section.imx-generic-tile.large-overview {
     display: inline-table;
     max-width: 300px;
@@ -330,7 +330,7 @@ section.imx-generic-tile.dashboard > .mat-mdc-card {
   }
 }
 
-@media #{$IMX_Mediaquery_Smartphone} {
+@media #{imx-variables.$IMX_Mediaquery_Smartphone} {
   .imx-tile,
   .imx-generic-tile {
     width: 45%;
@@ -347,7 +347,7 @@ section.imx-generic-tile.dashboard > .mat-mdc-card {
 
 .IconImage a:link {
   text-decoration: none;
-  color: $color-gray-80;
+  color: eui.$color-gray-80;
   outline: none;
 }
 
@@ -356,7 +356,7 @@ section.imx-generic-tile.dashboard > .mat-mdc-card {
     display: none;
   }
 
-  @media #{$IMX_Mediaquery_Smartphone} {
+  @media #{imx-variables.$IMX_Mediaquery_Smartphone} {
     .imx-mobile-nomobile {
       display: none !important;
     }

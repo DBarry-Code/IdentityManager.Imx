@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,10 +24,13 @@
  *
  */
 
-import { Component, Input, ContentChild, ViewChild, TemplateRef, OnInit } from '@angular/core';
+import { Component, ContentChild, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatColumnDef } from '@angular/material/table';
 
 /**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataViewModule instead.
  * Visual representation of a column.
  * In contrast to DataTableColumnComponent, which is data bound to a typed entity, this component can visualize arbitrary data.
  *
@@ -45,8 +48,9 @@ import { MatColumnDef } from '@angular/material/table';
  * <imx-data-source-paginator [dst]="myDst"></imx-data-source-paginator>
  */
 @Component({
-  selector: 'imx-data-table-generic-column',
-  templateUrl: './data-table-generic-column.component.html'
+    selector: 'imx-data-table-generic-column',
+    templateUrl: './data-table-generic-column.component.html',
+    standalone: false
 })
 export class DataTableGenericColumnComponent implements OnInit {
   /**

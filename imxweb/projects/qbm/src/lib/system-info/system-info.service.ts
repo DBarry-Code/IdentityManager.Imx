@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,10 +26,10 @@
 
 import { Injectable } from '@angular/core';
 
-import { imx_SessionService } from '../session/imx-session.service';
 import { ImxConfig, SystemInfo } from '@imx-modules/imx-api-qbm';
 import { CachedPromise } from '@imx-modules/imx-qbm-dbts';
 import { CacheService } from '../cache/cache.service';
+import { imx_SessionService } from '../session/imx-session.service';
 
 /** Service that provides system info.
  *  The service sends only one request per session, the retrieved data is cached.
@@ -49,7 +49,7 @@ export class SystemInfoService {
     this._imxConfig = cacheService.buildCache(() => this.session.Client.imx_config_get());
   }
 
-  public async get(): Promise<SystemInfo> {
+  public get(): Promise<SystemInfo> {
     return this.systemInfo.get();
   }
 

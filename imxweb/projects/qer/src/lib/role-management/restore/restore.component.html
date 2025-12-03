@@ -3,17 +3,22 @@
     <mat-stepper orientation="vertical" [linear]="true">
       <form [formGroup]="wizardForm">
         <mat-step [stepControl]="wizardForm" label="{{ '#LDS#Select object to restore' | translate }}">
-          <imx-busy-indicator class="imx-busy" *ngIf="busy"></imx-busy-indicator>
-          <ng-container *ngIf="!busy">
-            <eui-alert [condensed]="true" [colored]="true" type="error" *ngIf="0 == roles.length"
-              >{{ LdsNoObjectsFound | translate }}
-            </eui-alert>
-
+          @if (busy) {
+            <imx-busy-indicator class="imx-busy"></imx-busy-indicator>
+          }
+          @if (!busy) {
+            @if (0 == roles.length) {
+              <eui-alert [condensed]="true" [colored]="true" type="error"
+                >{{ LdsNoObjectsFound | translate }}
+              </eui-alert>
+            }
             <mat-selection-list [multiple]="false" formControlName="role">
-              <mat-list-option checkboxPosition="before" *ngFor="let r of roles" [value]="r">
-                <div>{{ r.Display }}</div>
-                <div class="subtext">{{ '#LDS#Deleted on' | translate }}: {{ r.DeletionDate | localizedDate }}</div>
-              </mat-list-option>
+              @for (r of roles; track r) {
+                <mat-list-option checkboxPosition="before" [value]="r">
+                  <div>{{ r.Display }}</div>
+                  <div class="subtext">{{ '#LDS#Deleted on' | translate }}: {{ r.DeletionDate | localizedDate }}</div>
+                </mat-list-option>
+              }
             </mat-selection-list>
             <div class="imx-button-stepper">
               <button
@@ -24,37 +29,38 @@
                 matStepperNext
                 (click)="loadActions()"
                 [disabled]="wizardForm.controls.role.pristine || wizardForm.controls.role.invalid"
-              >
+                >
                 {{ '#LDS#Next' | translate }}
               </button>
             </div>
-          </ng-container>
+          }
         </mat-step>
         <mat-step label="{{ '#LDS#Verify actions' | translate }}">
-          <imx-busy-indicator class="imx-busy" *ngIf="busy"></imx-busy-indicator>
-          <ng-container *ngIf="!busy">
+          @if (busy) {
+            <imx-busy-indicator class="imx-busy"></imx-busy-indicator>
+          }
+          @if (!busy) {
             <eui-alert [condensed]="true" [colored]="true" type="info">{{ LdsActionsList | translate }} </eui-alert>
-
             <mat-selection-list formControlName="uidActions">
-              <mat-list-option
-                checkboxPosition="before"
-                *ngFor="let action of actions"
-                [value]="action.Id"
-                [disabled]="!action.CanExecute"
-                [attr.data-imx-identifier]="'multi-select-action-' + action.Id"
-              >
-                <div>{{ action.Display }}</div>
-                <div class="subtext">{{ action.ObjectDisplay }}</div>
-              </mat-list-option>
+              @for (action of actions; track action) {
+                <mat-list-option
+                  checkboxPosition="before"
+                  [value]="action.Id"
+                  [disabled]="!action.CanExecute"
+                  [attr.data-imx-identifier]="'multi-select-action-' + action.Id"
+                  >
+                  <div>{{ action.Display }}</div>
+                  <div class="subtext">{{ action.ObjectDisplay }}</div>
+                </mat-list-option>
+              }
             </mat-selection-list>
-
             <div class="imx-button-stepper">
               <button mat-stroked-button data-imx-identifier="restore-step-2-back" matStepperPrevious>{{ '#LDS#Back' | translate }}</button>
               <button mat-stroked-button data-imx-identifier="restore-step-2-next" (click)="Execute()" color="primary" matStepperNext>
                 {{ '#LDS#Next' | translate }}
               </button>
             </div>
-          </ng-container>
+          }
         </mat-step>
       </form>
     </mat-stepper>

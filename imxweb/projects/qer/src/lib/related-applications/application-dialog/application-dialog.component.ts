@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,8 +29,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: 'imx-application-dialog',
-  templateUrl: './application-dialog.component.html',
+    selector: 'imx-application-dialog',
+    templateUrl: './application-dialog.component.html',
+    standalone: false
 })
 export class ApplicationDialogComponent {
   private iFrame = viewChild.required<ElementRef>('iFrame');

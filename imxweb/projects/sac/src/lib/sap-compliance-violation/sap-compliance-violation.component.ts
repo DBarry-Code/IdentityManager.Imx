@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,8 +31,9 @@ import { SapComplianceApiService } from '../sac-api-client.service';
 import { SapSelectionOptions, SapSelectionTypeEnum } from './sap-compliance-violation.model';
 
 @Component({
-  templateUrl: './sap-compliance-violation.component.html',
-  styleUrls: ['./sap-compliance-violation.component.scss'],
+    templateUrl: './sap-compliance-violation.component.html',
+    styleUrls: ['./sap-compliance-violation.component.scss'],
+    standalone: false
 })
 export class SapComplianceViolationComponent implements OnInit {
   public data: {

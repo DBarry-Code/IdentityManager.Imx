@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -173,9 +173,6 @@ export class InitService {
       },
       adminHelpContextId: HELP_CONTEXTUAL.DataExplorerBusinessRolesRoleEntitlements,
       respHelpContextId: HELP_CONTEXTUAL.MyResponsibilitiesBusinessRolesRoleEntitlements,
-      canEdit: () => {
-        return this.qerPermissionsService.isRoleAdmin();
-      },
     });
 
     this.identityRoleMembershipService.addTarget({

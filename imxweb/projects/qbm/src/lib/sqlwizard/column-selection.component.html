@@ -1,11 +1,17 @@
-<div class="mat-form-field-wrapper">
-  <eui-select
-    *ngIf="dataReady"
-    [formControl]="formControl"
-    [label]="'#LDS#Property' | translate"
-    (selectionChange)="selectionChange($event)"
-    [hideClearButton]="true"
-    [filterFunction]="filter"
-    [options]="options"
-  ></eui-select>
-</div>
+@if (dataReady) {
+  <eui-form-field class="imx-tree-select" (click)="selectProperty()">
+    <eui-icon matPrefix icon="folder-tree"></eui-icon>
+    <input matInput [ngModel]="node.Property?.Display" [readonly]="true" [placeholder]="'#LDS#Select a property' | translate" />
+  </eui-form-field>
+
+  @if (!!node.Property) {
+    <mat-form-field appearance="outline" class="eui-input--no-margin">
+      <mat-select [formControl]="negateControl">
+        <mat-option [value]="false"> {{ '#LDS#The following applies' | translate }}: </mat-option>
+        <mat-option [value]="true"> {{ '#LDS#The following does not apply' | translate }}: </mat-option>
+      </mat-select>
+    </mat-form-field>
+  }
+} @else {
+  <mat-spinner diameter="30" class="imx-margin-left-0"></mat-spinner>
+}

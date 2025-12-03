@@ -1,0 +1,7 @@
+@use 'common/charts' as charts;
+@use 'base/mixins' as mixins;
+
+.wrapper {
+  @include mixins.flex-column-container();
+  gap: 8px;
+}

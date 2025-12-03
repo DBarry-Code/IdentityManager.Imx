@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -91,12 +91,14 @@ export class HelpContextualService {
  */
 export const HELP_CONTEXTUAL = {
   Default: 'default',
-  StatisticsPage: 'statistics-page',
+  StatisticsPagePortal: 'statistics-page-portal',
+  StatisticsPageOps: 'statistics-page-ops',
   StatisticsFavoritesOrdering: 'statistics-favorites-ordering',
   NewRequest: 'new-request',
   NewRequestRecommendedProduct: 'new-request-recommended-product',
   NewRequestReferenceUser: 'new-request-reference-user',
   NewRequestProductBundle: 'new-request-product-bundle',
+  NewRequestProductDetailsEntitlements: 'new-request-product-details-entitlements',
   ShoppingCart: 'shopping-cart',
   ShoppingCartEmpty: 'shopping-cart-empty',
   ShoppingCartForLater: 'shopping-cart-for-later',
@@ -206,8 +208,40 @@ export const HELP_CONTEXTUAL = {
   GovernedData: 'governed-data',
   GovernedDataOverview: 'governed-data-overview',
   GovernedDataOwnership: 'governed-data-ownership',
-  AuditingGovernedData: 'auditing-governed-data',
-  AuditingManagedHosts: 'auditing-managed-hosts',
+  GovernedDataManagedHosts: 'governed-data-managed-hosts',
+  GovernedDataResourceOverview: 'governed-data-resource-overview',
+  GovernedDataOwnerDashboards: 'governed-data-owner-dashboards',
+  GovernedDataAdminDashboards: 'governed-data-admin-dashboards',
+  GovernedDataActivities: 'governed-data-activities',
+  GlobalKPI: 'global-kpi',
+  OpsJobs: 'ops-jobs',
+  OpsJobsArchive: 'ops-jobs-archive',
+  DprSyncEditorSyncProjectsOverview: 'dpr-sync-editor-sync-projects-overview',
+  DprSyncEditorSyncProjectEdit: 'dpr-sync-editor-sync-project-edit',
+  DprSyncProjectOimConnection: 'dpr-sync-project-oim-connection',
+  DprSyncProjectConnectedSystemConnection: 'dpr-sync-project-connected-system-connection',
+  DprSyncProjectVariables: 'dpr-sync-project-variables',
+  DprSyncProjectStartupConfigurations: 'dpr-sync-project-startup-configurations',
+  DprSyncProjectStartupConfigurationCreate: 'dpr-sync-project-startup-configuration-create',
+  DprSyncProjectStartupConfigurationEdit: 'dpr-sync-project-startup-configuration-edit',
+  DprSyncProjectWorkflowEdit: 'dpr-sync-project-workflow-edit',
+  DprSyncProjectCopyModeInfo: 'dpr-sync-editor-sync-project-copy-mode-info',
+  IQCChatbot: 'iqc-chatbot',
+  SyncProjectVariablesSpecializedSets: 'sync-project-variables-specialized-sets',
+  SyncProjectStartupSequences: 'sync-project-startup-sequences',
+  SyncProjectStartupSequenceProperties: 'sync-project-startup-sequences-properties',
+  SyncProjectStartupInstanceProperties: 'sync-project-startup-instance-properties',
+  AdminTrustedSourceKey: 'admin-trusted-source-key',
+  AdminApplicationToken: 'admin-application-token',
+  MastHeadGeneric: 'mast-head-generic-documentation',
+  MastHeadPortal: 'mast-head-portal-documentation',
+  MastHeadOpsWeb: 'mast-head-opsweb-documentation',
+  MastHeadAdmin: 'mast-head-admin-documentation',
+  GlobalSearchOpsWeb: 'global-search-opsweb',
+  NestedFilterNormal: 'nested-filter-normal',
+  NestedFilterFK: 'nested-filter-fk',
+  NestedFilterMN: 'nested-filter-mn',
+  NestedFilterCR: 'nested-filter-cr',
 } as const;
 type ObjectValues<T> = T[keyof T];
 export type HelpContextualValues = ObjectValues<typeof HELP_CONTEXTUAL>;

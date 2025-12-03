@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { DisplayColumns } from '@imx-modules/imx-qbm-dbts';
 import { BaseReadonlyCdr, ColumnDependentReference } from 'qbm';
 
 @Component({
-  selector: 'imx-product-details-sidesheet',
-  templateUrl: './product-details-sidesheet.component.html',
-  styleUrls: ['./product-details-sidesheet.component.scss'],
+    selector: 'imx-product-details-sidesheet',
+    templateUrl: './product-details-sidesheet.component.html',
+    styleUrls: ['./product-details-sidesheet.component.scss'],
+    standalone: false
 })
 export class ProductDetailsSidesheetComponent implements OnInit {
   public cdrList: ColumnDependentReference[] = [];

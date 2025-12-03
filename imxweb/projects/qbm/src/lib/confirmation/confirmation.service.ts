@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -102,18 +102,63 @@ export class ConfirmationService {
         ShowYesNo: data?.ShowYesNo ? true : false,
         ShowCancel: data?.ShowCancel ? true : false,
         identifier: data?.identifier,
+        customButtons: data?.customButtons,
+        confirmationInput: data?.confirmationInput,
       },
       panelClass: 'imx-messageDialog',
     });
-    const result =await dialogRef.afterClosed().toPromise();
+    const result = await dialogRef.afterClosed().toPromise();
     return result === MessageDialogResult.YesResult || result === MessageDialogResult.OkResult;
   }
 
-  // Damit es bis "Pull Request 38432: 299557-imxweb-confirmdialogs-with-yes-no-buttons" funktioniert
-  public async confirmDelete(title?: string, message?: string): Promise<boolean> {
-    return this.confirm({
+  public async showCustomMessage(data: MessageParameter): Promise<MessageDialogResult> {
+    const dialogRef = this.dialogService.open(MessageDialogComponent, {
+      data: {
+        Title: data?.Title ?? '',
+        Message: data.Message ?? '',
+        ShowOk: data?.ShowOk ? true : false,
+        ShowYesNo: data?.ShowYesNo ? true : false,
+        ShowCancel: data?.ShowCancel ? true : false,
+        identifier: data?.identifier,
+        customButtons: data?.customButtons,
+      },
+      panelClass: 'imx-messageDialog',
+    });
+    return dialogRef.afterClosed().toPromise();
+  }
+
+  // Confirmation dialog for delete actions
+  public async confirmDelete(title?: string, message?: string, buttonTitle?: string): Promise<boolean> {
+    return this.confirmGeneral({
       Title: title || '#LDS#Heading Delete Object',
       Message: message || '#LDS#Are you sure you want to delete the object?',
+      ShowCancel: true,
+      customButtons: [{ title: buttonTitle || '#LDS#Delete', action: MessageDialogResult.YesResult, type: 'warn' }],
+    });
+  }
+
+  // Confirmation dialog for secure delete actions  
+  public async confirmSecureDelete(
+    title?: string,
+    message?: string,
+    buttonTitle?: string,
+    expectedInput: string = 'delete'
+  ): Promise<boolean> {
+    return this.confirmGeneral({
+      Title: title || '#LDS#Heading Delete Object',
+      Message: message || '#LDS#Are you sure you want to delete the object?',
+      ShowCancel: true,
+      confirmationInput: {
+        expectedValue: expectedInput,
+        promptMessage: '#LDS#To confirm deletion, enter "{0}" in the following field:',
+        inputLabel: '#LDS#Confirmation',
+        placeholder: expectedInput
+      },
+      customButtons: [{
+        title: buttonTitle || '#LDS#Delete',
+        action: MessageDialogResult.YesResult,
+        type: 'warn'
+      }],
     });
   }
 

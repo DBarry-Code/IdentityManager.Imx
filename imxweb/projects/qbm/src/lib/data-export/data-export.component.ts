@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,7 +28,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { EUI_SIDESHEET_DATA, EuiDownloadOptions, EuiSelectFeedbackMessages, EuiSelectOption, EuiTheme } from '@elemental-ui/core';
+import { EUI_SIDESHEET_DATA, EuiDownloadOptions, EuiSelectOption, EuiTheme } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfigService } from '../appConfig/appConfig.service';
 import { ElementalUiConfigService } from '../configuration/elemental-ui-config.service';
@@ -39,26 +39,20 @@ import { DSTExportState, ExportColumnsService, FilteredColumnOption } from './ex
   selector: 'imx-data-export',
   templateUrl: './data-export.component.html',
   styleUrls: ['./data-export.component.scss'],
+  standalone: false
 })
 export class DataExportComponent implements OnInit, OnDestroy {
   public state: DSTExportState;
   public downloadOptions: EuiDownloadOptions;
   public filteredColumnOptions: FilteredColumnOption[] = [];
-  public feedbackMessages: EuiSelectFeedbackMessages;
 
   constructor(
     public columnExportService: ExportColumnsService,
     @Inject(EUI_SIDESHEET_DATA) public readonly settings: DataSourceToolbarSettings,
     private readonly config: AppConfigService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly translateService: TranslateService,
-  ) {
-    this.feedbackMessages = {
-      ...this.feedbackMessages,
-      clear: this.translateService.instant('#LDS#Clear'),
-      search: this.translateService.instant('#LDS#Search'),
-    };
-  }
+  ) { }
 
   public get controlsCount(): number {
     return this.state?.columns?.length ?? 0;

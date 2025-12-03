@@ -1,30 +1,32 @@
 <h2 mat-dialog-title>{{ "#LDS#Heading Shopping Cart Status" | translate }}</h2>
 
 <mat-dialog-content class="mat-typography">
-  <p *ngIf="!data.hasErrors && !data.hasWarnings" data-imx-identifier="cart-validation-success">
-    {{ "#LDS#The request has been successfully submitted." | translate }}
-  </p>
-  <p *ngIf="data.hasErrors" data-imx-identifier="cart-validation-error">{{ "#LDS#The request could not be submitted." | translate }}</p>
-  <ng-container *ngIf="!data.hasErrors && data.hasWarnings">
-    <p data-imx-identifier="cart-validation-warning">
-      {{ "#LDS#Your shopping cart may be submitted, but there are warnings." | translate }}
-    </p>
-    <mat-list dense>
-      <ng-container *ngFor="let warning of data.warnings">
-        <mat-list-item
-          *ngFor="let check of warning.checkResult.Checks"
-          [attr.data-imx-identifier]="'cart-item-validation-detail-' + check.Id"
-        >
-          <mat-icon mat-list-icon>{{getStatus(check).icon}}</mat-icon>
-          <div mat-line data-imx-identifier="cart-item-validation-detail-title">{{ check.Title }}</div>
-          <div mat-line data-imx-identifier="cart-item-validation-detail-status">{{ getStatus(check).status }}</div>
-          <div mat-line *ngIf="check.ResultText" data-imx-identifier="cart-item-validation-detail-result-text">
+  @if (!data.hasErrors && !data.hasWarnings) {
+  <p data-imx-identifier="cart-validation-success">{{ "#LDS#The request has been successfully submitted." | translate }}</p>
+  } @if (data.hasErrors) {
+  <p data-imx-identifier="cart-validation-error">{{ "#LDS#The request could not be submitted." | translate }}</p>
+  } @if (!data.hasErrors && data.hasWarnings) {
+  <p data-imx-identifier="cart-validation-warning">{{ "#LDS#Your shopping cart may be submitted, but there are warnings." | translate }}</p>
+  <mat-list dense>
+    @for (warning of data.warnings; track warning) { @for (check of warning.checkResult.Checks; track check) {
+    <mat-list-item [attr.data-imx-identifier]="'cart-item-validation-detail-' + check.Id">
+      <div class="cart-item-warning-content">
+        <mat-icon [ngClass]="getStatus(check).colorClass" mat-list-icon>{{getStatus(check).icon}}</mat-icon>
+        <div class="cart-item-warning-content-text">
+          <div mat-line data-imx-identifier="cart-item-validation-detail-title">{{('#LDS#' + check.Title) | translate }}</div>
+          <div mat-line data-imx-identifier="cart-item-validation-detail-status">{{'#LDS#' + getStatus(check).status | translate }}</div>
+          @if (check.ResultText) {
+          <div mat-line data-imx-identifier="cart-item-validation-detail-result-text">
             {{ '#LDS#' + check.ResultText | translate | ldsReplace:warning.cartItemDisplay:warning.personOrderedDisplay }}
           </div>
-        </mat-list-item>
-      </ng-container>
-    </mat-list>
-  </ng-container>
+
+          }
+        </div>
+      </div>
+    </mat-list-item>
+    } }
+  </mat-list>
+  }
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false" data-imx-identifier="cartwarnings-button-cancel">{{ "#LDS#Cancel" | translate }}</button>

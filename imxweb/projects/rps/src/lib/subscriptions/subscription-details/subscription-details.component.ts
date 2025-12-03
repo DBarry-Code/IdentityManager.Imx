@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { ColumnDependentReference, ConfirmationService } from 'qbm';
 import { ReportSubscription } from '../report-subscription/report-subscription';
 
 @Component({
-  templateUrl: './subscription-details.component.html',
-  styleUrls: ['./subscription-details.component.scss'],
+    templateUrl: './subscription-details.component.html',
+    styleUrls: ['./subscription-details.component.scss'],
+    standalone: false
 })
 export class SubscriptionDetailsComponent implements OnDestroy {
   public readonly formGroup = new UntypedFormGroup({});

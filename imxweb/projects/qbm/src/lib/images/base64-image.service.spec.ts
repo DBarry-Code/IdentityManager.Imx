@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,7 +31,7 @@ import { Base64ImageService } from './base64-image.service';
 
 describe('Base64ImageService', () => {
   it('should be created', () => {
-    const service: Base64ImageService = TestBed.get(Base64ImageService);
+    const service: Base64ImageService = TestBed.inject(Base64ImageService);
     expect(service).toBeTruthy();
   });
 
@@ -42,7 +42,7 @@ describe('Base64ImageService', () => {
   ].forEach((testcase) =>
     it(`can handle an image with ${testcase.description}`, () => {
       // Arrange
-      const service: Base64ImageService = TestBed.get(Base64ImageService);
+      const service: Base64ImageService = TestBed.inject(Base64ImageService);
       const writeValueMock = { value: testcase.image } as IWriteValue<string>;
 
       // Act & Assert
@@ -58,7 +58,7 @@ describe('Base64ImageService', () => {
   ].forEach((testcase) =>
     it(`can handle an url with ${testcase.description}`, () => {
       // Arrange
-      const service: Base64ImageService = TestBed.get(Base64ImageService);
+      const service: Base64ImageService = TestBed.inject(Base64ImageService);
 
       // Act & Assert
       expect(service.getImageData(testcase.image)).toBe(testcase.expect);

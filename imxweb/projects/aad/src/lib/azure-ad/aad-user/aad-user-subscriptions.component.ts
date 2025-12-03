@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,9 +41,10 @@ import { AzureAdService } from '../azure-ad.service';
 import { AadUserCreateDialogComponent } from './aad-user-create-dialog.component';
 
 @Component({
-  selector: 'imx-aad-user-subscriptions',
-  templateUrl: './aad-user-subscriptions.component.html',
-  styleUrls: ['../azure-ad-common.scss'],
+    selector: 'imx-aad-user-subscriptions',
+    templateUrl: './aad-user-subscriptions.component.html',
+    styleUrls: ['../azure-ad-common.scss'],
+    standalone: false
 })
 export class AadUserSubscriptionsComponent implements OnInit {
   @ViewChild('dataTable', { static: false }) public dataTable: DataTableComponent<PortalTargetsystemAaduserSubsku>;

@@ -1,5 +1,4 @@
-@import 'base/mixins';
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 // add styles if necessary
 
 .imx-card-fill {
@@ -7,5 +6,5 @@
 }
 
 .mat-mdc-dialog-content {
-  @include flex-column-container($overflow: hidden);
+  @include mixins.flex-column-container($overflow: hidden);
 }

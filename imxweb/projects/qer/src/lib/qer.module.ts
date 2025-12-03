@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,12 +25,11 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, Inject, NgModule } from '@angular/core';
+import { Inject, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  AboutService,
   AppConfigService,
   BusyIndicatorModule,
   CdrModule,
@@ -46,12 +45,12 @@ import {
   QbmModule,
   RouteGuardService,
   SqlWizardApiService,
-  TileModule,
+  StatisticsModule,
+  TileModule
 } from 'qbm';
 
 import { RouterModule, Routes } from '@angular/router';
 import { ReCaptchaV3Service, RecaptchaModule } from 'ng-recaptcha-2';
-import { PortalAboutService } from './about/portal-about.service';
 import { FilterSqlWizardService } from './filter-sqlwizard/filter-sqlwizard.service';
 import { PortalMetadataService } from './metadata/portal-metadata.service';
 import { PatternItemService } from './pattern-item-list/pattern-item.service';
@@ -66,16 +65,6 @@ import { TilesModule } from './tiles/tiles.module';
 import { UserModule } from './user/user.module';
 import { BusinessOwnerChartSummaryComponent } from './wport/businessowner-chartsummary/businessowner-chartsummary.component';
 import { StartComponent } from './wport/start/start.component';
-
-export function initConfig(config: QerService): () => Promise<any> {
-  return () =>
-    new Promise<any>(async (resolve: any) => {
-      if (config) {
-        config.init();
-      }
-      resolve();
-    });
-}
 
 const routes: Routes = [
   {
@@ -115,18 +104,10 @@ const routes: Routes = [
     RecaptchaModule,
     DataViewModule,
     QueueStatusComponent,
+    StatisticsModule,
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initConfig,
-      deps: [QerService],
-      multi: true,
-    },
-    {
-      provide: AboutService,
-      useClass: PortalAboutService,
-    },
+    provideAppInitializer(() => inject(QerService).init()),
     {
       provide: MetadataService,
       useClass: PortalMetadataService,

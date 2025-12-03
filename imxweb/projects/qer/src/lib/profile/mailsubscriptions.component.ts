@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, ErrorHandler, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ErrorHandler, Input, OnInit } from '@angular/core';
 import { EuiLoadingService } from '@elemental-ui/core';
 
 import { FormControl } from '@angular/forms';
@@ -35,6 +35,7 @@ import { MailInfoType, MailSubscriptionService } from './mailsubscription.servic
   selector: 'imx-mail-subscriptions',
   templateUrl: './mailsubscriptions.component.html',
   styleUrls: ['./mailsubscriptions.component.scss'],
+  standalone: false,
 })
 export class MailSubscriptionsComponent implements OnInit {
   public filteredSelectedOptions: string[] = [];
@@ -57,6 +58,7 @@ export class MailSubscriptionsComponent implements OnInit {
     private readonly errorHandler: ErrorHandler,
     private readonly busy: EuiLoadingService,
     private readonly snackBar: SnackBarService,
+    private readonly changeDetectionRef: ChangeDetectorRef,
   ) {}
 
   public async ngOnInit(): Promise<void> {
@@ -90,6 +92,7 @@ export class MailSubscriptionsComponent implements OnInit {
   public onSelectionChanged(): void {
     this.selectionChanged = true;
   }
+
   public onSelectAllChange(checked: boolean): void {
     if (checked) {
       this.filteredSelectedOptions = this.filteredMailInfo.map((item) => item.UidMail);
@@ -97,6 +100,7 @@ export class MailSubscriptionsComponent implements OnInit {
       this.filteredSelectedOptions = [];
     }
     this.selectionChanged = true;
+    this.changeDetectionRef.detectChanges();
   }
 
   public get allSelected(): boolean {

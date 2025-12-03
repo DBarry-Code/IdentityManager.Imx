@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,9 +42,10 @@ import { SqlNodeView } from './SqlNodeView';
 import { SqlWizardApiService } from './sqlwizard-api.service';
 
 @Component({
-  selector: 'imx-sqlwizard-singlevalue',
-  styleUrls: ['./sqlwizard.scss'],
-  templateUrl: './single-value.component.html',
+    selector: 'imx-sqlwizard-singlevalue',
+    styleUrls: ['./sqlwizard.scss'],
+    templateUrl: './single-value.component.html',
+    standalone: false
 })
 export class SingleValueComponent implements OnInit, OnDestroy {
   get value() {

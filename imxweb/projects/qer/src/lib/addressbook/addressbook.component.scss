@@ -1,7 +1,7 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill($padding: true);
   height: 100%;
 }
 

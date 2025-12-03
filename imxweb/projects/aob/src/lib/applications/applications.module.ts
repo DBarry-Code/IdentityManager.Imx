@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -62,10 +62,10 @@ import {
   QbmModule,
 } from 'qbm';
 import { ObjectHyperviewModule } from 'qer';
+import { ApplicationKpiHomeComponent } from '../application-kpi/application-kpi-home/application-kpi-home.component';
 import { ApplicationPropertyModule } from '../application-property/application-property.module';
 import { ColumnInfoModule } from '../column-info/column-info.module';
 import { EntitlementsModule } from '../entitlements/entitlements.module';
-import { KpiModule } from '../kpi/kpi.module';
 import { AobUserModule } from '../user/user.module';
 import { ApplicationCreateComponent } from './application-create/application-create.component';
 import { ApplicationDetailComponent } from './application-detail.component';
@@ -107,7 +107,7 @@ import { IdentityDetailComponent } from './identities/identity-detail/identity-d
     EuiCoreModule,
     EuiMaterialModule,
     FormsModule,
-    KpiModule,
+    ApplicationKpiHomeComponent,
     LdsReplaceModule,
     MatAutocompleteModule,
     MatBadgeModule,

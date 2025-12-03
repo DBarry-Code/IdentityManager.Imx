@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,10 +31,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { IReadValue, IWriteValue } from '@imx-modules/imx-qbm-dbts';
 import { ClassloggerService } from 'qbm';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  selector: 'imx-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss'],
+    selector: 'imx-user',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.scss'],
+    standalone: false
 })
 export class UserComponent implements OnChanges {
   @Input() public uid: IReadValue<any> | IWriteValue<any>;

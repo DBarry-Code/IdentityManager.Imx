@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { ItshopRequest } from './itshop-request';
 import { RequestTableComponent } from './request-table.component';
 
 @Component({
-  templateUrl: './request-history.component.html',
-  styleUrls: ['./request-history.component.scss'],
+    templateUrl: './request-history.component.html',
+    styleUrls: ['./request-history.component.scss'],
+    standalone: false
 })
 export class RequestHistoryComponent implements OnInit, AfterViewInit {
   public auditMode = false;

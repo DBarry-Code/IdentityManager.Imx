@@ -1,0 +1,16 @@
+<div class="content" [ngClass]="statusClass">
+  @if (hasTrend) {
+    <div class="icon" [attr.aria-label]="'#LDS#Status: {0}, Trend: {1}' | translate | ldsReplace: status : trend">
+      <eui-icon class="colored-icon" size="xl" [icon]="statusIcon"></eui-icon>
+      <eui-icon class="trend-icon" size="l" [icon]="trendIcon"></eui-icon>
+    </div>
+  }
+  @if (!hasTrend) {
+    <div class="only-status-icon" [attr.aria-label]="'#LDS#Status: {0}' | translate | ldsReplace: status">
+      <eui-icon class="colored-icon" size="xl" [icon]="statusIcon"></eui-icon>
+    </div>
+  }
+  <h3>
+    {{ displayValue }}
+  </h3>
+</div>

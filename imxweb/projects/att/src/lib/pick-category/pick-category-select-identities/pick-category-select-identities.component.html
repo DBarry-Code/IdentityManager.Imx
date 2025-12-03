@@ -1,24 +1,25 @@
-<ng-container *ngIf="embeddedMode; else sidesheetcontainer">
+@if (embeddedMode) {
   <ng-container *ngTemplateOutlet="table"> </ng-container>
-</ng-container>
-
-<ng-template #sidesheetcontainer>
+} @else {
   <div eui-sidesheet-content>
     <ng-container *ngTemplateOutlet="table"> </ng-container>
   </div>
-  <div eui-sidesheet-actions *ngIf="!embeddedMode">
-    <imx-selected-elements class="justify-start" [selectedElements]="selection"></imx-selected-elements>
-    <button
-      mat-flat-button
-      color="primary"
-      data-imx-identifier="pick-category-select-identities-button-assign"
-      [disabled]="selection?.length === 0"
-      (click)="onAssign()"
-    >
-      {{ '#LDS#Assign' | translate }}
-    </button>
-  </div>
-</ng-template>
+  @if (!embeddedMode) {
+    <div eui-sidesheet-actions>
+      <imx-selected-elements class="justify-start" [selectedElements]="selection"></imx-selected-elements>
+      <button
+        mat-flat-button
+        color="primary"
+        data-imx-identifier="pick-category-select-identities-button-assign"
+        [disabled]="selection?.length === 0"
+        (click)="onAssign()"
+        >
+        {{ '#LDS#Assign' | translate }}
+      </button>
+    </div>
+  }
+}
+
 
 <ng-template #table>
   <ng-container>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { BusyService } from 'qbm';
 import { Subscription } from 'rxjs';
 
 @Component({
-  templateUrl: './dug-access.component.html',
-  styleUrls: ['./dug-access.component.scss'],
-  selector: 'imx-dge-access',
+    templateUrl: './dug-access.component.html',
+    styleUrls: ['./dug-access.component.scss'],
+    selector: 'imx-dge-access',
+    standalone: false
 })
 export class DugAccessComponent implements OnInit, OnDestroy {
   @Input() public dug: PortalDgeResources;

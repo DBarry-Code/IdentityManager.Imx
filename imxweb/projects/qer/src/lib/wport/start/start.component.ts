@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,6 +39,7 @@ import { DashboardService } from './dashboard.service';
   templateUrl: './start.component.html',
   selector: 'imx-start',
   styleUrls: ['./start.component.scss'],
+  standalone: false
 })
 export class StartComponent implements OnInit {
   public userConfig: UserConfig;
@@ -57,7 +58,7 @@ export class StartComponent implements OnInit {
     private readonly detectRef: ChangeDetectorRef,
     private readonly projectConfigurationService: ProjectConfigurationService,
     private readonly splash: SplashService,
-  ) {}
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     this.dashboardService.busyStateChanged.subscribe((busy) => {
@@ -93,7 +94,11 @@ export class StartComponent implements OnInit {
   }
 
   public GoToPasswordMgmtWeb(): void {
-    this.router.navigate(['/externalRedirect', { externalUrl: this.projectConfig.PasswordConfig?.PasswordMgmtUrl }]);
+    let passwordMgmtUrl = this.projectConfig.PasswordConfig?.PasswordMgmtUrl
+    if (passwordMgmtUrl) {
+      passwordMgmtUrl = passwordMgmtUrl.match(/^https?:/) ? passwordMgmtUrl : '//' + passwordMgmtUrl;
+      window.open(passwordMgmtUrl, '_self');
+    }
   }
 
   public GoToShoppingCart(): void {

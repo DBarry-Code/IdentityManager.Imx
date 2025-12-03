@@ -1,11 +1,11 @@
-@import 'base/mixins';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 
   .effective-permission-content-card-members {
-    @include flex-column-container($overflow: auto);
+    @include mixins.flex-column-container($overflow: auto);
     flex: 1 1 auto;
   }
 
@@ -27,8 +27,10 @@
       padding: 10px;
     }
   }
+
   .imx-no-results {
     flex: 1 1 auto;
+
     p {
       font-size: 18px;
     }
@@ -39,10 +41,11 @@
       padding-bottom: 20px;
       font-weight: 600;
       align-items: center;
-      @include flex-column-container();
+      @include mixins.flex-column-container();
     }
+
     .mat-card-content {
-      @include flex-row-container-fill();
+      @include mixins.flex-row-container-fill();
       overflow: auto;
     }
   }
@@ -60,7 +63,7 @@
 :host {
   .imx-no-results {
     p {
-      color: $color-gray-50;
+      color: eui.$color-gray-50;
     }
   }
 }
@@ -69,7 +72,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -79,7 +82,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

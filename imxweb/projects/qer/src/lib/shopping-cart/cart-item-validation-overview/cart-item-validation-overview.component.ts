@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { CartItemValidationStatus, getCartItemValidationStatus } from '../cart-i
 import { CartItemValidationResult } from './cart-item-validation-result.interface';
 
 @Component({
-  selector: 'imx-cart-item-validation-overview',
-  templateUrl: './cart-item-validation-overview.component.html',
-  styleUrls: ['./cart-item-validation-overview.component.scss'],
+    selector: 'imx-cart-item-validation-overview',
+    templateUrl: './cart-item-validation-overview.component.html',
+    styleUrls: ['./cart-item-validation-overview.component.scss'],
+    standalone: false
 })
 export class CartItemValidationOverviewComponent {
   public checks: ICartItemCheck[][] = [];

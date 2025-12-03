@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -47,9 +47,10 @@ const LdsMembersByDynamicRole =
   '#LDS#Here you can see the members that are originally assigned by a dynamic role but have been excluded. Additionally, you can add these excluded members back by removing the exclusion.';
 
 @Component({
-  selector: 'imx-excluded-memberships',
-  templateUrl: './excluded-memberships.component.html',
-  styleUrls: ['./excluded-memberships.component.scss', './role-sidesheet-tabs.scss'],
+    selector: 'imx-excluded-memberships',
+    templateUrl: './excluded-memberships.component.html',
+    styleUrls: ['./excluded-memberships.component.scss', './role-sidesheet-tabs.scss'],
+    standalone: false
 })
 export class ExcludedMembershipsComponent implements OnInit {
   // Replaces the former input

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -92,7 +92,7 @@ describe('ApiClientFetch', () => {
       {
         status: 200,
         json: json,
-        expectedJson: json,
+        expectedJson: '',
       },
       {
         status: -1,
@@ -105,7 +105,7 @@ describe('ApiClientFetch', () => {
       {
         status: 204,
         json: null,
-        expectedJson: null,
+        expectedJson: '',
       },
     ].forEach((testcase) =>
       it(`has a method ${method.path}`, async () => {
@@ -122,42 +122,34 @@ describe('ApiClientFetch', () => {
               Promise.resolve({
                 status: testcase.status,
                 text: () => Promise.resolve(testcase.json),
-                json: () => Promise.resolve(JSON.parse(testcase.json)),
+                json: () => Promise.resolve(testcase.json ? JSON.parse(testcase.json) : null),
                 blob: () => Promise.resolve(new Blob()),
+                bytes: () => Promise.resolve(new Uint8Array()),
                 headers: <any>{
                   get: jasmine.createSpy('get').and.returnValue(null),
                 },
-                ok: null,
-                redirected: null,
-                statusText: null,
-                trailer: null,
-                type: null,
-                url: null,
-                clone: null,
-                body: init.body,
-                bodyUsed: init.body != null,
-                arrayBuffer: null,
-                formData: null,
               } as Response),
           },
         );
 
-        let actualResponse = null;
-        let catchedError = null;
+        let actualResponse;
+        let caughtError: Error | null = null;
         try {
           actualResponse = await client.processRequest(method.onInvoke(methodFactory));
         } catch (error) {
-          catchedError = error;
+          caughtError = error;
         }
 
         if (testcase.expectedError) {
-          expect(catchedError.toString()).toEqual(testcase.expectedError.userfriendly);
-          expect(catchedError.message).toEqual(testcase.expectedError.message);
+          expect(caughtError).not.toBeNull();
+          expect(caughtError!.toString()).toEqual(testcase.expectedError.userfriendly);
+          expect(caughtError!.message).toEqual(testcase.expectedError.message);
         } else {
-          expect(catchedError).toBeNull();
-          if (testcase.expectedJson) {
-            expect(JSON.stringify(actualResponse)).toEqual(testcase.expectedJson);
-          }
+          expect(caughtError).toBeNull();
+        }
+
+        if (testcase.expectedJson) {
+          expect(JSON.stringify(actualResponse)).toEqual(testcase.expectedJson);
         }
       }),
     );

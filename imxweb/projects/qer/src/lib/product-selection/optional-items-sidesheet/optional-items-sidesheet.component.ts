@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,7 +30,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { EUI_SIDESHEET_DATA, EuiLoadingService, EuiSidesheetRef } from '@elemental-ui/core';
 import { PortalShopServiceitems, QerProjectConfig } from '@imx-modules/imx-api-qer';
-import { MultiValue } from '@imx-modules/imx-qbm-dbts';
+import { IWriteValue, MultiValue } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmationService } from 'qbm';
 import { Subscription } from 'rxjs';
@@ -41,6 +41,7 @@ import { ServiceItemHierarchyExtended, ServiceItemOrder, ServiceItemTreeWrapper 
   selector: 'imx-optional-items-sidesheet',
   templateUrl: './optional-items-sidesheet.component.html',
   styleUrls: ['./optional-items-sidesheet.component.scss'],
+  standalone: false,
 })
 export class OptionalItemsSidesheetComponent implements OnInit, OnDestroy {
   public nRecipientsText: string = '';
@@ -69,6 +70,7 @@ export class OptionalItemsSidesheetComponent implements OnInit, OnDestroy {
     public data: {
       serviceItemTree: ServiceItemTreeWrapper;
       projectConfig: QerProjectConfig;
+      recipients?: IWriteValue<string>;
     },
   ) {
     this.dataSource.data = this.data.serviceItemTree.trees || [];
@@ -105,7 +107,11 @@ export class OptionalItemsSidesheetComponent implements OnInit, OnDestroy {
           parentChecked: child.parentChecked,
         });
         if (!child.isMandatory && !this.optionalItemMap[child.UidAccProduct]) {
-          this.optionalItemMap[child.UidAccProduct] = this.serviceItemsProvider.getServiceItem(child.UidAccProduct);
+          this.optionalItemMap[child.UidAccProduct] = this.serviceItemsProvider.getServiceItem(
+            child.UidAccProduct,
+            false,
+            this.data.recipients,
+          );
         }
       });
     });

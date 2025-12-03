@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,10 +45,11 @@ import { PickCategorySelectIdentitiesComponent } from '../pick-category-select-i
 import { PickCategoryService } from '../pick-category.service';
 
 @Component({
-  selector: 'imx-pick-category-sidesheet',
-  templateUrl: './pick-category-sidesheet.component.html',
-  styleUrls: ['./pick-category-sidesheet.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-pick-category-sidesheet',
+    templateUrl: './pick-category-sidesheet.component.html',
+    styleUrls: ['./pick-category-sidesheet.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class PickCategorySidesheetComponent implements OnInit {
   public readonly form = new UntypedFormGroup({});

@@ -1,10 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
-
-.column-selector {
-  flex-grow: 1;
-  padding-top: 0.25em;
-}
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 .operator {
   padding: 0 1em;
@@ -24,6 +19,10 @@ li {
   flex-grow: 1;
   flex-shrink: 1;
   align-items: center;
+  width: 100%;
+  .mat-mdc-form-field{
+    flex-grow: 1;
+  }
 }
 
 .expression {
@@ -52,35 +51,17 @@ li {
   align-items: center;
 }
 
-.date-diff-value {
-  width: 100px;
-}
-
-.relative-date {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 10px;
-  .mat-mdc-form-field-error {
-    width: 100%;
-    font-size: 75%;
-  }
-}
-
 .expression-container {
-  transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 1px $color-gray-20 solid;
-  border-radius: 5px;
+  @include mixins.eui-elevation-4;
   display: flex;
-
-  .expression-container-header {
-    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-    width: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 16px;
-    border-radius: 2px 0 0 2px;
+  transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  padding: 16px;
+  border: 1px eui.$color-gray-20 solid;
+  border-radius: 4px;
+  border-left: 4px solid eui.$color-blue-60;
+  &:hover{
+    border-radius: 4px;
+    @include mixins.eui-elevation-4;
   }
 }
 
@@ -88,45 +69,23 @@ li {
   overflow: auto;
 }
 
-.logical-op-container {
-  display: flex;
-  align-items: baseline;
-  column-gap: 10px;
-}
-
 .selected-logical-op {
   display: flex;
-  flex-direction: row;
-  margin: 10px 0 10px 0;
-}
-
-.selected-logical-op:before,
-.selected-logical-op:after {
-  content: '';
-  flex: 1 1;
-  border-bottom: 1px solid $color-gray-10;
-  margin: auto;
-}
-
-.selected-logical-op::before {
-  margin-right: 10px;
-}
-
-.selected-logical-op:after {
-  margin-left: 10px;
-  margin-right: 10px;
+  align-items: center;
+  font-weight: 600;
 }
 
 .imx-spacer {
   flex: 1 1 auto;
 }
 
+
 .imx-remove-all {
-  @include align-button-content($color-red-60);
+  @include mixins.align-button-content(eui.$color-red-60);
 }
 
 .imx-btn-color-default {
-  @include align-button-content($color-blue-60);
+  @include mixins.align-button-content(eui.$color-blue-60);
 }
 
 /* undo Elemental UI fix */
@@ -135,93 +94,75 @@ li {
   padding-bottom: 0;
 }
 
+::ng-deep imx-sqlwizard .mat-mdc-form-field .mat-mdc-form-field-subscript-wrapper{
+  min-height: unset;
+}
+
 imx-sqlwizard-singlevalue {
   display: flex;
-  flex-grow: 2;
+  flex: 1 1 100px;
+  width: 100px;
 }
 
 .auto-flex {
   flex: auto;
 }
 
+.mat-mdc-list-base{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 // Theme
 .eui-light-theme {
   :host {
-    .expression-container-header {
-      background-color: $color-gray-10;
-      color: $color-blue-60;
+    .expression-container{
+      background: eui.$color-gray-0;
     }
-
-    .expression-container:hover .expression-container-header {
-      background-color: $color-blue-60;
-      color: $color-gray-0;
-    }
-
     .expression-container:hover {
-      border-color: $color-blue-60;
-    }
-
-    .selected-logical-op {
-      color: $color-blue-60;
+      border-color: eui.$color-blue-60;
+      background: eui.$color-blue-10;
     }
   }
 }
 
 .eui-dark-theme {
   :host {
-    .expression-container-header {
-      background-color: $color-gray-50;
-      color: $color-blue-40;
-    }
-
-    .expression-container:hover .expression-container-header {
-      background-color: $color-blue-40;
-      color: $color-gray-0;
+    .expression-container {
+      border-color: eui.$color-gray-20;
+      background-color: eui.$color-gray-70;
+      border-left-color:eui.$color-blue-40;
     }
 
     .expression-container:hover {
-      border-color: $color-blue-40;
-    }
-
-    .selected-logical-op {
-      color: $color-blue-40;
+      border-color: eui.$color-blue-40;
+      background: eui.$color-blue-85;
     }
 
     .imx-remove-all {
-      @include align-button-content($color-red-40);
+      @include mixins.align-button-content(eui.$color-red-40);
     }
 
     .imx-btn-color-default {
-      @include align-button-content($color-blue-40);
+      @include mixins.align-button-content(eui.$color-blue-40);
     }
   }
 }
 
 .eui-contrast-theme {
   :host {
-    .expression-container-header {
-      background-color: $color-gray-0;
-      color: $color-blue-60;
-    }
-    .expression-container:hover .expression-container-header {
-      background-color: $color-blue-60;
-      color: $color-gray-0;
-    }
 
     .expression-container:hover {
-      border-color: $color-blue-60;
-    }
-
-    .selected-logical-op {
-      color: $color-blue-60;
+      border-color: eui.$color-blue-60;
     }
 
     .imx-remove-all {
-      @include align-button-content($color-red-40);
+      @include mixins.align-button-content(eui.$color-red-40);
     }
 
     .imx-btn-color-default {
-      @include align-button-content($color-blue-40);
+      @include mixins.align-button-content(eui.$color-blue-40);
     }
   }
 }

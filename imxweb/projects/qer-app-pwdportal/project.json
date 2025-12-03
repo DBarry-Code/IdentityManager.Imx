@@ -11,7 +11,7 @@
   },
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "options": {
         "allowedCommonJsDependencies": [
           "lodash",
@@ -34,10 +34,15 @@
           "moment",
           "@elemental-ui/cadence-icon/codepoints"
         ],
-        "outputPath": "dist/qer-app-pwdportal",
+        "outputPath": {
+          "base": "dist/qer-app-pwdportal",
+          "browser": ""
+        },
         "index": "projects/qer-app-pwdportal/src/index.html",
-        "main": "projects/qer-app-pwdportal/src/main.ts",
-        "polyfills": ["projects/qer-app-pwdportal/src/polyfills.ts"],
+        "browser": "projects/qer-app-pwdportal/src/main.ts",
+        "polyfills": [
+          "projects/qer-app-pwdportal/src/polyfills.ts"
+        ],
         "tsConfig": "projects/qer-app-pwdportal/tsconfig.app.json",
         "aot": true,
         "assets": [
@@ -81,8 +86,6 @@
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
           "budgets": [
             {
               "type": "initial",
@@ -96,9 +99,7 @@
           ]
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -110,9 +111,7 @@
               "with": "../imxweb_envs/qer-app-pwdportal/environments/environment.remote-dev.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -124,9 +123,7 @@
               "with": "../imxweb_envs/qer-app-pwdportal/environments/environment.remote-qs.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -135,21 +132,18 @@
           "tsConfig": "./projects/qer-app-pwdportal/tsconfig-es5.app.json"
         }
       },
-      "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build", "prebuild"]
-    },
-    "prebuild": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["node prebuild.js qer-app-pwdportal"]
-      },
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "dependsOn": [
+        "^build",
         {
-          "projects": ["att"],
+          "projects": [
+            "att"
+          ],
           "target": "build"
         }
-      ],
-      "cache": false
+      ]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -187,8 +181,13 @@
         "polyfills": "projects/qer-app-pwdportal/src/polyfills.ts",
         "tsConfig": "projects/qer-app-pwdportal/tsconfig.spec.json",
         "karmaConfig": "projects/qer-app-pwdportal/karma.conf.js",
-        "assets": ["projects/qer-app-pwdportal/src/appconfig.json", "projects/qer-app-pwdportal/src/assets"],
-        "styles": ["projects/qer-app-pwdportal/src/styles.scss"],
+        "assets": [
+          "projects/qer-app-pwdportal/src/appconfig.json",
+          "projects/qer-app-pwdportal/src/assets"
+        ],
+        "styles": [
+          "projects/qer-app-pwdportal/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./shared/assets",
@@ -203,8 +202,13 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/qer-app-pwdportal/tsconfig.app.json", "projects/qer-app-pwdportal/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**"]
+        "tsConfig": [
+          "projects/qer-app-pwdportal/tsconfig.app.json",
+          "projects/qer-app-pwdportal/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**"
+        ]
       }
     }
   }

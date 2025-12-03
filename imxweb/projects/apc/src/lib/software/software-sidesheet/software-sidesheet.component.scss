@@ -1,6 +1,7 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
+
 :host {
-  @include flex-column-container($height: 100%, $overflow: hidden);
+  @include mixins.flex-column-container($height: 100%, $overflow: hidden);
 
   .imx-cdr-group {
     flex: 1 1 auto;

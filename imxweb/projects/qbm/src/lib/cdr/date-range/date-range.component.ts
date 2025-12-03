@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,9 +44,10 @@ import { EntityColumnContainer } from '../entity-column-container';
  * When set to read-only, it uses a {@link ViewPropertyComponent | view property component} to display the content.
  */
 @Component({
-  selector: 'imx-date-range',
-  templateUrl: './date-range.component.html',
-  styleUrls: ['./date-range.component.scss'],
+    selector: 'imx-date-range',
+    templateUrl: './date-range.component.html',
+    styleUrls: ['./date-range.component.scss'],
+    standalone: false
 })
 export class DateRangeComponent implements CdrEditor, OnDestroy {
   /**
@@ -239,8 +240,8 @@ export class DateRangeComponent implements CdrEditor, OnDestroy {
       this.dateUntil.clearValidators();
       return;
     }
-    const valueRange = ValueRange.Parse(value);
-    if (valueRange.success) {
+    const valueRange = value ? ValueRange.Parse(value) : undefined;
+    if (valueRange?.success) {
       const from = valueRange.result?.Start ? moment(valueRange.result.Start) : null;
       const until = valueRange.result?.End ? moment(valueRange.result.End) : null;
       this.dateFrom.setValue(from, { emitEvent: true });

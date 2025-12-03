@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,6 +38,7 @@ import { AccountsService } from '../accounts.service';
   selector: 'imx-target-system-report',
   templateUrl: './target-system-report.component.html',
   styleUrls: ['./target-system-report.component.scss'],
+  standalone: false
 })
 export class TargetSystemReportComponent implements OnInit {
   public showHelperAlert = true;
@@ -49,12 +50,12 @@ export class TargetSystemReportComponent implements OnInit {
     private readonly entityWrapper: FilterTreeEntityWrapperService,
     private readonly accountsService: AccountsService,
     private readonly accountReport: AccountsReportsService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly http: HttpClient,
     private readonly injector: Injector,
     private readonly overlay: Overlay,
     private readonly downloadService: EuiDownloadService,
-  ) {}
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     this.database = new FilterTreeDatabase(

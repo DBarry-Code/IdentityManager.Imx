@@ -1,0 +1,12 @@
+<eui-alert type="error" [dismissable]="false">
+  <div>
+    @if (errorMessage) {
+      {{ errorMessage }}
+    } @else {
+      {{ ldsKey | translate }}
+    }
+  </div>
+  <div class="buttons">
+    <button mat-raised-button color="primary" (click)="retryLoad()">{{ '#LDS#Reload' | translate }}</button>
+  </div>
+</eui-alert>

@@ -14,25 +14,31 @@
         <span class="column-value">{{ data.LoggerName }}</span>
       </div>
     </div>
-    <div class="imx-readonly-view" *ngIf="data.Level != 'Error'">
-      <span class="column-display">{{ '#LDS#Messages' | translate }}</span>
-      <span class="column-value">
-        {{ data.Message?.trim() }}
-      </span>
-    </div>
-    <div class="imx-readonly-view" *ngIf="data.Exception?.Messages">
-      <span class="column-display">{{ (data.Level === 'Error' ? '#LDS#Error messages' : '#LDS#Nested messages') | translate }}</span>
-      <span class="column-value">
-        {{ data.Exception?.Messages?.join('\n')?.trim() }}
-      </span>
-    </div>
-    <div class="imx-readonly-view" *ngIf="data.Exception?.StackTrace">
-      <span class="column-display">{{ '#LDS#Stack trace' | translate }}</span>
-      <span class="column-value">
-        <textarea class="stacktrace" readonly matInput>
-          {{ data.Exception?.StackTrace?.join('\n')?.trim() }}
-        </textarea>
-      </span>
-    </div>
+    @if (data.Level != 'Error') {
+      <div class="imx-readonly-view">
+        <span class="column-display">{{ '#LDS#Messages' | translate }}</span>
+        <span class="column-value">
+          {{ data.Message?.trim() }}
+        </span>
+      </div>
+    }
+    @if (data.Exception?.Messages) {
+      <div class="imx-readonly-view">
+        <span class="column-display">{{ (data.Level === 'Error' ? '#LDS#Error messages' : '#LDS#Nested messages') | translate }}</span>
+        <span class="column-value">
+          {{ data.Exception?.Messages?.join('\n')?.trim() }}
+        </span>
+      </div>
+    }
+    @if (data.Exception?.StackTrace) {
+      <div class="imx-readonly-view">
+        <span class="column-display">{{ '#LDS#Stack trace' | translate }}</span>
+        <span class="column-value">
+          <textarea class="stacktrace" readonly matInput>
+            {{ data.Exception?.StackTrace?.join('\n')?.trim() }}
+          </textarea>
+        </span>
+      </div>
+    }
   </mat-card>
 </div>

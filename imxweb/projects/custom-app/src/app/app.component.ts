@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,6 +34,7 @@ import { AuthenticationService, ISessionState, SplashService } from 'qbm';
   selector: 'imx-root',
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html',
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   public isLoggedIn = false;
@@ -85,10 +86,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         this.hideUserMessage = true;
-        if (this.isLoggedIn && event.url === '/') {
-          // show the splash screen when the user logs out!
-          this.splash.init({ applicationName: 'Custom App' });
-        }
       }
 
       if (event instanceof NavigationCancel) {

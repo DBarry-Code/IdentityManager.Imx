@@ -1,22 +1,26 @@
 <mat-expansion-panel class="imx-expansion-panel-filter" [attr.data-imx-identifier]="'policy-editor-accordion-panel-' + idForTest">
   <mat-expansion-panel-header>
-    <mat-panel-title class="imx-panel-title-with-number" *ngIf="filterElementModel?.attestationSubType">
-      <div>{{ filterElementModel?.getParameterData(filterElementModel?.attestationSubType || '')?.Display }}</div>
-      <imx-selected-objects
-        [isTotal]="false"
-        [testId]="'objects-for-filter-' + idForTest"
-        [popupTitle]="'#LDS#Heading Objects Matching the Condition' | translate"
-        [filterSubject]="filterElementModel?.selectedObjectsSubject"
-        [popupSubtitle]="filterElementModel?.getParameterData(filterElementModel?.attestationSubType || '')?.Display"
-      >
-      </imx-selected-objects>
-    </mat-panel-title>
-    <mat-panel-title *ngIf="!filterElementModel?.attestationSubType">
-      {{ '#LDS#New condition' | translate }}
-    </mat-panel-title>
+    @if (filterElementModel?.attestationSubType) {
+      <mat-panel-title class="imx-panel-title-with-number">
+        <div>{{ filterElementModel?.getParameterData(filterElementModel?.attestationSubType || '')?.Display }}</div>
+        <imx-selected-objects
+          [isTotal]="false"
+          [testId]="'objects-for-filter-' + idForTest"
+          [popupTitle]="'#LDS#Heading Objects Matching the Condition' | translate"
+          [filterSubject]="filterElementModel?.selectedObjectsSubject"
+          [popupSubtitle]="filterElementModel?.getParameterData(filterElementModel?.attestationSubType || '')?.Display"
+        >
+        </imx-selected-objects>
+      </mat-panel-title>
+    }
+    @if (!filterElementModel?.attestationSubType) {
+      <mat-panel-title>
+        {{ '#LDS#New condition' | translate }}
+      </mat-panel-title>
+    }
     <button
       mat-icon-button
-      (click)="deleteFilter.emit(this.formGroup)"
+      (click)="deleteFilter.emit(formGroup)"
       matTooltip="{{ '#LDS#Delete condition' | translate }}"
       attr.data-imx-identifier="policy-editor-button-delete-condition"
     >
@@ -25,20 +29,18 @@
   </mat-expansion-panel-header>
 
   <ng-container>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>{{ '#LDS#Condition type' | translate }}</mat-label>
       <mat-select
         [formControl]="formGroup.controls.type"
         [attr.data-imx-identifier]="'policy-editor-select-condition-type-' + idForTest"
         (selectionChange)="selectedConditionTypeChanged($event)"
       >
-        <mat-option
-          *ngFor="let elem of filterElementModel?.parameterConfig"
-          [value]="elem.Uid"
-          [attr.data-imx-identifier]="'policy-editor-select-condition-type-option-' + idForTest"
-        >
-          {{ elem.Display }}
-        </mat-option>
+        @for (elem of filterElementModel?.parameterConfig; track elem) {
+          <mat-option [value]="elem.Uid" [attr.data-imx-identifier]="'policy-editor-select-condition-type-option-' + idForTest">
+            {{ elem.Display }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
@@ -51,9 +53,9 @@
         (filterChanged)="filterParameterChanged($event)"
       >
       </imx-filter-editor>
-      <mat-error class="imx-small-error" *ngIf="formGroup?.errors?.noTypeSelected">
-        {{ '#LDS#Please select a condition type.' | translate }}</mat-error
-      >
+      @if (formGroup?.errors?.noTypeSelected) {
+        <mat-error class="imx-small-error"> {{ '#LDS#Please select a condition type.' | translate }}</mat-error>
+      }
     </ng-container>
   </ng-container>
 </mat-expansion-panel>

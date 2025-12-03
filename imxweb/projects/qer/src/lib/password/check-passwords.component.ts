@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,8 +37,9 @@ import { PasswordHelper } from './password-helper';
 import { PasswordService } from './password.service';
 
 @Component({
-  templateUrl: './check-passwords.component.html',
-  styleUrls: ['./check-passwords.component.scss'],
+    templateUrl: './check-passwords.component.html',
+    styleUrls: ['./check-passwords.component.scss'],
+    standalone: false
 })
 export class CheckPasswordsComponent implements OnDestroy {
   public get passwordRepeatControl(): AbstractControl | null {
