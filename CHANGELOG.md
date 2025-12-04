@@ -1,3 +1,10 @@
+### December 4, 2025
+- 545530:Fixes an issue with showing the standard reason for a request. The mandatory field for reason is not displayed correctly.
+- 581967 (549535): Fixes an exception when approving pending requests as a member of the chief approval team.
+- 549533: Fixes an issue with displaying a falsy message when accessing the pending requests page.
+- 621462: Fixes an issue with column-dependent references: When the required property changes, the control was not updated correctly.
+- 621261: Fixes a different exception when approving pending requests as a member of the chief approval team.
+
 ### October 17, 2025
 - 493140:Fixes an issue with requests that are approved using an email link when the request was already approved.
 - 542531 (542744): Fixes an issue with server-side error messages on request properties that contain a request property parameter that is a multi-foreign-key value.

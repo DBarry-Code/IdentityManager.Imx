@@ -32,6 +32,8 @@ import { EntityService, AuthenticationService, ColumnDependentReference, BaseRea
   providedIn: 'root',
 })
 export class DecisionStepSevice {
+
+  public isEscalationApprover: boolean = false;
   private uidUser: string;
   constructor(private readonly entityService: EntityService, authentication: AuthenticationService) {
     authentication.onSessionResponse.subscribe((session) => (this.uidUser = session.UserUid));
@@ -46,7 +48,7 @@ export class DecisionStepSevice {
   }
 
   public getAdditionalInfoCdr(entity: TypedEntity, extended: any, display: string): ColumnDependentReference {
-    const step = getWorkflowDataWithSmallestSublevel(extended, entity, this.uidUser);
+    const step =  getWorkflowDataWithSmallestSublevel(extended, entity, this.uidUser, this.isEscalationApprover);
 
     if (!step) {
       return undefined;
@@ -69,12 +71,13 @@ export class DecisionStepSevice {
    * @returns
    */
   private getStep(extended: any, entity: TypedEntity, uidUser: string): EntityData {
-    const smallest = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser);
-    const uniqueUsersMap = extended?.WorkflowSteps?.Entities?.filter(
-      (elem: EntityData) => elem.Columns.UID_QERWorkingStep.Value === smallest?.Columns?.UID_QERWorkingStep.Value
-    )?.reduce((acc, current) => {
-      return { ...acc, [current.Keys[0]]: current };
-    }, {}) ?? [];
+    const smallest = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser, this.isEscalationApprover);
+    const uniqueUsersMap =
+      extended?.WorkflowSteps?.Entities?.filter(
+        (elem: EntityData) => elem.Columns.UID_QERWorkingStep.Value === smallest?.Columns?.UID_QERWorkingStep.Value
+      )?.reduce((acc, current) => {
+        return { ...acc, [current.Keys[0]]: current };
+      }, {}) ?? [];
 
     return Object.values(uniqueUsersMap)[0];
   }
@@ -87,8 +90,8 @@ export class DecisionStepSevice {
  * @param uidUser The uid of the current user.
  * @returns The sublevel number or null if no step exists for the current user in the current decision level.
  */
-export function getSubLevel(entity: TypedEntity, extended: any, uidUser: string): number | undefined {
-  const step = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser);
+export function getSubLevel(entity: TypedEntity, extended: any, uidUser: string, isEscalationApprover: boolean): number | undefined {
+  const step = getWorkflowDataWithSmallestSublevel(extended, entity, uidUser, isEscalationApprover);
 
   if (!step) {
     return undefined;
@@ -105,12 +108,13 @@ export function getSubLevel(entity: TypedEntity, extended: any, uidUser: string)
  * @returns The step with the smallest sublevel in the current main level, that needs to be approved by the current user.
  *          If no such step exists, the value is undefined.
  */
-export function getWorkflowDataWithSmallestSublevel(extended: any, entity: TypedEntity, uidUser: string): EntityData | undefined {
+
+export function getWorkflowDataWithSmallestSublevel(extended: any, entity: TypedEntity, uidUser: string, isEscalationApprover: boolean): EntityData | undefined {
   return extended?.WorkflowData?.Entities?.filter(
     (data: EntityData) =>
-      data?.Columns?.UID_PersonHead.Value === uidUser &&
+       (isEscalationApprover || data?.Columns?.UID_PersonHead.Value === uidUser) &&
       (data?.Columns?.Decision?.Value ?? '') === '' &&
-      data.Columns.LevelNumber.Value === entity.GetEntity().GetColumn('DecisionLevel').GetValue()
+      data.Columns?.LevelNumber.Value === entity.GetEntity().GetColumn('DecisionLevel').GetValue()
   )?.reduce((lowestSublevel, current) => {
     return current.Columns.SubLevelNumber.Value < lowestSublevel.Columns.SubLevelNumber.Value ? current : lowestSublevel;
   });
