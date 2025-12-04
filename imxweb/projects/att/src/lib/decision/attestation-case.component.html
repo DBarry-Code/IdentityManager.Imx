@@ -182,7 +182,7 @@
         {{ '#LDS#Cancel reservation' | translate }}
       </button>
     </mat-menu>
-    <button mat-flat-button color="warn" data-imx-identifier="attestation-case-button-deny" (click)="attestationAction.deny([case])">
+    <button mat-flat-button color="warn" data-imx-identifier="attestation-case-button-deny" (click)="attestationAction.deny([case], isUserEscalationApprover)">
       <mat-icon>not_interested</mat-icon>
       <span translate>#LDS#Deny</span>
     </button>

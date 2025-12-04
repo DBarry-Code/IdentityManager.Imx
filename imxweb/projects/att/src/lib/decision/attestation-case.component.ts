@@ -258,7 +258,7 @@ export class AttestationCaseComponent implements OnDestroy, OnInit {
   }
 
   public onAttestationApprove() {
-    this.attestationAction.checkForViolations([_.cloneDeep(this.case)]);
+    this.attestationAction.checkForViolations([_.cloneDeep(this.case)], this.data.isUserEscalationApprover);
   }
 
   public canWithdrawInquiry(): boolean {

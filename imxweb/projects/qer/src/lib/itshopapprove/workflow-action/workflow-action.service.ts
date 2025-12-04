@@ -256,7 +256,7 @@ export class WorkflowActionService {
     return this.apiService.v2Client.portal_itshop_approve_requests_stepup_post({ UidPwo: uidPwo });
   }
 
-  public async approve(requests: Approval[], user: string): Promise<void> {
+  public async approve(requests: Approval[], user: string, isEscalation: boolean): Promise<void> {
     const term = await this.checkTermsOfUse(requests);
     if (!term.isChecked) {
       this.snackBar.open({ key: '#LDS#You have canceled the action.' });
@@ -337,6 +337,7 @@ export class WorkflowActionService {
         approve: true,
         actionParameters,
         showValidDate,
+        isInEscalationView: isEscalation,
         withGuidance: true,
       },
       apply: async (request: Approval) => {
@@ -359,13 +360,13 @@ export class WorkflowActionService {
           Reason: actionParameters.reason.column.GetValue(),
           UidJustification: actionParameters.justification?.column?.GetValue(),
           Decision: true,
-          SubLevel: getSubLevel(request, request.pwoData, user),
+          SubLevel: getSubLevel(request, request.pwoData, user,isEscalation),
         });
       },
     });
   }
 
-  public async deny(requests: Approval[]): Promise<void> {
+  public async deny(requests: Approval[], isEscalation: boolean): Promise<void> {
     const itShopConfig = (await this.projectConfig.getConfig()).ITShopConfig;
 
     let justification: BaseCdr;
@@ -394,6 +395,7 @@ export class WorkflowActionService {
         requests,
         actionParameters,
         withGuidance: true,
+        isInEscalationView: isEscalation,
         customValidation: itShopConfig.VI_ITShop_ApproverReasonMandatoryOnDeny
           ? {
               validate: () => {
