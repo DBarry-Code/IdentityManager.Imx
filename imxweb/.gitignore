@@ -49,7 +49,6 @@ testem.log
 Thumbs.db
 
 # Custom
-imx-modules/*.tgz
 documentation
 /html/*
 !.gitkeep
