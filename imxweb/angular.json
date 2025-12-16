@@ -54,7 +54,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/qbm/**/*.ts", "projects/qbm/**/*.html"]
+            "lintFilePatterns": [
+              "projects/qbm/**/*.ts",
+              "projects/qbm/**/*.html"
+            ]
           }
         }
       }
@@ -110,7 +113,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/qer/**/*.ts", "projects/qer/**/*.html"]
+            "lintFilePatterns": [
+              "projects/qer/**/*.ts",
+              "projects/qer/**/*.html"
+            ]
           }
         }
       }
@@ -138,9 +144,6 @@
             },
             "development": {
               "tsConfig": "projects/apc/tsconfig.lib.json"
-            },
-            "dynamic": {
-              "project": "projects/apc/ng-package.dynamic.json"
             }
           }
         },
@@ -163,7 +166,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/apc/**/*.ts", "projects/apc/**/*.html"]
+            "lintFilePatterns": [
+              "projects/apc/**/*.ts",
+              "projects/apc/**/*.html"
+            ]
           }
         }
       }
@@ -192,12 +198,6 @@
             "development": {
               "tsConfig": "projects/att/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/att/ng-package.dynamic.json"
-            },
-            "dynamic-pwd": {
-              "project": "projects/att/ng-package.dynamic-pwd.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/att/tsconfig.lib.json"
             },
@@ -225,7 +225,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/att/**/*.ts", "projects/att/**/*.html"]
+            "lintFilePatterns": [
+              "projects/att/**/*.ts",
+              "projects/att/**/*.html"
+            ]
           }
         }
       }
@@ -254,9 +257,6 @@
             "development": {
               "tsConfig": "projects/aad/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/aad/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/aad/tsconfig.lib.json"
             },
@@ -271,7 +271,9 @@
             "main": "projects/aad/src/test.ts",
             "tsConfig": "projects/aad/tsconfig.spec.json",
             "karmaConfig": "projects/aad/karma.conf.js",
-            "codeCoverageExclude": ["projects/o3t/src/**/test/*"],
+            "codeCoverageExclude": [
+              "projects/o3t/src/**/test/*"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -285,7 +287,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/aad/**/*.ts", "projects/aad/**/*.html"]
+            "lintFilePatterns": [
+              "projects/aad/**/*.ts",
+              "projects/aad/**/*.html"
+            ]
           }
         }
       }
@@ -314,9 +319,6 @@
             "development": {
               "tsConfig": "projects/cpl/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/cpl/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/cpl/tsconfig.lib.json"
             },
@@ -344,7 +346,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/cpl/**/*.ts", "projects/cpl/**/*.html"]
+            "lintFilePatterns": [
+              "projects/cpl/**/*.ts",
+              "projects/cpl/**/*.html"
+            ]
           }
         }
       }
@@ -373,9 +378,6 @@
             "development": {
               "tsConfig": "projects/dpr/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/dpr/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/dpr/tsconfig.lib.json"
             },
@@ -403,7 +405,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/dpr/**/*.ts", "projects/dpr/**/*.html"]
+            "lintFilePatterns": [
+              "projects/dpr/**/*.ts",
+              "projects/dpr/**/*.html"
+            ]
           }
         }
       }
@@ -432,9 +437,6 @@
             "development": {
               "tsConfig": "projects/hds/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/hds/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/hds/tsconfig.lib.json"
             },
@@ -449,7 +451,9 @@
             "main": "projects/hds/src/test.ts",
             "tsConfig": "projects/hds/tsconfig.spec.json",
             "karmaConfig": "projects/hds/karma.conf.js",
-            "codeCoverageExclude": ["projects/hds/src/**/test/*"],
+            "codeCoverageExclude": [
+              "projects/hds/src/**/test/*"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -463,7 +467,69 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/hds/**/*.ts", "projects/hds/**/*.html"]
+            "lintFilePatterns": [
+              "projects/hds/**/*.ts",
+              "projects/hds/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "iqc": {
+      "root": "projects/iqc",
+      "sourceRoot": "projects/iqc/src",
+      "projectType": "library",
+      "prefix": "imx",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/iqc/tsconfig.lib.json",
+            "project": "projects/iqc/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/iqc/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/iqc/tsconfig.lib.json"
+            },
+            "remote-dev": {
+              "tsConfig": "projects/iqc/tsconfig.lib.json"
+            },
+            "remote-qs": {
+              "tsConfig": "projects/iqc/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/iqc/src/test.ts",
+            "tsConfig": "projects/iqc/tsconfig.spec.json",
+            "karmaConfig": "projects/iqc/karma.conf.js",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./node_modules",
+                "./node_modules/@elemental-ui/cadence-icon",
+                "./node_modules/@elemental-ui/core",
+                "./shared/scss"
+              ]
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/iqc/**/*.ts",
+              "projects/iqc/**/*.html"
+            ]
           }
         }
       }
@@ -492,9 +558,6 @@
             "development": {
               "tsConfig": "projects/olg/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/olg/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/olg/tsconfig.lib.json"
             },
@@ -509,7 +572,9 @@
             "main": "projects/olg/src/test.ts",
             "tsConfig": "projects/olg/tsconfig.spec.json",
             "karmaConfig": "projects/olg/karma.conf.js",
-            "codeCoverageExclude": ["projects/olg/src/**/test/*"],
+            "codeCoverageExclude": [
+              "projects/olg/src/**/test/*"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -523,7 +588,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/olg/**/*.ts", "projects/olg/**/*.html"]
+            "lintFilePatterns": [
+              "projects/olg/**/*.ts",
+              "projects/olg/**/*.html"
+            ]
           }
         }
       }
@@ -552,9 +620,6 @@
             "development": {
               "tsConfig": "projects/pol/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/pol/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/pol/tsconfig.lib.json"
             },
@@ -582,7 +647,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/pol/**/*.ts", "projects/pol/**/*.html"]
+            "lintFilePatterns": [
+              "projects/pol/**/*.ts",
+              "projects/pol/**/*.html"
+            ]
           }
         }
       }
@@ -611,9 +679,6 @@
             "development": {
               "tsConfig": "projects/rmb/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/rmb/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/rmb/tsconfig.lib.json"
             },
@@ -641,7 +706,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/rmb/**/*.ts", "projects/rmb/**/*.html"]
+            "lintFilePatterns": [
+              "projects/rmb/**/*.ts",
+              "projects/rmb/**/*.html"
+            ]
           }
         }
       }
@@ -670,9 +738,6 @@
             "development": {
               "tsConfig": "projects/rms/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/rms/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/rms/tsconfig.lib.json"
             },
@@ -700,7 +765,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/rms/**/*.ts", "projects/rms/**/*.html"]
+            "lintFilePatterns": [
+              "projects/rms/**/*.ts",
+              "projects/rms/**/*.html"
+            ]
           }
         }
       }
@@ -729,9 +797,6 @@
             "development": {
               "tsConfig": "projects/rps/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/rps/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/rps/tsconfig.lib.json"
             },
@@ -759,7 +824,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/rps/**/*.ts", "projects/rps/**/*.html"]
+            "lintFilePatterns": [
+              "projects/rps/**/*.ts",
+              "projects/rps/**/*.html"
+            ]
           }
         }
       }
@@ -787,9 +855,6 @@
             },
             "development": {
               "tsConfig": "projects/sac/tsconfig.lib.json"
-            },
-            "dynamic": {
-              "project": "projects/sac/ng-package.dynamic.json"
             }
           }
         },
@@ -800,14 +865,20 @@
             "tsConfig": "projects/sac/tsconfig.spec.json",
             "karmaConfig": "projects/sac/karma.conf.js",
             "stylePreprocessorOptions": {
-              "includePaths": ["./shared/assets", "./shared/scss"]
+              "includePaths": [
+                "./shared/assets",
+                "./shared/scss"
+              ]
             }
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/sac/**/*.ts", "projects/sac/**/*.html"]
+            "lintFilePatterns": [
+              "projects/sac/**/*.ts",
+              "projects/sac/**/*.html"
+            ]
           }
         }
       }
@@ -836,9 +907,6 @@
             "development": {
               "tsConfig": "projects/tsb/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/tsb/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/tsb/tsconfig.lib.json"
             },
@@ -866,61 +934,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/tsb/**/*.ts", "projects/tsb/**/*.html"]
-          }
-        }
-      }
-    },
-    "uci": {
-      "root": "projects/uci",
-      "sourceRoot": "projects/uci/src",
-      "projectType": "library",
-      "prefix": "imx",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "projects/uci/tsconfig.lib.json",
-            "project": "projects/uci/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/uci/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/uci/tsconfig.lib.json"
-            },
-            "dynamic-ops": {
-              "project": "projects/uci/ng-package.dynamic-ops.json"
-            },
-            "remote-dev": {
-              "tsConfig": "projects/uci/tsconfig.lib.json"
-            },
-            "remote-qs": {
-              "tsConfig": "projects/uci/tsconfig.lib.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/uci/src/test.ts",
-            "tsConfig": "projects/uci/tsconfig.spec.json",
-            "karmaConfig": "projects/uci/karma.conf.js",
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./node_modules",
-                "./node_modules/@elemental-ui/cadence-icon",
-                "./node_modules/@elemental-ui/core",
-                "./shared/scss"
-              ]
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["projects/uci/**/*.ts", "projects/uci/**/*.html"]
+            "lintFilePatterns": [
+              "projects/tsb/**/*.ts",
+              "projects/tsb/**/*.html"
+            ]
           }
         }
       }
@@ -966,7 +983,9 @@
               "@elemental-ui/cadence-icon/codepoints"
             ],
             "index": "projects/qbm-app-landingpage/src/index.html",
-            "polyfills": ["projects/qbm-app-landingpage/src/polyfills.ts"],
+            "polyfills": [
+              "projects/qbm-app-landingpage/src/polyfills.ts"
+            ],
             "tsConfig": "projects/qbm-app-landingpage/tsconfig.app.json",
             "assets": [
               "projects/qbm-app-landingpage/src/assets",
@@ -1065,7 +1084,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "disableHostCheck": true,
             "buildTarget": "qbm-app-landingpage:build"
           },
           "configurations": {
@@ -1109,88 +1127,8 @@
                 "output": "./assets"
               }
             ],
-            "styles": ["projects/qbm-app-landingpage/src/styles.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./node_modules",
-                "./node_modules/@elemental-ui/cadence-icon",
-                "./node_modules/@elemental-ui/core",
-                "./shared/scss"
-              ]
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["projects/qbm-app-landingpage//**/*.ts", "projects/qbm-app-landingpage//**/*.html"]
-          }
-        }
-      }
-    },
-    "qer-app-operationssupport": {
-      "root": "projects/qer-app-operationssupport",
-      "sourceRoot": "projects/qer-app-operationssupport/src",
-      "projectType": "application",
-      "prefix": "imx",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "aot": true,
-            "allowedCommonJsDependencies": [
-              "lodash",
-              "highlight.js",
-              "file-saver",
-              "billboard.js",
-              "moment-timezone",
-              "core-js/fn/map",
-              "core-js/fn/set",
-              "core-js/fn/weak-map",
-              "core-js/fn/array/from",
-              "core-js/fn/object/assign",
-              "core-js/es/array/from",
-              "core-js/es/object/assign",
-              "core-js/es/map",
-              "core-js/es/set",
-              "core-js/es/weak-map",
-              "lodash.debounce",
-              "lodash.clamp",
-              "moment",
-              "@elemental-ui/cadence-icon/codepoints"
-            ],
-            "outputPath": "dist/qer-app-operationssupport",
-            "index": "projects/qer-app-operationssupport/src/index.html",
-            "polyfills": ["projects/qer-app-operationssupport/src/polyfills.ts"],
-            "tsConfig": "projects/qer-app-operationssupport/tsconfig.app.json",
-            "assets": [
-              "projects/qer-app-operationssupport/src/assets",
-              "projects/qer-app-operationssupport/src/appconfig.json",
-              {
-                "glob": "**/*",
-                "input": "./html",
-                "output": "./html"
-              },
-              {
-                "glob": "**/*",
-                "input": "./shared/assets/",
-                "output": "./assets"
-              },
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@elemental-ui/core/assets",
-                "output": "./assets"
-              }
-            ],
             "styles": [
-              "projects/qer-app-operationssupport/src/styles.scss",
-              "shared/scss/styles.scss",
-              "projects/qbm/src/lib/styles/imx-page-title.scss"
+              "projects/qbm-app-landingpage/src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -1199,131 +1137,16 @@
                 "./node_modules/@elemental-ui/core",
                 "./shared/scss"
               ]
-            },
-            "main": "projects/qer-app-operationssupport/src/main.ts"
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/qer-app-operationssupport/src/environments/environment.ts",
-                  "with": "projects/qer-app-operationssupport/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "20mb",
-                  "maximumError": "40mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ]
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "remote-dev": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/qer-app-operationssupport/src/environments/environment.ts",
-                  "with": "../imxweb_envs/qer-app-operationssupport/environments/environment.remote-dev.ts"
-                }
-              ],
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "remote-qs": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/qer-app-operationssupport/src/environments/environment.ts",
-                  "with": "../imxweb_envs/qer-app-operationssupport/environments/environment.remote-qs.ts"
-                }
-              ],
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "es5": {
-              "tsConfig": "./projects/qer-app-operationssupport/tsconfig-es5.app.json"
             }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "disableHostCheck": true,
-            "buildTarget": "qer-app-operationssupport:build"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "qer-app-operationssupport:build:production"
-            },
-            "development": {
-              "buildTarget": "qer-app-operationssupport:build:development"
-            },
-            "remote-dev": {
-              "buildTarget": "qer-app-operationssupport:build:remote-dev"
-            },
-            "remote-qs": {
-              "buildTarget": "qer-app-operationssupport:build:remote-dev"
-            },
-            "es5": {
-              "buildTarget": "qer-app-operationssupport:build:es5"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "qer-app-operationssupport:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/qer-app-operationssupport/src/test.ts",
-            "polyfills": "projects/qer-app-operationssupport/src/polyfills.ts",
-            "tsConfig": "projects/qer-app-operationssupport/tsconfig.spec.json",
-            "karmaConfig": "projects/qer-app-operationssupport/karma.conf.js",
-            "styles": ["projects/qer-app-operationssupport/src/styles.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./node_modules",
-                "./node_modules/@elemental-ui/cadence-icon",
-                "./node_modules/@elemental-ui/core",
-                "./shared/scss"
-              ]
-            },
-            "assets": [
-              "projects/qer-app-operationssupport/src/assets",
-              "projects/qer-app-operationssupport/src/appconfig.json",
-              {
-                "glob": "**/*",
-                "input": "./shared/assets/",
-                "output": "./assets"
-              }
-            ]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/qer-app-operationssupport//**/*.ts", "projects/qer-app-operationssupport//**/*.html"]
+            "lintFilePatterns": [
+              "projects/qbm-app-landingpage//**/*.ts",
+              "projects/qbm-app-landingpage//**/*.html"
+            ]
           }
         }
       }
@@ -1340,7 +1163,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "aot": true,
             "allowedCommonJsDependencies": [
@@ -1364,9 +1187,14 @@
               "moment",
               "@elemental-ui/cadence-icon/codepoints"
             ],
-            "outputPath": "dist/qer-app-portal",
+            "outputPath": {
+              "base": "dist/qer-app-portal",
+              "browser": ""
+            },
             "index": "projects/qer-app-portal/src/index.html",
-            "polyfills": ["projects/qer-app-portal/src/polyfills.ts"],
+            "polyfills": [
+              "projects/qer-app-portal/src/polyfills.ts"
+            ],
             "tsConfig": "projects/qer-app-portal/tsconfig.app.json",
             "assets": [
               "projects/qer-app-portal/src/assets",
@@ -1401,8 +1229,7 @@
                 "./node_modules/@elemental-ui/core",
                 "./shared/scss"
               ]
-            },
-            "main": "projects/qer-app-portal/src/main.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -1501,7 +1328,9 @@
             "polyfills": "projects/qer-app-portal/src/polyfills.ts",
             "tsConfig": "projects/qer-app-portal/tsconfig.spec.json",
             "karmaConfig": "projects/qer-app-portal/karma.conf.js",
-            "styles": ["projects/qer-app-portal/src/styles.scss"],
+            "styles": [
+              "projects/qer-app-portal/src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -1510,13 +1339,19 @@
                 "./shared/scss"
               ]
             },
-            "assets": ["projects/qer-app-portal/src/appconfig.json", "projects/qer-app-portal/src/assets"]
+            "assets": [
+              "projects/qer-app-portal/src/appconfig.json",
+              "projects/qer-app-portal/src/assets"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/qer-app-portal//**/*.ts", "projects/qer-app-portal//**/*.html"]
+            "lintFilePatterns": [
+              "projects/qer-app-portal//**/*.ts",
+              "projects/qer-app-portal//**/*.html"
+            ]
           }
         }
       }
@@ -1545,9 +1380,6 @@
             "development": {
               "tsConfig": "projects/aob/tsconfig.lib.json"
             },
-            "dynamic": {
-              "project": "projects/aob/ng-package.dynamic.json"
-            },
             "remote-dev": {
               "tsConfig": "projects/aob/tsconfig.lib.json"
             },
@@ -1575,7 +1407,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/aob/**/*.ts", "projects/aob/**/*.html"]
+            "lintFilePatterns": [
+              "projects/aob/**/*.ts",
+              "projects/aob/**/*.html"
+            ]
           }
         }
       }
@@ -1592,7 +1427,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "lodash",
@@ -1615,9 +1450,14 @@
               "moment",
               "@elemental-ui/cadence-icon/codepoints"
             ],
-            "outputPath": "dist/qer-app-pwdportal",
+            "outputPath": {
+              "base": "dist/qer-app-pwdportal",
+              "browser": ""
+            },
             "index": "projects/qer-app-pwdportal/src/index.html",
-            "polyfills": ["projects/qer-app-pwdportal/src/polyfills.ts"],
+            "polyfills": [
+              "projects/qer-app-pwdportal/src/polyfills.ts"
+            ],
             "tsConfig": "projects/qer-app-pwdportal/tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -1652,7 +1492,7 @@
                 "./shared/scss"
               ]
             },
-            "main": "projects/qer-app-pwdportal/src/main.ts"
+            "browser": "projects/qer-app-pwdportal/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -1750,8 +1590,13 @@
             "polyfills": "projects/qer-app-pwdportal/src/polyfills.ts",
             "tsConfig": "projects/qer-app-pwdportal/tsconfig.spec.json",
             "karmaConfig": "projects/qer-app-pwdportal/karma.conf.js",
-            "assets": ["projects/qer-app-pwdportal/src/appconfig.json", "projects/qer-app-pwdportal/src/assets"],
-            "styles": ["projects/qer-app-pwdportal/src/styles.scss"],
+            "assets": [
+              "projects/qer-app-pwdportal/src/appconfig.json",
+              "projects/qer-app-pwdportal/src/assets"
+            ],
+            "styles": [
+              "projects/qer-app-pwdportal/src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -1765,7 +1610,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/qer-app-pwdportal/**/*.ts", "projects/qer-app-pwdportal/**/*.html"]
+            "lintFilePatterns": [
+              "projects/qer-app-pwdportal/**/*.ts",
+              "projects/qer-app-pwdportal/**/*.html"
+            ]
           }
         }
       }
@@ -1788,9 +1636,6 @@
             },
             "development": {
               "tsConfig": "projects/qam/tsconfig.lib.json"
-            },
-            "dynamic": {
-              "project": "projects/qam/ng-package.dynamic.json"
             },
             "remote-dev": {
               "tsConfig": "projects/qam/tsconfig.lib.json"
@@ -1820,8 +1665,15 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["projects/qam/tsconfig.lib.json", "projects/qam/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+            "tsConfig": [
+              "projects/qam/tsconfig.lib.json",
+              "projects/qam/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "**/*.spec.ts",
+              "**/*.json"
+            ]
           }
         }
       }
@@ -1866,7 +1718,9 @@
               "@elemental-ui/cadence-icon/codepoints"
             ],
             "index": "projects/custom-app/src/index.html",
-            "polyfills": ["projects/custom-app/src/polyfills.ts"],
+            "polyfills": [
+              "projects/custom-app/src/polyfills.ts"
+            ],
             "tsConfig": "projects/custom-app/tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -1888,7 +1742,10 @@
                 "output": "./assets"
               }
             ],
-            "styles": ["projects/custom-app/src/styles.scss", "projects/qbm/src/lib/styles/imx-page-title.scss"],
+            "styles": [
+              "projects/custom-app/src/styles.scss",
+              "projects/qbm/src/lib/styles/imx-page-title.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -1995,8 +1852,13 @@
             "polyfills": "projects/custom-app/src/polyfills.ts",
             "tsConfig": "projects/custom-app/tsconfig.spec.json",
             "karmaConfig": "projects/custom-app/karma.conf.js",
-            "assets": ["projects/custom-app/src/appconfig.json", "projects/custom-app/src/assets"],
-            "styles": ["projects/custom-app/src/styles.scss"],
+            "assets": [
+              "projects/custom-app/src/appconfig.json",
+              "projects/custom-app/src/assets"
+            ],
+            "styles": [
+              "projects/custom-app/src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./node_modules",
@@ -2010,7 +1872,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/custom-app/**/*.ts", "projects/custom-app/**/*.html"]
+            "lintFilePatterns": [
+              "projects/custom-app/**/*.ts",
+              "projects/custom-app/**/*.html"
+            ]
           }
         }
       }
@@ -2018,6 +1883,35 @@
   },
   "cli": {
     "analytics": "406eb5c5-3afb-4dab-b878-0cb0ade8d2aa",
-    "schematicCollections": ["@angular-eslint/schematics", "@angular-eslint/schematics"]
+    "schematicCollections": [
+      "@angular-eslint/schematics",
+      "@angular-eslint/schematics"
+    ]
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
+    }
   }
 }

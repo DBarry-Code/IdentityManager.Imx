@@ -1,6 +1,6 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '../../new-request-global.scss';
-@import '../new-request-header.component.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use '../../new-request-global.scss' as new-request-global;
+@use '../new-request-header.component.scss' as component;
 
 :host {
   display: flex;

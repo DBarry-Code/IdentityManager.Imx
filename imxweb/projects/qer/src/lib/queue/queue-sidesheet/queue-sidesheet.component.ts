@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Component, computed, effect, signal, Signal } from '@angular/core';
 import { MatCommonModule } from '@angular/material/core';
 import { EuiCoreModule, EuiMaterialModule, EuiSidesheetRef } from '@elemental-ui/core';
@@ -41,11 +41,10 @@ import {
 } from 'qbm';
 
 @Component({
-  selector: 'imx-queue-sidesheet',
-  standalone: true,
-  imports: [CommonModule, EuiCoreModule, EuiMaterialModule, MatCommonModule, LdsReplaceModule, TranslateModule, DateModule, DatePipe],
-  templateUrl: './queue-sidesheet.component.html',
-  styleUrls: ['./queue-sidesheet.component.scss'],
+    selector: 'imx-queue-sidesheet',
+    imports: [EuiCoreModule, EuiMaterialModule, MatCommonModule, LdsReplaceModule, TranslateModule, DateModule, DatePipe],
+    templateUrl: './queue-sidesheet.component.html',
+    styleUrls: ['./queue-sidesheet.component.scss']
 })
 export class QueueSidesheetComponent {
   public stateOptions = QueuedActionState;

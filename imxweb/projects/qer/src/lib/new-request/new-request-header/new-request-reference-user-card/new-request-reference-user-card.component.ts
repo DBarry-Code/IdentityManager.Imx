@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { Component } from '@angular/core';
 import { NewRequestOrchestrationService } from '../../new-request-orchestration.service';
 
 @Component({
-  selector: 'imx-new-request-reference-user-card',
-  templateUrl: './new-request-reference-user-card.component.html',
-  styleUrls: ['./new-request-reference-user-card.component.scss'],
+    selector: 'imx-new-request-reference-user-card',
+    templateUrl: './new-request-reference-user-card.component.html',
+    styleUrls: ['./new-request-reference-user-card.component.scss'],
+    standalone: false
 })
 export class NewRequestReferenceUserCardComponent {
   constructor(public readonly orchestration: NewRequestOrchestrationService) {}

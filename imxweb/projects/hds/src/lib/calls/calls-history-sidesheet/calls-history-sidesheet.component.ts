@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { BaseCdr, ColumnDependentReference } from 'qbm';
 import { PortalCallsHistory } from '@imx-modules/imx-api-hds';
 
 @Component({
-  selector: 'imx-calls-history-sidesheet',
-  templateUrl: './calls-history-sidesheet.component.html',
-  styleUrls: ['./calls-history-sidesheet.component.scss'],
+    selector: 'imx-calls-history-sidesheet',
+    templateUrl: './calls-history-sidesheet.component.html',
+    styleUrls: ['./calls-history-sidesheet.component.scss'],
+    standalone: false
 })
 export class CallsHistorySidesheetComponent implements OnInit {
   public readonly detailsFormGroup: UntypedFormGroup;

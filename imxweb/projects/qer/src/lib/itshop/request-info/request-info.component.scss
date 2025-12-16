@@ -1,14 +1,9 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-
-  .imx-entitlement-tab {
-    @include flex-column-container($overflow: hidden);
-  }
 
   .hidden {
     display: none;

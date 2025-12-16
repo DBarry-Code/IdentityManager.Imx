@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,8 +36,9 @@ import { RollbackItemBuilder } from './rollback-item-builder';
 import { RollebackService } from './rollback.service';
 
 @Component({
-  templateUrl: './rollback.component.html',
-  styleUrls: ['./rollback.component.scss'],
+    templateUrl: './rollback.component.html',
+    styleUrls: ['./rollback.component.scss'],
+    standalone: false
 })
 export class RollbackComponent implements OnInit {
   public busy = false;

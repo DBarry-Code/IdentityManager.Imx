@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -68,9 +68,10 @@ import { ServiceItemInfoComponent } from '../service-item-info/service-item-info
 import { ServiceItemsService } from '../service-items.service';
 
 @Component({
-  selector: 'imx-serviceitem-list',
-  templateUrl: './serviceitem-list.component.html',
-  styleUrls: ['./serviceitem-list.component.scss'],
+    selector: 'imx-serviceitem-list',
+    templateUrl: './serviceitem-list.component.html',
+    styleUrls: ['./serviceitem-list.component.scss'],
+    standalone: false
 })
 export class ServiceitemListComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
   @ViewChild('dst') public dstComponent: DataSourceToolbarComponent;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -57,9 +57,10 @@ import { PatternItemCandidate } from '../pattern-item-candidate.interface';
  * Component that shows the service catalog with service items, which the user can added to the itshop pattern.
  */
 @Component({
-  selector: 'imx-itshop-pattern-add-products',
-  templateUrl: './itshop-pattern-add-products.component.html',
-  styleUrls: ['./itshop-pattern-add-products.component.scss'],
+    selector: 'imx-itshop-pattern-add-products',
+    templateUrl: './itshop-pattern-add-products.component.html',
+    styleUrls: ['./itshop-pattern-add-products.component.scss'],
+    standalone: false
 })
 export class ItshopPatternAddProductsComponent implements OnInit, OnDestroy {
   @ViewChild(ServiceitemListComponent) public serviceitemListComponent: ServiceitemListComponent;

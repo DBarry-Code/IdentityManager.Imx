@@ -2,9 +2,11 @@
   <mat-form-field class="request-entitlement-type-selector">
     <mat-label>{{ '#LDS#Select the type of product to add' | translate }}</mat-label>
     <mat-select (selectionChange)="optionSelected($event.value)" [(ngModel)]="requestsService.selectedEntitlementType">
-      <mat-option *ngFor="let pr of types" [value]="pr">
-        {{ getDisplay(pr.getTableName()) }}
-      </mat-option>
+      @for (pr of types; track pr) {
+        <mat-option [value]="pr">
+          {{ getDisplay(pr.getTableName()) }}
+        </mat-option>
+      }
     </mat-select>
   </mat-form-field>
 
@@ -20,24 +22,26 @@
 </div>
 
 <div eui-sidesheet-actions class="request-config__action-buttons">
-  <button
-    class="justify-start"
-    *ngIf="!!selectedItems?.length"
-    mat-stroked-button
-    type="button"
-    (click)="fkSelector.clearSelection()"
-    data-imx-identifier="requests-selector-clear-selection"
-  >
-    <span translate>#LDS#Clear selection</span>
-  </button>
-  <button
-    *ngIf="data?.isMultiValue"
-    mat-flat-button
-    color="primary"
-    [disabled]="selectedItems?.length === 0"
-    (click)="applySelection()"
-    data-imx-identifier="requests-selector-apply-selection"
-  >
-    <span translate>#LDS#Apply</span>
-  </button>
+  @if (!!selectedItems?.length) {
+    <button
+      class="justify-start"
+      mat-stroked-button
+      type="button"
+      (click)="fkSelector.clearSelection()"
+      data-imx-identifier="requests-selector-clear-selection"
+      >
+      <span translate>#LDS#Clear selection</span>
+    </button>
+  }
+  @if (data?.isMultiValue) {
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="selectedItems?.length === 0"
+      (click)="applySelection()"
+      data-imx-identifier="requests-selector-apply-selection"
+      >
+      <span translate>#LDS#Apply</span>
+    </button>
+  }
 </div>

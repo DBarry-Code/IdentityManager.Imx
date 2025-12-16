@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,7 +38,8 @@ export abstract class MetadataService implements OnDestroy {
   protected abortController: AbortController;
 
   /**
-   * @deprecated use tables instead
+   * @deprecated since v10.0.0
+   * Use tables instead
    */
   private tableMetadata: { [id: string]: MetaTableData | undefined } = {};
 
@@ -91,7 +92,8 @@ export abstract class MetadataService implements OnDestroy {
   }
 
   /**
-   * @deprecated Use use the method update and the property tables instead. Will be removed.
+   * @deprecated since v10.0.0
+   * Use the method update and the property tables instead.
    * @param tableName The name of the table to update and get metadata for
    * @param options Additional api options
    */

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -73,18 +73,18 @@ import { ViewConfigService } from '../view-config/view-config.service';
   selector: 'imx-approvals-table',
   styleUrls: ['./approvals-table.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class ApprovalsTableComponent implements OnInit, OnDestroy {
-  public recApprove = RecommendationEnum.Approve;
-  public recDeny = RecommendationEnum.Deny;
-
-  private isChiefApprover = false;
-
   @Input() public params: Params = {};
   @Input() hideToolbar = true;
-  public isUserEscalationApprover = false;
-
-  public abortController: AbortController = new AbortController();
+  @Input() public set tabActive(active: boolean) {
+    if (active) {
+      this.approvalsService.isChiefApproval = this._viewEscalation;
+    } else {
+      this.approvalsService.isChiefApproval = false;
+    }
+  }
 
   public get canWithdrawAdditionalApprover(): boolean {
     return this.selectedItems.every((item: Approval) => item.canWithdrawAdditionalApprover(this.currentUserId));
@@ -132,11 +132,22 @@ export class ApprovalsTableComponent implements OnInit, OnDestroy {
     );
   }
 
+  public get viewEscalation(): boolean {
+    return this._viewEscalation;
+  }
+  public set viewEscalation(val: boolean) {
+    this._viewEscalation = val;
+    this.approvalsService.isChiefApproval = val;
+  }
+
+  public isUserEscalationApprover = false;
+  public abortController: AbortController = new AbortController();
+  public recApprove = RecommendationEnum.Approve;
+  public recDeny = RecommendationEnum.Deny;
   public currentUserId: string;
   public readonly entitySchema: EntitySchema;
   public canBeDelegated = false;
   public selectedItems: Approval[] = [];
-
   public busyService = new BusyService();
 
   private navigationState: ApprovalsLoadParameters;
@@ -147,8 +158,9 @@ export class ApprovalsTableComponent implements OnInit, OnDestroy {
   private dataModel: DataModel;
   private viewConfig: DataSourceToolbarViewConfig;
   private viewConfigPath = 'itshop/approve/requests';
-
   private displayedColumns: ClientPropertyForTableColumns[];
+  private isChiefApprover = false;
+  private _viewEscalation = false;
 
   constructor(
     public readonly actionService: WorkflowActionService,
@@ -263,13 +275,6 @@ export class ApprovalsTableComponent implements OnInit, OnDestroy {
     this.dataSource.viewConfig.set(this.viewConfig);
   }
 
-  public get viewEscalation(): boolean {
-    return this.approvalsService.isChiefApproval;
-  }
-  public set viewEscalation(val: boolean) {
-    this.approvalsService.isChiefApproval = val;
-  }
-
   public switchEscalation(): void {
     this.dataSource.selection.clear();
     this.dataSource.state.update((state) => ({ ...state, StartIndex: 0 }));
@@ -319,7 +324,6 @@ export class ApprovalsTableComponent implements OnInit, OnDestroy {
       },
       selectionChange: (approval: Approval[]) => this.onSelectionChanged(approval),
     };
-    await this.dataSource.init(dataViewInitParameters);
     await this.dataSource.init(dataViewInitParameters);
   }
 
@@ -373,9 +377,9 @@ export class ApprovalsTableComponent implements OnInit, OnDestroy {
       .toPromise();
 
     if (decision === 'approve') {
-      this.actionService.approve([pwo], this.currentUserId);
+      this.actionService.approve([pwo], this.currentUserId, this.viewEscalation);
     } else if (decision === 'deny') {
-      this.actionService.deny([pwo]);
+      this.actionService.deny([pwo], this.viewEscalation);
     }
   }
 
@@ -407,22 +411,22 @@ export class ApprovalsTableComponent implements OnInit, OnDestroy {
   }
 
   private async handleDecision(): Promise<void> {
-    if (this.approvalsDecision === ApprovalsDecision.none || (this.dataSource.data?.length ?? 0) === 0) {
-      if ((this.dataSource.data?.length ?? 0) === 0) {
-        await this.confirm.showErrorMessage({
-          Message: '#LDS#This request has already been approved or denied.',
-          ShowOk: true,
-        });
-      }
+    if (this.approvalsDecision === ApprovalsDecision.none) return;
+
+    if (this.dataSource.data?.length ?? 0 === 0) {
+      await this.confirm.showErrorMessage({
+        Message: '#LDS#This request has already been approved or denied.',
+        ShowOk: true,
+      });
       return;
     }
 
     switch (this.approvalsDecision) {
       case ApprovalsDecision.approve:
-        this.actionService.approve(this.dataSource.collectionData()?.Data || [], this.currentUserId);
+        this.actionService.approve(this.dataSource.collectionData()?.Data || [], this.currentUserId, this.viewEscalation);
         break;
       case ApprovalsDecision.deny:
-        this.actionService.deny(this.dataSource.collectionData()?.Data || []);
+        this.actionService.deny(this.dataSource.collectionData()?.Data || [], this.viewEscalation);
         break;
       case ApprovalsDecision.denydecision:
         this.actionService.denyDecisions(this.dataSource.collectionData()?.Data || []);

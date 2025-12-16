@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Chart, ChartOptions, XTickConfiguration } from 'billboard.js';
@@ -39,9 +39,11 @@ import { JobQueueOverviewService } from './jobqueue-overview.service';
   selector: 'imx-jobqueue-overview',
   templateUrl: './jobqueue-overview.component.html',
   styleUrls: ['./jobqueue-overview.component.scss'],
+  standalone: false,
 })
 export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public isShowGraph: boolean;
+  @Output() public viewChange = new EventEmitter();
   public chartOptions: ChartOptions | null = null;
   public routineSubscription: Subscription;
 

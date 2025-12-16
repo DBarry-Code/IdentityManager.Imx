@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { DataSourceToolbarSettings } from 'qbm';
 import { PortalDgeResourcesActivity } from '../../TypedClient';
 
 @Component({
-  selector: 'imx-dug-activity',
-  templateUrl: './dug-activity.component.html',
-  styleUrls: ['./dug-activity.component.scss'],
+    selector: 'imx-dug-activity',
+    templateUrl: './dug-activity.component.html',
+    styleUrls: ['./dug-activity.component.scss'],
+    standalone: false
 })
 export class DugActivityComponent implements OnInit {
   @Input() public interval: number;

@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   overflow: auto;
@@ -96,50 +96,50 @@ path {
 //theming
 :host {
   .imx-hyperview > ol {
-    background-color: $color-gray-80;
+    background-color: eui.$color-gray-80;
   }
 
   .imx-hyperviewshape {
-    background-color: $color-gray-0;
-    color: $color-gray-2;
+    background-color: eui.$color-gray-0;
+    color: eui.$color-gray-2;
   }
 
   .hyperviewelement:focus,
   .hyperviewelement:hover {
-    box-shadow: 0 0 5px 3px $color-gray-70;
+    box-shadow: 0 0 5px 3px eui.$color-gray-70;
   }
 
   div[data-role='hyperview'],
   path {
-    -webkit-tap-highlight-color: $color-blue-60;
+    -webkit-tap-highlight-color: eui.$color-blue-60;
   }
 
   .connector {
-    stroke: $color-gray-60;
+    stroke: eui.$color-gray-60;
   }
 
   .imx-hyperview-toolbar {
-    border-top: 1px solid $color-gray-10;
-    background-color: $color-gray-0;
+    border-top: 1px solid eui.$color-gray-10;
+    background-color: eui.$color-gray-0;
   }
 }
 
 .eui-dark-theme {
   :host {
     .connector {
-      stroke: $color-gray-30;
+      stroke: eui.$color-gray-30;
     }
 
     .imx-hyperview > ol {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
 
     .hyperviewelement:focus,
     .hyperviewelement:hover {
-      box-shadow: 0 0 5px 3px rgba($color: $color-gray-0, $alpha: 0.7);
+      box-shadow: 0 0 5px 3px rgba($color: eui.$color-gray-0, $alpha: 0.7);
     }
     .imx-hyperview-toolbar {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 }
@@ -147,19 +147,19 @@ path {
 .eui-contrast-theme {
   :host {
     .connector {
-      stroke: $color-gray-10;
+      stroke: eui.$color-gray-10;
     }
 
     .imx-hyperview > ol {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
 
     .hyperviewelement:focus,
     .hyperviewelement:hover {
-      box-shadow: 0 0 5px 3px rgba($color: $color-gray-0, $alpha: 0.7);
+      box-shadow: 0 0 5px 3px rgba($color: eui.$color-gray-0, $alpha: 0.7);
     }
     .imx-hyperview-toolbar {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 }

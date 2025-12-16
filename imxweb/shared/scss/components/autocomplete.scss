@@ -1,4 +1,4 @@
-@import 'base/variables';
+@use 'base/variables' as imx-variables;
 
 /* Elemental UI */
 
@@ -8,7 +8,7 @@
 .imx-autocomplete {
   &-icon {
     &.mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible {
-      min-width: $IMX_SearchBar_Width;
+      min-width: imx-variables.$IMX_SearchBar_Width;
       margin-left: -35px;
       margin-top: 11px;
     }

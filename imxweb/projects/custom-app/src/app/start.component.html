@@ -3,14 +3,20 @@
 
   <button mat-flat-button color="primary" (click)="loadPersonData()">Fetch some person data...</button>
 
-  <mat-spinner *ngIf="busy"></mat-spinner>
+  @if (busy) {
+    <mat-spinner></mat-spinner>
+  }
 
-  <div *ngIf="!busy && totalCount > 0">
-    <div>There are {{ totalCount }} identities in the address book. The first identities are:</div>
-    <ul>
-      <li *ngFor="let person of persons">
-        {{ person.GetEntity().GetDisplay() }}
-      </li>
-    </ul>
-  </div>
+  @if (!busy && totalCount > 0) {
+    <div>
+      <div>There are {{ totalCount }} identities in the address book. The first identities are:</div>
+      <ul>
+        @for (person of persons; track person) {
+          <li>
+            {{ person.GetEntity().GetDisplay() }}
+          </li>
+        }
+      </ul>
+    </div>
+  }
 </mat-card>

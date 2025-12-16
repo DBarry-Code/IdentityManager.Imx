@@ -1,6 +1,6 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
+@use 'base/mixins' as mixins;
 
 /* Elemental UI */
 
@@ -10,6 +10,7 @@
 .mat-mdc-flat-button,
 .mat-mdc-raised-button {
   &:not(.mat-icon-button, .tree-item-button) {
+
     // This is not applied to buttons that have a single mat-icon||eui-icon child
     span.mat-mdc-button-wrapper:has(:not(mat-icon:only-child, eui-icon:only-child)) {
       display: flex;
@@ -21,17 +22,17 @@
 
 /* Imx */
 .imx-button {
-  color: $color-gray-0;
-  background-color: $color-blue-60;
+  color: eui.$color-gray-0;
+  background-color: eui.$color-blue-60;
 
   &-hover {
-    @include ease-transition();
+    @include mixins.ease-transition();
 
     &-info {
       @extend .imx-button-hover;
 
       &:hover:not(:disabled) {
-        background-color: $color-blue-60;
+        background-color: eui.$color-blue-60;
       }
     }
 
@@ -39,12 +40,13 @@
       @extend .imx-button-hover;
 
       &:hover:not(:disabled) {
-        background-color: $color-orange-60;
+        background-color: eui.$color-orange-60;
       }
     }
   }
 
   &-icon {
+
     eui-icon.small,
     eui-icon.medium,
     eui-icon.large,
@@ -53,6 +55,7 @@
     }
 
     &-14 {
+
       eui-icon.small,
       eui-icon.medium,
       eui-icon.large,
@@ -63,6 +66,7 @@
     }
 
     &-20 {
+
       eui-icon.small,
       eui-icon.medium,
       eui-icon.large,
@@ -73,13 +77,13 @@
     }
 
     &-hover {
-      @include ease-transition();
+      @include mixins.ease-transition();
 
       &-info {
         @extend .imx-button-hover;
 
         &:hover:not(:disabled) {
-          color: $color-blue-60;
+          color: eui.$color-blue-60;
         }
       }
 
@@ -87,7 +91,7 @@
         @extend .imx-button-hover;
 
         &:hover:not(:disabled) {
-          color: $color-orange-60;
+          color: eui.$color-orange-60;
         }
       }
     }
@@ -103,7 +107,7 @@
   }
 
   &-stepper {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
     margin-top: 10px;
 
     button:not(:last-of-type) {
@@ -111,7 +115,7 @@
     }
 
     &-vertical {
-      @include flex-column-container();
+      @include mixins.flex-column-container();
 
       button:not(:last-of-type) {
         margin-bottom: 5px;
@@ -128,7 +132,7 @@
     justify-content: flex-end;
     margin-top: 16px;
     border-top: 1px solid rgba(0, 0, 0, 0.12);
-    background-color: $color-gray-0;
+    background-color: eui.$color-gray-0;
 
     &-transparent {
       @extend .imx-button-bar;
@@ -158,7 +162,7 @@
   }
 
   &-container {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
     justify-content: flex-end;
 
     .justify-start {
@@ -177,7 +181,7 @@
 
   &:focus {
     text-decoration: none;
-    outline: 1px $color-gray-60 dotted;
+    outline: 1px eui.$color-gray-60 dotted;
     outline-offset: 1px;
   }
 
@@ -190,7 +194,7 @@
 .eui-dark-theme {
   .imx-button {
     &-bar {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 }
@@ -199,7 +203,7 @@
 .eui-contrast-theme {
   .imx-button {
     &-bar {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 }
@@ -211,13 +215,13 @@
     &-hover {
       &-info {
         &:hover:not(:disabled) {
-          background-color: $color-blue-40;
+          background-color: eui.$color-blue-40;
         }
       }
 
       &-warning {
         &:hover:not(:disabled) {
-          background-color: $color-orange-40;
+          background-color: eui.$color-orange-40;
         }
       }
     }
@@ -226,13 +230,13 @@
       &-hover {
         &-info {
           &:hover:not(:disabled) {
-            color: $color-blue-40;
+            color: eui.$color-blue-40;
           }
         }
 
         &-warning {
           &:hover:not(:disabled) {
-            color: $color-orange-40;
+            color: eui.$color-orange-40;
           }
         }
       }

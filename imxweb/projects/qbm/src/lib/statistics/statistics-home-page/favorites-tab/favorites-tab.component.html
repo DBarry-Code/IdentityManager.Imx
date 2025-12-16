@@ -1,0 +1,74 @@
+@if (hasData && !isSearch) {
+  <div class="above-card">
+    <div class="ancestor-path unselectable-ancestor">
+      <h3>
+        {{ '#LDS#Heading Favorite Statistics ({0})' | translate | ldsReplace: favStats.length }}
+      </h3>
+    </div>
+    <button mat-stroked-button color="primary" (click)="openFavoriteSideSheet()" data-imx-identifier="favorites-open-sidesheet">
+      <eui-icon icon="edit"></eui-icon>
+      <span>{{ '#LDS#Manage favorite statistics' | translate }}</span>
+    </button>
+  </div>
+}
+@if (isSearch) {
+  <div class="above-card--search">
+    <button mat-button disabled>
+      <h3>
+        {{ '#LDS#Heading Search Results' | translate }}
+      </h3>
+    </button>
+  </div>
+}
+<mat-card class="cards-container">
+  @if ((hasData && !isSearch) || (isSearch && searchHasData)) {
+    <eui-scroll [options]="{ alwaysShowTracks: true }">
+      <!-- Show search results in the grid -->
+      @if (isSearch && searchHasData) {
+        <div class="grid-container">
+          @for (stat of searchStats; track stat) {
+            <imx-statistics-cards-visuals [stat]="stat"> </imx-statistics-cards-visuals>
+          }
+        </div>
+      }
+      <!-- Show normal cards in the grid -->
+      @if (!isSearch) {
+        <div class="grid-container">
+          @for (stat of favStats; track stat) {
+            <imx-statistics-cards-visuals [stat]="stat"> </imx-statistics-cards-visuals>
+          }
+        </div>
+      }
+    </eui-scroll>
+  } @else {
+    <!-- No search results, show message -->
+    @if (isSearch && !searchHasData) {
+      <div class="imx-no-data">
+        <div class="imx-no-data-top">
+          <eui-icon icon="content-alert"></eui-icon>
+          <div class="imx-no-data-text">
+            <h2>{{ '#LDS#Heading No Matching Results' | translate }}</h2>
+            <span>{{ '#LDS#There are no favorite statistics that match your search.' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    }
+    <!-- No data, show default page -->
+    @if (!hasData) {
+      <div class="imx-no-data">
+        <div class="imx-no-data-top">
+          <eui-icon icon="content-alert"></eui-icon>
+          <div class="imx-no-data-text">
+            <h2>{{ '#LDS#Heading No Favorite Statistics' | translate }}</h2>
+            <span>{{ '#LDS#Currently, you have not favorited any statistics.' | translate }}</span>
+          </div>
+        </div>
+        <button mat-flat-button color="primary" (click)="openFavoriteSideSheet()" data-imx-identifier="favorites-open-sidesheet">
+          <eui-icon icon="star"></eui-icon>
+          <span>{{ '#LDS#Select favorite statistics' | translate }}</span>
+        </button>
+      </div>
+    }
+  }
+
+</mat-card>

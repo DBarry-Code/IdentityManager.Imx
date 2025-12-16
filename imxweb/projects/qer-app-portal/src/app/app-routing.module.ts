@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,35 +24,28 @@
  *
  */
 
-import { InjectionToken, NgModule } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Router, RouterModule, Routes } from '@angular/router';
 
-import { AuthenticationGuardService, LoginComponent, RouteGuardService } from 'qbm';
+import { AuthenticationGuardService, ErrorPageComponent, LoginPageComponent, RouteGuardService } from 'qbm';
 import { PasswordQueryComponent, StartComponent } from 'qer';
-
-const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: LoginPageComponent,
     canActivate: [AuthenticationGuardService],
     resolve: [RouteGuardService],
+  },
+  {
+    path: 'error',
+    component: ErrorPageComponent,
   },
   {
     path: 'dashboard',
     component: StartComponent,
     canActivate: [RouteGuardService],
     resolve: [RouteGuardService],
-  },
-  {
-    path: 'externalRedirect',
-    // We need a component here because we cannot define the route otherwise
-    component: LoginComponent,
-    canActivate: [RouteGuardService],
-    resolve: {
-      url: externalUrlProvider,
-    },
   },
   {
     path: 'passwordquestions',
@@ -66,17 +59,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot([], { useHash: true })],
   exports: [RouterModule],
-  providers: [
-    {
-      provide: externalUrlProvider,
-      useValue: (route: ActivatedRouteSnapshot) => {
-        const externalUrl = route.paramMap.get('externalUrl');
-        if (externalUrl && externalUrl.toLocaleLowerCase() !== 'undefined') {
-          window.open(externalUrl, '_self');
-        }
-      },
-    },
-  ],
 })
 export class AppRoutingModule {
   constructor(private readonly router: Router) {

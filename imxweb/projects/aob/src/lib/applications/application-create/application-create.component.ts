@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,6 +38,7 @@ import { BaseCdr, ColumnDependentReference, ConfirmationService } from 'qbm';
   selector: 'imx-application-create',
   templateUrl: './application-create.component.html',
   styleUrls: ['./application-create.component.scss'],
+  standalone: false,
 })
 export class ApplicationCreateComponent implements OnDestroy {
   public readonly form = new UntypedFormGroup({});
@@ -47,6 +48,8 @@ export class ApplicationCreateComponent implements OnDestroy {
   public readonly serviceCategory: ColumnDependentReference;
   public readonly manager: ColumnDependentReference;
   public readonly owner: ColumnDependentReference;
+  public readonly applicationType: ColumnDependentReference;
+  public readonly personMachineIdentity: ColumnDependentReference;
   public readonly imageColumn: IEntityColumn;
 
   private readonly nameColumn: IEntityColumn;
@@ -86,6 +89,8 @@ export class ApplicationCreateComponent implements OnDestroy {
     this.manager = new BaseCdr(data.application.UID_PersonHead.Column);
 
     this.owner = new BaseCdr(data.application.UID_AERoleOwner.Column);
+    this.applicationType = new BaseCdr(data.application.UID_AOBApplicationType.Column);
+    this.personMachineIdentity = new BaseCdr(data.application.UID_PersonMachineIdentity.Column);
 
     this.subscriptions.push(
       sidesheetRef.closeClicked().subscribe(async () => {

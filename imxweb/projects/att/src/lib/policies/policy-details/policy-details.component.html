@@ -2,14 +2,18 @@
   <mat-card class="imx-margin-20">
     <mat-card-content>
       <div class="imx-info-grid-view">
-        <ng-container *ngIf="!!policy?.CountCases?.value">
+        @if (!!policy?.CountCases?.value) {
           <div>{{ '#LDS#Total number of attestation cases of all attestation runs' | translate }}:</div>
           <div>{{ policy?.CountCases?.value }}</div>
-          <div *ngIf="!!policy?.CountOpenCases?.value">
-            {{ '#LDS#Total number of pending attestation cases of all attestation runs' | translate }}:
-          </div>
-          <div *ngIf="!!policy?.CountOpenCases?.value">{{ policy?.CountOpenCases?.value }}</div>
-        </ng-container>
+          @if (!!policy?.CountOpenCases?.value) {
+            <div>
+              {{ '#LDS#Total number of pending attestation cases of all attestation runs' | translate }}:
+            </div>
+          }
+          @if (!!policy?.CountOpenCases?.value) {
+            <div>{{ policy?.CountOpenCases?.value }}</div>
+          }
+        }
 
         <div>{{ '#LDS#Status' | translate }}:</div>
         <div>{{ status | translate }}</div>

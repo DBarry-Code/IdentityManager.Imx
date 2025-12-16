@@ -1,3 +1,5 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
 /* Elemental UI */
 
 /* Angular Material */
@@ -13,12 +15,12 @@
 .eui-contrast-theme {
   eui-masthead {
     header.eui-masthead {
-      background-color: $color-blue-80;
+      background-color: eui.$color-blue-80;
     }
 
     .mat-toolbar.mat-primary {
-      background-color: $color-blue-80;
-      color: $color-gray-0;
+      background-color: eui.$color-blue-80;
+      color: eui.$color-gray-0;
     }
   }
 }

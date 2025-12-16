@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,37 +24,36 @@
  *
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, effect, OnDestroy, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { EuiSidesheetService } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
-import { from } from 'rxjs';
 import { Subscription } from 'rxjs/internal/Subscription';
 
-import { PortalShopServiceitems } from '@imx-modules/imx-api-qer';
+import { PortalItshopPeergroupMemberships, PortalShopServiceitems, ServiceItemsExtendedData } from '@imx-modules/imx-api-qer';
 import {
   CollectionLoadParameters,
   DisplayColumns,
+  ExtendedTypedEntityCollection,
   IClientProperty,
-  IWriteValue,
   MultiValue,
   TypedEntity,
   ValueStruct,
 } from '@imx-modules/imx-qbm-dbts';
 
-import { MatChipListbox, MatChipListboxChange } from '@angular/material/chips';
+import { MatChipListbox } from '@angular/material/chips';
 import {
   Busy,
   BusyService,
-  DataSourceToolbarComponent,
-  DataSourceToolbarSettings,
+  calculateSidesheetWidth,
+  DataViewInitParameters,
+  DataViewSource,
+  DataViewSourceFactoryService,
   FkAdvancedPickerComponent,
   HELP_CONTEXTUAL,
-  calculateSidesheetWidth,
 } from 'qbm';
 import { ItshopService } from '../../itshop/itshop.service';
 import { QerApiService } from '../../qer-api-client.service';
-import { CurrentProductSource } from '../current-product-source';
 import { NewRequestOrchestrationService } from '../new-request-orchestration.service';
 import { NewRequestProductApiService } from '../new-request-product/new-request-product-api.service';
 import { ProductDetailsService } from '../new-request-product/product-details-sidesheet/product-details.service';
@@ -66,6 +65,8 @@ import { NewRequestSelectionService } from '../new-request-selection.service';
   selector: 'imx-new-request-reference-user',
   templateUrl: './new-request-reference-user.component.html',
   styleUrls: ['./new-request-reference-user.component.scss'],
+  providers: [DataViewSource],
+  standalone: false,
 })
 export class NewRequestReferenceUserComponent implements AfterViewInit, OnDestroy {
   //#region Private
@@ -77,21 +78,15 @@ export class NewRequestReferenceUserComponent implements AfterViewInit, OnDestro
   @ViewChild(MatChipListbox) public chipList: MatChipListbox;
 
   public selectedChipIndex = 0;
-  public productDst: DataSourceToolbarComponent;
-  public membershipDst: DataSourceToolbarComponent;
-  public productDstSettings: DataSourceToolbarSettings;
-  public membershipDstSettings: DataSourceToolbarSettings;
-  public productNavigationState: CollectionLoadParameters | ServiceItemParameters;
-  public membershipNavigationState: CollectionLoadParameters | ServiceItemParameters;
-  public noDataText = '#LDS#No data';
   public DisplayColumns = DisplayColumns;
   public displayedProductColumns: IClientProperty[];
   public displayedMembershipColumns: IClientProperty[];
-  public recipients: IWriteValue<string>;
   public readonly busyService = new BusyService();
   public SelectedProductSource = SelectedProductSource;
   public selectedSource: SelectedProductSource;
   public contextId = HELP_CONTEXTUAL.NewRequestReferenceUser;
+  public productDataSource: DataViewSource<PortalShopServiceitems, ServiceItemsExtendedData>;
+  public membershipDataSource: DataViewSource<PortalItshopPeergroupMemberships, ServiceItemsExtendedData>;
   //#endregion
 
   constructor(
@@ -102,16 +97,14 @@ export class NewRequestReferenceUserComponent implements AfterViewInit, OnDestro
     private readonly sideSheetService: EuiSidesheetService,
     private readonly translate: TranslateService,
     private readonly qerApi: QerApiService,
-    private readonly orchestration: NewRequestOrchestrationService,
-    public readonly productDetailsService: ProductDetailsService,
     private readonly router: Router,
+    public readonly productDetailsService: ProductDetailsService,
+    public readonly orchestration: NewRequestOrchestrationService,
+    public dataSourceFactory: DataViewSourceFactoryService,
   ) {
-    this.orchestration.selectedView = SelectedProductSource.ReferenceUserProducts;
-    this.orchestration.selectedChip = 0;
-    this.orchestration.disableSearch = false;
-
-    // CHECK Do we need this?
-    this.orchestration.searchApi$.next(this.searchApi);
+    this.orchestration.selectedView.set(SelectedProductSource.ReferenceUserProducts);
+    this.orchestration.selectedChip.set(0);
+    this.orchestration.disableSearch.set(false);
 
     this.displayedProductColumns = [
       this.productApi.entitySchema.Columns[DisplayColumns.DISPLAY_PROPERTYNAME],
@@ -127,117 +120,43 @@ export class NewRequestReferenceUserComponent implements AfterViewInit, OnDestro
       this.membershipApi.PortalItshopPeergroupMembershipsSchema.Columns.Description,
     ];
 
-    //#region Sunscription
-    this.subscriptions.push(
-      this.orchestration.currentProductSource$.subscribe((source: CurrentProductSource) => {
-        this.selectedSource = this.orchestration.selectedView;
+    this.productDataSource = dataSourceFactory.getDataSource<PortalShopServiceitems, ServiceItemsExtendedData>();
+    this.membershipDataSource = dataSourceFactory.getDataSource<PortalItshopPeergroupMemberships, ServiceItemsExtendedData>();
+    this.orchestration.dataViewReferenceUserProducts.set(this.productDataSource);
+    this.orchestration.dataViewReferenceUserOrgs.set(this.membershipDataSource);
 
-        if (source?.view === SelectedProductSource.ReferenceUserProducts) {
-          this.productDst = source.dst;
-          this.productDst.busyService = this.busyService;
-          this.orchestration.dstSettingsReferenceUserProducts = this.productDstSettings;
-          // this.getProductData();
-          this.subscriptions.push(
-            this.selectionService.selectedProducts$.subscribe(() => {
-              this.orchestration.preselectBySource(SelectedProductSource.ReferenceUserProducts, this.productDst);
-            }),
-          );
-          this.subscriptions.push(
-            this.productDst.searchResults$.subscribe((data) => {
-              if (data) {
-                this.productDstSettings = {
-                  dataSource: data,
-                  displayedColumns: this.displayedProductColumns,
-                  entitySchema: this.productApi.entitySchema,
-                  navigationState: this.productNavigationState,
-                };
-                this.orchestration.dstSettingsReferenceUserProducts = this.productDstSettings;
-              }
-              this.busy.endBusy(true);
-            }),
-          );
-        }
-
-        if (source?.view === SelectedProductSource.ReferenceUserOrgs) {
-          this.membershipDst = source.dst;
-          this.membershipDst.busyService = this.busyService;
-          this.orchestration.dstSettingsReferenceUserOrgs = this.membershipDstSettings;
-          this.subscriptions.push(
-            this.selectionService.selectedProducts$.subscribe(() => {
-              this.orchestration.preselectBySource(SelectedProductSource.ReferenceUserOrgs, this.membershipDst);
-            }),
-          );
-          this.subscriptions.push(
-            this.membershipDst.searchResults$.subscribe((data) => {
-              if (data) {
-                this.membershipDstSettings = {
-                  dataSource: data,
-                  displayedColumns: this.displayedMembershipColumns,
-                  entitySchema: this.membershipApi.PortalItshopPeergroupMembershipsSchema,
-                  navigationState: this.membershipNavigationState,
-                };
-                this.orchestration.dstSettingsReferenceUserOrgs = this.membershipDstSettings;
-              }
-              this.busy.endBusy(true);
-            }),
-          );
-        }
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.navigationState$.subscribe(async (navigation: CollectionLoadParameters | ServiceItemParameters) => {
+    effect(() => {
+      if (this.orchestration.recipients() && this.orchestration.recipientsIds()) {
         if (this.selectedChipIndex === 0 && this.selectedSource === SelectedProductSource.ReferenceUserProducts) {
-          this.productNavigationState = navigation;
-          this.orchestration.dstSettingsReferenceUserProducts = this.productDstSettings;
-          await this.getProductData();
+          this.getProductData();
         }
         if (this.selectedChipIndex === 1 && this.selectedSource === SelectedProductSource.ReferenceUserOrgs) {
-          this.membershipNavigationState = navigation;
-          this.orchestration.dstSettingsReferenceUserOrgs = this.membershipDstSettings;
-          await this.getMembershipData();
+          this.getMembershipData();
         }
-      }),
-    );
+      }
+    });
 
     this.subscriptions.push(
       this.selectionService.selectedProductsCleared$.subscribe(() => {
-        this.productDst?.clearSelection();
-        this.membershipDst?.clearSelection();
+        this.productDataSource.selection.clear();
+        this.membershipDataSource.selection.clear();
       }),
     );
-
-    this.subscriptions.push(
-      this.orchestration.recipients$.subscribe(async (recipients: IWriteValue<string>) => {
-        this.recipients = recipients;
-
-        if (this.selectedChipIndex === 0 && this.selectedSource === SelectedProductSource.ReferenceUserProducts) {
-          this.orchestration.dstSettingsReferenceUserProducts = this.productDstSettings;
-          await this.getProductData();
-        }
-        if (this.selectedChipIndex === 1 && this.selectedSource === SelectedProductSource.ReferenceUserOrgs) {
-          this.orchestration.dstSettingsReferenceUserOrgs = this.membershipDstSettings;
-          await this.getMembershipData();
-        }
-      }),
-    );
-
     this.subscriptions.push(
       this.router.events.subscribe(async (event: any) => {
-        if (event instanceof NavigationEnd && this.orchestration.referenceUser != null && event.url === '/newrequest/selectReferenceUser') {
+        if (
+          event instanceof NavigationEnd &&
+          this.orchestration.referenceUser() != null &&
+          event.url === '/newrequest/selectReferenceUser'
+        ) {
           await this.selectReferenceUser();
         }
       }),
     );
-
-    //#endregion
   }
 
   public async ngAfterViewInit(): Promise<void> {
-    this.productNavigationState = { StartIndex: 0 };
-    this.membershipNavigationState = { StartIndex: 0 };
-
-    if (!this.orchestration.referenceUser) {
+    if (!this.orchestration.referenceUser()) {
       await this.selectReferenceUser();
     } else {
       this.chipList._chips.first.select();
@@ -248,142 +167,136 @@ export class NewRequestReferenceUserComponent implements AfterViewInit, OnDestro
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.orchestration.dataViewPeerGroupProducts.set(undefined);
+    this.orchestration.dataViewPeerGroupOrgs.set(undefined);
   }
 
-  public searchApi = (keywords: string) => {
-    this.busy = this.busyService.beginBusy();
-    this.orchestration.abortCall();
-    if (this.selectedChipIndex === 0) {
-      const parameters = { ...this.getCollectionLoadParamaters(this.productNavigationState), search: keywords };
-      return from(this.productApi.get(parameters));
-    }
-    if (this.selectedChipIndex === 1) {
-      const parameters = { ...this.getCollectionLoadParamaters(this.membershipNavigationState), search: keywords };
-      return from(this.membershipApi.getPeerGroupMemberships(parameters, { signal: this.orchestration.abortController.signal }));
-    }
-  };
-
-  public async selectReferenceUser(): Promise<void> {
+  public selectReferenceUser() {
     const disabledIds =
-      this.recipients.Column?.GetValue()?.split('').length === 1 ? this.recipients.Column?.GetValue()?.split('') : undefined;
+      this.orchestration.recipients()?.Column?.GetValue()?.split('').length === 1
+        ? this.orchestration.recipients()?.Column?.GetValue()?.split('')
+        : undefined;
 
-    const selection = await this.sideSheetService
+    this.sideSheetService
       .open(FkAdvancedPickerComponent, {
-        title: await this.translate.get('#LDS#Heading Select Reference User').toPromise(),
+        title: this.translate.instant('#LDS#Heading Select Reference User'),
         padding: '0',
         icon: 'user',
         width: calculateSidesheetWidth(),
         testId: 'referenceUser-sidesheet',
         data: {
           displayValue: '',
+          isRequired: true,
           fkRelations: this.qerApi.typedClient.PortalCartitem.createEntity().UID_PersonOrdered.GetMetadata().GetFkRelations(),
           isMultiValue: false,
           disabledIds: disabledIds,
         },
       })
       .afterClosed()
-      .toPromise();
-
-    selection && selection.candidates?.length > 0
-      ? await this.setReferenceUser(selection.candidates[0])
-      : this.router.navigate(['/newrequest']);
+      .subscribe(async (selection) => {
+        selection && selection.candidates?.length > 0
+          ? await this.setReferenceUser(selection.candidates[0])
+          : this.router.navigate(['/newrequest']);
+      });
   }
 
   public async setReferenceUser(user: ValueStruct<string>): Promise<void> {
-    if (this.orchestration.referenceUser?.DataValue === user?.DataValue) {
+    if (this.orchestration.referenceUser()?.DataValue === user?.DataValue) {
       return;
     }
-
-    this.orchestration.referenceUser = user;
-
-    this.productNavigationState = { StartIndex: 0 };
-    this.membershipNavigationState = { StartIndex: 0 };
+    this.orchestration.referenceUser.set(user);
     this.chipList._chips.first.select();
     await this.getProductData();
   }
 
   public async onRowSelected(item: TypedEntity): Promise<void> {
-    this.productDetailsService.showProductDetails(item as PortalShopServiceitems, this.recipients);
+    this.productDetailsService.showProductDetails(item as PortalShopServiceitems, this.orchestration.recipients()!);
   }
 
   public onProductSelectionChanged(items: TypedEntity[], type: SelectedProductSource): void {
     type === SelectedProductSource.ReferenceUserProducts
-      ? this.selectionService.addProducts(items, SelectedProductSource.ReferenceUserProducts)
-      : this.selectionService.addProducts(items, SelectedProductSource.ReferenceUserOrgs);
+      ? this.selectionService.addProducts(items, this.productDataSource.data, SelectedProductSource.ReferenceUserProducts)
+      : this.selectionService.addProducts(items, this.membershipDataSource.data, SelectedProductSource.ReferenceUserOrgs);
   }
-
-  public onChipListChange(event: MatChipListboxChange): void {}
 
   public async onChipClicked(index: number): Promise<void> {
     this.selectedChipIndex = index;
-    this.orchestration.selectedChip = index;
+    this.orchestration.selectedChip.set(index);
 
     this.chipList._chips.forEach((chip, i) => {
       i === index ? (chip.selected = true) : (chip.selected = false);
     });
 
     if (index === 0) {
-      this.orchestration.selectedView = SelectedProductSource.ReferenceUserProducts;
+      this.orchestration.selectedView.set(SelectedProductSource.ReferenceUserProducts);
       await this.getProductData();
     }
 
     if (index === 1) {
-      this.orchestration.selectedView = SelectedProductSource.ReferenceUserOrgs;
+      this.orchestration.selectedView.set(SelectedProductSource.ReferenceUserOrgs);
       await this.getMembershipData();
     }
   }
 
   private async getProductData(): Promise<void> {
-    if (!this.orchestration.isLoggedIn) {
-      return;
-    }
     const busy = this.busyService.beginBusy();
     try {
       this.orchestration.abortCall();
-      const parameters = this.getCollectionLoadParamaters(this.productNavigationState);
-      let data = await this.productApi.get(parameters);
-
-      if (data) {
-        this.productDstSettings = {
-          dataSource: data,
-          displayedColumns: this.displayedProductColumns,
-          entitySchema: this.productApi.entitySchema,
-          navigationState: this.productNavigationState,
-        };
-        this.orchestration.dstSettingsReferenceUserProducts = this.productDstSettings;
-        this.orchestration.preselectBySource(SelectedProductSource.ReferenceUserProducts, this.productDst);
-      } else {
-        this.orchestration.disableSearch = false;
-      }
+      const dataViewInitParameters: DataViewInitParameters<PortalShopServiceitems, ServiceItemsExtendedData> = {
+        execute: (
+          params: CollectionLoadParameters,
+          signal: AbortSignal,
+        ): Promise<ExtendedTypedEntityCollection<PortalShopServiceitems, ServiceItemsExtendedData>> => {
+          const parameters = this.getCollectionLoadParamaters(params);
+          return this.productApi.get(parameters, signal).then(async (data) => {
+            if (data) {
+              data.Data = await this.selectionService.addSelectionKeyColumn(data.Data);
+              this.orchestration.disableSearch.set(data.totalCount < 1);
+            }
+            return data;
+          });
+        },
+        schema: this.productApi.entitySchema,
+        columnsToDisplay: this.displayedProductColumns,
+        highlightEntity: (product: PortalShopServiceitems) => {
+          this.onRowSelected(product);
+        },
+        selectionChange: (products: PortalShopServiceitems[]) =>
+          this.onProductSelectionChanged(products as TypedEntity[], SelectedProductSource.ReferenceUserProducts),
+      };
+      await this.productDataSource.init(dataViewInitParameters);
+      this.orchestration.preselectBySource(this.productDataSource);
     } finally {
       busy.endBusy();
     }
   }
 
   private async getMembershipData(): Promise<void> {
-    if (!this.orchestration.isLoggedIn) {
-      return;
-    }
     const busy = this.busyService.beginBusy();
 
     try {
       this.orchestration.abortCall();
-      const parameters = this.getCollectionLoadParamaters(this.membershipNavigationState);
-      let data = await this.membershipApi.getPeerGroupMemberships(parameters, { signal: this.orchestration.abortController.signal });
-
-      if (data) {
-        this.membershipDstSettings = {
-          dataSource: data,
-          displayedColumns: this.displayedMembershipColumns,
-          entitySchema: this.membershipApi.PortalItshopPeergroupMembershipsSchema,
-          navigationState: this.membershipNavigationState,
-        };
-
-        this.orchestration.dstSettingsReferenceUserOrgs = this.membershipDstSettings;
-        this.orchestration.preselectBySource(SelectedProductSource.ReferenceUserOrgs, this.membershipDst);
-      } else {
-        this.orchestration.disableSearch = false;
-      }
+      const dataViewInitParameters: DataViewInitParameters<PortalItshopPeergroupMemberships, ServiceItemsExtendedData> = {
+        execute: (
+          params: CollectionLoadParameters,
+          signal: AbortSignal,
+        ): Promise<ExtendedTypedEntityCollection<PortalItshopPeergroupMemberships, ServiceItemsExtendedData>> => {
+          const parameters = this.getCollectionLoadParamaters(params);
+          return this.membershipApi.getPeerGroupMemberships(parameters, { signal }).then(async (data) => {
+            if (data) {
+              data.Data = await this.selectionService.addSelectionKeyColumn(data.Data);
+              this.orchestration.disableSearch.set(data.totalCount < 1);
+            }
+            return data;
+          });
+        },
+        schema: this.membershipApi.PortalItshopPeergroupMembershipsSchema,
+        columnsToDisplay: this.displayedMembershipColumns,
+        selectionChange: (products: PortalItshopPeergroupMemberships[]) =>
+          this.onProductSelectionChanged(products as TypedEntity[], SelectedProductSource.ReferenceUserOrgs),
+      };
+      await this.membershipDataSource.init(dataViewInitParameters);
+      this.orchestration.preselectBySource(this.membershipDataSource);
     } finally {
       busy.endBusy();
     }
@@ -394,10 +307,10 @@ export class NewRequestReferenceUserComponent implements AfterViewInit, OnDestro
   ): CollectionLoadParameters | ServiceItemParameters {
     return {
       ...navigationState,
-      UID_Person: this.orchestration.recipients
-        ? MultiValue.FromString(this.orchestration.recipients.value).GetValues().join(',')
+      UID_Person: this.orchestration.recipients()
+        ? MultiValue.FromString(this.orchestration.recipients()!.value).GetValues().join(',')
         : undefined,
-      UID_PersonReference: this.orchestration.referenceUser?.DataValue,
+      UID_PersonReference: this.orchestration.referenceUser()?.DataValue,
     };
   }
 }

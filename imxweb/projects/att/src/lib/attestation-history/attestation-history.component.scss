@@ -1,20 +1,23 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container($overflow: hidden);
+  @include mixins.flex-column-container($overflow: hidden, $padding: true);
 }
 
 imx-data-table {
   flex-grow: 2;
 }
+
 .imx-history-card {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 
 }
+
 .imx-display-column {
   display: flex;
+
   :last-child {
     flex-grow: 1;
-    display:block;
+    display: block;
   }
 }

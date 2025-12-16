@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 :host {
   display: flex;
   flex-direction: column;
@@ -25,6 +25,6 @@
 }
 
 .imx-subtext {
-  color: $color-gray-40;
+  color: eui.$color-gray-40;
   font-size: smaller;
 }

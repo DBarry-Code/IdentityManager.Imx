@@ -1,0 +1,44 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use '../../stat-mixins.scss' as stat-mixins;
+
+:host {
+  .card-zero-data {
+    @include stat-mixins.Empty-Card;
+  }
+}
+
+// Theming
+:host {
+  @include stat-mixins.Stat-Colors;
+  @include stat-mixins.Point-Stat-Colors();
+
+  .card-zero-data {
+    @include stat-mixins.Empty-Card-Theme;
+  }
+}
+
+.eui-dark-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+    @include stat-mixins.Point-Stat-Colors(eui-dark-theme);
+    .card-zero-data {
+      @include stat-mixins.Empty-Card-Theme(dark);
+    }
+    ::ng-deep .bb-gauge-value {
+      fill: eui.$color-gray-2;
+    }
+  }
+}
+
+.eui-contrast-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+    @include stat-mixins.Point-Stat-Colors(eui-dark-theme);
+    .card-zero-data {
+      @include stat-mixins.Empty-Card-Theme(contrast);
+    }
+    ::ng-deep .bb-gauge-value {
+      fill: eui.$color-gray-2;
+    }
+  }
+}

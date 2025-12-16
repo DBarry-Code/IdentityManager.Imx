@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import _ from 'lodash';
 import { DynamicDataApiControls, DynamicDataSource } from '../../../sidenav-tree/sidenav-tree-dynamic-extension';
 import { FilterTreeNode, FilterTreeParameterData, FilterTreeSelectionParameter } from './filter-tree-sidesheet.model';
 @Component({
-  selector: 'imx-filter-tree-sidesheet',
-  templateUrl: './filter-tree-sidesheet.component.html',
-  styleUrls: ['./filter-tree-sidesheet.component.scss'],
+    selector: 'imx-filter-tree-sidesheet',
+    templateUrl: './filter-tree-sidesheet.component.html',
+    styleUrls: ['./filter-tree-sidesheet.component.scss'],
+    standalone: false
 })
 export class FilterTreeSidesheetComponent implements OnInit {
   public currentlySelectedFilter: FilterTreeSelectionParameter;

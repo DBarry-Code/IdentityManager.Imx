@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ import { AttestationCasesService } from '../../decision/attestation-cases.servic
 import { AttestationHistoryActionService } from '../attestation-history-action.service';
 import { AttestationHistoryCase } from '../attestation-history-case';
 @Component({
-  selector: 'imx-attestation-history-details',
-  templateUrl: './attestation-history-details.component.html',
-  styleUrls: ['./attestation-history-details.component.scss'],
+    selector: 'imx-attestation-history-details',
+    templateUrl: './attestation-history-details.component.html',
+    styleUrls: ['./attestation-history-details.component.scss'],
+    standalone: false
 })
 export class AttestationHistoryDetailsComponent implements OnDestroy, OnInit {
   public get canDecide(): boolean {

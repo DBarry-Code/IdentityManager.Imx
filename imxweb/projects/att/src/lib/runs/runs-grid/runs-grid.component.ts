@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,11 +36,13 @@ import {
   EntityCollectionData,
   EntitySchema,
   FilterType,
+  IEntity,
   MethodDefinition,
   MethodDescriptor,
   TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
 import {
+  buildAdditionalElementsString,
   calculateSidesheetWidth,
   DataSourceToolbarExportMethod,
   DataSourceToolbarFilter,
@@ -63,6 +65,7 @@ import { RunsService } from '../runs.service';
   templateUrl: './runs-grid.component.html',
   styleUrls: ['./runs-grid.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class RunsGridComponent implements OnInit {
   public readonly categoryBadgeColor = {
@@ -193,6 +196,17 @@ export class RunsGridComponent implements OnInit {
   }
 
   public async onRunChanged(run: PortalAttestationRun): Promise<void> {
+    this.busyService.show();
+    let singleRun: PortalAttestationRun | undefined;
+    try {
+      singleRun = await this.runsService.getSingleRun(run.GetEntity().GetKeys()[0]);
+    } finally {
+      this.busyService.hide();
+    }
+    if (!singleRun) {
+      return;
+    }
+
     await this.sideSheet
       .open(RunSidesheetComponent, {
         title: await this.translate.get('#LDS#Heading View Attestation Run Details').toPromise(),
@@ -201,7 +215,7 @@ export class RunsGridComponent implements OnInit {
         width: calculateSidesheetWidth(1000),
         testId: 'runs-grid-view-attestation-run-details',
         data: {
-          run: await this.runsService.getSingleRun(run.GetEntity().GetKeys()[0]),
+          run: singleRun,
           attestationRunConfig: this.attestationRunConfig,
           canSeeAttestationPolicies: this.canSeeAttestationPolicies,
           threshold: this.progressCalcThreshold,
@@ -219,6 +233,10 @@ export class RunsGridComponent implements OnInit {
 
   public isCompleted(run: PortalAttestationRun): boolean {
     return run.ClosedCases.value + run.PendingCases.value > 0 && run.PendingCases.value === 0;
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 
   private showBusyIndicator(): void {

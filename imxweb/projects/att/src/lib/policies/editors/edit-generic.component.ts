@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { FilterChangedArgument } from './filter-changed-argument.interface';
 import { FilterElementModel } from './filter-element-model';
 
 @Component({
-  templateUrl: './edit-generic.component.html',
-  selector: 'imx-edit-generic',
+    templateUrl: './edit-generic.component.html',
+    selector: 'imx-edit-generic',
+    standalone: false
 })
 export class EditGenericComponent implements OnChanges {
   public cdr: ColumnDependentReference;

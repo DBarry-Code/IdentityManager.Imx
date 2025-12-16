@@ -7,7 +7,7 @@
       (navigationStateChanged)="navigate($event)"
       (search)="search($event)"
       data-imx-identifier="typed-entity-candidates-dst"
-    >
+      >
     </imx-data-source-toolbar>
     <div class="imx-table-container">
       <imx-data-table
@@ -16,11 +16,13 @@
         [detailViewVisible]="false"
         [selectable]="false"
         data-imx-identifier="typed-entity-candidates-datatable"
-      >
+        >
         <imx-data-table-column [entityColumn]="entitySchemaCandidates?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]" columnLabel="">
           <ng-template let-item>
             <div>{{ item.GetEntity().GetDisplay() }}</div>
-            <div *ngIf="this.data.tables && this.data.tables.length > 1" subtitle>{{ getTable(item) }}</div>
+            @if (data.tables && data.tables.length > 1) {
+              <div subtitle>{{ getTable(item) }}</div>
+            }
           </ng-template>
         </imx-data-table-column>
       </imx-data-table>

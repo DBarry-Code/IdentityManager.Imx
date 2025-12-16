@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -58,8 +58,8 @@ import {
   QbmModule,
   SelectedElementsModule,
   SqlWizardModule,
+  StatisticsModule,
 } from 'qbm';
-import { StatisticsModule } from 'qer';
 import { LifecycleActionsModule } from '../lifecycle-actions/lifecycle-actions.module';
 import { AobUserModule } from '../user/user.module';
 import { EntitlementsAddComponent } from './entitlement-add/entitlements-add.component';

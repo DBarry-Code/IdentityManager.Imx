@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,8 @@ import { ICartItemCheck } from '@imx-modules/imx-api-qer';
 import { DetailsView } from '../details-view.interface';
 
 @Component({
-  template: '',
+    template: '',
+    standalone: false
 })
 export class BaseViewerComponent implements DetailsView, OnInit {
   public check: ICartItemCheck;

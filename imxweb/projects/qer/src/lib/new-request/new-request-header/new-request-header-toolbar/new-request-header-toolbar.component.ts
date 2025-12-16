@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,130 +24,99 @@
  *
  */
 
-import { Component, OnDestroy, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { Component, computed, Signal } from '@angular/core';
 
-import { PortalItshopPatternRequestable, PortalServicecategories } from '@imx-modules/imx-api-qer';
-import { CollectionLoadParameters } from '@imx-modules/imx-qbm-dbts';
+import { ViewConfigData } from '@imx-modules/imx-api-qer';
 
-import { DataSourceToolbarComponent, DataSourceToolbarSettings } from 'qbm';
+import { DataViewSource } from 'qbm';
+import { ViewConfigService } from '../../../view-config/view-config.service';
 import { NewRequestOrchestrationService } from '../../new-request-orchestration.service';
 import { NewRequestProductComponent } from '../../new-request-product/new-request-product.component';
-import { ServiceItemParameters } from '../../new-request-product/service-item-parameters';
 import { SelectedProductSource } from '../../new-request-selected-products/selected-product-item.interface';
-import { NewRequestTabModel } from '../../new-request-tab/new-request-tab-model';
 
 @Component({
-  selector: 'imx-new-request-header-toolbar',
-  templateUrl: './new-request-header-toolbar.component.html',
-  styleUrls: ['./new-request-header-toolbar.component.scss'],
+    selector: 'imx-new-request-header-toolbar',
+    templateUrl: './new-request-header-toolbar.component.html',
+    styleUrls: ['./new-request-header-toolbar.component.scss'],
+    standalone: false
 })
-export class NewRequestHeaderToolbarComponent implements OnDestroy {
-  //#region Private
-  private subscriptions: Subscription[] = [];
-  //#endregion
-
-  //#region Public
-
-  public dstSettings: DataSourceToolbarSettings;
-  public searchApi: ((keywords: string) => Observable<any> | undefined) | undefined;
-  public selectedCategory: PortalServicecategories;
-  public showCatInfo = false;
-  public searchBoxText = '#LDS#Search';
+export class NewRequestHeaderToolbarComponent {
   public SelectedProductSource = SelectedProductSource;
-  public selectedView: SelectedProductSource;
-  public disableSearch = false;
-
-  @ViewChild(DataSourceToolbarComponent) public dst: DataSourceToolbarComponent;
-  //#endregion
-
-  constructor(public readonly orchestration: NewRequestOrchestrationService) {
-    this.subscriptions.push(
-      this.orchestration.searchApi$.subscribe((searchApi) => {
-        this.searchApi = searchApi;
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.selectedCategory$.subscribe((category: PortalServicecategories) => {
-        this.selectedCategory = category;
-        this.updateSearchBoxText();
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.disableSearch$.subscribe((disableSearch: boolean) => {
-        this.disableSearch = disableSearch;
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.selectedTab$.subscribe((selectedTab: NewRequestTabModel) => {
-        selectedTab?.component === NewRequestProductComponent ? (this.showCatInfo = true) : (this.showCatInfo = false);
-
-        this.disableSearch = this.orchestration.disableSearch || selectedTab?.link === 'productBundles';
-
-        this.updateSearchBoxText();
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.productBundle$.subscribe((productBundle: PortalItshopPatternRequestable) => {
-        this.disableSearch = !productBundle;
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.selectedChip$.subscribe(() => {
-        this.updateSearchBoxText();
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.selectedView$.subscribe((selectedView: SelectedProductSource) => {
-        this.selectedView = selectedView;
-      }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.dst.ngOnDestroy();
-    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
-  }
-
-  public onNavigationChanged(newState?: CollectionLoadParameters | ServiceItemParameters): void {
-    this.orchestration.navigationState = newState || {};
-  }
-
-  public onVisibility(visible: boolean) {
-    if (visible) {
-      this.orchestration.currentProductSource = { dst: this.dst, view: this.selectedView };
-    }
-  }
-
-  private updateSearchBoxText() {
-    if (this.orchestration.selectedTab?.link === 'allProducts') {
-      if (this.orchestration.selectedCategory) {
-        this.searchBoxText = '#LDS#Search for products in this service category';
+  public disableSearch: Signal<boolean> = computed(
+    () => this.orchestration.disableSearch() || this.orchestration.selectedTab()?.link === 'productBundles',
+  );
+  public showCatInfo: Signal<boolean> = computed(() => this.orchestration.selectedTab()?.component === NewRequestProductComponent);
+  public searchBoxText: Signal<string> = computed(() => {
+    if (this.orchestration.selectedTab()?.link === 'allProducts') {
+      if (this.orchestration.selectedCategory()) {
+        return '#LDS#Search for products in this service category';
       } else {
-        this.searchBoxText = '#LDS#Search for products in all service categories';
+        return '#LDS#Search for products in all service categories';
       }
     }
-    if (this.orchestration.selectedTab?.link === 'productsByPeerGroup') {
-      this.searchBoxText =
-        this.orchestration.selectedChip === 0
-          ? '#LDS#Search for products in this peer group'
-          : '#LDS#Search for organizational structures in this peer group';
+    if (this.orchestration.selectedTab()?.link === 'productsByPeerGroup') {
+      return this.orchestration.selectedChip() === 0
+        ? '#LDS#Search for products in this peer group'
+        : '#LDS#Search for organizational structures in this peer group';
     }
-    if (this.orchestration.selectedTab?.link === 'productsByReferenceUser') {
-      this.searchBoxText =
-        this.orchestration.selectedChip === 0
-          ? '#LDS#Search for products of this identity'
-          : '#LDS#Search for organizational structures of this identity';
+    if (this.orchestration.selectedTab()?.link === 'productsByReferenceUser') {
+      return this.orchestration.selectedChip() === 0
+        ? '#LDS#Search for products of this identity'
+        : '#LDS#Search for organizational structures of this identity';
     }
-    if (this.orchestration.selectedTab?.link === 'productBundles') {
-      this.searchBoxText = '#LDS#Search for products in the selected product bundle';
+    if (this.orchestration.selectedTab()?.link === 'productBundles') {
+      return '#LDS#Search for products in the selected product bundle';
     }
+    return '#LDS#Search';
+  });
+  public showAllProductsToolbar: Signal<boolean> = computed(
+    () =>
+      this.orchestration.selectedView() === SelectedProductSource.AllProducts &&
+      !this.disableSearch() &&
+      !!this.orchestration.dataViewAllProducts(),
+  );
+  public showPeerGroupToolbar: Signal<boolean> = computed(
+    () =>
+      this.orchestration.selectedView() === SelectedProductSource.PeerGroupProducts &&
+      !this.disableSearch() &&
+      !!this.orchestration.dataViewPeerGroupProducts(),
+  );
+  public showPeerGroupOrgsToolbar: Signal<boolean> = computed(
+    () =>
+      this.orchestration.selectedView() === SelectedProductSource.PeerGroupOrgs &&
+      !this.disableSearch() &&
+      !!this.orchestration.dataViewPeerGroupOrgs(),
+  );
+  public showReferenceUserProductToolbar: Signal<boolean> = computed(
+    () =>
+      this.orchestration.selectedView() === SelectedProductSource.ReferenceUserProducts &&
+      !this.disableSearch() &&
+      !!this.orchestration.dataViewReferenceUserProducts(),
+  );
+  public showReferenceUserOrgsToolbar: Signal<boolean> = computed(
+    () =>
+      this.orchestration.selectedView() === SelectedProductSource.ReferenceUserOrgs &&
+      !this.disableSearch() &&
+      !!this.orchestration.dataViewReferenceUserOrgs(),
+  );
+  public showProductBundleToolbar: Signal<boolean> = computed(() => {
+    return this.orchestration.selectedView() === SelectedProductSource.ProductBundles && !!this.orchestration.productBundle();
+  });
+
+  constructor(
+    public readonly orchestration: NewRequestOrchestrationService,
+    private viewConfigService: ViewConfigService,
+  ) {}
+
+  public async updateConfig(config: ViewConfigData, dataSource: DataViewSource, viewConfigPath: string): Promise<void> {
+    await this.viewConfigService.putViewConfig(config);
+    const viewConfig = await this.viewConfigService.getDSTExtensionChanges(viewConfigPath);
+    dataSource.viewConfig.set(viewConfig);
+  }
+
+  public async deleteConfigById(id: string, dataSource: DataViewSource, viewConfigPath: string): Promise<void> {
+    await this.viewConfigService.deleteViewConfig(id);
+    const viewConfig = await this.viewConfigService.getDSTExtensionChanges(viewConfigPath);
+    dataSource.viewConfig.set(viewConfig);
   }
 }

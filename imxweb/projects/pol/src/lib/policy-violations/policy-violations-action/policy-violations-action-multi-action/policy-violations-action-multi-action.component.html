@@ -10,7 +10,7 @@
         [reasonFreetext]="data.actionParameters.reason"
         (controlCreated)="formGroup.addControl('reason', $event)"
         data-imx-identifier="policy-violation-property-reason"
-      >
+        >
       </imx-decision-reason>
     </div>
   </mat-card-content>
@@ -20,14 +20,18 @@
   <mat-card-title>{{ '#LDS#Heading Selected Policy Violations' | translate }}</mat-card-title>
   <mat-card-content>
     <mat-list class="imx-list-multi-action">
-      <mat-list-item *ngFor="let policyViolationApproval of data?.policyViolations">
-        <div class="mat-mdc-line">
-          {{ policyViolationApproval?.GetEntity()?.GetDisplay() }}
-        </div>
-        <div *ngIf="policyViolationApproval?.stateBadge?.caption" class="mat-mdc-line imx-list-item-subtitle imx-margin-bottom-5">
-          {{ policyViolationApproval.stateBadge.caption | translate }}
-        </div>
-      </mat-list-item>
+      @for (policyViolationApproval of data?.policyViolations; track policyViolationApproval) {
+        <mat-list-item>
+          <div class="mat-mdc-line">
+            {{ policyViolationApproval?.GetEntity()?.GetDisplay() }}
+          </div>
+          @if (policyViolationApproval?.stateBadge?.caption) {
+            <div class="mat-mdc-line imx-list-item-subtitle imx-margin-bottom-5">
+              {{ policyViolationApproval.stateBadge.caption | translate }}
+            </div>
+          }
+        </mat-list-item>
+      }
     </mat-list>
   </mat-card-content>
 </mat-card>

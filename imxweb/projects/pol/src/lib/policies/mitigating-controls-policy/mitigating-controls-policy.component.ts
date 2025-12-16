@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { PoliciesService } from '../policies.service';
  * Used to get and display mitigating controls for each policy
  */
 @Component({
-  selector: 'imx-mitigating-controls-policy',
-  templateUrl: './mitigating-controls-policy.component.html',
-  styleUrls: ['./mitigating-controls-policy.component.scss'],
+    selector: 'imx-mitigating-controls-policy',
+    templateUrl: './mitigating-controls-policy.component.html',
+    styleUrls: ['./mitigating-controls-policy.component.scss'],
+    standalone: false
 })
 export class MitigatingControlsPolicyComponent implements OnInit {
   @Input() public objectUid: string;

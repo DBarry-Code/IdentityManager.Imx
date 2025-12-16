@@ -1,19 +1,19 @@
-@import 'base/mixins';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
   height: 100%;
 
   .imx-wrapped-chart-container {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
     flex-wrap: wrap;
     gap: 10px;
     overflow: auto;
   }
 
   .imx-chart-container {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
   }
 
   .mat-card-content {
@@ -26,14 +26,14 @@
 
 :host {
   .imx-chart-container {
-    background-color: $color-gray-2;
+    background-color: eui.$color-gray-2;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-chart-container {
-      background-color: $color-gray-80;
+      background-color: eui.$color-gray-80;
     }
   }
 }
@@ -41,7 +41,7 @@
 .eui-contrast-theme {
   :host {
     .imx-chart-container {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
     }
   }
 }

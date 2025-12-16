@@ -1,12 +1,11 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 
 :host > ::ng-deep imx-tile .mat-mdc-card {
   height: 60px;
   cursor: auto;
-  width: $IMX_Tile_Width;
-  min-width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
+  min-width: imx-variables.$IMX_Tile_Width;
   overflow: hidden;
   padding: 0;
   padding-left: 7px;
@@ -21,14 +20,14 @@
   height: 100%;
   width: 100%;
   padding: 6px;
-  h3{
+  h3 {
     font-size: inherit;
   }
 }
 
 .imx-generic-tile-content > :first-child {
-  background-color: $iris-pastel;
-  color: $iris-blue;
+  background-color: eui.$color-blue-20;
+  color: eui.$color-blue-60;
   width: 60px;
   height: 30px;
   font-size: 23px;
@@ -47,8 +46,8 @@
 .eui-dark-theme {
   :host {
     .imx-generic-tile-content > :first-child {
-      background-color: $color-gray-60;
-      color: $color-gray-10;
+      background-color: eui.$color-gray-60;
+      color: eui.$color-gray-10;
     }
   }
 }
@@ -56,8 +55,8 @@
 .eui-contrast-theme {
   :host {
     .imx-generic-tile-content > :first-child {
-      background-color: $color-gray-80;
-      color: $color-gray-0;
+      background-color: eui.$color-gray-80;
+      color: eui.$color-gray-0;
     }
   }
 }

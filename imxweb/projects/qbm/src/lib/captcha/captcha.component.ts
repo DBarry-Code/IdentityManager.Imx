@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,14 +24,16 @@
  *
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, viewChild } from '@angular/core';
+import { MatInput } from '@angular/material/input';
 import { AppConfigService } from '../appConfig/appConfig.service';
 import { CaptchaService } from './captcha.service';
 
 @Component({
-  selector: 'imx-captcha',
-  templateUrl: './captcha.component.html',
-  styleUrls: ['./captcha.component.scss'],
+    selector: 'imx-captcha',
+    templateUrl: './captcha.component.html',
+    styleUrls: ['./captcha.component.scss'],
+    standalone: false
 })
 export class CaptchaComponent {
   /**
@@ -55,6 +57,11 @@ export class CaptchaComponent {
   @Output() nextClick: EventEmitter<boolean> = new EventEmitter();
 
   @Output() onBackEvent: EventEmitter<void> = new EventEmitter();
+
+  /**
+   * Used to set focus from outside this component
+   */
+  public captchaInputField = viewChild.required(MatInput);
 
   /**
    * Url for One Identity's ReCaptcha image

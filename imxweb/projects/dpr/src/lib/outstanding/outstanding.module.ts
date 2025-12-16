@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,6 +37,9 @@ import { OutstandingComponent } from './outstanding.component';
 import { OutstandingService } from './outstanding.service';
 import { SelectedItemsComponent } from './selected-items/selected-items.component';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @NgModule({
   imports: [
     CommonModule,

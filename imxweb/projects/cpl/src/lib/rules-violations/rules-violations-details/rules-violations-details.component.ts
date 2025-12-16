@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -47,9 +47,10 @@ export interface DynamicTabItem extends IExtension {
  * A sidesheet component to show some information about the selected rules violation.
  */
 @Component({
-  selector: 'imx-rules-violations-details',
-  templateUrl: './rules-violations-details.component.html',
-  styleUrls: ['./rules-violations-details.component.scss'],
+    selector: 'imx-rules-violations-details',
+    templateUrl: './rules-violations-details.component.html',
+    styleUrls: ['./rules-violations-details.component.scss'],
+    standalone: false
 })
 export class RulesViolationsDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(MatTabGroup) public matTabGroup: MatTabGroup;

@@ -1,11 +1,11 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   overflow: hidden;
   height: 100%;
 }
 
-.data-explorer--groups > :nth-child(2) {
+.data-explorer--groups> :nth-child(2) {
   flex: 0 0 auto;
 }
 
@@ -19,6 +19,7 @@
 .data-explorer-table {
   display: flex;
   flex-direction: column;
+
   > :first-child {
     flex: 1 1 auto;
   }

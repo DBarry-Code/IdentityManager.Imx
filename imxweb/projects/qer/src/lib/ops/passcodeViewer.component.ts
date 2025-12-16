@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ export interface PasscodeParameter {
 }
 
 @Component({
-  templateUrl: './passcodeViewer.component.html',
-  selector: 'imx-passcode-viewer',
-  styleUrls: ['./passcodeViewer.component.scss'],
+    templateUrl: './passcodeViewer.component.html',
+    selector: 'imx-passcode-viewer',
+    styleUrls: ['./passcodeViewer.component.scss'],
+    standalone: false
 })
 export class PasscodeViewerComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public passcodeParameter: PasscodeParameter) {}

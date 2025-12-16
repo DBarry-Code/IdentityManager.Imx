@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { DetailsView } from '../details-view.interface';
 import { ExclusionResult } from './exclusion-result.interface';
 
 @Component({
-  selector: 'imx-exclusion-check',
-  templateUrl: './exclusion-check.component.html',
+    selector: 'imx-exclusion-check',
+    templateUrl: './exclusion-check.component.html',
+    standalone: false
 })
 export class ExclusionCheckComponent extends BaseViewerComponent implements DetailsView, OnInit {
   public declare detail: ExclusionResult[];

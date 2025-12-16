@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,6 +53,7 @@ import { ManagerGuardService } from '../guards/manager-guard.service';
 import { TilesModule } from '../tiles/tiles.module';
 import { TeamResponsibilitiesComponent } from './team-responsibilities.component';
 import { TeamResponsibilitiesService } from './team-responsibilities.service';
+import { TeamResponsibilityAssignDialogComponent } from './team-responsibility-assign-dialog/team-responsibility-assign-dialog.component';
 import { TeamResponsibilityAssignSidesheetComponent } from './team-responsibility-assign-sidesheet/team-responsibility-assign-sidesheet.component';
 import { TeamResponsibilityDialogComponent } from './team-responsibility-dialog/team-responsibility-dialog.component';
 import { TeamResponsibilitySidesheetComponent } from './team-responsibility-sidesheet/team-responsibility-sidesheet.component';
@@ -79,6 +80,7 @@ const routes: Routes = [
     TeamResponsibilityDialogComponent,
     TeamResponsibilityAssignSidesheetComponent,
     TeamResponsibilityStatusDialogComponent,
+    TeamResponsibilityAssignDialogComponent,
   ],
   imports: [
     CommonModule,

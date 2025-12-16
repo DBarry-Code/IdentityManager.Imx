@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, ErrorHandler, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -41,9 +41,10 @@ import { EntityColumnContainer } from '../entity-column-container';
  * When set to read-only, it uses a {@link ViewPropertyComponent | view property component} to display the content.
  */
 @Component({
-  selector: 'imx-edit-multi-value',
-  templateUrl: './edit-multi-value.component.html',
-  styleUrls: ['./edit-multi-value.component.scss'],
+    selector: 'imx-edit-multi-value',
+    templateUrl: './edit-multi-value.component.html',
+    styleUrls: ['./edit-multi-value.component.scss'],
+    standalone: false
 })
 export class EditMultiValueComponent implements CdrEditor, OnDestroy {
   /**
@@ -67,7 +68,6 @@ export class EditMultiValueComponent implements CdrEditor, OnDestroy {
   constructor(
     private readonly logger: ClassloggerService,
     private readonly multiValueProvider: MultiValueService,
-    protected readonly errorHandler?: ErrorHandler,
   ) {}
 
   /**
@@ -116,7 +116,6 @@ export class EditMultiValueComponent implements CdrEditor, OnDestroy {
         }),
       );
       this.subscribers.push(this.control.valueChanges.subscribe(async (value) => this.writeValue(this.fromTextArea(value))));
-
       this.logger.trace(this, 'Control initialized');
     } else {
       this.logger.error(this, 'The Column Dependent Reference is undefined');
@@ -128,39 +127,30 @@ export class EditMultiValueComponent implements CdrEditor, OnDestroy {
    * @param values The values, that will be used as a new value.
    */
   private async writeValue(value: string | undefined): Promise<void> {
-    if (this.control.errors) {
-      this.logger.debug(this, 'writeValue - client validation failed');
-      return;
-    }
     this.logger.debug(this, 'writeValue called with value', value);
 
     if (!this.columnContainer.canEdit || this.columnContainer.value === value) {
       return;
     }
-    const resetValue = this.columnContainer.value;
 
     try {
       this.isWriting = true;
       this.logger.debug(this, 'writeValue - PutValue...');
       await this.columnContainer.updateValue(value);
     } catch (e) {
-      this.errorHandler?.handleError(e);
-      const valueAfterWrite = this.toTextArea(resetValue);
-      if (this.control.value !== valueAfterWrite) {
-        this.control.setValue(valueAfterWrite, { emitEvent: false });
-      }
+      this.logger.error(this, e);
     } finally {
       this.isWriting = false;
       const valueAfterWrite = this.toTextArea(this.columnContainer.value);
       if (this.control.value !== valueAfterWrite) {
         this.control.setValue(valueAfterWrite, { emitEvent: false });
       }
-      this.control.updateValueAndValidity();
     }
+
     this.valueHasChanged.emit({ value, forceEmit: true });
   }
 
-  private toTextArea(value: string): string | undefined {
+  private toTextArea(value: string | undefined): string | undefined {
     const values = this.multiValueProvider.getValues(value);
     return values && values.length > 0 ? values.join('\r\n') : undefined;
   }

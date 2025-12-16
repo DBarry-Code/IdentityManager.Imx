@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,6 +52,7 @@ import { EntityColumnContainer } from '../entity-column-container';
   selector: 'imx-edit-fk-multi',
   templateUrl: './edit-fk-multi.component.html',
   styleUrls: ['./edit-fk-multi.component.scss'],
+  standalone: false
 })
 export class EditFkMultiComponent implements CdrEditor, OnInit, OnDestroy {
   public readonly updateRequested = new Subject<void>();
@@ -79,8 +80,8 @@ export class EditFkMultiComponent implements CdrEditor, OnInit, OnDestroy {
     private readonly translateService: TranslateService,
     private readonly ldsReplace: LdsReplacePipe,
     private readonly multiValueProvider: MultiValueService,
-    private readonly errorHandler: ErrorHandler,
-  ) {}
+    private readonly errorHandler: ErrorHandler
+  ) { }
 
   public ngOnDestroy(): void {
     this.subscribers.forEach((s) => s.unsubscribe());
@@ -212,13 +213,13 @@ export class EditFkMultiComponent implements CdrEditor, OnInit, OnDestroy {
         this.currentValueStruct =
           selection.candidates && selection.candidates.length > 0
             ? {
-                DataValue: this.multiValueProvider.getMultiValue(selection.candidates.map((v) => v.DataValue)),
-                DisplayValue: this.multiValueProvider.getMultiValue(selection.candidates.map((v) => v.DisplayValue ?? '')),
-              }
+              DataValue: this.multiValueProvider.getMultiValue(selection.candidates.map((v) => v.DataValue)),
+              DisplayValue: this.multiValueProvider.getMultiValue(selection.candidates.map((v) => v.DisplayValue ?? '')),
+            }
             : {
-                DataValue: undefined,
-                DisplayValue: undefined,
-              };
+              DataValue: undefined,
+              DisplayValue: undefined,
+            };
 
         this.control.setValue(await this.multiValueToDisplay(this.currentValueStruct), { emitEvent: false });
         this.control.markAsDirty();

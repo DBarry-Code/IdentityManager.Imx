@@ -1,0 +1,22 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
+
+.key-title {
+  gap: 5px;
+}
+
+.key-path {
+  font-family: monospace;
+  font-size: smaller;
+  text-align: right;
+  color: eui.$color-gray-60;
+}
+
+.right-aligned-description {
+  flex-grow: 0;
+}
+
+.wide-field {
+  min-width: 450px;
+  margin-right: 1em;
+}

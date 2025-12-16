@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,10 @@ import { Component, Input } from '@angular/core';
 import { QueuedActionState } from '../../processing-queue/processing-queue.interface';
 
 @Component({
-  selector: 'imx-data-view-status',
-  templateUrl: './data-view-status.component.html',
-  styleUrl: './data-view-status.component.scss',
+    selector: 'imx-data-view-status',
+    templateUrl: './data-view-status.component.html',
+    styleUrl: './data-view-status.component.scss',
+    standalone: false
 })
 export class DataViewStatusComponent {
   public stateOptions = QueuedActionState;

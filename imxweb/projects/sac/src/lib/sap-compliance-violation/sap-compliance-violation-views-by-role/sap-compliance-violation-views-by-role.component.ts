@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { ByRoleResult, ByRoleResultElement, SAPUserFunctionSrcPROF } from '@imx-
 import { SapRoleTreeNodeModel } from './../sap-compliance-violation.model';
 
 @Component({
-  selector: 'imx-sap-compliance-violation-views-by-role',
-  templateUrl: './sap-compliance-violation-views-by-role.component.html',
-  styleUrls: ['./sap-compliance-violation-views-by-role.component.scss'],
+    selector: 'imx-sap-compliance-violation-views-by-role',
+    templateUrl: './sap-compliance-violation-views-by-role.component.html',
+    styleUrls: ['./sap-compliance-violation-views-by-role.component.scss'],
+    standalone: false
 })
 export class SapComplianceViolationViewsByRoleComponent implements OnInit {
   @Input() set resultByRole(value: ByRoleResult) {

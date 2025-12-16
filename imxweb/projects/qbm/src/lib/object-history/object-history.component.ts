@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,15 +37,16 @@ import { ObjectHistoryParameters, ObjectHistoryService } from './object-history.
 
 import moment, { Moment } from 'moment-timezone';
 import { Subscription } from 'rxjs';
+import { ElementalUiConfigService } from '../configuration/elemental-ui-config.service';
 import { ExtendedObjectHistoryEvent, TimelineDateTimeFilter } from '../timeline/timeline';
 import { EventChangeType, EventChangeTypes, HistoryEventChangeType } from '../timeline/timeline.model';
 
-// TODO: One class per file.
-// eslint-disable-next-line max-classes-per-file
+
 @Component({
   selector: 'imx-object-history',
   templateUrl: './object-history.component.html',
   styleUrls: ['./object-history.component.scss'],
+  standalone: false
 })
 export class ObjectHistoryComponent implements OnInit, OnDestroy {
   @Input() public looks: string[] = ['timeline', 'table'];
@@ -83,7 +84,7 @@ export class ObjectHistoryComponent implements OnInit, OnDestroy {
   public selectedLook: string = 'timeline';
   public viewModeValue: string;
   public historyData: ExtendedObjectHistoryEvent[] = [];
-  public filteredHistoryData: ExtendedObjectHistoryEvent[] = [];
+  public filteredHistoryData: ExtendedObjectHistoryEvent[];
   public stateOverviewItems: IStateOverviewItem[] = [];
   public historyComparisonData: HistoryComparisonData[] = [];
   public viewModes: EuiSelectOption[] = [];
@@ -107,16 +108,26 @@ export class ObjectHistoryComponent implements OnInit, OnDestroy {
   public viewModeControl: FormControl<string> = new FormControl(this.viewModeGrid, { nonNullable: true });
   public eventChangeTypes = EventChangeTypes;
   public selectedEventChangeTypes: EventChangeType[] = [];
+  public showOnlyChangedValues = true;
 
   private subscriptions: Subscription[] = [];
+
+  public get comparisonData(): HistoryComparisonData[] {
+    if (this.showOnlyChangedValues) {
+      return this.historyComparisonData.filter((data) => !!data.HasChanged);
+    } else {
+      return this.historyComparisonData;
+    }
+  }
 
   constructor(
     private translate: TranslateService,
     private activatedRoute: ActivatedRoute,
     private busyService: EuiLoadingService,
+    public elementalUiConfigService: ElementalUiConfigService,
     private historyService: ObjectHistoryService,
     private readonly errorHandler: ErrorHandler,
-  ) {}
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     this.setTimeline();

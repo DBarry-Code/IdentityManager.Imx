@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,8 +44,9 @@ import { RunExtendComponent } from './run-extend/run-extend.component';
 import { RunsService } from './runs.service';
 
 @Component({
-  templateUrl: './run-sidesheet.component.html',
-  styleUrls: ['./run-sidesheet.component.scss'],
+    templateUrl: './run-sidesheet.component.html',
+    styleUrls: ['./run-sidesheet.component.scss'],
+    standalone: false
 })
 export class RunSidesheetComponent {
   public readonly run: PortalAttestationRun;

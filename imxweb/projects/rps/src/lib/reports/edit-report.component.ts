@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -57,6 +57,7 @@ import { EditReportService } from './edit-report.service';
   templateUrl: './edit-report.component.html',
   styleUrls: ['./edit-report.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class EditReportComponent implements OnInit {
   public readonly DisplayColumns = DisplayColumns;
@@ -64,6 +65,7 @@ export class EditReportComponent implements OnInit {
   public displayedColumns: IClientProperty[];
   public busyService = new BusyService();
   public entitySchema: StaticSchema<string>;
+  public createPermission = false;
   private isRpsAdmin: boolean;
 
   constructor(
@@ -84,6 +86,7 @@ export class EditReportComponent implements OnInit {
     this.isRpsAdmin = await this.rpsPermissionService.isRpsAdmin();
     this.displayedColumns = [this.entitySchema.Columns[DisplayColumns.DISPLAY_PROPERTYNAME]];
     this.getData();
+    this.setupCreatePermission();
   }
 
   public getData(): void {
@@ -129,6 +132,38 @@ export class EditReportComponent implements OnInit {
     }
   }
 
+  public canDeleteSelected(): boolean {
+    return this.selectedReports.length > 0 && this.selectedReports.filter((i) => i.GetEntity().GetColumn('IsOob').GetValue()).length == 0;
+  }
+
+  public async deleteSelected(): Promise<void> {
+    if (
+      await this.confirmationService.confirm({
+        Title: '#LDS#Heading Delete Reports',
+        Message: '#LDS#Are you sure you want to delete the selected reports?',
+        identifier: 'report-confirm-delete',
+      })
+    ) {
+      const overlay = this.busy.show();
+      try {
+        for (var report of this.selectedReports) {
+          await this.reportService.deleteReport(report);
+        }
+
+        this.snackBarService.open({ key: '#LDS#The reports have been successfully deleted.' }, '#LDS#Close');
+        this.dataSource.selection.clear();
+        this.dataSource.updateState();
+        await this.getData();
+      } finally {
+        this.busy.hide(overlay);
+      }
+    }
+  }
+
+  public async setupCreatePermission(): Promise<void> {
+    this.createPermission = await this.rpsPermissionService.isReportEdit();
+  }
+
   private async openSidesheet(
     report: ExtendedTypedEntityCollection<PortalReportsEdit, ListReportDefinitionRead>,
     isNew: boolean,
@@ -156,34 +191,6 @@ export class EditReportComponent implements OnInit {
 
     if (result) {
       this.dataSource.updateState();
-    }
-  }
-
-  public canDeleteSelected(): boolean {
-    return this.selectedReports.length > 0 && this.selectedReports.filter((i) => i.GetEntity().GetColumn('IsOob').GetValue()).length == 0;
-  }
-
-  public async deleteSelected(): Promise<void> {
-    if (
-      await this.confirmationService.confirm({
-        Title: '#LDS#Heading Delete Reports',
-        Message: '#LDS#Are you sure you want to delete the selected reports?',
-        identifier: 'report-confirm-delete',
-      })
-    ) {
-      const overlay = this.busy.show();
-      try {
-        for (var report of this.selectedReports) {
-          await this.reportService.deleteReport(report);
-        }
-
-        this.snackBarService.open({ key: '#LDS#The reports have been successfully deleted.' }, '#LDS#Close');
-        this.dataSource.selection.clear();
-        this.dataSource.updateState();
-        await this.getData();
-      } finally {
-        this.busy.hide(overlay);
-      }
     }
   }
 }

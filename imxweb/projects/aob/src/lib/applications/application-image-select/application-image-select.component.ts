@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { Base64ImageService, EntityColumnContainer } from 'qbm';
 import { ImageSelectorDialogComponent } from './image-selector-dialog/image-selector-dialog.component';
 
 @Component({
-  selector: 'imx-application-image-select',
-  templateUrl: './application-image-select.component.html',
-  styleUrls: ['./application-image-select.component.scss'],
+    selector: 'imx-application-image-select',
+    templateUrl: './application-image-select.component.html',
+    styleUrls: ['./application-image-select.component.scss'],
+    standalone: false
 })
 export class ApplicationImageSelectComponent implements OnChanges, AfterViewInit {
   public readonly control = new UntypedFormControl();
@@ -93,7 +94,7 @@ export class ApplicationImageSelectComponent implements OnChanges, AfterViewInit
     const imageSelectorDialogParams: MatDialogConfig = {
       autoFocus: false,
       data: {
-        title: '#LDS#Edit Application Icon',
+        title: '#LDS#Heading Edit Application Icon',
         icons: this.icons,
         imageUrl: this.control.value,
         defaultIcon: 'application',

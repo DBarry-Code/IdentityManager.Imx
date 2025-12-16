@@ -18,7 +18,9 @@
               <div data-imx-identifier="policies-table-display">{{ item.GetEntity().GetDisplay() }}</div>
               <div subtitle data-imx-identifier="policies-table-description">{{ item.Description.Column.GetDisplayValue() }}</div>
             </div>
-            <eui-badge class="imx-badge" *ngIf="item.IsInActive.value" color="gray">{{ '#LDS#Deactivated' | translate }}</eui-badge>
+            @if (item.IsInActive.value) {
+              <eui-badge class="imx-badge" color="gray">{{ '#LDS#Deactivated' | translate }}</eui-badge>
+            }
           </div>
         </td>
       </ng-container>

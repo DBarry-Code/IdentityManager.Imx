@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { CartItemsService } from '../cart-items.service';
 import { CartItemEditParameter } from './cart-item-edit-parameter.interface';
 
 @Component({
-  templateUrl: './cart-item-edit.component.html',
-  selector: 'imx-cart-item-edit',
-  styleUrls: ['./cart-item-edit.component.scss'],
+    templateUrl: './cart-item-edit.component.html',
+    selector: 'imx-cart-item-edit',
+    styleUrls: ['./cart-item-edit.component.scss'],
+    standalone: false
 })
 export class CartItemEditComponent implements OnDestroy {
   public readonly shoppingCartItem: PortalCartitem;

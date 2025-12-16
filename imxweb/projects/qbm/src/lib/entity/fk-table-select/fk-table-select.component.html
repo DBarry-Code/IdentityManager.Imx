@@ -1,13 +1,17 @@
-<eui-select
-  *ngIf="options && !loading"
-  (selectionChange)="selectionUpdated($event)"
-  label="{{ '#LDS#Table' | translate }}"
-  [filterFunction]="filter"
-  [options]="options"
-  [inputControl]="control"
-  [hideClearButton]="true"
-  data-imx-identifier="fk-table-select"
->
-</eui-select>
+@if (options && !loading) {
+  <eui-select
+    (selectionChange)="selectionUpdated($event)"
+    label="{{ '#LDS#Table' | translate }}"
+    [filterFunction]="filter"
+    [options]="options"
+    [inputControl]="control"
+    [hideClearButton]="true"
+    [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
+    data-imx-identifier="fk-table-select"
+    >
+  </eui-select>
+}
 
-<mat-spinner diameter="30" *ngIf="loading"></mat-spinner>
+@if (loading) {
+  <mat-spinner diameter="30"></mat-spinner>
+}

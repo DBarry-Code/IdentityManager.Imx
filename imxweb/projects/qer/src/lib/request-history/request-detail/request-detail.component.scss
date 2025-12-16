@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-request-detail {
   display: flex;
@@ -11,7 +10,7 @@
 .eui-dark-theme {
   :host {
     .imx-request-detail {
-      background-color: $color-gray-80;
+      background-color: eui.$color-gray-80;
     }
   }
 }
@@ -19,7 +18,7 @@
 .eui-contrast-theme {
   :host {
     .imx-request-detail {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
     }
   }
 }

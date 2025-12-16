@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PortalServiceitems } from '@imx-modules/imx-api-qer';
 
 @Component({
-  selector: 'imx-lock-info-alert',
-  templateUrl: './lock-info-alert.component.html',
-  styleUrls: ['./lock-info-alert.component.scss'],
+    selector: 'imx-lock-info-alert',
+    templateUrl: './lock-info-alert.component.html',
+    styleUrls: ['./lock-info-alert.component.scss'],
+    standalone: false
 })
 export class LockInfoAlertComponent implements OnInit {
   @Input() public serviceItem: PortalServiceitems;

@@ -3,13 +3,13 @@
     <span>{{ '#LDS#Heading Request History' | translate }}</span>
     <imx-help-contextual [contextId]="contextId"></imx-help-contextual>
   </h2>
-  <ng-container *ngIf="!!dataSource()">
+  @if (!!dataSource()) {
     <imx-data-view-toolbar
       [dataSource]="dataSource()"
       (updateConfig)="requestTableComponent.updateConfig($event)"
       (deleteConfigById)="requestTableComponent.deleteConfigById($event)"
     ></imx-data-view-toolbar>
-  </ng-container>
+  }
 </div>
 <imx-request-table
   #requestTable

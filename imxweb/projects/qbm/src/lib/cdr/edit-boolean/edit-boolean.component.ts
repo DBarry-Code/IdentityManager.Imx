@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { EditorBase } from '../editor-base';
  * When set to read-only, it uses a {@link ViewPropertyComponent | view property component} to display the content.
  */
 @Component({
-  selector: 'imx-checkbox-editor',
-  templateUrl: './edit-boolean.component.html',
-  styleUrls: ['./edit-boolean.component.scss'],
+    selector: 'imx-checkbox-editor',
+    templateUrl: './edit-boolean.component.html',
+    styleUrls: ['./edit-boolean.component.scss'],
+    standalone: false
 })
 export class EditBooleanComponent extends EditorBase<boolean> {
   /**

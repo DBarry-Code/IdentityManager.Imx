@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,10 +52,10 @@ export { CustomAuthFlow } from './lib/authentication/custom-auth-flow.interface'
 export { OAuthService } from './lib/authentication/oauth.service';
 export { AutoCompleteComponent } from './lib/auto-complete/auto-complete.component';
 export { AutoCompleteModule } from './lib/auto-complete/auto-complete.module';
+export { AppInitializationService } from './lib/base/app-init.service';
 export { Busy, BusyService } from './lib/base/busy.service';
 export { ErrorService } from './lib/base/error.service';
 export { GlobalErrorHandler } from './lib/base/global-error-handler';
-export { Guid } from './lib/base/Guid';
 export { IeWarningService } from './lib/base/ie-warning.service';
 export { MetadataService } from './lib/base/metadata.service';
 export { OpsupportDbObjectParameters, OpsupportDbObjectService } from './lib/base/opsupport-db-object.service';
@@ -127,7 +127,7 @@ export { DataSourceToolbarFilter, DataSourceToolbarSelectedFilter } from './lib/
 export {
   DataSourceToolBarGroup,
   DataSourceToolbarGroupData,
-  DataSourceToolBarGroupingCategory,
+  DataSourceToolBarGroupingCategory
 } from './lib/data-source-toolbar/data-source-toolbar-groups.interface';
 export { DataSourceToolbarSettings } from './lib/data-source-toolbar/data-source-toolbar-settings';
 export { isConfigDefault, isDefaultId } from './lib/data-source-toolbar/data-source-toolbar-view-config-helper';
@@ -142,7 +142,7 @@ export { FilterWizardComponent } from './lib/data-source-toolbar/filter-wizard/f
 export {
   FilterFormState,
   FilterTypeIdentifier,
-  FilterWizardSidesheetData,
+  FilterWizardSidesheetData
 } from './lib/data-source-toolbar/filter-wizard/filter-wizard.interfaces';
 export { FilterWizardModule } from './lib/data-source-toolbar/filter-wizard/filter-wizard.module';
 export { FilterWizardService } from './lib/data-source-toolbar/filter-wizard/filter-wizard.service';
@@ -212,7 +212,7 @@ export { JobQueueOverviewComponent } from './lib/jobqueue-overview/jobqueue-over
 export { JobQueueOverviewModule } from './lib/jobqueue-overview/jobqueue-overview.module';
 export { LdsReplaceModule } from './lib/lds-replace/lds-replace.module';
 export { LdsReplacePipe } from './lib/lds-replace/lds-replace.pipe';
-export { LoginComponent } from './lib/login/login.component';
+export { LoginPageComponent } from './lib/login/login-page/login-page.component';
 export { MastHeadMenuItem } from './lib/mast-head/mast-head-menu-item.interface';
 export { MastHeadMenu } from './lib/mast-head/mast-head-menu.interface';
 export { MastHeadComponent } from './lib/mast-head/mast-head.component';
@@ -223,9 +223,11 @@ export { NavigationCommandsMenuItem } from './lib/menu/menu-item/navigation-comm
 export { RelatedApplicationMenuItem } from './lib/menu/menu-item/related-application-menu-item';
 export { RelatedApplication } from './lib/menu/menu-item/related-application.interface';
 export { MenuService } from './lib/menu/menu.service';
+export { ConfirmationInputComponent } from './lib/message-dialog/confirmation-input.component';
 export { MessageDialogResult } from './lib/message-dialog/message-dialog-result.enum';
 export { MessageDialogComponent } from './lib/message-dialog/message-dialog.component';
 export { MessageParameter } from './lib/message-dialog/message-parameter.interface';
+export { ModelCssService } from './lib/model-css/model-css.service';
 export { MultiSelectFormcontrolComponent } from './lib/multi-select-formcontrol/multi-select-formcontrol.component';
 export { MultiSelectFormcontrolModule } from './lib/multi-select-formcontrol/multi-select-formcontrol.module';
 export { MultiValueService } from './lib/multi-value/multi-value.service';
@@ -240,9 +242,28 @@ export { ParameterizedText } from './lib/parameterized-text/parameterized-text.i
 export { ParameterizedTextModule } from './lib/parameterized-text/parameterized-text.module';
 export { ParameterizedTextService } from './lib/parameterized-text/parameterized-text.service';
 export { TextToken } from './lib/parameterized-text/text-token.interface';
+export { PortalIdentifiers } from './lib/portal-switcher/portal-indentifier';
+export { PortalSwitcherComponent } from './lib/portal-switcher/portal-switcher/portal-switcher.component';
 export { Action, ActionGroup, QueuedAction, QueuedActionGroup, QueuedActionState } from './lib/processing-queue/processing-queue.interface';
 export { ProcessingQueueService } from './lib/processing-queue/processing-queue.service';
 
+export { DynamicMethodTypeWrapper } from './lib/api-client/dynamic-method/dynamic-method-type-wrapper.interface';
+export { MethodDescriptorService } from './lib/api-client/dynamic-method/method-descriptor.service';
+export { TypedEntityBuilderService } from './lib/api-client/dynamic-method/typed-entity-builder.service';
+export { EuiDateProviders } from './lib/base/elemental-defaults';
+export { calculateSidesheetWidth, isMobile } from './lib/base/sidesheet-helper';
+export { setFilterDisplay } from './lib/data-source-toolbar/data-model/data-model-helper';
+export { FilterTreeComponent } from './lib/data-source-toolbar/filter-tree/filter-tree.component';
+export { TableAccessiblilityDirective } from './lib/data-table/table-accessibility.directive';
+export { TypedEntityFkData } from './lib/entity/typed-entity-select/typed-entity-fk-data.interface';
+export { FkCandidatesData } from './lib/fk-advanced-picker/fk-candidates/fk-candidates-data.interface';
+export { FKViewConfig } from './lib/fk-advanced-picker/foreign-key-picker-data.interface';
+export { HelpContextualTemplate } from './lib/help-contextual/help-contextual-template.directive';
+export { HelpContextualComponent } from './lib/help-contextual/help-contextual.component';
+export { HelpContextualModule } from './lib/help-contextual/help-contextual.module';
+export { HELP_CONTEXTUAL, HelpContextualService, HelpContextualValues } from './lib/help-contextual/help-contextual.service';
+export { HyperViewLayoutAlgorithm, HyperViewNavigation, HyperViewNavigationEnum } from './lib/hyperview/hyperview-types';
+export { MessageDialogService } from './lib/message-dialog/message-dialog.service';
 export { ImxProgressbarComponent } from './lib/progressbar/progressbar.component';
 export { QbmModule } from './lib/qbm.module';
 export { ComponentCanDeactivate } from './lib/route-guard/component-can-deactivate.interface';
@@ -251,16 +272,20 @@ export { DbObjectInfo } from './lib/search/db-object-info';
 export { imx_QBM_SearchService } from './lib/search/search.service';
 export { imx_ISearchService } from './lib/searchbar/iSearchService';
 export { SearchBarComponent } from './lib/searchbar/searchbar.component';
+export { SelectedElementsComponent } from './lib/selected-elements/selected-elements.component';
+export { SelectedElementsModule } from './lib/selected-elements/selected-elements.module';
 export { imx_SessionService } from './lib/session/imx-session.service';
 export { AuthStepLevels, ISessionState, SessionState } from './lib/session/session-state';
 export { SettingsService } from './lib/settings/settings-service';
 export {
   SideNavigationComponent,
   SideNavigationExtension,
-  SideNavigationFactory,
+  SideNavigationFactory
 } from './lib/side-navigation-view/side-navigation-view-interfaces';
 export { SideNavigationViewComponent } from './lib/side-navigation-view/side-navigation-view.component';
 export { SideNavigationViewModule } from './lib/side-navigation-view/side-navigation-view.module';
+export { DynamicDataApiControls, DynamicDataSource } from './lib/sidenav-tree/sidenav-tree-dynamic-extension';
+export { SidenavTreeComponent } from './lib/sidenav-tree/sidenav-tree.component';
 export { SnackBarService } from './lib/snackbar/snack-bar.service';
 export { SplashService } from './lib/splash/splash.service';
 export { SqlWizardApiService } from './lib/sqlwizard/sqlwizard-api.service';
@@ -271,29 +296,13 @@ export { HELPER_ALERT_KEY_PREFIX, StorageService } from './lib/storage/storage.s
 export { SystemInfoService } from './lib/system-info/system-info.service';
 export { TableImageService } from './lib/table-image/table-image.service';
 
-export { EuiDateProviders } from './lib/base/elemental-defaults';
-export { calculateSidesheetWidth, isMobile } from './lib/base/sidesheet-helper';
-export { setFilterDisplay } from './lib/data-source-toolbar/data-model/data-model-helper';
-export { FilterTreeComponent } from './lib/data-source-toolbar/filter-tree/filter-tree.component';
-export { TableAccessiblilityDirective } from './lib/data-table/table-accessibility.directive';
-export { TypedEntityFkData } from './lib/entity/typed-entity-select/typed-entity-fk-data.interface';
-export { FkCandidatesData } from './lib/fk-advanced-picker/fk-candidates/fk-candidates-data.interface';
-export { HelpContextualComponent } from './lib/help-contextual/help-contextual.component';
-export { HelpContextualModule } from './lib/help-contextual/help-contextual.module';
-export { HELP_CONTEXTUAL, HelpContextualService, HelpContextualValues } from './lib/help-contextual/help-contextual.service';
-export { HyperViewNavigation, HyperViewNavigationEnum } from './lib/hyperview/hyperview-types';
-export { MessageDialogService } from './lib/message-dialog/message-dialog.service';
 export { NumberFormatPipe } from './lib/number/number-format.pipe';
-export { SelectedElementsComponent } from './lib/selected-elements/selected-elements.component';
-export { SelectedElementsModule } from './lib/selected-elements/selected-elements.module';
-export { DynamicDataApiControls, DynamicDataSource } from './lib/sidenav-tree/sidenav-tree-dynamic-extension';
-export { SidenavTreeComponent } from './lib/sidenav-tree/sidenav-tree.component';
 export {
   BaseImxApiDataMock,
   BaseImxApiDtoMock,
   CreateIEntity,
   CreateIEntityColumn,
-  CreateIReadValue,
+  CreateIReadValue
 } from './lib/testing/base-imx-api-mock.spec';
 export { clearStylesFromDOM } from './lib/testing/clear-styles.spec';
 export { EntityColumnStub } from './lib/testing/entity-column-stub.spec';
@@ -331,8 +340,33 @@ export { DataViewSource } from './lib/data-view/data-view-source';
 export { DataViewSourceFactoryService } from './lib/data-view/data-view-source-factory.service';
 export { FakeDataViewSource } from './lib/data-view/data-view-source.spec';
 export { DataViewToolbarComponent } from './lib/data-view/data-view-toolbar/data-view-toolbar.component';
-export { DataViewInitParameters } from './lib/data-view/data-view.interface';
+export { DataViewInitParameters, LocalDataViewInitParameters } from './lib/data-view/data-view.interface';
 export { DataViewModule } from './lib/data-view/data-view.module';
 
 // Utility
 export { tryCatch } from './lib/utility/tryCatch';
+
+// Statistics
+export { StatisticsGuardService } from './lib/guards/statistics-guard.service';
+export { isAllIntegers } from './lib/statistics/charts/chart-helper-functions';
+export { PointStatVisualService } from './lib/statistics/charts/s-chart-tile/point-stat-visual/point-stat-visual.service';
+export { SChartTileComponent } from './lib/statistics/charts/s-chart-tile/s-chart-tile.component';
+export { StatisticsChartHandlerService } from './lib/statistics/charts/statistics-chart-handler.service';
+export { StatisticsApiService } from './lib/statistics/statistics-api.service';
+export { StatisticsForObjectsComponent } from './lib/statistics/statistics-for-objects/statistics-for-objects.component';
+export { StatisticsForObjectsService } from './lib/statistics/statistics-for-objects/statistics-for-objects.service';
+export { ChartInfoTyped } from './lib/statistics/statistics-home-page/chart-info-typed';
+export { StatisticsModule } from './lib/statistics/statistics.module';
+
+export { DateTimePickerComponent } from './lib/date-time-picker/date-time-picker.component';
+export { ErrorPageComponent } from './lib/error-page/error-page.component';
+
+
+// Data Export
+export { ExportColumnsService } from './lib/data-export/export-columns.service';
+
+// Dynamic Modules
+export { DynamicModuleImportService } from './lib/base/dynamic-modules-import.service';
+
+// Global search
+export { GlobalSearchService } from './lib/global-search/global-search.service';

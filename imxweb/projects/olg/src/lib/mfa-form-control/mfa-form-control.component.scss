@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   overflow: auto;
@@ -37,11 +37,11 @@
 .eui-light-theme {
   :host {
     .auth-text {
-      color: $color-gray-40;
+      color: eui.$color-gray-40;
     }
 
     .failed {
-      color: $color-red-60;
+      color: eui.$color-red-60;
     }
   }
 }
@@ -49,11 +49,11 @@
 .eui-dark-theme {
   :host {
     .auth-text {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
 
     .failed {
-      color: $color-red-40;
+      color: eui.$color-red-40;
     }
   }
 }
@@ -61,11 +61,11 @@
 .eui-contrast-theme {
   :host {
     .auth-text {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
 
     .failed {
-      color: $color-red-60;
+      color: eui.$color-red-60;
     }
   }
 }

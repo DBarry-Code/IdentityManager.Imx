@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 .imx-terms-container {
   overflow: auto;
@@ -6,8 +6,8 @@
   margin-bottom: 10px;
 }
 
-.mat-mdc-card{
-  @include flex-column-container($max-height: 100%);
+.mat-mdc-card {
+  @include mixins.flex-column-container($max-height: 100%);
 
   .mat-mdc-card-content {
     overflow: auto;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,9 +45,10 @@ import { RequestsService } from '../requests.service';
 import { CREATE_SHELF_TOKEN } from './request-shelf-token';
 
 @Component({
-  selector: 'imx-request-shelves',
-  templateUrl: './request-shelves.component.html',
-  styleUrls: ['../request-config-sidesheet-common.scss'],
+    selector: 'imx-request-shelves',
+    templateUrl: './request-shelves.component.html',
+    styleUrls: ['../request-config-sidesheet-common.scss'],
+    standalone: false
 })
 export class RequestShelvesComponent implements OnInit {
   @Input() public requestConfigId: string;

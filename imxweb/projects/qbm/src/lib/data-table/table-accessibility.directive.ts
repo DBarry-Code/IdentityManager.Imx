@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,7 +27,8 @@
 import { AfterViewChecked, AfterViewInit, Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[tableAccessiblility]',
+    selector: '[tableAccessiblility]',
+    standalone: false
 })
 export class TableAccessiblilityDirective implements AfterViewChecked, AfterViewInit {
   private maxrow: number;

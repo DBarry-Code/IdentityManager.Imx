@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { EntityColumnContainer } from '../entity-column-container';
 import { ImxTranslationProviderService } from '../../translation/imx-translation-provider.service';
 
 @Component({
-  selector: 'imx-view-property',
-  templateUrl: './view-property.component.html',
-  styleUrls: ['./view-property.component.scss'],
+    selector: 'imx-view-property',
+    templateUrl: './view-property.component.html',
+    styleUrls: ['./view-property.component.scss'],
+    standalone: false
 })
 export class ViewPropertyComponent {
   @Input() public columnContainer: EntityColumnContainer;

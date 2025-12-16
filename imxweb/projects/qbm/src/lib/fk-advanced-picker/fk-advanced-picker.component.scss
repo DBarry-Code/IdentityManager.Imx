@@ -1,6 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   overflow-y: auto;
@@ -10,9 +9,9 @@
 }
 
 .imx-dialog-content {
-  @include flex-column-container($overflow: auto, $height: 100%);
+  @include mixins.flex-column-container($overflow: auto, $height: 100%);
 
-  > imx-fk-selector {
+  >imx-fk-selector {
     display: flex;
     flex-direction: column;
     flex-grow: 1;

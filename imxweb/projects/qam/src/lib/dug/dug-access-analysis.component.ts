@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,6 +35,7 @@ import { DugAccessAnalysisService } from './dug-access-analysis.service';
   templateUrl: './dug-access-analysis.component.html',
   styleUrls: ['./dug-access-analysis.component.scss'],
   selector: 'imx-dge-access-analysis',
+  standalone: false,
   providers: [DataViewSource],
 })
 export class DugAccessAnalysisComponent implements OnInit {

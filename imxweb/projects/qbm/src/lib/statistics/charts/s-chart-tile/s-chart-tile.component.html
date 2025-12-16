@@ -1,0 +1,26 @@
+<div>
+  @switch (type) {
+    @case ('point') {
+      <div class="center-content">
+        <imx-point-stat-visual [summaryStat]="summaryStat" [pointStatStatus]="pointStatStatus"></imx-point-stat-visual>
+      </div>
+    }
+    @case ('table') {
+      <div>
+        <imx-table-stat-visual [summaryStat]="summaryStat"></imx-table-stat-visual>
+      </div>
+    }
+    @case ('no-data') {
+      <div class="card-zero-data center-content">
+        <eui-icon [icon]="determineIcon()"></eui-icon>
+        <p>{{ '#LDS#No data available yet' | translate }}</p>
+      </div>
+    }
+    <!-- We assume all other cases will be charts valid for eui billboard -->
+    @default {
+      <div>
+        <eui-billboard [options]="chartOptions" (chart)="cacheChart($event)"></eui-billboard>
+      </div>
+    }
+  }
+</div>

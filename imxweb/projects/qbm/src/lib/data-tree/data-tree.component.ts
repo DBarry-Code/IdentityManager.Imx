@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -51,9 +51,10 @@ import { TreeNodeInfo } from './tree-node';
 import { TreeSelectionListComponent } from './tree-selection-list/tree-selection-list.component';
 
 @Component({
-  selector: 'imx-data-tree',
-  templateUrl: './data-tree.component.html',
-  styleUrls: ['./data-tree.component.scss', './data-tree-no-results.scss'],
+    selector: 'imx-data-tree',
+    templateUrl: './data-tree.component.html',
+    styleUrls: ['./data-tree.component.scss', './data-tree-no-results.scss'],
+    standalone: false
 })
 /**
  * A tree component consinsting of a {@link CheckableTreeComponent|checkable tree component}, an

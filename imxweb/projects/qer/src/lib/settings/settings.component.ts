@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,8 +24,8 @@
  *
  */
 
-import { DOCUMENT } from '@angular/common';
-import { Component, ErrorHandler, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
+import { Component, ErrorHandler, Inject, OnDestroy, OnInit, ViewChild, DOCUMENT } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EuiLoadingService, EuiTheme, EuiThemeService, EuiThemeSwitcherComponent } from '@elemental-ui/core';
 import { ProfileSettings } from '@imx-modules/imx-api-qer';
@@ -38,18 +38,15 @@ import {
   MetaTableRelationData,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
-import { AppConfigService, BaseCdr, CustomThemeService, EntityService, SnackBarService, SystemInfoService } from 'qbm';
+import { AppConfigService, BaseCdr, CustomThemeService, EntityService, PortalIdentifiers, SnackBarService, SystemInfoService } from 'qbm';
 import { Subscription } from 'rxjs';
 import { QerApiService } from '../qer-api-client.service';
 
-const portalApp = 'PORTAL';
-const passwordResetApp = 'PASSWORDRESET';
-const opsupportApp = 'OPSUPPORT';
-
 @Component({
-  selector: 'imx-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+    selector: 'imx-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    standalone: false
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('themeSwitcherControl') themeSwitcherControl: EuiThemeSwitcherComponent;
@@ -81,7 +78,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   public async ngOnInit() {
-    this.app = this.config.Config.WebAppIndex.toUpperCase();
+    this.app = this.config.Config.WebAppIndex;
     await this.loadProfileSettings();
   }
 
@@ -93,15 +90,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
     let overlayRef = this.euiLoadingService.show();
     try {
       switch (this.app) {
-        case portalApp:
+        case PortalIdentifiers.Portal.id:
           this.profileSettings = await this.qerClient.client.portal_profile_get();
           this.userCulture = (await this.qerClient.client.portal_profile_person_get())?.ProfileLanguage;
           break;
-        case passwordResetApp:
+        case PortalIdentifiers.PwdReset.id:
           this.profileSettings = await this.qerClient.client.passwordreset_profile_get();
           this.userCulture = (await this.qerClient.client.passwordreset_profile_person_get())?.ProfileLanguage;
           break;
-        case opsupportApp:
+        case PortalIdentifiers.OpsWeb.id:
           this.profileSettings = await this.qerClient.client.opsupport_profile_get();
           this.userCulture = (await this.qerClient.client.opsupport_profile_person_get())?.ProfileLanguage;
           break;
@@ -131,13 +128,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     try {
       switch (this.app) {
-        case portalApp:
+        case PortalIdentifiers.Portal.id:
           await this.qerClient.client.portal_profile_post(this.profileSettings);
           break;
-        case passwordResetApp:
+        case PortalIdentifiers.PwdReset.id:
           await this.qerClient.client.passwordreset_profile_post(this.profileSettings);
           break;
-        case opsupportApp:
+        case PortalIdentifiers.OpsWeb.id:
           await this.qerClient.client.opsupport_profile_post(this.profileSettings);
           break;
       }
@@ -168,13 +165,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     let overlayRef = this.euiLoadingService.show();
     try {
       switch (this.app) {
-        case portalApp:
+        case PortalIdentifiers.Portal.id:
           await this.qerClient.client.portal_profile_delete();
           break;
-        case passwordResetApp:
+        case PortalIdentifiers.PwdReset.id:
           await this.qerClient.client.passwordreset_profile_delete();
           break;
-        case opsupportApp:
+        case PortalIdentifiers.OpsWeb.id:
           await this.qerClient.client.opsupport_profile_delete();
           break;
       }
@@ -200,13 +197,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     let getDialogTimeZoneFunction: Function;
 
     switch (this.app) {
-      case portalApp:
+      case PortalIdentifiers.Portal.id:
         getDialogTimeZoneFunction = (parameters) => this.qerClient.client.portal_candidates_DialogTimeZone_get(parameters);
         break;
-      case passwordResetApp:
+      case PortalIdentifiers.PwdReset.id:
         getDialogTimeZoneFunction = (parameters) => this.qerClient.client.passwordreset_candidates_DialogTimeZone_get(parameters);
         break;
-      case opsupportApp:
+      case PortalIdentifiers.OpsWeb.id:
         getDialogTimeZoneFunction = (parameters) => this.qerClient.client.opsupport_candidates_DialogTimeZone_get(parameters);
         break;
     }
@@ -265,13 +262,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     let timezone: EntityCollectionData | undefined = undefined;
 
     switch (this.app) {
-      case portalApp:
+      case PortalIdentifiers.Portal.id:
         timezone = await this.qerClient.client.portal_candidates_DialogTimeZone_get(timezoneOptions);
         break;
-      case passwordResetApp:
+      case PortalIdentifiers.PwdReset.id:
         timezone = await this.qerClient.client.passwordreset_candidates_DialogTimeZone_get(timezoneOptions);
         break;
-      case opsupportApp:
+      case PortalIdentifiers.OpsWeb.id:
         timezone = await this.qerClient.client.opsupport_candidates_DialogTimeZone_get(timezoneOptions);
         break;
     }

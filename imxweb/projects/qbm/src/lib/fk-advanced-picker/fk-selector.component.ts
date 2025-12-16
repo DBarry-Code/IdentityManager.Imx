@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,29 +24,27 @@
  *
  */
 
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import {
   CollectionLoadParameters,
   CompareOperator,
   DataModel,
-  DataModelFilter,
   DbObjectKey,
   DisplayColumns,
   EntitySchema,
-  FilterData,
   FilterType,
   IForeignKeyInfo,
   TypedEntity,
   TypedEntityBuilder,
-  ValType,
 } from '@imx-modules/imx-qbm-dbts';
 import { BusyService } from '../base/busy.service';
 import { MetadataService } from '../base/metadata.service';
 import { ClassloggerService } from '../classlogger/classlogger.service';
-import { ClientPropertyForTableColumns } from '../data-source-toolbar/client-property-for-table-columns';
 import { DataSourceToolbarSettings } from '../data-source-toolbar/data-source-toolbar-settings';
-import { DataTableComponent } from '../data-table/data-table.component';
+import { DataSourceToolbarViewConfig } from '../data-source-toolbar/data-source-toolbar-view-config.interface';
+import { DataViewSource } from '../data-view/data-view-source';
+import { DataViewInitParameters } from '../data-view/data-view.interface';
 import { SettingsService } from '../settings/settings-service';
 import { CandidateEntity } from './candidate-entity';
 import { ForeignKeyPickerData } from './foreign-key-picker-data.interface';
@@ -55,162 +53,106 @@ import { ForeignKeyPickerData } from './foreign-key-picker-data.interface';
   selector: 'imx-fk-selector',
   templateUrl: './fk-selector.component.html',
   styleUrls: ['./fk-selector.component.scss'],
+  providers: [DataViewSource],
+  standalone: false,
 })
 export class FkSelectorComponent implements OnInit {
   public settings: DataSourceToolbarSettings;
   public selectedTable: IForeignKeyInfo;
-  public selectedCandidates: TypedEntity[] = [];
   public preselectedEntities: TypedEntity[] | null;
 
   public readonly DisplayColumns = DisplayColumns; // Enables use of this static class in Angular Templates.
 
-  @ViewChild(DataTableComponent) public dataTable: DataTableComponent<TypedEntity>;
   @Input() public data: ForeignKeyPickerData;
-  @Output() public elementSelected = new EventEmitter<TypedEntity>();
-  @Output() public tableselected = new EventEmitter<IForeignKeyInfo>();
-  @Output() public selectedCandidatesChanges = new EventEmitter();
+  @Output() public tableSelected = new EventEmitter<IForeignKeyInfo>();
 
   public busyService = new BusyService();
 
   private readonly builder = new TypedEntityBuilder(CandidateEntity);
   public entitySchema: EntitySchema;
-  private filters: DataModelFilter[];
   private dataModel: DataModel;
+  private viewConfig: DataSourceToolbarViewConfig | undefined;
 
   constructor(
+    public dataSource: DataViewSource<TypedEntity>,
     public readonly metadataProvider: MetadataService,
     private readonly settingsService: SettingsService,
     private readonly logger: ClassloggerService,
   ) {}
 
-  public async ngOnInit(): Promise<void> {
+  public async ngOnInit() {
     const isBusy = this.busyService.beginBusy();
 
     if (this.data.fkRelations && this.data.fkRelations.length > 0) {
-      this.logger.trace(this, 'Pre-select the first candidate table');
+      // Preselect the first table
       this.selectedTable = this.data.fkRelations.find((fkr) => fkr.TableName === this.data.selectedTableName) || this.data.fkRelations[0];
-      this.entitySchema = CandidateEntity.GetEntitySchema(this.selectedTable.ColumnName, this.selectedTable.TableName);
-      this.dataModel = await this.selectedTable.GetDataModel();
-      this.filters = this.dataModel.Filters ?? [];
+      await this.setupDataSource();
     }
 
-    if (this.data.fkRelations && this.data.fkRelations.length > 0) {
-      await this.metadataProvider.updateNonExisting(this.data.fkRelations.map((fkr) => fkr.TableName));
-    }
-    await this.loadTableData();
-    await this.getPreselectedEntities();
-    if (this.preselectedEntities) {
-      this.selectedCandidates = this.preselectedEntities;
-    }
-    this.logger.debug(this, 'Pre selected elements', this.selectedCandidates.length);
+    await this.loadDataSource();
 
     isBusy.endBusy();
   }
 
-  public search(keywords: string): void {
-    this.logger.debug(this, 'Search - keywords', keywords);
-    this.loadTableData({ search: keywords });
-  }
-
-  public amIDisabled(item: TypedEntity): boolean {
-    return this.data.disabledIds?.find((x) => x === item.GetEntity().GetKeys()[0]) ? true : false;
-  }
-
-  /**
-   * @ignore
-   */
-  public setSelectedClass(item: TypedEntity): any {
-    if (this.data.isMultiValue || this.selectedCandidates.length === 0) {
-      return;
+  private async setupDataSource() {
+    if (this.data.fkRelations && this.data.fkRelations.length > 0) {
+      await this.metadataProvider.updateNonExisting(this.data.fkRelations.map((fkr) => fkr.TableName));
     }
-
-    return this.selectedCandidates[0] === item ? { 'imx-selected-row': true } : {};
+    this.entitySchema = CandidateEntity.GetEntitySchema(this.selectedTable.ColumnName, this.selectedTable.TableName);
+    this.dataModel = await this.selectedTable.GetDataModel();
+    this.viewConfig = this.data.viewConfigSettings?.getViewConfig
+      ? await this.data?.viewConfigSettings?.getViewConfig(this.dataModel)
+      : undefined;
   }
 
-  /**
-   * @ignore
-   */
-  public selectionChanged(selection: TypedEntity[]): void {
-    this.logger.debug(this, 'Selected elements', selection.length);
-    // TODO (TFS 806235): save selected object to MRU list
-    this.selectedCandidates = selection;
-    this.selectedCandidatesChanges.emit();
-  }
-
-  /**
-   * @ignore
-   */
-  public selectObject(typedEntity: TypedEntity): void {
-    this.selectionChanged([typedEntity]);
-    this.elementSelected.emit(typedEntity);
-  }
-
-  /**
-   * @ignore
-   */
-  public clearSelection(): void {
-    this.dataTable.clearSelection();
-  }
-
-  /**
-   * @ignore
-   */
-  public async tableChanged(): Promise<void> {
-    await this.loadTableData({ StartIndex: 0, filter: undefined });
-    this.tableselected.emit(this.selectedTable);
-  }
-
-  public async filterByTree(filters: FilterData[]): Promise<void> {
-    return this.loadTableData({ StartIndex: 0, filter: filters });
-  }
-
-  /**
-   * @ignore
-   * updates the data source
-   * @param newState the state of the data source
-   */
-  public async loadTableData(newState?: CollectionLoadParameters): Promise<void> {
-    if (this.selectedTable) {
-      const isBusy = this.busyService.beginBusy();
-      try {
-        let navigationState =
-          this.settings && this.settings.navigationState
-            ? this.settings.navigationState
-            : { PageSize: this.settingsService.DefaultPageSize, StartIndex: 0 };
-
-        if (newState) {
-          navigationState = { ...navigationState, ...newState };
-        }
-
-        this.logger.debug(this, 'LoadTableData - loading with navigationState', navigationState);
-        const displayedColumns: ClientPropertyForTableColumns[] = [];
-
-        if (!this.data.isMultiValue) {
-          displayedColumns.push({
-            Type: ValType.String,
-            ColumnName: 'Select',
-            untranslatedDisplay: '#LDS#Selection',
-          });
-        }
-
-        displayedColumns.push(DisplayColumns.DISPLAY_PROPERTY);
-
-        this.settings = {
-          dataSource: this.builder.buildReadWriteEntities(await this.selectedTable.Get(navigationState), this.entitySchema),
-          displayedColumns,
-          entitySchema: this.entitySchema,
-          filters: this.filters,
-          dataModel: this.dataModel,
-          navigationState,
-          filterTree: {
-            multiSelect: true,
-            filterMethode: async (parentKey) => this.selectedTable.GetFilterTree(parentKey),
-          },
-        };
-      } finally {
-        isBusy.endBusy();
+  private async loadDataSource() {
+    this.dataSource.state.set({
+      PageSize: this.settingsService.DefaultPageSize,
+      StartIndex: 0,
+    });
+    const dataViewInitParameters: DataViewInitParameters = {
+      execute: async (params: CollectionLoadParameters) => {
+        return this.builder.buildReadWriteEntities(await this.selectedTable.Get(params), this.entitySchema);
+      },
+      schema: this.entitySchema,
+      columnsToDisplay: [DisplayColumns.DISPLAY_PROPERTY],
+      dataModel: this.dataModel,
+      viewConfig: this.viewConfig,
+      filterTree: {
+        multiSelect: true,
+        filterMethode: async (parentKey) => this.selectedTable.GetFilterTree(parentKey),
       }
-    }
+    };
+    await this.getPreselectedEntities();
+    await this.dataSource.init(dataViewInitParameters);
+    await this.getPreselectedEntities();
+    this.dataSource.itemStatus.enabled = (item: TypedEntity) => !this.isRowDisabled(item);
+    if (this.preselectedEntities) this.dataSource.selection.setSelection(this.preselectedEntities);
+  }
+
+  public async updateConfig(config: any): Promise<void> {
+    if (this.data.viewConfigSettings?.updateConfig) await this.data.viewConfigSettings?.updateConfig(config);
+    if (this.data.viewConfigSettings?.getViewUpdates) this.viewConfig = await this.data.viewConfigSettings.getViewUpdates();
+    this.dataSource.viewConfig.set(this.viewConfig);
+  }
+
+  public async deleteConfigById(id: string): Promise<void> {
+    if (this.data.viewConfigSettings?.deleteConfigById) await this.data.viewConfigSettings.deleteConfigById(id);
+    if (this.data.viewConfigSettings?.getViewUpdates) this.viewConfig = await this.data.viewConfigSettings.getViewUpdates();
+    this.dataSource.viewConfig.set(this.viewConfig);
+  }
+
+  public isRowDisabled(item: TypedEntity): boolean {
+    return this.data.disabledIds?.includes(item.GetEntity().GetKeys()[0]) ?? false;
+  }
+
+  /**
+   * @ignore
+   */
+  public async tableChanged() {
+    await this.setupDataSource();
+    await this.loadDataSource();
+    this.tableSelected.emit(this.selectedTable);
   }
 
   /**
@@ -234,7 +176,6 @@ export class FkSelectorComponent implements OnInit {
           }
 
           table = table || this.data.fkRelations[0];
-
           const navigationState: CollectionLoadParameters = {
             filter: [
               {
@@ -244,6 +185,7 @@ export class FkSelectorComponent implements OnInit {
                 Value1: key,
               },
             ],
+            withProperties: this.dataSource.state().withProperties,
           };
           this.logger.debug(this, 'Getting preselected entity with navigation state', navigationState);
 

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { UserModelService } from '../user/user-model.service';
 import { MyResponsibilitiesRegistryService } from './my-responsibilities-registry.service';
 
 @Component({
-  selector: 'imx-my-responsibilities-view',
-  templateUrl: './my-responsibilities-view.component.html',
-  styleUrls: ['./my-responsibilities-view.component.scss'],
+    selector: 'imx-my-responsibilities-view',
+    templateUrl: './my-responsibilities-view.component.html',
+    styleUrls: ['./my-responsibilities-view.component.scss'],
+    standalone: false
 })
 export class MyResponsibilitiesViewComponent implements OnInit {
   public isAdmin = false;

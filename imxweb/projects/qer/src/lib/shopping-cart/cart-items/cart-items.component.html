@@ -6,49 +6,59 @@
       </th>
       <td mat-cell *matCellDef="let cartItem" role="gridcell" class="imx-table-cell">
         <div class="imx-display-column">
-          <div class="imx-placeholder" *ngIf="cartItem.UID_ShoppingCartItemParent.value"></div>
+          @if (cartItem.UID_ShoppingCartItemParent.value) {
+            <div class="imx-placeholder"></div>
+          }
           <div>
             <imx-cart-item-display [cartItem]="cartItem"></imx-cart-item-display>
 
-            <div class="imx-subtext" *ngIf="cartItem.RequestType.value === 'Prolongate'">
-              {{ '#LDS#Renewal' | translate }}
-            </div>
-            <div class="imx-subtext" *ngIf="['Unsubscribe', 'UnsubscribeWithDate'].includes(cartItem.RequestType.value)">
-              {{ '#LDS#Request cancelation' | translate }}
-            </div>
+            @if (cartItem.RequestType.value === 'Prolongate') {
+              <div class="imx-subtext">
+                {{ '#LDS#Renewal' | translate }}
+              </div>
+            }
+            @if (['Unsubscribe', 'UnsubscribeWithDate'].includes(cartItem.RequestType.value)) {
+              <div class="imx-subtext">
+                {{ '#LDS#Request cancelation' | translate }}
+              </div>
+            }
 
-            <div class="imx-subtext" *ngIf="cartItem.UID_ShoppingCartItemParent.value">
-              {{ (cartItem.IsOptionalChild.value ? '#LDS#Optional product' : '#LDS#Mandatory product') | translate }}
+            @if (cartItem.UID_ShoppingCartItemParent.value) {
+              <div class="imx-subtext">
+                {{ (cartItem.IsOptionalChild.value ? '#LDS#Optional product' : '#LDS#Mandatory product') | translate }}
+              </div>
+            }
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    @if (!forLater) {
+      <ng-container [matColumnDef]="entitySchema.Columns.CheckResult.ColumnName">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ entitySchema?.Columns?.CheckResult?.Display }}
+        </th>
+        <td mat-cell *matCellDef="let cartItem" role="gridcell" class="imx-table-cell">
+          @if (cartItem.CheckResult.value !== CartItemCheckStatus.notChecked) {
+            <button
+              mat-stroked-button
+              class="imx-validation-button"
+              (click)="showValidationOverview(cartItem)"
+              [color]="setValidationOverviewButtonColor(cartItem)"
+              data-imx-identifier="cartitem-button-checkResult"
+            >
+              <div [attr.data-imx-identifier]="'cartitem-button-checkResult-' + CartItemCheckStatus[cartItem.CheckResult.value]">
+                {{ cartItem.CheckResult.Column.GetDisplayValue() }}
+              </div>
+            </button>
+          }
+          @if (cartItem.CheckResult.value === CartItemCheckStatus.notChecked) {
+            <div [attr.data-imx-identifier]="'cartitem-button-checkResult-' + CartItemCheckStatus[cartItem.CheckResult.value]">
+              {{ cartItem.CheckResult.Column.GetDisplayValue() }}
             </div>
-          </div>
-        </div>
-      </td>
-    </ng-container>
-    <ng-container [matColumnDef]="entitySchema.Columns.CheckResult.ColumnName" *ngIf="!forLater">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ entitySchema?.Columns?.CheckResult?.Display }}
-      </th>
-      <td mat-cell *matCellDef="let cartItem" role="gridcell" class="imx-table-cell">
-        <button
-          mat-stroked-button
-          *ngIf="cartItem.CheckResult.value !== CartItemCheckStatus.notChecked"
-          class="imx-validation-button"
-          (click)="showValidationOverview(cartItem)"
-          [color]="setValidationOverviewButtonColor(cartItem)"
-          data-imx-identifier="cartitem-button-checkResult"
-        >
-          <div [attr.data-imx-identifier]="'cartitem-button-checkResult-' + CartItemCheckStatus[cartItem.CheckResult.value]">
-            {{ cartItem.CheckResult.Column.GetDisplayValue() }}
-          </div>
-        </button>
-        <div
-          *ngIf="cartItem.CheckResult.value === CartItemCheckStatus.notChecked"
-          [attr.data-imx-identifier]="'cartitem-button-checkResult-' + CartItemCheckStatus[cartItem.CheckResult.value]"
-        >
-          {{ cartItem.CheckResult.Column.GetDisplayValue() }}
-        </div>
-      </td>
-    </ng-container>
+          }
+        </td>
+      </ng-container>
+    }
     <ng-container [matColumnDef]="DisplayColumns.DISPLAY_LONG_PROPERTYNAME">
       <th mat-header-cell *matHeaderCellDef>
         {{ '#LDS#Actions' | translate }}
@@ -56,7 +66,11 @@
       <td mat-cell *matCellDef="let cartItem" role="gridcell" class="imx-table-cell">
         <button
           mat-stroked-button
-          [attr.data-imx-identifier]="'cartitem-button-edit-' + cartItem.UID_AccProduct.Column.GetDisplayValue() ?? ''"
+          [attr.data-imx-identifier]="
+            cartItem?.UID_AccProduct?.Column.GetDisplayValue()
+              ? 'cartitem-button-edit-' + cartItem.UID_AccProduct.Column.GetDisplayValue()
+              : null
+          "
           (click)="editCartItem(cartItem)"
         >
           {{ '#LDS#Edit' | translate }}
@@ -66,21 +80,26 @@
     <ng-container [matColumnDef]="'removeItemButton'">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let cartItem" role="gridcell" class="imx-table-cell">
-        <button
-          mat-stroked-button
-          color="warn"
-          *ngIf="
-            cartItem.UID_ShoppingCartItemParent.value == null ||
-            cartItem.UID_ShoppingCartItemParent.value === '' ||
-            cartItem.IsOptionalChild.value
-          "
-          class="imx-button-icon-14"
-          [attr.data-imx-identifier]="'cartitem-button-remove-' + cartItem.UID_AccProduct.Column.GetDisplayValue() ?? ''"
-          (click)="removeHighlightedItem(cartItem)"
-        >
-          <eui-icon icon="delete"></eui-icon>
-          {{ removeButtonLabel }}
-        </button>
+        @if (
+          cartItem.UID_ShoppingCartItemParent.value == null ||
+          cartItem.UID_ShoppingCartItemParent.value === '' ||
+          cartItem.IsOptionalChild.value
+        ) {
+          <button
+            mat-stroked-button
+            color="warn"
+            class="imx-button-icon-14"
+            [attr.data-imx-identifier]="
+              cartItem?.UID_AccProduct?.Column.GetDisplayValue()
+                ? 'cartitem-button-remove-' + cartItem.UID_AccProduct.Column.GetDisplayValue()
+                : null
+            "
+            (click)="removeHighlightedItem(cartItem)"
+          >
+            <eui-icon icon="delete"></eui-icon>
+            {{ removeButtonLabel }}
+          </button>
+        }
       </td>
     </ng-container>
   </imx-data-view-auto-table>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,14 +36,14 @@ import { DugAssignOwnershipSidesheetComponent } from './dug-assign-ownership-sid
 import { DugOwnershipService } from './dug-ownership.service';
 
 @Component({
+  standalone: false,
   selector: 'imx-dug-ownership',
   templateUrl: './dug-ownership.component.html',
   styleUrls: ['./dug-ownership.component.scss'],
   providers: [DataViewSource],
 })
-export class DugOwnershipComponent implements OnInit, SideNavigationComponent {
+export class DugOwnershipComponent implements OnInit {
   public data?: PortalDgeResources;
-  public contextId?: HelpContextualValues;
   private dataModel: DataModel;
 
   public busyService = new BusyService();
@@ -80,7 +80,6 @@ export class DugOwnershipComponent implements OnInit, SideNavigationComponent {
       this.dataModel = await this.ownershipService.getDataModel();
       await this.getData();
     } finally {
-      this.contextId = HELP_CONTEXTUAL.GovernedDataOwnership;
       isBusy.endBusy();
     }
   }

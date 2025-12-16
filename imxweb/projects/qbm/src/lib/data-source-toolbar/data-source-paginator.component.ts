@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,8 +44,9 @@ import { DataSourceToolbarComponent } from './data-source-toolbar.component';
  * <imx-data-source-paginator [dst]="myDst"></imx-data-source-paginator>
  */
 @Component({
-  selector: 'imx-data-source-paginator',
-  templateUrl: './data-source-paginator.component.html',
+    selector: 'imx-data-source-paginator',
+    templateUrl: './data-source-paginator.component.html',
+    standalone: false
 })
 export class DataSourcePaginatorComponent implements OnChanges, OnDestroy {
   /**
@@ -81,7 +82,7 @@ export class DataSourcePaginatorComponent implements OnChanges, OnDestroy {
   public get hidePaginator() {
     return !this.dst?.dataSourceHasData || this.dst.settings?.groupData?.currentGrouping != null || this.isLoading;
   }
-  public isLoading = false;
+  public isLoading = true;
 
   constructor(private readonly changeDetector: ChangeDetectorRef) {}
 

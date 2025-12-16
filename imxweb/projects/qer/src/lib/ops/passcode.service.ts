@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,7 +30,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { PersonPasscodeResult } from '@imx-modules/imx-api-qer';
 import { LdsReplacePipe } from 'qbm';
-import { ProjectConfigurationService } from '../project-configuration/project-configuration.service';
 import { QerApiService } from '../qer-api-client.service';
 import { PasscodeViewerComponent } from './passcodeViewer.component';
 
@@ -43,7 +42,6 @@ export class PasscodeService {
     private dialogService: MatDialog,
     private translationProvider: TranslateService,
     private readonly ldsReplace: LdsReplacePipe,
-    private readonly config: ProjectConfigurationService,
   ) {}
 
   public async getPasscodeWithOpsLogin(uidPerson: string): Promise<PersonPasscodeResult> {
@@ -54,17 +52,14 @@ export class PasscodeService {
     return this.qerClient.client.portal_person_passcode_post(uidPerson);
   }
 
-  public async showPasscode(
-    passcode: PersonPasscodeResult,
-    userDisplay: string,
-    managerDisplay: string,
-    duration: number | undefined,
-  ): Promise<void> {
-    return this.openDialogAndShowPasscode(passcode.PasscodeSplit, passcode.PassCode ?? '', managerDisplay, userDisplay, duration);
-  }
-
-  public async getValidationDuration(): Promise<number | undefined> {
-    return (await this.config.getConfig()).PersonConfig?.VI_Employee_MasterData_PassCode_HoursValid;
+  public async showPasscode(passcode: PersonPasscodeResult, userDisplay: string, managerDisplay: string): Promise<void> {
+    return this.openDialogAndShowPasscode(
+      passcode.PasscodeSplit,
+      passcode.PassCode ?? '',
+      managerDisplay,
+      userDisplay,
+      passcode.HoursValid,
+    );
   }
 
   private async openDialogAndShowPasscode(

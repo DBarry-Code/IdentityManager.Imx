@@ -1,46 +1,67 @@
 @if (!captchaSvc.isReCaptchaV3) {
-  <eui-alert type="info" [condensed]="true">
+  <eui-alert type="info" [condensed]="true" [colored]="true">
     <span>{{ LdsCaptchaInfo | translate }}</span>
   </eui-alert>
   <div class="captcha-container">
     @if (captchaSvc.isBuiltIn) {
-      <img [src]="appConfig.BaseUrl + '/' + builtInCaptchaUrl + captchaSvc.builtInUrlParameter" [alt]="'#LDS#Captcha image' | translate" />
+      @if (captchaSvc.captchaLoading) {
+        <mat-spinner diameter="90"></mat-spinner>
+      }
+      <img
+        [hidden]="captchaSvc.captchaLoading"
+        width="400"
+        height="90"
+        (load)="captchaSvc.onLoad()"
+        [ngSrc]="appConfig.BaseUrl + '/' + builtInCaptchaUrl + captchaSvc.builtInUrlParameter()"
+        [alt]="'#LDS#Captcha image' | translate"
+        priority
+      />
     } @else {
       <p translate>The CAPTCHA configuration is unsupported.</p>
     }
-    <mat-form-field>
-      <input
-        matInput
-        class="imx-input-login"
-        placeholder="{{ '#LDS#Enter characters from the image' | translate }}"
-        type="text"
-        [(ngModel)]="captchaSvc.Response"
-        [attr.data-imx-identifier]="'captcha-code'"
-        [required]="!captchaSvc.isReCaptchaV3"
-      />
-    </mat-form-field>
+    <div class="captcha-input">
+      <eui-form-field>
+        <input
+          matInput
+          class="imx-input-login"
+          placeholder="{{ '#LDS#Enter characters from the image' | translate }}"
+          type="text"
+          [(ngModel)]="captchaSvc.Response"
+          [attr.data-imx-identifier]="'captcha-code'"
+          [required]="true"
+          (keyup.enter)="onNext()"
+        />
+      </eui-form-field>
+      @if (showAllButtons && !captchaSvc.isReCaptchaV3) {
+        <button
+          mat-icon-button
+          color="primary"
+          [attr.aria-label]="'#LDS#Refresh image' | translate"
+          [matTooltip]="'#LDS#Refreshes the CAPTCHA code image' | translate"
+          (click)="captchaSvc.ReinitCaptcha()"
+        >
+          <eui-icon icon="refresh"></eui-icon>
+        </button>
+      }
+    </div>
   </div>
 }
 
 @if (showAllButtons) {
   <div class="buttonbar">
-    @if (!captchaSvc.isReCaptchaV3) {
-      <button mat-flat-button (click)="captchaSvc.ReinitCaptcha()">
-        {{ '#LDS#Refresh image' | translate }}
+    @if (showBackButton) {
+      <button mat-flat-button (click)="onBack()">
+        {{ '#LDS#Back' | translate }}
       </button>
     }
     <button
       mat-flat-button
+      color="primary"
       class="imx-next-button"
       [disabled]="captchaSvc.isReCaptchaV3 ? disableButton : disableButton || !captchaSvc.Response"
       (click)="onNext()"
     >
       {{ '#LDS#Next' | translate }}
     </button>
-    @if (showBackButton) {
-      <button mat-flat-button (click)="onBack()">
-        {{ '#LDS#Back' | translate }}
-      </button>
-    }
   </div>
 }

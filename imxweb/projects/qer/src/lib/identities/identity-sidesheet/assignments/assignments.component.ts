@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,7 @@ import { Component, Injector, Input, OnInit, ViewChild, ViewContainerRef } from 
 import { FormControl, FormGroup } from '@angular/forms';
 import { EuiSelectOption } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
-import { DynamicTabDataProviderDirective, ExtService, isMobile, TabItem } from 'qbm';
+import { DynamicTabDataProviderDirective, ElementalUiConfigService, ExtService, isMobile, TabItem } from 'qbm';
 import { IdentityRoleMembershipsComponent } from '../identity-role-memberships/identity-role-memberships.component';
 import { IdentityRoleMembershipsService } from '../identity-role-memberships/identity-role-memberships.service';
 
@@ -41,6 +41,7 @@ interface SelectorForm {
   selector: 'imx-assignments',
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.scss'],
+  standalone: false
 })
 export class AssignmentsComponent implements OnInit {
   public currentTab: TabItem | undefined;
@@ -64,7 +65,8 @@ export class AssignmentsComponent implements OnInit {
     private readonly extService: ExtService,
     private readonly injector: Injector,
     private readonly translate: TranslateService,
-  ) {}
+    public elementalUiConfigService: ElementalUiConfigService,
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     const tabs: TabItem[] = [];

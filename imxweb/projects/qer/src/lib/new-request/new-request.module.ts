@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,6 +33,7 @@ import {
   DataSourceToolbarModule,
   DataTableModule,
   DataTilesModule,
+  DataViewModule,
   HelpContextualModule,
   InfoModalDialogModule,
   LdsReplaceModule,
@@ -114,6 +115,7 @@ import { NewRequestComponent } from './new-request.component';
     MatChipsModule,
     HelpContextualModule,
     SelectedElementsModule,
+    DataViewModule,
     NumberFormatPipe,
   ],
   exports: [NewRequestComponent],

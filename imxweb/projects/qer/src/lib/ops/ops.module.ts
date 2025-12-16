@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,41 +25,21 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { AboutService, LdsReplaceModule, MetadataService, QbmModule } from 'qbm';
+import { LdsReplaceModule, MetadataService, QbmModule } from 'qbm';
 import { PasswordModule } from '../password/password.module';
-import { OpsAboutService } from './about/ops-about.service';
 import { OpsMetadataService } from './metadata/ops-metadata.service';
 import { ObjectOverviewPersonComponent } from './objectOverviewPerson.component';
 import { OpsService } from './ops.service';
 import { PasscodeViewerComponent } from './passcodeViewer.component';
 
-export function initService(service: OpsService): () => Promise<any> {
-  return () =>
-    new Promise<any>(async (resolve: any) => {
-      if (service) {
-        service.init();
-      }
-      resolve();
-    });
-}
-
 @NgModule({
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initService,
-      deps: [OpsService],
-      multi: true,
-    },
-    {
-      provide: AboutService,
-      useClass: OpsAboutService,
-    },
+    provideAppInitializer(() => inject(OpsService).init()),
     {
       provide: MetadataService,
       useClass: OpsMetadataService,
@@ -69,4 +49,4 @@ export function initService(service: OpsService): () => Promise<any> {
   imports: [CommonModule, TranslateModule, QbmModule, LdsReplaceModule, PasswordModule, MatButtonModule, MatDialogModule],
   exports: [ObjectOverviewPersonComponent],
 })
-export class OpsModule {}
+export class OpsModule { }

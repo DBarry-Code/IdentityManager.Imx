@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { RoleRecommendationResultItem } from './role-recommendation-result-item'
 import { RoleRecommendationResultBuilder } from './role-recommendation-result-item-builder';
 
 @Component({
-  selector: 'imx-role-recommendations',
-  templateUrl: './role-recommendations.component.html',
-  styleUrls: ['./role-recommendations.component.scss'],
+    selector: 'imx-role-recommendations',
+    templateUrl: './role-recommendations.component.html',
+    styleUrls: ['./role-recommendations.component.scss'],
+    standalone: false
 })
 export class RoleRecommendationsComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

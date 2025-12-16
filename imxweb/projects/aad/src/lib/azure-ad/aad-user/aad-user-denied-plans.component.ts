@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,9 +41,10 @@ import { AzureAdService } from '../azure-ad.service';
 import { AadUserCreateDialogComponent } from './aad-user-create-dialog.component';
 
 @Component({
-  selector: 'imx-aad-user-denied-plans',
-  templateUrl: './aad-user-denied-plans.component.html',
-  styleUrls: ['../azure-ad-common.scss'],
+    selector: 'imx-aad-user-denied-plans',
+    templateUrl: './aad-user-denied-plans.component.html',
+    styleUrls: ['../azure-ad-common.scss'],
+    standalone: false
 })
 export class AadUserDeniedPlansComponent implements OnInit {
   @Input() public referrer: { objecttable: string; objectuid: string };

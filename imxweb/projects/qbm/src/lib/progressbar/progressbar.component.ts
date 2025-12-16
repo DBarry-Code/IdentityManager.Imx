@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,9 +26,15 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use the MatProgressBar instead.
+ */
 @Component({
-  selector: 'imx-progressbar',
-  templateUrl: './progressbar.component.html',
+    selector: 'imx-progressbar',
+    templateUrl: './progressbar.component.html',
+    standalone: false
 })
 export class ImxProgressbarComponent implements OnInit {
   @Input() public caption: string;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,10 +53,11 @@ import { ShoppingCart } from '../shopping-cart';
 import { CartItemCheckStatus } from './cart-item-check-status.enum';
 
 @Component({
-  templateUrl: './cart-items.component.html',
-  styleUrls: ['./cart-items.component.scss'],
-  selector: 'imx-cart-items',
-  providers: [DataViewSource],
+    templateUrl: './cart-items.component.html',
+    styleUrls: ['./cart-items.component.scss'],
+    selector: 'imx-cart-items',
+    providers: [DataViewSource],
+    standalone: false
 })
 export class CartItemsComponent implements OnInit, OnChanges {
   public CartItemCheckStatus = CartItemCheckStatus;

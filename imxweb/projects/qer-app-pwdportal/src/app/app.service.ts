@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,15 +24,16 @@
  *
  */
 
-import { Injectable, Injector, createNgModule } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 
+import { Router } from '@angular/router';
 import { TypedClient } from '@imx-modules/imx-api-qbm';
 import { Globals } from '@imx-modules/imx-qbm-dbts';
 import {
   AppConfigService,
-  CaptchaService,
+  AppInitializationService,
   CdrRegistryService,
   ClassloggerService,
   ImxTranslationProviderService,
@@ -42,12 +43,12 @@ import {
 } from 'qbm';
 import { PasswordService, QerApiService } from 'qer';
 import { environment } from '../environments/environment';
+import { PwdDynamicModuleImportService } from './dynamic-import/pwd-dynamic-modules-import.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
-  public recaptchaSiteKeyV3: string | null = null;
   constructor(
     public readonly registry: CdrRegistryService,
     private readonly logger: ClassloggerService,
@@ -60,18 +61,27 @@ export class AppService {
     private readonly qerApi: QerApiService,
     private readonly passwordService: PasswordService,
     private readonly splash: SplashService,
-    private readonly captchaService: CaptchaService,
-    private readonly injector: Injector,
+    private readonly appInitService: AppInitializationService,
+    private dynamicModuleService: PwdDynamicModuleImportService,
+    private readonly router: Router,
   ) {}
 
   public async init(): Promise<void> {
     this.showSplash();
-    await this.config.init(environment.clientUrl);
-
-    if (this.config.Config.Translation?.Langs) {
-      this.translateService.addLangs(this.config.Config.Translation.Langs);
+    try {
+      await this.initInternal();
+    } catch (e) {
+      this.splash.close();
+      this.logger.error(this, 'Error during app initialization: ' + e);
+      this.router.navigate(['error']);
     }
-    await this.translationProvider.init();
+  }
+
+  private async initInternal(): Promise<void> {
+    await this.appInitService.initializeCommonServices({
+      captchaImageUrl: 'passwordreset/captchaimage',
+      clientUrl: environment.clientUrl,
+    });
 
     this.translateService.onLangChange.subscribe(() => {
       this.setTitle();
@@ -81,15 +91,9 @@ export class AppService {
 
     this.session.TypedClient = new TypedClient(this.config.v2client, this.translationProvider);
 
-    await this.loadModules(environment.appName);
+    await this.dynamicModuleService.setupModulesForApp(environment.appName);
 
     const featureConfig = await this.qerApi.v2Client.passwordreset_authconfig_get();
-
-    this.captchaService.captchaImageUrl = 'passwordreset/captchaimage';
-    if (featureConfig.RecaptchaPublicKey) {
-      this.captchaService.enableReCaptcha(featureConfig.RecaptchaPublicKey);
-      this.recaptchaSiteKeyV3 = featureConfig.RecaptchaPublicKey;
-    }
 
     await this.passwordService.registerCustomAuthFlows(featureConfig);
   }
@@ -97,19 +101,11 @@ export class AppService {
   private async setTitle(): Promise<void> {
     const imxConfig = await this.systemInfoService.getImxConfig();
     const name = imxConfig.ProductName || Globals.QIM_ProductNameFull;
-    this.config.Config.Title = await this.translateService.get('#LDS#Heading Password Reset Portal').toPromise();
+    this.config.setTitle(await this.translateService.get('#LDS#Heading Password Reset Portal').toPromise());
     const title = `${name} ${this.config.Config.Title}`;
     this.title.setTitle(title);
 
     await this.updateSplash(title);
-  }
-
-  public static init(app: AppService): () => Promise<any> {
-    return () =>
-      new Promise<any>(async (resolve: any) => {
-        await app.init();
-        resolve();
-      });
   }
 
   private showSplash(): void {
@@ -121,39 +117,5 @@ export class AppService {
     // update the splash screen and use translated texts and the title from the imxconfig
     const loadingMsg = await this.translateService.get('#LDS#Loading...').toPromise();
     this.splash.update({ applicationName: title, message: loadingMsg });
-  }
-
-  private async loadModules(appName: string): Promise<void> {
-    const apps = await this.session.Client.imx_applications_get();
-
-    const appInfo = apps.filter((app) => app.Name === appName)[0];
-
-    this.logger.debug(this, `▶️ Found config section for ${appInfo.DisplayName}`);
-
-    if (appInfo.PlugIns == null || appInfo.PlugIns.length === 0) {
-      this.logger.debug(this, `❌ No plugins found`);
-      return;
-    }
-
-    this.logger.debug(this, `▶️ Found ${appInfo.PlugIns.length} plugin(s)`);
-
-    for (const plugin of appInfo.PlugIns) {
-      this.logger.debug(this, `⚙️ Plugin: ${plugin.Container}`);
-
-      try {
-        this.logger.debug(this, '▶️ Importing module. DEV mode.');
-        await import(`html/qer-app-pwdportal/${plugin.Container}/fesm2022/${plugin.Container}.mjs`)
-          .then((m) => {
-            if (plugin.Name) {
-              createNgModule(m[plugin.Name], this.injector);
-            }
-          })
-          .catch((error) =>
-            this.logger.error(this, `💥 Loading of ${plugin.Name} (${plugin.Container}) failed with the following error: ${error.message}`),
-          );
-      } catch (e) {
-        this.logger.error(this, `💥 Loading of ${plugin.Name} (${plugin.Container}) failed with the following error: ${e.message}`);
-      }
-    }
   }
 }

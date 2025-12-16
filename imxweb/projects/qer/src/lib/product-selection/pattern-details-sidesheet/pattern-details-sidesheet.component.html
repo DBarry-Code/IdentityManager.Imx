@@ -1,4 +1,4 @@
-<ng-container *ngIf="atLeastOneRoleAssignment; else otherServiceItems">
+@if (atLeastOneRoleAssignment) {
   <div class="governance-sidesheet">
     <mat-tab-group mat-stretch-tabs="false">
       <mat-tab data-imx-identifier="pattern-details-tab-main" [label]="'#LDS#Heading Information' | translate">
@@ -6,20 +6,28 @@
           <div class="governance-sidesheet__tab-content">
             <div class="governance-sidesheet__tab-content-body">
               <mat-accordion multi="true" class="imx-accordion" data-imx-identifier="pattern-details-accordion">
-                <mat-expansion-panel *ngFor="let cdrList of cdrLists; index as i" class="imx-expansion-panel">
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      <span>{{ data.items[i].GetEntity().GetDisplay() }}</span>
-                      <eui-badge class="imx-padding-left-10" color="red" *ngIf="displayNotRequestable(data.items[i])">
-                        {{ '#LDS#Not requestable' | translate }}
-                      </eui-badge>
-                      <eui-badge class="imx-padding-left-10" color="orange" *ngIf="displayInfo(data.items[i])">
-                        {{ '#LDS#Info' | translate }}
-                      </eui-badge>
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-                  <imx-cdr-editor *ngFor="let cdr of cdrList" [cdr]="cdr"></imx-cdr-editor>
-                </mat-expansion-panel>
+                @for (cdrList of cdrLists; track cdrList; let i = $index) {
+                  <mat-expansion-panel class="imx-expansion-panel">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <span>{{ data.items[i].GetEntity().GetDisplay() }}</span>
+                        @if (displayNotRequestable(data.items[i])) {
+                          <eui-badge class="imx-padding-left-10" color="red">
+                            {{ '#LDS#Not requestable' | translate }}
+                          </eui-badge>
+                        }
+                        @if (displayInfo(data.items[i])) {
+                          <eui-badge class="imx-padding-left-10" color="orange">
+                            {{ '#LDS#Info' | translate }}
+                          </eui-badge>
+                        }
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    @for (cdr of cdrList; track cdr) {
+                      <imx-cdr-editor [cdr]="cdr"></imx-cdr-editor>
+                    }
+                  </mat-expansion-panel>
+                }
               </mat-accordion>
             </div>
           </div>
@@ -30,18 +38,22 @@
           <div class="governance-sidesheet__tab-content">
             <div class="governance-sidesheet__tab-content-body">
               <mat-accordion multi="true" class="imx-accordion" data-imx-identifier="pattern-entitlements-accordion">
-                <div *ngFor="let cdrList of cdrLists; index as i">
-                  <mat-expansion-panel *ngIf="roleAssignments[i]">
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        <span>{{ data.items[i].GetEntity().GetDisplay() }}</span>
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <div class="imx-entitlements-table">
-                      <imx-product-entitlements [uidAccProduct]="data.items[i].GetEntity().GetKeys()[0]"></imx-product-entitlements>
-                    </div>
-                  </mat-expansion-panel>
-                </div>
+                @for (cdrList of cdrLists; track cdrList; let i = $index) {
+                  <div>
+                    @if (roleAssignments[i]) {
+                      <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <span>{{ data.items[i].GetEntity().GetDisplay() }}</span>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="imx-entitlements-table">
+                          <imx-product-entitlements [uidAccProduct]="data.items[i].GetEntity().GetKeys()[0]"></imx-product-entitlements>
+                        </div>
+                      </mat-expansion-panel>
+                    }
+                  </div>
+                }
               </mat-accordion>
             </div>
           </div>
@@ -49,30 +61,39 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-</ng-container>
-<ng-template #otherServiceItems>
+} @else {
   <div eui-sidesheet-content>
-    <eui-alert *ngIf="data.items.length === 0" [condensed]="true">
-      <span>{{
-        '#LDS#The products from the selected product bundle cannot be added to your shopping cart. You currently cannot request the products contained in the product bundle.'
+    @if (data.items.length === 0) {
+      <eui-alert [condensed]="true">
+        <span>{{
+          '#LDS#The products from the selected product bundle cannot be added to your shopping cart. You currently cannot request the products contained in the product bundle.'
           | translate
-      }}</span>
-    </eui-alert>
+        }}</span>
+      </eui-alert>
+    }
     <mat-accordion multi="true" class="imx-accordion" data-imx-identifier="pattern-details-accordion">
-      <mat-expansion-panel *ngFor="let cdrList of cdrLists; index as i">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span>{{ data.items[i].GetEntity().GetDisplay() }}</span>
-            <eui-badge color="red" *ngIf="displayNotRequestable(data.items[i])">
-              {{ '#LDS#Not requestable' | translate }}
-            </eui-badge>
-            <eui-badge color="orange" *ngIf="displayInfo(data.items[i])">
-              {{ '#LDS#Info' | translate }}
-            </eui-badge>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <imx-cdr-editor *ngFor="let cdr of cdrList" [cdr]="cdr"></imx-cdr-editor>
-      </mat-expansion-panel>
+      @for (cdrList of cdrLists; track cdrList; let i = $index) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>{{ data.items[i].GetEntity().GetDisplay() }}</span>
+              @if (displayNotRequestable(data.items[i])) {
+                <eui-badge color="red">
+                  {{ '#LDS#Not requestable' | translate }}
+                </eui-badge>
+              }
+              @if (displayInfo(data.items[i])) {
+                <eui-badge color="orange">
+                  {{ '#LDS#Info' | translate }}
+                </eui-badge>
+              }
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          @for (cdr of cdrList; track cdr) {
+            <imx-cdr-editor [cdr]="cdr"></imx-cdr-editor>
+          }
+        </mat-expansion-panel>
+      }
     </mat-accordion>
   </div>
-</ng-template>
+}

@@ -1,11 +1,11 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-content-container {
   margin-top: 20px;
 }
 
 .imx-label {
-  color: $black-7;
+  color: eui.$color-gray-50;
   margin-bottom: -10px;
 }
 

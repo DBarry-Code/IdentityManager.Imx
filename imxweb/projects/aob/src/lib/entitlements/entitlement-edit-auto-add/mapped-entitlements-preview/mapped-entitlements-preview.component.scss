@@ -1,7 +1,7 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 .eui-sidesheet-content {
-  @include flex-column-container($overflow: hidden, $height: inherit);
+  @include mixins.flex-column-container($overflow: hidden, $height: inherit);
 }
 
 .imx-info-text {
@@ -15,6 +15,7 @@ span[bold] {
 .imx-info-grid {
   display: flex;
   flex-direction: row;
+
   :first-child {
     display: grid;
     column-gap: 15px;

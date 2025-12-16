@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ interface ServiceItemForm {
   cdrArray: FormArray;
 }
 @Component({
-  selector: 'imx-edit-service-category-information',
-  templateUrl: './edit-service-category-information.component.html',
-  styleUrls: ['./edit-service-category-information.component.scss'],
+    selector: 'imx-edit-service-category-information',
+    templateUrl: './edit-service-category-information.component.html',
+    styleUrls: ['./edit-service-category-information.component.scss'],
+    standalone: false
 })
 export class EditServiceCategoryInformationComponent implements OnInit {
   public cdrList: (ColumnDependentReference | undefined)[];

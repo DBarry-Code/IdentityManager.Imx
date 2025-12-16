@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,12 +53,12 @@ export class IdentitiesReportsService {
     private sidesheetService: EuiSidesheetService,
     private translate: TranslateService,
 
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly http: HttpClient,
     private readonly injector: Injector,
     private readonly overlay: Overlay,
     private readonly downloadService: EuiDownloadService,
-  ) {}
+  ) { }
 
   public async personsReport(person: PortalPersonReports | PortalAdminPerson): Promise<void> {
     const cdrs = this.buildCdrsForParameter();

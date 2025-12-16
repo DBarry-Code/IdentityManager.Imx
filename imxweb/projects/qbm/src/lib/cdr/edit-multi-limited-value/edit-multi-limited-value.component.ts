@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { ChangeDetectorRef, Component, ErrorHandler, EventEmitter, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, UntypedFormArray, UntypedFormControl } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
@@ -35,6 +35,7 @@ import { MultiValueService } from '../../multi-value/multi-value.service';
 import { CdrEditor, ValueHasChangedEventArg } from '../cdr-editor.interface';
 import { ColumnDependentReference } from '../column-dependent-reference.interface';
 import { EntityColumnContainer } from '../entity-column-container';
+
 interface LimitedForm {
   array: UntypedFormArray;
 }
@@ -46,9 +47,10 @@ interface LimitedForm {
  * When set to read-only, it uses a {@link ViewPropertyComponent | view property component} to display the content.
  */
 @Component({
-  selector: 'imx-edit-multi-limited-value',
-  templateUrl: './edit-multi-limited-value.component.html',
-  styleUrls: ['./edit-multi-limited-value.component.scss'],
+    selector: 'imx-edit-multi-limited-value',
+    templateUrl: './edit-multi-limited-value.component.html',
+    styleUrls: ['./edit-multi-limited-value.component.scss'],
+    standalone: false
 })
 export class EditMultiLimitedValueComponent implements CdrEditor, OnDestroy {
   public readonly updateRequested = new Subject<void>();
@@ -79,7 +81,6 @@ export class EditMultiLimitedValueComponent implements CdrEditor, OnDestroy {
     private readonly logger: ClassloggerService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly multiValueProvider: MultiValueService,
-    protected readonly errorHandler?: ErrorHandler,
   ) {}
 
   /**
@@ -165,10 +166,6 @@ export class EditMultiLimitedValueComponent implements CdrEditor, OnDestroy {
    */
   private async writeValue(values: boolean[]): Promise<void> {
     this.logger.debug(this, 'writeValue called with value', values);
-    if (this.control.errors && Object.keys(this.control.errors).some((elem) => elem !== 'generalError')) {
-      this.logger.debug(this, 'writeValue - client validation failed');
-      return;
-    }
 
     if (!this.columnContainer.canEdit) {
       return;
@@ -182,8 +179,6 @@ export class EditMultiLimitedValueComponent implements CdrEditor, OnDestroy {
     }
 
     this.valueHasChanged.emit({ value, forceEmit: true });
-    const resetValue = this.columnContainer.value;
-    let resetNeeded = false;
 
     try {
       this.logger.debug(this, 'writeValue - updateCdrValue...');
@@ -192,19 +187,14 @@ export class EditMultiLimitedValueComponent implements CdrEditor, OnDestroy {
       this.changeDetectorRef.detectChanges();
       await this.columnContainer.updateValue(value);
     } catch (e) {
-      resetNeeded = true;
-      this.errorHandler?.handleError(e);
-      await this.columnContainer.updateValue(resetValue);
+      this.logger.error(this, e);
     } finally {
       this.isWriting = false;
       this.control.controls.array.enable({ emitEvent: false });
       this.pendingChanged.emit(false);
-      this.control.updateValueAndValidity();
-
       this.changeDetectorRef.detectChanges();
-      const newvalue = resetNeeded ? resetValue : this.columnContainer.value;
-      if (this.getSelectedNamesMultiValue(this.control.controls.array.value) !== newvalue) {
-        const selectedValues = this.multiValueProvider.getValues(newvalue);
+      if (this.getSelectedNamesMultiValue(this.control.controls.array.value) !== this.columnContainer.value) {
+        const selectedValues = this.multiValueProvider.getValues(this.columnContainer.value);
         this.control.controls.array.controls.forEach((checkBox, index) =>
           checkBox.setValue(this.isSelected(this.columnContainer.limitedValuesContainer.values?.[index], selectedValues), {
             emitEvent: false,

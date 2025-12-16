@@ -12,16 +12,20 @@
             (controlCreated)="addControl(dateCdr?.column?.ColumnName ?? '', $event)"
           ></imx-cdr-editor>
         </form>
-        <div class="imx-button-stepper" *ngIf="dateCdr">
-          <button mat-stroked-button color="primary" data-imx-identifier="compare-step-1-next" matStepperNext [disabled]="dateForm.invalid">
-            {{ '#LDS#Next' | translate }}
-          </button>
-        </div>
+        @if (dateCdr) {
+          <div class="imx-button-stepper">
+            <button mat-stroked-button color="primary" data-imx-identifier="compare-step-1-next" matStepperNext [disabled]="dateForm.invalid">
+              {{ '#LDS#Next' | translate }}
+            </button>
+          </div>
+        }
       </mat-step>
       <mat-step [stepControl]="comparisonForm" label="{{ '#LDS#View comparison result' | translate }}">
-        <eui-alert [condensed]="true" [colored]="true" type="info" *ngIf="!!comparisonItems.length">
-          {{ ldsSelectItems | translate }}
-        </eui-alert>
+        @if (!!comparisonItems.length) {
+          <eui-alert [condensed]="true" [colored]="true" type="info">
+            {{ ldsSelectItems | translate }}
+          </eui-alert>
+        }
         <form [formGroup]="comparisonForm">
           <input hidden formControlName="helperInput" />
           <imx-data-source-toolbar #dst data-imx-identifier="compare-data-source-toolbar" [settings]="dstSettings" [options]="">
@@ -36,27 +40,30 @@
               [selectable]="true"
               (selectionChanged)="selectionChanged($event)"
               [noDataText]="ldsNoChanges"
-            >
-              <imx-data-table-column
-                *ngIf="entitySchema"
-                [columnLabel]="'#LDS#Affected object' | translate"
-                [entityColumn]="entitySchema.Columns?.Property"
               >
-                <ng-template let-entl>
-                  <div>{{ entl.Property.value }}</div>
-                  <div class="subtext">{{ entl.TypeDisplay.value }}</div>
-                </ng-template>
-              </imx-data-table-column>
-              <imx-data-table-column
-                *ngIf="entitySchema"
-                [columnLabel]="'#LDS#Previous state' | translate"
-                [entityColumn]="entitySchema.Columns?.HistoryValueDisplay"
-              ></imx-data-table-column>
-              <imx-data-table-column
-                *ngIf="entitySchema"
-                [columnLabel]="'#LDS#Current state' | translate"
-                [entityColumn]="entitySchema.Columns?.CurrentValueDisplay"
-              ></imx-data-table-column>
+              @if (entitySchema) {
+                <imx-data-table-column
+                  [columnLabel]="'#LDS#Affected object' | translate"
+                  [entityColumn]="entitySchema.Columns?.Property"
+                  >
+                  <ng-template let-entl>
+                    <div>{{ entl.Property.value }}</div>
+                    <div class="subtext">{{ entl.TypeDisplay.value }}</div>
+                  </ng-template>
+                </imx-data-table-column>
+              }
+              @if (entitySchema) {
+                <imx-data-table-column
+                  [columnLabel]="'#LDS#Previous state' | translate"
+                  [entityColumn]="entitySchema.Columns?.HistoryValueDisplay"
+                ></imx-data-table-column>
+              }
+              @if (entitySchema) {
+                <imx-data-table-column
+                  [columnLabel]="'#LDS#Current state' | translate"
+                  [entityColumn]="entitySchema.Columns?.CurrentValueDisplay"
+                ></imx-data-table-column>
+              }
             </imx-data-table>
           </div>
         </form>
@@ -69,7 +76,7 @@
             color="primary"
             matStepperNext
             [disabled]="comparisonForm.invalid"
-          >
+            >
             {{ '#LDS#Next' | translate }}
           </button>
         </div>
@@ -80,16 +87,17 @@
           <eui-alert [condensed]="true" [colored]="true" type="info"> {{ ldsActionList | translate }}</eui-alert>
 
           <mat-selection-list [(ngModel)]="uidActions">
-            <mat-list-option
-              checkboxPosition="before"
-              *ngFor="let action of actions"
-              [value]="action.Id"
-              [disabled]="!action.CanExecute"
-              [attr.data-imx-identifier]="'multi-select-action-' + action.Id"
-            >
-              <div>{{ action.ObjectDisplay }}</div>
-              <div class="subtext">{{ action.Display }}</div>
-            </mat-list-option>
+            @for (action of actions; track action) {
+              <mat-list-option
+                checkboxPosition="before"
+                [value]="action.Id"
+                [disabled]="!action.CanExecute"
+                [attr.data-imx-identifier]="'multi-select-action-' + action.Id"
+                >
+                <div>{{ action.ObjectDisplay }}</div>
+                <div class="subtext">{{ action.Display }}</div>
+              </mat-list-option>
+            }
           </mat-selection-list>
 
           <div class="imx-button-stepper">

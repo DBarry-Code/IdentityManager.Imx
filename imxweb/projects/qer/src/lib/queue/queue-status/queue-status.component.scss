@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   .spinner {
@@ -6,6 +6,6 @@
   }
 
   ::ng-deep .mat-mdc-progress-spinner circle {
-    stroke: $color-gray-0;
+    stroke: eui.$color-gray-0;
   }
 }

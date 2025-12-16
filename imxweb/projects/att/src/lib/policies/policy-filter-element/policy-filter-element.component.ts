@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { FilterChangedArgument } from '../editors/filter-changed-argument.interf
 import { FilterElementModel } from '../editors/filter-element-model';
 
 @Component({
-  selector: 'imx-policy-filter-element',
-  templateUrl: './policy-filter-element.component.html',
-  styleUrls: ['./policy-filter-element.component.scss'],
+    selector: 'imx-policy-filter-element',
+    templateUrl: './policy-filter-element.component.html',
+    styleUrls: ['./policy-filter-element.component.scss'],
+    standalone: false
 })
 export class PolicyFilterElementComponent {
   @Input() public formGroup: FormGroup<{ filterParameter: UntypedFormControl; type: UntypedFormControl }>;

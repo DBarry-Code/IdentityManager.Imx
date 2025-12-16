@@ -13,50 +13,46 @@
   >
     <eui-icon icon="search"></eui-icon>
   </button>
-  <imx-data-source-toolbar
-    #dst
-    [@expandSearch]="{ value: searchState, params: { width: width } }"
-    [alwaysVisible]="true"
-    [settings]="dstSettings"
-    [options]="['search', 'filter']"
-    [searchBoxText]="'#LDS#Search for product bundles' | translate"
-    [useThemedStyle]="true"
-    [busyService]="busyService"
-    (navigationStateChanged)="getData($event)"
-    (search)="onSearch($event)"
-  ></imx-data-source-toolbar>
+  <imx-data-view-toolbar
+    [dataSource]="dataSource"
+    [@expandSearch]="{ value: searchState }"
+    [searchPlaceholder]="'#LDS#Search for product bundles' | translate"
+    [showSettings]="false"
+  ></imx-data-view-toolbar>
 </div>
-<mat-card class="imx-table-container">
-  <imx-data-table
-    [dst]="dst"
-    [detailViewVisible]="false"
-    [selectable]="false"
-    mode="manual"
-    class="imx-hidden-header"
-    (highlightedEntityChanged)="onHighlightedEntityChanged($event)"
-    (selectionChanged)="onSelectionChanged($event)"
-    data-imx-identifier="new-request-product-bundle-list-datatable"
-    [showSelectedItemsMenu]="false"
-  >
-    <imx-data-table-column
-      [entityColumn]="entitySchema?.Columns?.Ident_ShoppingCartPattern"
-      columnLabel="{{ '#LDS#Product bundle' | translate }}"
-      data-imx-identifier="new-request-product-bundle-list-datacolumn-ident"
-    >
-      <ng-template let-prod>
-        <div>{{ prod?.GetEntity()?.GetColumn('Ident_ShoppingCartPattern')?.GetValue() }}</div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-generic-column columnName="type" columnLabel="{{ '#LDS#Type' | translate }}">
-      <ng-template let-prod>
-        <span *ngIf="prod?.IsPublicPattern?.value">
-          {{ '#LDS#Public' | translate }}
-        </span>
-        <span class="imx-private-bundle" *ngIf="!prod?.IsPublicPattern?.value">
-          {{ '#LDS#Private' | translate }}
-        </span>
-      </ng-template>
-    </imx-data-table-generic-column>
-  </imx-data-table>
-</mat-card>
-<imx-data-source-paginator [dst]="dst" [showFirstLastButtons]="true"></imx-data-source-paginator>
+<div class="imx-table-container">
+  <imx-data-view-auto-table [dataSource]="dataSource" mode="manual">
+    <ng-container [matColumnDef]="entitySchema.Columns.Ident_ShoppingCartPattern.ColumnName">
+      <ng-container>
+        <th mat-header-cell *matHeaderCellDef>
+          {{ entitySchema?.Columns?.Ident_ShoppingCartPattern?.Display }}
+        </th>
+      </ng-container>
+      <td mat-cell *matCellDef="let item" role="gridcell">
+        <div>
+          {{ item.Ident_ShoppingCartPattern?.Column?.GetDisplayValue() }}
+        </div>
+      </td>
+    </ng-container>
+    <ng-container [matColumnDef]="'type'">
+      <ng-container>
+        <th mat-header-cell *matHeaderCellDef>
+          {{ '#LDS#Type' | translate }}
+        </th>
+      </ng-container>
+      <td mat-cell *matCellDef="let item" role="gridcell">
+        @if (item?.IsPublicPattern?.value) {
+          <span>
+            {{ '#LDS#Public' | translate }}
+          </span>
+        }
+        @if (!item?.IsPublicPattern?.value) {
+          <span class="imx-private-bundle">
+            {{ '#LDS#Private' | translate }}
+          </span>
+        }
+      </td>
+    </ng-container>
+  </imx-data-view-auto-table>
+  <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator>
+</div>

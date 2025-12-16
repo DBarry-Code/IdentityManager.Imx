@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -57,11 +57,10 @@ import { DynamicDataSource } from './sidenav-tree-dynamic-extension';
 
  */
 @Component({
-  selector: 'imx-custom-tree-control',
-  templateUrl: './custom-tree-control.component.html',
-  styleUrls: ['./custom-tree-control.component.scss'],
-  standalone: true,
-  imports: [CommonModule, MatTreeModule, EuiCoreModule, EuiMaterialModule, TranslateModule],
+    selector: 'imx-custom-tree-control',
+    templateUrl: './custom-tree-control.component.html',
+    styleUrls: ['./custom-tree-control.component.scss'],
+    imports: [CommonModule, MatTreeModule, EuiCoreModule, EuiMaterialModule, TranslateModule]
 })
 export class CustomTreeControlComponent implements OnChanges {
   public isLoadingMore: boolean;

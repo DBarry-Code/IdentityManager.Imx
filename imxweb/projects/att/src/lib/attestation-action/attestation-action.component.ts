@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,6 +37,7 @@ import { AttestationCaseAction } from './attestation-case-action.interface';
   selector: 'imx-attestation-action',
   templateUrl: './attestation-action.component.html',
   styleUrls: ['./attestation-action.component.scss'],
+  standalone: false
 })
 export class AttestationActionComponent {
   public readonly formGroup = new UntypedFormGroup({});
@@ -65,10 +66,13 @@ export class AttestationActionComponent {
       approve?: boolean;
       maxReasonType: number;
       additionalInfo?: BaseReadonlyCdr[];
+      isEscalation: boolean;
     },
     public readonly sideSheetRef: EuiSidesheetRef,
     stepService: DecisionStepSevice,
   ) {
+
+    stepService.isEscalationApprover = data.isEscalation;
     Object.keys(this.data.actionParameters).forEach((name) => this.actionParameters.push(this.data.actionParameters[name]));
 
     if (this.data.attestationCases.length === 1) {

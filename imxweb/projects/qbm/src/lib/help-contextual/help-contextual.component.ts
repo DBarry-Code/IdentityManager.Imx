@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,10 +24,12 @@
  *
  */
 
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, contentChild, Input, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { ContextualHelpItem } from '@imx-modules/imx-api-qbm';
 import { HelpContextualDialogComponent } from './help-contextual-dialog/help-contextual-dialog.component';
+import { HelpContextualTemplate } from './help-contextual-template.directive';
 import { HELP_CONTEXTUAL, HelpContextualService, HelpContextualValues } from './help-contextual.service';
 /**
  * Help contextual component
@@ -52,16 +54,36 @@ import { HELP_CONTEXTUAL, HelpContextualService, HelpContextualValues } from './
  *    title: 'Sidesheet title',
  *    headerComponent: HelpContextualComponent
  *  });
+ *
+ * @example
+ * <imx-help-contextual [templateRef]="templateRef">
+ *  <ng-template imx-help-component-template>
+ *    <div class="unique custom-style">
+ *      ~Content that will render below details and above links goes here~
+ *    </div>
+ *  </ng-template>
+ * </imx-help-contextual>
+ * Note: If you want to style this projected content, you must define the unique class in the parent component outside of a host selector.
  */
+
+export interface ExtendedHelpContextualItem extends ContextualHelpItem {
+  templateRef?: HelpContextualTemplate;
+}
 @Component({
   selector: 'imx-help-contextual',
   templateUrl: './help-contextual.component.html',
   styleUrls: ['./help-contextual.component.scss'],
+  standalone: false,
 })
 export class HelpContextualComponent implements OnDestroy {
   @Input() contextId: HelpContextualValues;
   @Input() size: 's' | 'm' | 'l' | 'xl' = 'm';
   @Input() title: string;
+
+  /**
+   Get the content child that is projected into the help contextual component and pass it into the dialog to render after details and before links.
+   */
+  private helpContextualTemplate = contentChild(HelpContextualTemplate);
 
   constructor(
     private router: ActivatedRoute,
@@ -82,7 +104,7 @@ export class HelpContextualComponent implements OnDestroy {
     }
     const contextualHelpData = await this.helpContextualService.getHelpContext(id);
     this.dialog.open(HelpContextualDialogComponent, {
-      data: contextualHelpData,
+      data: { ...contextualHelpData, templateRef: this.helpContextualTemplate() },
     });
   }
 

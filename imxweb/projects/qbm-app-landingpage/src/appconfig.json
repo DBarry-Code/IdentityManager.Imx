@@ -1,11 +1,11 @@
 {
-  "Title": "API Server",
+  "Title": "Administration Portal",
   "WebAppIndex": "admin",
   "Translation": {
     "Langs": ["en-US", "de-DE", "de", "en"]
   },
   "routeConfig": {
-    "login": "login",
+    "login": "",
     "start": "admin"
   }
 }

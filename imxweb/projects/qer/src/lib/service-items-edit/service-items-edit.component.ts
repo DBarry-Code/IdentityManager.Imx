@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,10 +44,11 @@ import { ServiceItemsEditSidesheetComponent } from './service-items-edit-sideshe
 import { ServiceItemsEditService } from './service-items-edit.service';
 
 @Component({
-  selector: 'imx-service-items-edit',
-  templateUrl: './service-items-edit.component.html',
-  styleUrls: ['./service-items-edit.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-service-items-edit',
+    templateUrl: './service-items-edit.component.html',
+    styleUrls: ['./service-items-edit.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class ServiceItemsEditComponent implements OnInit {
   public entitySchema: EntitySchema;

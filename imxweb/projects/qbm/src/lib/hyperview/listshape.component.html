@@ -1,8 +1,14 @@
 <imx-hyperview-shape [shape]="shape" (changeContentSize)="onChangeContentSize()">
   <ul ShapeContent>
-    <li *ngFor="let elem of shape.Elements">
-      <a *ngIf="isLinkEnabled(elem)" (click)="click(elem)">{{ elem.DisplayValue }}</a>
-      <ng-container *ngIf="!isLinkEnabled(elem)">{{ elem.DisplayValue }}</ng-container>
-    </li>
+    @for (elem of shape.Elements; track elem) {
+      <li [class.imx-hyperview-deleted]="IsDeleted(elem)">
+        @if (isLinkEnabled(elem)) {
+          <a (click)="click(elem)">{{ elem.DisplayValue }}</a>
+        }
+        @if (!isLinkEnabled(elem)) {
+          {{ elem.DisplayValue }}
+        }
+      </li>
+    }
   </ul>
 </imx-hyperview-shape>

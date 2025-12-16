@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,8 +36,9 @@ import { QerApiService } from '../qer-api-client.service';
 
 // ToDo later: Komponente einbinden und anpassen
 @Component({
-  templateUrl: './password-query.component.html',
-  selector: 'imx-password-query',
+    templateUrl: './password-query.component.html',
+    selector: 'imx-password-query',
+    standalone: false
 })
 export class PasswordQueryComponent implements OnInit {
   /** Minimum number of required questions */

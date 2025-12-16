@@ -1,5 +1,6 @@
+@use 'components/top-navigation.scss' as top-navigation;
+@use 'base/mixins' as mixins;
 
-@import '../../../../../shared/scss/components/top-navigation.scss';
 :host {
   min-width: 800px;
   display: flex;
@@ -48,5 +49,8 @@
 
   pre {
     margin: 0;
+  }
+  .imx-status-container{
+    @include mixins.flex-row-container($align: center, $gap: 4px);
   }
 }

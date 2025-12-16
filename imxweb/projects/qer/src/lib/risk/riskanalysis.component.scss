@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .risk-tree-invisible {
   display: none;
@@ -19,7 +19,7 @@
 .smalltext {
   font-size: smaller;
   font-style: italic;
-  color: $black-9;
+  color: eui.$color-gray-40;
 }
 
 .risk-number {

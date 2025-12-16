@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { IEntity } from '@imx-modules/imx-qbm-dbts';
 import { BaseCdr, ColumnDependentReference, ConfirmationService } from 'qbm';
 
 @Component({
-  selector: 'imx-resource-sidesheet',
-  templateUrl: './resource-sidesheet.component.html',
-  styleUrls: ['./resource-sidesheet.component.scss'],
+    selector: 'imx-resource-sidesheet',
+    templateUrl: './resource-sidesheet.component.html',
+    styleUrls: ['./resource-sidesheet.component.scss'],
+    standalone: false
 })
 export class ResourceSidesheetComponent implements OnDestroy {
   public cdrList: ColumnDependentReference[];

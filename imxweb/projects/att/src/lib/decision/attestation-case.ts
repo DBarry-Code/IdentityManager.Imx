@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -58,6 +58,13 @@ export class AttestationCase extends PortalAttestationApprove implements Attesta
 
   private readonly workflowWrapper: WorkflowDataWrapper;
 
+  /**
+   * Data representation of an attestation case
+   * @param baseObject object that is being attested
+   * @param isUserEscalationApprover flag to indicate if this object is seen by a user that has escalated approval perms
+   * @param parameterDataContainer additional data for filtering
+   * @param extendedCollectionData extended data
+   */
   constructor(
     private readonly baseObject: PortalAttestationApprove,
     private readonly parameterDataContainer: ParameterDataContainer,
@@ -107,11 +114,7 @@ export class AttestationCase extends PortalAttestationApprove implements Attesta
 
   public async commit(reload = true): Promise<void> {
     this.baseObject.extendedData = this.parameterDataContainer.getEntityWriteDataColumns();
-    if (
-      this.baseObject.extendedData.DialogParameter?.[0].length > 0 ||
-      this.baseObject.extendedData.ComponentParameter?.[0].length > 0 ||
-      !!this.baseObject.GetEntity().GetDiffData().Data?.length
-    ) {
+    if (this.baseObject.extendedData.DialogParameter[0].length > 0 || !!this.baseObject.GetEntity().GetDiffData().Data?.length) {
       try {
         await this.baseObject.GetEntity().Commit(reload);
       } catch (error) {

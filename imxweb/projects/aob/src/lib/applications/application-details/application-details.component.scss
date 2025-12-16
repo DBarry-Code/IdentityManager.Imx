@@ -1,9 +1,9 @@
 @use '@angular/material' as mat;
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
   min-height: 100%;
 
   .imx-application-details-content .imx-application-details-grid.hidden {
@@ -12,7 +12,7 @@
 }
 
 .imx-application-details-content {
-  @include flex-row-container-fill();
+  @include mixins.flex-row-container-fill();
   overflow: hidden;
 
   imx-busy-indicator {
@@ -20,11 +20,11 @@
   }
 
   .imx-application-details-grid {
-    @include flex-row-container($max-width: 1500px, $max-height: 800px, $overflow: auto);
+    @include mixins.flex-row-container($max-width: 1500px, $max-height: 800px, $overflow: auto);
     flex-wrap: wrap;
     padding: 16px 24px;
 
-    > .mat-mdc-card {
+    >.mat-mdc-card {
       background-color: transparent;
     }
 
@@ -46,25 +46,25 @@
   box-shadow: none;
 
   .mat-mdc-card-content {
-    @include flex-column-container();
+    @include mixins.flex-column-container();
     margin-bottom: -15px;
 
-    > * {
+    >* {
       margin-bottom: 15px;
     }
   }
 }
 
 .imx-application-property-multi {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
 
-  > span {
+  >span {
     font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  > .mat-mdc-button {
+  >.mat-mdc-button {
     line-height: 1.3rem;
     align-self: flex-start;
   }
@@ -75,9 +75,9 @@ li {
   margin: 10px;
 
   .mat-mdc-card {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
 
-    > .imx-card-title {
+    >.imx-card-title {
       font-size: 16px;
       flex: 1;
       margin-left: 10px;
@@ -89,7 +89,7 @@ li {
 }
 
 .imx-application-state {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
 
   flex-wrap: wrap;
   flex: 0 0 64%;
@@ -97,7 +97,7 @@ li {
   box-shadow: none;
   padding: 0;
 
-  > .mat-mdc-card {
+  >.mat-mdc-card {
     background-color: transparent;
   }
 }
@@ -110,7 +110,7 @@ li {
   padding-right: 0;
 
   .mat-mdc-card-content {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
 
     align-items: center;
   }
@@ -118,7 +118,7 @@ li {
   .imx-application-unpublished-state,
   .imx-application-willbepublished-state,
   .imx-application-published-state {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
     align-items: center;
     font-weight: 600;
     font-size: 12px;
@@ -153,8 +153,8 @@ li {
     font-size: 14px;
   }
 
-  .mat-mdc-card-content > div {
-    @include flex-row-container();
+  .mat-mdc-card-content>div {
+    @include mixins.flex-row-container();
 
     align-items: center;
   }
@@ -170,7 +170,7 @@ li {
   }
 
   .mat-mdc-card-content {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
 
     flex-wrap: wrap;
 
@@ -190,37 +190,38 @@ li {
 //Themeing
 :host {
   .imx-application-property-multi {
-    > span {
-      color: $color-gray-60;
+    >span {
+      color: eui.$color-gray-60;
     }
   }
 
   .imx-application-unpublished-state,
   .imx-application-willbepublished-state {
-    color: $color-orange-60;
+    color: eui.$color-orange-60;
   }
 
   .imx-application-published-state {
-    color: $color-green-60;
+    color: eui.$color-green-60;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-application-property-multi {
-      > span {
-        color: $color-gray-10;
+      >span {
+        color: eui.$color-gray-10;
       }
     }
 
     .imx-application-publish {
+
       .imx-application-unpublished-state,
       .imx-application-willbepublished-state {
-        color: $color-orange-40;
+        color: eui.$color-orange-40;
       }
 
       .imx-application-published-state {
-        color: $color-green-40;
+        color: eui.$color-green-40;
       }
     }
   }
@@ -229,27 +230,28 @@ li {
 .eui-contrast-theme {
   :host {
     .imx-application-property-multi {
-      > span {
-        color: $color-gray-0;
+      >span {
+        color: eui.$color-gray-0;
       }
     }
 
     .imx-application-content {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
 
     .mat-mdc-card {
-      border-color: $color-gray-90;
+      border-color: eui.$color-gray-90;
     }
 
     .imx-application-publish {
+
       .imx-application-unpublished-state,
       .imx-application-willbepublished-state {
-        color: $color-orange-20;
+        color: eui.$color-orange-20;
       }
 
       .imx-application-published-state {
-        color: $color-green-20;
+        color: eui.$color-green-20;
       }
     }
   }

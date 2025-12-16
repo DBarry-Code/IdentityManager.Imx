@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { EntityValue } from '@imx-modules/imx-qbm-dbts';
 import { BaseCdr, ColumnDependentReference } from 'qbm';
 
 @Component({
-  selector: 'imx-entity-property-editor',
-  templateUrl: './entity-property-editor.component.html',
-  styleUrls: ['./entity-property-editor.component.scss'],
+    selector: 'imx-entity-property-editor',
+    templateUrl: './entity-property-editor.component.html',
+    styleUrls: ['./entity-property-editor.component.scss'],
+    standalone: false
 })
 export class EntityPropertyEditorComponent implements OnChanges {
   public cdr: ColumnDependentReference | undefined;

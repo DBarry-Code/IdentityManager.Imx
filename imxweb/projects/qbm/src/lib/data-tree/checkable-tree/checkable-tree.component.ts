@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -49,9 +49,10 @@ import { TreeDatasource } from '../tree-datasource';
 import { TreeNode, TreeNodeInfo } from '../tree-node';
 
 @Component({
-  selector: 'imx-checkable-tree',
-  templateUrl: './checkable-tree.component.html',
-  styleUrls: ['./checkable-tree.component.scss'],
+    selector: 'imx-checkable-tree',
+    templateUrl: './checkable-tree.component.html',
+    styleUrls: ['./checkable-tree.component.scss'],
+    standalone: false
 })
 /**
  * A tree component with a {@link FlatTreeControl| FlatTreeControl} of @angular/cdk.

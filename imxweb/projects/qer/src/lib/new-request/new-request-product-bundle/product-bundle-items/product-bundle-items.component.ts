@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,23 +24,22 @@
  *
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { from, Subscription } from 'rxjs';
+import { Component, effect, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
-import { PortalItshopPatternItem, PortalItshopPatternRequestable } from '@imx-modules/imx-api-qer';
+import { CartPatternItemDataRead, PortalItshopPatternItem, PortalItshopPatternRequestable } from '@imx-modules/imx-api-qer';
 import {
   CollectionLoadParameters,
   DisplayColumns,
   EntitySchema,
+  ExtendedTypedEntityCollection,
   IClientProperty,
-  IWriteValue,
-  TypedEntity,
+  ValType,
 } from '@imx-modules/imx-qbm-dbts';
-import { Busy, BusyService, DataSourceToolbarComponent, DataSourceToolbarSettings, DataSourceWrapper } from 'qbm';
+import { DataViewInitParameters, DataViewSource, DataViewSourceFactoryService } from 'qbm';
 
 import { PatternItemService } from '../../../pattern-item-list/pattern-item.service';
 import { ServiceItemsService } from '../../../service-items/service-items.service';
-import { CurrentProductSource } from '../../current-product-source';
 import { NewRequestOrchestrationService } from '../../new-request-orchestration.service';
 import { ProductDetailsService } from '../../new-request-product/product-details-sidesheet/product-details.service';
 import { SelectedProductSource } from '../../new-request-selected-products/selected-product-item.interface';
@@ -50,56 +49,40 @@ import { NewRequestSelectionService } from '../../new-request-selection.service'
   selector: 'imx-product-bundle-items',
   templateUrl: './product-bundle-items.component.html',
   styleUrls: ['./product-bundle-items.component.scss'],
+  providers: [DataViewSource],
+  standalone: false,
 })
 export class ProductBundleItemsComponent implements OnInit, OnDestroy {
   // #region Private
   private subscriptions: Subscription[] = [];
-  private readonly myBusyService = new BusyService();
-  private busy: Busy;
-
-  private productBundleItemsCount: number = -1;
-  private _selectBundleDisabled = false;
-  private _unselectBundleDisabled = true;
+  private bundleItems: PortalItshopPatternItem[] = [];
 
   // #endregion
 
   // #region Public
-  public dst: DataSourceToolbarComponent;
   public DisplayColumns = DisplayColumns;
   public displayedColumns: IClientProperty[];
-  public dstWrapper: DataSourceWrapper<PortalItshopPatternItem>;
-  public dstSettings: DataSourceToolbarSettings | undefined;
-  public navigationState: CollectionLoadParameters;
-  public recipients: IWriteValue<string>;
-  public selectedProductBundle: PortalItshopPatternRequestable;
+  public selectedProductBundle: PortalItshopPatternRequestable | undefined;
   public entitySchema: EntitySchema;
-
-  public searchApi = (keywords: string) => {
-    this.busy = this.myBusyService.beginBusy();
-    this.orchestration.abortCall();
-
-    let parameters: CollectionLoadParameters = {
-      ...(this.orchestration.dstSettingsProductBundles?.navigationState || {}),
-      search: keywords,
-    };
-
-    return from(
-      this.patternItemService.getPatternItemList(this.selectedProductBundle, parameters, {
-        signal: this.orchestration.abortController.signal,
-      }),
-    );
-  };
-
-  public get selectedBundleSelected(): boolean {
-    return this._selectBundleDisabled && !this.myBusyService.isBusy;
-  }
-
-  public get selectBundleDisabled(): boolean {
-    return this._selectBundleDisabled || this.myBusyService.isBusy;
-  }
-
+  public dataSource: DataViewSource<PortalItshopPatternItem, CartPatternItemDataRead>;
+  public productBundlesItemCount: number;
   public get unselectBundleDisabled(): boolean {
-    return this._unselectBundleDisabled || this.myBusyService.isBusy;
+    return !this.selectionService.selectedProducts.find(
+      (product) =>
+        !!product.item.GetEntity().GetSchema().Columns['UID_ShoppingCartPattern'] &&
+        product.item.GetEntity().GetColumn('UID_ShoppingCartPattern').GetValue() ===
+          this.selectedProductBundle!.UID_ShoppingCartPattern.value,
+    );
+  }
+  public get selectBundleDisabled(): boolean {
+    return (
+      this.selectionService.selectedProducts.filter(
+        (product) =>
+          !!product.item.GetEntity().GetSchema().Columns['UID_ShoppingCartPattern'] &&
+          product.item.GetEntity().GetColumn('UID_ShoppingCartPattern').GetValue() ===
+            this.selectedProductBundle?.UID_ShoppingCartPattern.value,
+      ).length === this.productBundlesItemCount
+    );
   }
   // #endregion
 
@@ -109,9 +92,12 @@ export class ProductBundleItemsComponent implements OnInit, OnDestroy {
     private readonly patternItemService: PatternItemService,
     protected readonly productDetailsService: ProductDetailsService,
     private readonly serviceItemsService: ServiceItemsService,
+    public dataSourceFactory: DataViewSourceFactoryService,
   ) {
-    this.orchestration.selectedView = SelectedProductSource.ProductBundles;
-    this.orchestration.searchApi$.next(this.searchApi);
+    this.orchestration.selectedView.set(SelectedProductSource.ProductBundles);
+    this.dataSource = dataSourceFactory.getDataSource<PortalItshopPatternItem, CartPatternItemDataRead>();
+    this.dataSource.selection.uniqueColumn = 'selectionKey';
+    this.orchestration.dataViewProductBundles.set(this.dataSource);
 
     this.entitySchema = this.patternItemService.PortalItshopPatternItemSchema;
     this.displayedColumns = [
@@ -119,156 +105,130 @@ export class ProductBundleItemsComponent implements OnInit, OnDestroy {
       this.entitySchema.Columns.TableName,
       this.entitySchema.Columns.Description,
     ];
-    this.dstWrapper = new DataSourceWrapper(
-      (state, requestOpts) => this.patternItemService.getPatternItemList(this.selectedProductBundle, state, requestOpts),
-      this.displayedColumns,
-      this.entitySchema,
-    );
 
-    //#region Subscriptions
-
-    this.subscriptions.push(
-      this.orchestration.currentProductSource$.subscribe((source: CurrentProductSource) => {
-        if (source?.view === SelectedProductSource.ProductBundles) {
-          this.dst = source.dst;
-          this.dst.busyService = this.myBusyService;
-          this.dst.clearSearch();
-          this.orchestration.dstSettingsProductBundles = this.dstSettings;
-
-          this.subscriptions.push(
-            this.dst.searchResults$.subscribe((data) => {
-              if (data) {
-                this.dstSettings = {
-                  dataSource: data,
-                  displayedColumns: this.displayedColumns,
-                  entitySchema: this.entitySchema,
-                  navigationState: this.navigationState,
-                };
-                this.orchestration.dstSettingsProductBundles = this.dstSettings;
-              }
-              this.busy.endBusy(true);
-            }),
-          );
-        }
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.navigationState$.subscribe(async (navigation: CollectionLoadParameters) => {
-        this.navigationState = navigation;
-        this.updateDisplayedColumns(this.displayedColumns);
+    effect(async () => {
+      this.selectedProductBundle = this.orchestration.productBundle()!;
+      if (this.selectedProductBundle) {
+        this.bundleItems = [];
         await this.getData();
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.productBundle$.subscribe(async (productBundle: PortalItshopPatternRequestable) => {
-        this.selectedProductBundle = productBundle;
-        if (this.selectedProductBundle) {
-          this.updateDisplayedColumns(this.displayedColumns);
-          await this.getData();
-          this.orchestration.preselectBySource(SelectedProductSource.ProductBundles, this.dst);
-        }
-      }),
-    );
-
-    this.subscriptions.push(this.orchestration.recipients$.subscribe((recipients: IWriteValue<string>) => (this.recipients = recipients)));
+      }
+    });
 
     this.subscriptions.push(
       this.selectionService.selectedProducts$.subscribe(() => {
-        this.orchestration.preselectBySource(SelectedProductSource.ProductBundles, this.dst);
+        this.orchestration.preselectBySource(this.dataSource);
       }),
     );
 
-    this.subscriptions.push(this.selectionService.selectedProductsCleared$.subscribe(() => this.dst?.clearSelection()));
+    this.subscriptions.push(this.selectionService.selectedProductsCleared$.subscribe(() => this.dataSource.selection.clear()));
 
     //#endregion
   }
 
   public async ngOnInit(): Promise<void> {
-    this.navigationState = { StartIndex: 0 };
     await this.getData();
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+    this.orchestration.dataViewProductBundles.set(undefined);
   }
 
   public async getData(): Promise<void> {
-    if (!this.orchestration.isLoggedIn) {
-      return;
-    }
     if (!this.selectedProductBundle) {
-      this.orchestration.disableSearch = true;
       return;
     }
-    this.orchestration.disableSearch = false;
-    const busy = this.myBusyService.beginBusy();
-    try {
-      this.orchestration.abortCall();
-      this.dstSettings = await this.dstWrapper.getDstSettings(this.navigationState, { signal: this.orchestration.abortController.signal });
-      this.productBundleItemsCount = this.dstSettings?.dataSource?.totalCount || 0;
-      this.orchestration.dstSettingsProductBundles = this.dstSettings;
-    } finally {
-      busy.endBusy();
-    }
+
+    const dataViewInitParameters: DataViewInitParameters<PortalItshopPatternItem> = {
+      execute: (
+        params: CollectionLoadParameters,
+        signal: AbortSignal,
+      ): Promise<ExtendedTypedEntityCollection<PortalItshopPatternItem, CartPatternItemDataRead>> =>
+        this.patternItemService.getPatternItemList(this.selectedProductBundle!, params, { signal }).then(async (data) => {
+          for (const product of data.Data) {
+            product.GetEntity().AddColumns([{ ColumnName: 'selectionKey', Type: ValType.String }]);
+            await product.GetEntity().GetColumn('selectionKey').PutValue(product.GetEntity().GetColumn('UID_AccProduct').GetValue());
+          }
+          return data;
+        }),
+      schema: this.entitySchema,
+      columnsToDisplay: this.displayedColumns,
+      highlightEntity: (product: PortalItshopPatternItem) => {
+        this.onRowSelected(product);
+      },
+      selectionChange: (products: PortalItshopPatternItem[]) => this.onSelectionChanged(products),
+    };
+    this.dataSource.selectedFilters.set([]);
+    this.dataSource.state.update((state) => ({
+      ...state,
+      StartIndex: 0,
+      search: undefined,
+      filter: undefined,
+    }));
+    await this.dataSource.init(dataViewInitParameters);
+    this.productBundlesItemCount = this.dataSource.collectionData().totalCount || 0;
+    this.orchestration.preselectBySource(this.dataSource);
   }
 
-  public async onRowSelected(item: TypedEntity): Promise<void> {
+  public async onRowSelected(item: PortalItshopPatternItem): Promise<void> {
     const serviceItem =
-      'UID_AccProduct' in item
-        ? await this.serviceItemsService.getServiceItem((item as PortalItshopPatternItem).UID_AccProduct.value, true)
-        : undefined;
+      'UID_AccProduct' in item ? await this.serviceItemsService.getServiceItem(item.UID_AccProduct.value, true) : undefined;
     if (serviceItem != null) {
-      this.productDetailsService.showProductDetails(serviceItem, this.recipients);
+      this.productDetailsService.showProductDetails(serviceItem, this.orchestration.recipients()!);
     }
   }
 
-  public onSelectionChanged(items: TypedEntity[]): void {
-    const itemsFromCurrentBundle = items.filter(
-      (item) =>
-        item.GetEntity().GetColumn('UID_ShoppingCartPattern').GetValue() === this.selectedProductBundle.UID_ShoppingCartPattern.value,
-    );
-
-    this._selectBundleDisabled = this.productBundleItemsCount === itemsFromCurrentBundle.length;
-    this._unselectBundleDisabled = items.length === 0;
-    this.selectionService.addProducts(
-      items as PortalItshopPatternItem[],
-      SelectedProductSource.ProductBundles,
-      false,
-      this.selectedProductBundle,
-    );
+  public onSelectionChanged(items: PortalItshopPatternItem[]): void {
+    this.selectionService.addProducts(items, this.dataSource.data, SelectedProductSource.ProductBundles, this.selectedProductBundle);
   }
 
   public async onSelectBundle(): Promise<void> {
-    this._selectBundleDisabled = true;
-    this._unselectBundleDisabled = true;
-    const busy = this.myBusyService.beginBusy();
-
+    this.dataSource.loading.set(true);
+    this.orchestration.abortCall();
     try {
-      const items = await this.patternItemService.getPatternItemList(this.selectedProductBundle, undefined, undefined, true);
-      if (items?.Data) {
-        this.productBundleItemsCount = items?.Data.length;
-        this.selectionService.addProducts(items.Data, SelectedProductSource.ProductBundles, true, this.selectedProductBundle);
-        this.orchestration.preselectBySource(SelectedProductSource.ProductBundles, this.dst);
+      await this.getBundleItems();
+      if (this.bundleItems) {
+        this.bundleItems = this.bundleItems;
+        this.selectionService.addProducts(
+          this.bundleItems,
+          this.bundleItems,
+          SelectedProductSource.ProductBundles,
+          this.selectedProductBundle,
+        );
+        this.orchestration.preselectBySource(this.dataSource);
       }
     } finally {
-      this._unselectBundleDisabled = false;
-      busy.endBusy();
+      this.dataSource.loading.set(false);
     }
   }
 
   public async onUnselectBundle(): Promise<void> {
-    this.selectionService.addProducts([], SelectedProductSource.ProductBundles, true, this.selectedProductBundle);
-    this.orchestration.preselectBySource(SelectedProductSource.ProductBundles, this.dst);
-    this._selectBundleDisabled = false;
-    this._unselectBundleDisabled = true;
+    if (!this.bundleItems.length) {
+      await this.getBundleItems();
+    }
+    this.selectionService.addProducts([], this.bundleItems, SelectedProductSource.ProductBundles, this.selectedProductBundle);
+    this.orchestration.preselectBySource(this.dataSource);
   }
 
-  private updateDisplayedColumns(displayedColumns: IClientProperty[]): void {
-    if (this.dstSettings) {
-      this.dstSettings.displayedColumns = displayedColumns;
-      this.orchestration.dstSettingsProductBundles = this.dstSettings;
+  private async getBundleItems(): Promise<void> {
+    this.dataSource.loading.set(true);
+    try {
+      const itemList = await this.patternItemService.getPatternItemList(
+        this.selectedProductBundle!,
+        undefined,
+        { signal: this.orchestration.abortController.signal },
+        true,
+      );
+
+      for (const product of itemList.Data) {
+        product.GetEntity().AddColumns([{ ColumnName: 'selectionKey', Type: ValType.String }]);
+        await product.GetEntity().GetColumn('selectionKey').PutValue(product.GetEntity().GetColumn('UID_AccProduct').GetValue());
+      }
+      this.bundleItems = itemList.Data;
+    } catch {
+      this.bundleItems = [];
+    } finally {
+      this.dataSource.loading.set(false);
     }
   }
 }

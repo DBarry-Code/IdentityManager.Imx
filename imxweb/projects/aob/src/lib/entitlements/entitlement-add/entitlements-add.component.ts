@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -64,6 +64,7 @@ const helperAlertKey = `${HELPER_ALERT_KEY_PREFIX}_addNewEntitlements`;
   templateUrl: './entitlements-add.component.html',
   styleUrls: ['./entitlements-add.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class EntitlementsAddComponent implements OnInit {
   public readonly EntitlementsType = EntitlementsType; // Enables use of this Enum in Angular Templates.
@@ -197,6 +198,8 @@ export class EntitlementsAddComponent implements OnInit {
   private async useSource(type: EntitlementsType): Promise<void> {
     this.selectedSourceType = type;
     this.entitySchema = this.entitlementsProvider.candidateSchema(type);
+    this.displayedColumns = this.getDisplayedColumnsForEntitlement(this.entitySchema, type);
+    this.dataSource.columnsToDisplay.set(this.displayedColumns);
 
     let dataModel: DataModel | undefined = undefined;
     if (this.busyService.overlayRefs.length === 0) {
@@ -207,7 +210,6 @@ export class EntitlementsAddComponent implements OnInit {
     } finally {
       this.busyService.hide();
     }
-    this.displayedColumns = this.getDisplayedColumnsForEntitlement(this.entitySchema, type);
     this.dataSource.state.set({ PageSize: this.settingsService?.DefaultPageSize, StartIndex: 0 });
     const dataViewInitParameters: DataViewInitParameters<TypedEntity> = {
       execute: (params: CollectionLoadParameters): Promise<TypedEntityCollectionData<TypedEntity> | undefined> =>

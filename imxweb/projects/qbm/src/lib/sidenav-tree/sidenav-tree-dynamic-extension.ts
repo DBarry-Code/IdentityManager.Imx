@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -269,7 +269,7 @@ export class DynamicDataSource<T> {
     const afterCollapsed: T[] = this.data.slice(index + 1, this.data.length);
     let count = 0;
     const nodeLevel = this._treeControl.getLevel(node);
-    for (count; count < afterCollapsed.length; count++) {
+    for (; count < afterCollapsed.length; count++) {
       const tmpNode = afterCollapsed[count];
       if (this._treeControl.getLevel(tmpNode) <= nodeLevel) {
         break;

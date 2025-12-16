@@ -1,16 +1,16 @@
-@import '@elemental-ui/core/src/styles/eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   .top-banner {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
     align-items: center;
     justify-content: space-between;
     gap: 10px;
   }
 
   .groups {
-    @include flex-column-container();
+    @include mixins.flex-column-container();
     gap: 16px;
   }
 
@@ -24,44 +24,45 @@
   }
 
   .group-description {
-    @include flex-column-container;
+    @include mixins.flex-column-container;
     width: 100%;
     text-align: end;
   }
 
   .group-body {
-    @include flex-column-container();
+    @include mixins.flex-column-container();
     gap: 10px;
 
     &--failed {
-      @include flex-row-container();
+      @include mixins.flex-row-container();
       justify-content: center;
       padding-bottom: 24px;
     }
   }
 
   .task {
-    @include flex-row-container();
+    @include mixins.flex-row-container();
     gap: 10px;
     align-items: center;
     padding-bottom: 10px;
   }
 
   .task-details {
-    @include flex-column-container();
+    @include mixins.flex-column-container();
     width: 100%;
     gap: 8px;
   }
 
   .task-display {
-    @include flex-column-container();
+    @include mixins.flex-column-container();
     flex-grow: 1;
 
     &--failed {
-      @include flex-row-container();
+      @include mixins.flex-row-container();
       justify-content: space-between;
       gap: 5px;
-      > div {
+
+      >div {
         flex-grow: 1;
       }
     }
@@ -88,7 +89,7 @@
   }
 
   .empty-message {
-    @include flex-column-container();
+    @include mixins.flex-column-container();
     height: 100%;
     justify-content: center;
     align-items: center;
@@ -107,56 +108,68 @@
 // Theming
 :host {
   .icon-success {
-    color: $color-green-60;
+    color: eui.$color-green-60;
   }
+
   .icon-fail,
   .task-error {
-    color: $color-red-60;
+    color: eui.$color-red-60;
   }
+
   .icon-processing {
-    color: $color-blue-60;
+    color: eui.$color-blue-60;
   }
+
   .icon-pending {
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
   }
+
   .empty-message {
-    color: $color-gray-20;
+    color: eui.$color-gray-20;
   }
+
   .group-time,
   .task-time {
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
   }
+
   .task,
   .group-body--failed {
-    border-bottom: 1px solid $color-gray-60;
+    border-bottom: 1px solid eui.$color-gray-60;
   }
 }
 
 .eui-dark-theme {
   :host {
     .icon-success {
-      color: $color-green-40;
+      color: eui.$color-green-40;
     }
+
     .icon-fail,
     .task-error {
-      color: $color-red-40;
+      color: eui.$color-red-40;
     }
+
     .icon-processing {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
+
     .icon-pending {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
+
     .empty-message {
-      color: $color-gray-40;
+      color: eui.$color-gray-40;
     }
+
     .group-time,
     .task-time {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
+
     .task,
     .group-body--failed {
-      border-bottom: 1px solid $color-gray-20;
+      border-bottom: 1px solid eui.$color-gray-20;
     }
   }
 }
@@ -164,28 +177,34 @@
 .eui-contrast-theme {
   :host {
     .icon-success {
-      color: $color-green-60;
+      color: eui.$color-green-60;
     }
+
     .icon-fail,
     .task-error {
-      color: $color-red-60;
+      color: eui.$color-red-60;
     }
+
     .icon-processing {
-      color: $color-blue-60;
+      color: eui.$color-blue-60;
     }
+
     .icon-pending {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
+
     .empty-message {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
+
     .group-time,
     .task-time {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
+
     .task,
     .group-body--failed {
-      border-bottom: 1px solid $color-gray-0;
+      border-bottom: 1px solid eui.$color-gray-0;
     }
   }
 }

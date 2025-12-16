@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -51,7 +51,8 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { EuiCoreModule } from '@elemental-ui/core';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
+import { EUI_TOOLTIP_DEFAULTS, EuiCoreModule, EuiTooltipConfig } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReCaptchaV3Service, RecaptchaV3Module } from 'ng-recaptcha-2';
 import { AboutComponent } from './about/About.component';
@@ -88,8 +89,8 @@ import { IconStackComponent } from './icon-stack/icon-stack.component';
 import { InfoModalDialogModule } from './info-modal-dialog/info-modal-dialog.module';
 import { JobQueueOverviewModule } from './jobqueue-overview/jobqueue-overview.module';
 import { LdsReplaceModule } from './lds-replace/lds-replace.module';
-import { LoginComponent } from './login/login.component';
 import { MastHeadModule } from './mast-head/mast-head.module';
+import { ConfirmationInputComponent } from './message-dialog/confirmation-input.component';
 import { MessageDialogComponent } from './message-dialog/message-dialog.component';
 import { MessageDialogService } from './message-dialog/message-dialog.service';
 import { ImxProgressbarComponent } from './progressbar/progressbar.component';
@@ -99,6 +100,7 @@ import { imx_SessionService } from './session/imx-session.service';
 import { SideNavigationViewModule } from './side-navigation-view/side-navigation-view.module';
 import { SidenavTreeComponent } from './sidenav-tree/sidenav-tree.component';
 import { SnackBarService } from './snackbar/snack-bar.service';
+import { StatisticsModule } from './statistics/statistics.module';
 import { TableImageService } from './table-image/table-image.service';
 import { TestHelperModule } from './testing/TestHelperModule.spec';
 import { TileModule } from './tile/tile.module';
@@ -107,7 +109,6 @@ import { ImxTranslateLoader } from './translation/imx-translate-loader';
 import { ImxTranslationProviderService } from './translation/imx-translation-provider.service';
 import { ImxMatColumnComponent } from './treeTable/MatColumn';
 import { ImxTreeTableComponent } from './treeTable/treeTable.component';
-import { TwoFactorAuthenticationComponent } from './two-factor-authentication/two-factor-authentication.component';
 import { TwoFactorAuthenticationService } from './two-factor-authentication/two-factor-authentication.service';
 import { UserMessageModule } from './user-message/user-message.module';
 
@@ -121,27 +122,42 @@ export function initApp(registry: CdrRegistryService, logger: NGXLogger): () => 
     });
 }
 
+/**
+ * Sets the Material tooltip default timing
+ */
+const matTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 500,   // delay in ms before showing
+  hideDelay: 0,
+  // touch devices
+  touchLongPressShowDelay: 1000,
+  touchendHideDelay: 1000
+};
+
+/**
+ * Sets the Elemental tooltip default timing
+ */
+const euiTooltipDefaults: EuiTooltipConfig = {
+  matTooltipShowDelay: 500
+}
+
 @NgModule({
   declarations: [
-    TwoFactorAuthenticationComponent,
     AboutComponent,
     IconStackComponent,
-    LoginComponent,
     FilterTileComponent,
     ImxProgressbarComponent,
     SearchBarComponent,
     ImxTreeTableComponent,
     ImxMatColumnComponent,
     MessageDialogComponent,
+    ConfirmationInputComponent,
     TranslationEditorComponent,
     ConnectionComponent,
   ],
   exports: [
-    TwoFactorAuthenticationComponent,
     AboutComponent,
     ConnectionComponent,
     IconStackComponent,
-    LoginComponent,
     ExtComponent,
     ExtDirective,
     FilterTileComponent,
@@ -203,6 +219,7 @@ export function initApp(registry: CdrRegistryService, logger: NGXLogger): () => 
     CaptchaModule,
     RecaptchaV3Module,
     DataViewModule,
+    StatisticsModule,
   ],
   providers: [
     GlobalErrorHandler,
@@ -223,6 +240,15 @@ export function initApp(registry: CdrRegistryService, logger: NGXLogger): () => 
     MessageDialogService,
     ReCaptchaV3Service,
     provideHttpClient(withInterceptorsFromDi()),
+    // Override defaults
+    {
+      provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
+      useValue: matTooltipDefaults
+    },
+    {
+      provide: EUI_TOOLTIP_DEFAULTS,
+      useValue: euiTooltipDefaults
+    }
   ],
 })
 export class QbmModule {

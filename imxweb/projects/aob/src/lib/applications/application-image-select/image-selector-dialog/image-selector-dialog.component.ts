@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { ImageSelectorDialogParameter } from './image-selector-dialog-parameter.
  * A dialog to select an icon from a predefined list or upload an own one.
  */
 @Component({
-  selector: 'imx-image-selector-dialog',
-  templateUrl: './image-selector-dialog.component.html',
-  styleUrls: ['./image-selector-dialog.component.scss'],
+    selector: 'imx-image-selector-dialog',
+    templateUrl: './image-selector-dialog.component.html',
+    styleUrls: ['./image-selector-dialog.component.scss'],
+    standalone: false
 })
 export class ImageSelectorDialogComponent implements OnDestroy {
   public get imageIsSelected(): boolean {

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,7 +26,8 @@
 
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChapterLink, ContextualHelpItem } from '@imx-modules/imx-api-qbm';
+import { ChapterLink } from '@imx-modules/imx-api-qbm';
+import { ExtendedHelpContextualItem } from '../help-contextual.component';
 import { HelpContextualService } from '../help-contextual.service';
 
 /**
@@ -36,12 +37,13 @@ import { HelpContextualService } from '../help-contextual.service';
   selector: 'imx-help-contextual-dialog',
   templateUrl: './help-contextual-dialog.component.html',
   styleUrls: ['./help-contextual-dialog.component.scss'],
+  standalone: false,
 })
 export class HelpContextualDialogComponent {
   constructor(
     private readonly helpContextService: HelpContextualService,
     public matDialogRef: MatDialogRef<HelpContextualDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ContextualHelpItem,
+    @Inject(MAT_DIALOG_DATA) public data: ExtendedHelpContextualItem,
   ) {}
 
   /**
@@ -62,7 +64,7 @@ export class HelpContextualDialogComponent {
 
   /**
    * The call returns the url in a correct way. If the url not external we add the baseUrl before the link.
-   * @param {ChapterLink} ChapterLink
+   * @param {ChapterLink} link
    * @returns {string}
    */
   getHelpLink(link: ChapterLink): string {

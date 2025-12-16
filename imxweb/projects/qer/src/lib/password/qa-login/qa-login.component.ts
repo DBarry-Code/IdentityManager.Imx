@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,8 +37,9 @@ import { QerApiService } from '../../qer-api-client.service';
  * Handles question based authentication In Password Reset Portal
  */
 @Component({
-  templateUrl: './qa-login.component.html',
-  styleUrls: ['./qa-login.component.scss'],
+    templateUrl: './qa-login.component.html',
+    styleUrls: ['./qa-login.component.scss'],
+    standalone: false
 })
 export class QaLoginComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];

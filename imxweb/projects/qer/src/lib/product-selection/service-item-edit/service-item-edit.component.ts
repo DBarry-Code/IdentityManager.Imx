@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { BulkItem, BulkItemStatus, ConfirmationService, LdsReplacePipe } from 'qbm';
 
 @Component({
-  selector: 'imx-service-item-edit',
-  templateUrl: './service-item-edit.component.html',
-  styleUrls: ['./service-item-edit.component.scss'],
+    selector: 'imx-service-item-edit',
+    templateUrl: './service-item-edit.component.html',
+    styleUrls: ['./service-item-edit.component.scss'],
+    standalone: false
 })
 export class ServiceItemEditComponent {
   public infoText =

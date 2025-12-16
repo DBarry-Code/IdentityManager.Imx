@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -76,6 +76,7 @@ import { EntityColumnContainer } from '../entity-column-container';
   templateUrl: './edit-fk.component.html',
   styleUrls: ['./edit-fk.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 /**
  * A component for viewing / editing foreign key relations.

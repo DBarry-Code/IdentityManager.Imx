@@ -2,7 +2,7 @@
   <mat-tab [label]="'#LDS#Heading Details' | translate">
     <div eui-sidesheet-content>
       <imx-help-contextual [contextId]="contextId" [title]="'#LDS#Information about this tab:'"></imx-help-contextual>
-      <imx-service-items-edit-form #serviceItemsEditForm [serviceItem]="serviceItem" (formControlCreated)="this.formArray.push($event)">
+      <imx-service-items-edit-form #serviceItemsEditForm [serviceItem]="serviceItem" (formControlCreated)="formArray.push($event)">
       </imx-service-items-edit-form>
     </div>
     <div eui-sidesheet-actions>

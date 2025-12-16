@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,13 +24,16 @@
  *
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { UserComponent } from './user.component';
 import { UserModule } from 'qer';
+import { UserComponent } from './user.component';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @NgModule({
   declarations: [UserComponent],
   imports: [CommonModule, MatIconModule, UserModule],

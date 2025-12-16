@@ -1,4 +1,4 @@
-<ng-container *ngIf="columnContainer?.canEdit; else isReadonly">
+@if (columnContainer?.canEdit) {
   <eui-select
     class="imx-bitmask-select"
     [label]="columnContainer?.display || '' | translate"
@@ -8,10 +8,10 @@
     [useLegacyFloatingLabel]="true"
     [options]="options"
     [formControl]="control"
-  >
+    [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
+    >
   </eui-select>
-</ng-container>
-
-<ng-template #isReadonly>
+} @else {
   <imx-view-property [columnContainer]="columnContainer" defaultValue="#LDS#Not set"> </imx-view-property>
-</ng-template>
+}
+

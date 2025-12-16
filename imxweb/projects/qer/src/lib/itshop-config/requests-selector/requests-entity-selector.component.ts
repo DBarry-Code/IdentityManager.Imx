@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { RequestableEntitlementTypeService } from '../requestable-entitlement-ty
 import { RequestsService } from '../requests.service';
 
 @Component({
-  selector: 'imx-requests-selector',
-  templateUrl: './requests-entity-selector.component.html',
-  styleUrls: ['../request-config-sidesheet-common.scss'],
+    selector: 'imx-requests-selector',
+    templateUrl: './requests-entity-selector.component.html',
+    styleUrls: ['../request-config-sidesheet-common.scss'],
+    standalone: false
 })
 export class RequestsEntitySelectorComponent implements OnInit {
   public selectedItems: TypedEntity[] = [];

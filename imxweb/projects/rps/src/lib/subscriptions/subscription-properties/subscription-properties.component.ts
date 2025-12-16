@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { ColumnDependentReference } from 'qbm';
 import { ReportSubscription } from '../report-subscription/report-subscription';
 
 @Component({
-  selector: 'imx-subscription-properties',
-  templateUrl: './subscription-properties.component.html',
-  styleUrls: ['./subscription-properties.component.scss'],
+    selector: 'imx-subscription-properties',
+    templateUrl: './subscription-properties.component.html',
+    styleUrls: ['./subscription-properties.component.scss'],
+    standalone: false
 })
 export class SubscriptionPropertiesComponent implements OnInit, OnChanges {
   public cdrList: ColumnDependentReference[] = [];

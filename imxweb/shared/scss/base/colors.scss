@@ -1,26 +1,28 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
 .imx {
   &-white {
-    color: $color-gray-0;
+    color: eui.$color-gray-0;
   }
 
   &-black {
-    color: $color-gray-100;
+    color: eui.$color-gray-100;
   }
 
   &-info {
-    color: $color-blue-60;
+    color: eui.$color-blue-60;
   }
 
   &-new {
-    color: $color-green-60;
+    color: eui.$color-green-60;
   }
 
   &-warning {
-    color: $color-orange-60;
+    color: eui.$color-orange-60;
   }
 
   &-error {
-    color: $color-red-60;
+    color: eui.$color-red-60;
   }
 }
 
@@ -28,19 +30,19 @@
 .eui-contrast-theme {
   .imx {
     &-info {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
 
     &-new {
-      color: $color-green-40;
+      color: eui.$color-green-40;
     }
 
     &-warning {
-      color: $color-orange-40;
+      color: eui.$color-orange-40;
     }
 
     &-error {
-      color: $color-red-40;
+      color: eui.$color-red-40;
     }
   }
 }

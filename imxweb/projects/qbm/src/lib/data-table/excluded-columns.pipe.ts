@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { IClientProperty } from '@imx-modules/imx-qbm-dbts';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataViewModule instead.
+ */
 @Pipe({
-  name: 'excludedColumns',
-  pure: false,
+    name: 'excludedColumns',
+    pure: false,
+    standalone: false
 })
 export class ExcludedColumnsPipe implements PipeTransform {
   transform(items: IClientProperty[], filter: string[]): any {

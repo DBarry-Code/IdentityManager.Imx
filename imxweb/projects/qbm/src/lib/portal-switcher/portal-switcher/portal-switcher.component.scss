@@ -1,0 +1,10 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+// Theming
+:host {
+  align-self: center;
+
+  ::ng-deep .mat-mdc-progress-spinner circle {
+    stroke: eui.$color-gray-2;
+  }
+}

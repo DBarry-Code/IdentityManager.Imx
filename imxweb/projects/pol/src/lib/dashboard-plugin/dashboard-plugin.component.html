@@ -1,10 +1,12 @@
 <!-- todo: add dashboard tiles -->
-<imx-badge-tile
-  data-imx-identifier="pol-dashboard--plugin-badge-tile-violations-approvals"
-  [caption]="'#LDS#Heading Pending Policy Violations' | translate"
-  *ngIf="hasPendingItems()"
-  [value]="pendingItems.OpenQERPolicyHasObject!.toString()"
-  [identifier]="'pol-rule-violation-approvals'"
-  (actionClick)="router.navigate(['compliance', 'policyviolations', 'approve'])"
->
-</imx-badge-tile>
+@if (hasPendingItems()) {
+  <imx-badge-tile
+    data-imx-identifier="pol-dashboard--plugin-badge-tile-violations-approvals"
+    [caption]="'#LDS#Heading Policy Violations to Approve' | translate"
+    [tooltip]="'#LDS#Shows pending policy violations for which you can grant or deny exceptions.' | translate"
+    [value]="pendingItems.OpenQERPolicyHasObject!.toString()"
+    [identifier]="'pol-rule-violation-approvals'"
+    (actionClick)="router.navigate(['compliance', 'policyviolations', 'approve'])"
+    >
+  </imx-badge-tile>
+}

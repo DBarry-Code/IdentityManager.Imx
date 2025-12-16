@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { Subscription } from 'rxjs';
 import { RiskConfigService } from '../risk-config.service';
 
 @Component({
-  selector: 'imx-risk-config-sidesheet',
-  templateUrl: './risk-config-sidesheet.component.html',
-  styleUrls: ['./risk-config-sidesheet.component.scss'],
+    selector: 'imx-risk-config-sidesheet',
+    templateUrl: './risk-config-sidesheet.component.html',
+    styleUrls: ['./risk-config-sidesheet.component.scss'],
+    standalone: false
 })
 export class RiskConfigSidesheetComponent implements OnDestroy {
   public readonly formGroup = new UntypedFormGroup({});

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { EuiSidesheetRef, EUI_SIDESHEET_DATA } from '@elemental-ui/core';
 import { CollectionLoadParameters, TypedEntity, TypedEntityCollectionData } from '@imx-modules/imx-qbm-dbts';
 
 @Component({
-  selector: 'imx-service-items-selector',
-  templateUrl: './service-items-selector.component.html',
-  styleUrls: ['./service-items-selector.component.scss'],
+    selector: 'imx-service-items-selector',
+    templateUrl: './service-items-selector.component.html',
+    styleUrls: ['./service-items-selector.component.scss'],
+    standalone: false
 })
 export class ServiceItemsSelectorComponent {
   public selectedItems: TypedEntity[];

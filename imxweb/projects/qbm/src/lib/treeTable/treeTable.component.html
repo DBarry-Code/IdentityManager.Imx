@@ -3,12 +3,12 @@
     <ng-container matColumnDef="expandedDetail">
       <mat-cell *matCellDef>
         <a [class]="ButtonClass" (click)="buttonClicked()"></a>
-        <ng-template [ngIf]="titleNodeTemplate">
+        @if (titleNodeTemplate) {
           <ng-container [ngTemplateOutlet]="titleNodeTemplate"></ng-container>
-        </ng-template>
-        <ng-template [ngIf]="!titleNodeTemplate">
+        }
+        @if (!titleNodeTemplate) {
           <ng-container [ngTemplateOutlet]="DefaultTemplate"></ng-container>
-        </ng-template>
+        }
       </mat-cell>
     </ng-container>
     <ng-content></ng-content>

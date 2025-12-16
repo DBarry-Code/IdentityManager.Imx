@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,7 +27,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { EuiLoadingService, EuiSelectOption, EuiSidesheetRef } from '@elemental-ui/core';
-import { ConfirmationService, SnackBarService } from 'qbm';
+import { ConfirmationService, ElementalUiConfigService, SnackBarService } from 'qbm';
 import { Subscription } from 'rxjs';
 import { PolicyViolationsService } from '../policy-violations.service';
 import { PolicyViolationExtended } from './policy-violation-extended';
@@ -36,6 +36,7 @@ import { PolicyViolationExtended } from './policy-violation-extended';
   selector: 'imx-mitigating-controls',
   templateUrl: './mitigating-controls.component.html',
   styleUrls: ['./mitigating-controls.component.scss'],
+  standalone: false,
 })
 export class MitigatingControlsComponent implements OnInit {
   @Input() public uidViolation: string;
@@ -53,6 +54,7 @@ export class MitigatingControlsComponent implements OnInit {
   constructor(
     private readonly violationService: PolicyViolationsService,
     private readonly loadingService: EuiLoadingService,
+    public elementalUiConfigService: ElementalUiConfigService,
     private confirmationService: ConfirmationService,
     private cd: ChangeDetectorRef,
     private snackbar: SnackBarService,

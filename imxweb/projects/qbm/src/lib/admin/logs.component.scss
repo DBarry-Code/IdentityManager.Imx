@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   width: 100%;
@@ -9,8 +9,8 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    .imx-slide-toggle{
-      margin:auto;
+    .imx-slide-toggle {
+      margin: auto;
     }
   }
 
@@ -45,14 +45,18 @@
   }
 
   p {
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
+  }
+
+  .mat-mdc-list-item-avatar{
+    background-color: unset;
   }
 }
 
 .imx-error-message {
   display: flex;
   align-items: center;
-  color: $color-red-60;
+  color: eui.$color-red-60;
 
   eui-icon {
     margin-right: 8px;

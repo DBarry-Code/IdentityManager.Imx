@@ -2,44 +2,40 @@ $theme_font_family: 'Source Sans Pro, "Helvetica Neue", sans-serif' !default;
 
 @use 'sass:math';
 @use '@angular/material' as mat;
+@use '@elemental-ui/core/src/styles/_palette' as eui_old;
 @use '@elemental-ui/core/src/styles/theming/theme' as theme;
 @use '../shared/scss/base/theme' as imx-theme;
 
-@import '@elemental-ui/core/src/styles/functions/to_number';
+@use '@elemental-ui/core/src/styles/functions/to_number' as to_number;
 
-@import '@elemental-ui/core/src/styles/reset';
-@import '@elemental-ui/core/src/styles/billboard';
-@import '@elemental-ui/core/src/styles/cadence';
-@import '@elemental-ui/core/src/styles/material_icons';
-@import '@elemental-ui/core/src/styles/source_sans_pro';
-@import '@elemental-ui/core/src/styles/palette';
-@import '@elemental-ui/core/src/styles/typography';
-@import '@elemental-ui/core/src/styles/material_fixes';
-@import '@elemental-ui/core/src/styles/inputs';
-@import '@elemental-ui/core/src/styles/clickables';
-@import '@elemental-ui/core/src/styles/common';
+@use '@elemental-ui/core/src/styles/reset' as reset;
+@use '@elemental-ui/core/src/styles/billboard' as billboard;
+@use '@elemental-ui/core/src/styles/cadence' as cadence;
+@use '@elemental-ui/core/src/styles/material_icons' as material_icons;
+@use '@elemental-ui/core/src/styles/source_sans_pro' as source_sans_pro;
+@use '@elemental-ui/core/src/styles/palette' as palette;
+@use '@elemental-ui/core/src/styles/typography' as typography;
+@use '@elemental-ui/core/src/styles/material_fixes' as material_fixes;
+@use '@elemental-ui/core/src/styles/inputs' as inputs;
+@use '@elemental-ui/core/src/styles/clickables' as clickables;
+@use '@elemental-ui/core/src/styles/common' as common;
 
-$custom-typography: mat.m2-define-typography-config(
-  $font-family: $theme_font_family,
-  $button: mat.m2-define-typography-level(14px, 14px, 400),
-);
+$custom-typography: mat.m2-define-typography-config($font-family: $theme_font_family,
+    $button: mat.m2-define-typography-level(14px, 14px, 400),
+  );
 @include mat.core();
 
 // Define the custom theme.
-$primary: mat.m2-define-palette($corbin-orange-palette);
-$accent: mat.m2-define-palette($gunmetal-palette);
-$warn: mat.m2-define-palette($phoenix-red-palette);
+$primary: mat.m2-define-palette(eui_old.$corbin-orange-palette);
+$accent: mat.m2-define-palette(eui_old.$gunmetal-palette);
+$warn: mat.m2-define-palette(eui_old.$phoenix-red-palette);
 
-$theme: mat.m2-define-light-theme(
-  (
-    color: (
-      primary: $primary,
-      accent: $accent,
-      warn: $warn,
-    ),
-    typography: $custom-typography
-  )
-);
+$theme: mat.m2-define-light-theme((color: (primary: $primary,
+        accent: $accent,
+        warn: $warn,
+      ),
+      typography: $custom-typography,
+    ));
 // Rename the $theme-name variable to your theme's name. (e.g.space-theme)
 $theme-name: 'custom-theme';
 @include theme.theme($theme-name, $theme);

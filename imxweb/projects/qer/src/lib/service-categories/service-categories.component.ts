@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -48,9 +48,10 @@ import { ServiceCategoryTreeDatabase } from './service-category-tree-database';
 import { ServiceCategoryComponent } from './service-category.component';
 
 @Component({
-  selector: 'imx-service-categories',
-  templateUrl: './service-categories.component.html',
-  styleUrls: ['./service-categories.component.scss'],
+    selector: 'imx-service-categories',
+    templateUrl: './service-categories.component.html',
+    styleUrls: ['./service-categories.component.scss'],
+    standalone: false
 })
 export class ServiceCategoriesComponent implements OnDestroy {
   public selectedEntities: IEntity[] = [];

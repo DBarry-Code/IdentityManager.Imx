@@ -1,0 +1,10 @@
+<div eui-sidesheet-content>
+  <mat-card class="imx-flex-container-100 mat-elevation-z6">
+    <mat-card-title [class]="{ 'imx-chart-title': true, 'imx-new': data.isPassing, 'imx-error': !data.isPassing }">
+      {{ (data.isPassing ? '#LDS#Passed' : '#LDS#Failed') | translate }}
+    </mat-card-title>
+    <mat-card-content #lineChartContent class="imx-chart-content">
+      <eui-billboard [options]="options" (chart)="onChartCreated($event)"></eui-billboard>
+    </mat-card-content>
+  </mat-card>
+</div>

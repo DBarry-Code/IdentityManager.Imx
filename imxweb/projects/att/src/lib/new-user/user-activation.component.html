@@ -3,18 +3,23 @@
 <div class="pagecontent">
   <h2 class="mat-headline-5">{{ '#LDS#Heading Confirm Email Address' | translate }}</h2>
 
-  <mat-spinner *ngIf="busy"></mat-spinner>
+  @if (busy) {
+    <mat-spinner></mat-spinner>
+  }
 
-  <ng-container *ngIf="!busy">
+  @if (!busy) {
     <eui-alert>{{ ldsText | translate }}</eui-alert>
     <div class="imx-button-bar-transparent">
-      <button mat-flat-button *ngIf="hasFormat && !hasProblems" (click)="resendMail()">
-        {{ '#LDS#Send confirmation email again' | translate }}
-      </button>
-
-      <button mat-flat-button color="primary" *ngIf="data?.ApprovalState == 1" (click)="confirmEMail()">
-        {{ '#LDS#Confirm email address' | translate }}
-      </button>
+      @if (hasFormat && !hasProblems) {
+        <button mat-flat-button (click)="resendMail()">
+          {{ '#LDS#Send confirmation email again' | translate }}
+        </button>
+      }
+      @if (data?.ApprovalState == 1) {
+        <button mat-flat-button color="primary" (click)="confirmEMail()">
+          {{ '#LDS#Confirm email address' | translate }}
+        </button>
+      }
     </div>
-  </ng-container>
+  }
 </div>

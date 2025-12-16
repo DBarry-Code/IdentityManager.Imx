@@ -1,0 +1,12 @@
+<div eui-sidesheet-content class="imx-flex" [ngStyle]="{ gap: '20px' }">
+  @for (portal of data.portalList; track $index) {
+    <a [href]="getPortalUrl(portal)">
+      <mat-card euiClickable (click)="portalSelected(portal)">
+        <mat-card-title>{{ portal?.DisplayName }}</mat-card-title>
+        @if (portal?.Description) {
+          <mat-card-subtitle>{{ portal.Description }}</mat-card-subtitle>
+        }
+      </mat-card>
+    </a>
+  }
+</div>

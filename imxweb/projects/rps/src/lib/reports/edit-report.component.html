@@ -27,9 +27,11 @@
       <eui-icon icon="delete"></eui-icon>
       {{ '#LDS#Delete' | translate }}
     </button>
-    <button mat-flat-button color="primary" (click)="createNew()">
-      <eui-icon icon="add"></eui-icon>
-      {{ '#LDS#Create report' | translate }}
-    </button>
+    @if (createPermission) {
+      <button mat-flat-button color="primary" (click)="createNew()">
+        <eui-icon icon="add"></eui-icon>
+        {{ '#LDS#Create report' | translate }}
+      </button>
+    }
   </div>
 </div>

@@ -1,7 +1,8 @@
-<imx-cdr-editor
-  *ngIf="cdr"
-  [cdr]="cdr"
-  (controlCreated)="controlCreated.emit({ name: column.ColumnName, control: $event })"
-  (pendingChanged)="pendingChanged.emit($event)"
->
-</imx-cdr-editor>
+@if (cdr) {
+  <imx-cdr-editor
+    [cdr]="cdr"
+    (controlCreated)="controlCreated.emit({ name: column.ColumnName, control: $event })"
+    (pendingChanged)="pendingChanged.emit($event)"
+  >
+  </imx-cdr-editor>
+}

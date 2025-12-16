@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { PwoData } from '@imx-modules/imx-api-qer';
 import { EntityData } from '@imx-modules/imx-qbm-dbts';
 
 @Component({
-  selector: 'imx-workflow-violation-details',
-  templateUrl: './workflow-violation-details.component.html',
-  styleUrls: ['./workflow-violation-details.component.scss'],
+    selector: 'imx-workflow-violation-details',
+    templateUrl: './workflow-violation-details.component.html',
+    styleUrls: ['./workflow-violation-details.component.scss'],
+    standalone: false
 })
 export class WorkflowViolationDetailsComponent implements OnInit {
   public violations: EntityData[] = [];

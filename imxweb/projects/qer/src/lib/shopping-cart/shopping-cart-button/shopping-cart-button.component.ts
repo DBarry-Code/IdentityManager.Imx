@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { UserModelService } from '../../user/user-model.service';
 import { DashboardService } from '../../wport/start/dashboard.service';
 
 @Component({
-  selector: 'imx-shopping-cart-button',
-  templateUrl: './shopping-cart-button.component.html',
-  styleUrls: ['./shopping-cart-button.component.scss'],
+    selector: 'imx-shopping-cart-button',
+    templateUrl: './shopping-cart-button.component.html',
+    styleUrls: ['./shopping-cart-button.component.scss'],
+    standalone: false
 })
 export class ShoppingCartButtonComponent implements OnInit {
   public pendingItems: PendingItemsType;

@@ -1,3 +1,5 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
 /* Elemental UI */
 
 /* Angular Material */
@@ -13,6 +15,7 @@
 
 .imx-snavigation-side-content {
   flex: 1 1 auto;
+
   mat-tree {
     background-color: transparent !important;
   }
@@ -40,6 +43,7 @@
       width: 100%;
     }
   }
+
   .tree-invisible {
     display: none;
   }
@@ -58,34 +62,34 @@
   }
 
   .mat-tree-node--selected {
-    background-color: $color-gray-0;
-    border: 1px solid $color-blue-40;
-    color: $color-orange-60;
+    background-color: eui.$color-gray-0;
+    border: 1px solid eui.$color-blue-40;
+    color: eui.$color-orange-60;
   }
 
   .imx-tree-control {
     .imx-snavigation-side-content {
-      background-color: $color-blue-10;
-      border: 1px solid $color-blue-20;
+      background-color: eui.$color-blue-10;
+      border: 1px solid eui.$color-blue-20;
     }
   }
 }
 
 .eui-dark-theme {
   .mat-tree-node--selected {
-    background-color: $color-gray-80;
-    border: 1px solid $color-blue-40;
-    color: $color-orange-40;
+    background-color: eui.$color-gray-80;
+    border: 1px solid eui.$color-blue-40;
+    color: eui.$color-orange-40;
 
     .imx-tree-root {
-      color: $color-orange-40;
+      color: eui.$color-orange-40;
     }
   }
 
   .imx-tree-control {
     .imx-snavigation-side-content {
-      background-color: $color-blue-80;
-      border: 1px solid $color-blue-40;
+      background-color: eui.$color-blue-80;
+      border: 1px solid eui.$color-blue-40;
     }
   }
 }
@@ -94,24 +98,27 @@
 
 .eui-contrast-theme {
   .mat-tree-node--selected {
-    background-color: $color-gray-20;
-    border: 1px solid $color-blue-40;
-    color: $color-orange-80;
+    background-color: eui.$color-gray-20;
+    border: 1px solid eui.$color-blue-40;
+    color: eui.$color-orange-80;
   }
+
   .imx-tree-root {
-    color: $color-gray-0;
+    color: eui.$color-gray-0;
   }
+
   .imx-tree-root--selected {
-    color: $color-orange-80;
+    color: eui.$color-orange-80;
+
     .imx-icon-warning {
-      color: $color-orange-80;
+      color: eui.$color-orange-80;
     }
   }
 
   .imx-tree-control {
     .imx-snavigation-side-content {
-      background-color: $color-gray-100;
-      border: 1px solid $color-gray-0;
+      background-color: eui.$color-gray-100;
+      border: 1px solid eui.$color-gray-0;
     }
   }
 }

@@ -1,1 +1,3 @@
-<imx-cdr-editor *ngIf="cdr" [cdr]="cdr"></imx-cdr-editor>
+@if (cdr) {
+  <imx-cdr-editor [cdr]="cdr"></imx-cdr-editor>
+}

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,9 +39,10 @@ import { RollbackComponent } from '../rollback/rollback.component';
 import { SplitComponent } from '../split/split.component';
 
 @Component({
-  selector: 'imx-role-main-data',
-  templateUrl: './role-main-data.component.html',
-  styleUrls: ['./role-main-data.component.scss'],
+    selector: 'imx-role-main-data',
+    templateUrl: './role-main-data.component.html',
+    styleUrls: ['./role-main-data.component.scss'],
+    standalone: false
 })
 export class RoleMainDataComponent implements OnInit {
   public editableFields: string[];

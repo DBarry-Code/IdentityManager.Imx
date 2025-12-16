@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,10 +28,11 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatCheckboxDefaultOptions, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 
 @Component({
-  selector: 'imx-filter-tile',
-  templateUrl: './filter-tile.component.html',
-  styleUrls: ['./filter-tile.component.scss'],
-  providers: [{ provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions }],
+    selector: 'imx-filter-tile',
+    templateUrl: './filter-tile.component.html',
+    styleUrls: ['./filter-tile.component.scss'],
+    providers: [{ provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: { clickAction: 'noop' } as MatCheckboxDefaultOptions }],
+    standalone: false
 })
 export class FilterTileComponent {
   @Input() public caption: string;

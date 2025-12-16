@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,6 +42,7 @@ import { WorkflowHistoryItemWrapper } from './workflow-history-item-wrapper';
   templateUrl: './request-info.component.html',
   selector: 'imx-requestinfo',
   styleUrls: ['./request-info.component.scss'],
+  standalone: false,
 })
 export class RequestInfoComponent implements OnInit, OnDestroy {
   @Input() public isReadOnly: boolean; // TODO later: an einer passenden Stelle verarbeiten
@@ -158,7 +159,7 @@ export class RequestInfoComponent implements OnInit, OnDestroy {
   }
 
   private getComplianceRule(index: number, pwoData: PwoData): string {
-    const elem = pwoData?.WorkflowHistory?.Entities?.[index]?.Columns?.['UID_ComplianceRule'];
+    const elem = pwoData.WorkflowHistory?.Entities?.[index].Columns?.UID_ComplianceRule;
     return elem?.DisplayValue ?? '';
   }
 }

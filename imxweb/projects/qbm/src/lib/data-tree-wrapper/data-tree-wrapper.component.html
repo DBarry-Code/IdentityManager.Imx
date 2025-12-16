@@ -1,17 +1,18 @@
-<imx-data-source-toolbar
-  #dst
-  *ngIf="database?.canSearch"
-  data-imx-identifier="data-tree-wrapper-data-source-toolbar-for-tree"
-  [alwaysVisible]="true"
-  [busyService]="database?.busyService"
-  [settings]="dstSettings"
-  [options]="['search', 'filter', 'groupBy', 'filterTree']"
-  [searchBoxText]="'#LDS#Search' | translate"
-  (navigationStateChanged)="onTreeNavigationStateChanged($event)"
-  (filterTreeSelectionChanged)="filterByTree($event)"
-  (search)="onTreeSearch($event)"
->
-</imx-data-source-toolbar>
+@if (database?.canSearch) {
+  <imx-data-source-toolbar
+    #dst
+    data-imx-identifier="data-tree-wrapper-data-source-toolbar-for-tree"
+    [alwaysVisible]="true"
+    [busyService]="database?.busyService"
+    [settings]="dstSettings"
+    [options]="['search', 'filter', 'groupBy', 'filterTree']"
+    [searchBoxText]="'#LDS#Search' | translate"
+    (navigationStateChanged)="onTreeNavigationStateChanged($event)"
+    (filterTreeSelectionChanged)="filterByTree($event)"
+    (search)="onTreeSearch($event)"
+    >
+  </imx-data-source-toolbar>
+}
 
 <imx-data-tree
   #tree
@@ -29,7 +30,7 @@
   (checkedNodesChanged)="checkedNodesChanged.emit()"
   (treeRendered)="treeRendered.emit()"
   [isNodeSelectable]="isNodeSelectable"
->
+  >
   <ng-template let-entity>
     <ng-container *ngTemplateOutlet="templateRef; context: { $implicit: entity }"> </ng-container>
   </ng-template>

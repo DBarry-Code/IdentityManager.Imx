@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -60,6 +60,7 @@ import { IdentitiesService } from '../identities.service';
   selector: 'imx-identity-sidesheet',
   templateUrl: './identity-sidesheet.component.html',
   styleUrls: ['./identity-sidesheet.component.scss'],
+    standalone: false
 })
 export class IdentitySidesheetComponent implements OnInit, OnDestroy {
   @ViewChild('tabs') public tabs: MatTabGroup;
@@ -272,12 +273,7 @@ export class IdentitySidesheetComponent implements OnInit, OnDestroy {
     if (!passcode) {
       return;
     }
-    return this.passcodeService.showPasscode(
-      passcode,
-      this.data.selectedIdentity.GetEntity().GetDisplay(),
-      '',
-      await this.passcodeService.getValidationDuration(),
-    );
+    return this.passcodeService.showPasscode(passcode, this.data.selectedIdentity.GetEntity().GetDisplay(), '');
   }
 
   public async onAssignManager(): Promise<void> {

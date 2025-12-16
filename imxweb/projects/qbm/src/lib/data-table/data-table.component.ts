@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,6 +59,9 @@ import { RowHighlight } from './data-table-row-highlight.interface';
 import { GroupPaginatorInformation } from './group-paginator/group-paginator.component';
 
 /**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataView components instead.
  * A data table component with a detail view specialized on typed entities.
  * Collaborates with a DST (datasource toolbar).
  *
@@ -77,16 +80,17 @@ import { GroupPaginatorInformation } from './group-paginator/group-paginator.com
  * <imx-data-source-paginator [dst]="myDst"></imx-data-source-paginator>
  */
 @Component({
-  selector: 'imx-data-table',
-  templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss'],
-  animations: [
-    trigger('groupExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+    selector: 'imx-data-table',
+    templateUrl: './data-table.component.html',
+    styleUrls: ['./data-table.component.scss'],
+    animations: [
+        trigger('groupExpand', [
+            state('collapsed', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        ]),
+    ],
+    standalone: false
 })
 export class DataTableComponent<T> implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   public get numOfSelectedItems(): number {
@@ -401,8 +405,6 @@ export class DataTableComponent<T> implements OnInit, OnChanges, AfterViewInit, 
           }),
         );
       }
-      await this.dstHasChanged();
-
       this.isLoading = this.dst?.busyService?.isBusy ?? false;
     }
   }
@@ -412,7 +414,6 @@ export class DataTableComponent<T> implements OnInit, OnChanges, AfterViewInit, 
    * Unsubscribes all listeners.
    */
   public ngOnDestroy(): void {
-    this.dst?.ngOnDestroy();
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
@@ -548,18 +549,18 @@ export class DataTableComponent<T> implements OnInit, OnChanges, AfterViewInit, 
    */
   public onGroupExpanded(group: GroupInfo): void {
     if (group && (group.Count ?? 0) > 0) {
-      const groupKey = this.getGroupKey(group);
-      if (!groupKey) {
+      const groupingDisplay = group.Display?.[0].Display;
+      if (!groupingDisplay) {
         return;
       }
-      if (!this.groupData[groupKey]) {
-        this.groupData[groupKey] = {
+      if (!this.groupData[groupingDisplay]) {
+        this.groupData[groupingDisplay] = {
           data: undefined,
           settings: undefined,
           navigationState: undefined,
         };
       }
-      const groupData = this.groupData[groupKey];
+      const groupData = this.groupData[groupingDisplay];
       if (!groupData.navigationState) {
         groupData.navigationState = {
           PageSize: 25,
@@ -574,7 +575,7 @@ export class DataTableComponent<T> implements OnInit, OnChanges, AfterViewInit, 
 
       this.propagateNavigationSettingsToGroups(true);
       if (groupData.isExpanded) {
-        this.groupDataChanged.emit(groupKey);
+        this.groupDataChanged.emit(groupingDisplay);
       }
     }
   }
@@ -628,15 +629,6 @@ export class DataTableComponent<T> implements OnInit, OnChanges, AfterViewInit, 
    */
   public async overallGroupingStateChanged(newState: CollectionLoadParameters): Promise<void> {
     return this.updateGroupingState(this.settings?.groupData?.currentGrouping, newState);
-  }
-
-  /**
-   * Calculates a key that is used for handling the grouping.
-   * @param group The group the key is calculated for.
-   * @returns
-   */
-  protected getGroupKey(group: GroupInfo): string {
-    return group?.Display?.[0]?.Display + (group?.Filters?.[0]?.Value1 ?? group?.Filters?.[0]?.Values?.[0]);
   }
 
   /**

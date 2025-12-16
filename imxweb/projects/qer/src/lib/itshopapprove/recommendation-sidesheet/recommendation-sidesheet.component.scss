@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   .mat-mdc-card-avatar {
@@ -15,13 +15,15 @@
 
 .eui-dark-theme {
   :host {
-    background-color: $color-gray-80;
+    background-color: eui.$color-gray-80;
+
     .eui-sidesheet-actions {
-      background-color: $color-gray-80;
+      background-color: eui.$color-gray-80;
     }
+
     .eui-sidesheet-content {
       .recommendation-items {
-        color: $color-gray-2;
+        color: eui.$color-gray-2;
       }
     }
   }
@@ -29,13 +31,15 @@
 
 .eui-contrast-theme {
   :host {
-    background-color: $color-gray-100;
+    background-color: eui.$color-gray-100;
+
     .eui-sidesheet-actions {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
     }
+
     .eui-sidesheet-content {
       .recommendation-items {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

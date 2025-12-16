@@ -1,4 +1,4 @@
-/*
+﻿/*
  * ONE IDENTITY LLC. PROPRIETARY INFORMATION
  *
  * This software is confidential.  One Identity, LLC. or one of its affiliates or
@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -382,7 +382,11 @@ export class PortalCandidatesAerole extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesAerole type. */
+/** 
+ * @deprecated since v10.0.0
+  * 
+ * Use PortalCandidatesAerole instead.
+ */
 export class PortalCandidatesAeroleInteractive extends PortalCandidatesAerole { }
 
 export class PortalCandidatesDepartment extends TypedEntity {
@@ -410,7 +414,11 @@ export class PortalCandidatesDepartment extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesDepartment type. */
+/** 
+ * @deprecated since v10.0.0
+  * 
+ * Use PortalCandidatesDepartment instead.
+ */
 export class PortalCandidatesDepartmentInteractive extends PortalCandidatesDepartment { }
 
 export class PortalCandidatesLocality extends TypedEntity {
@@ -438,7 +446,11 @@ export class PortalCandidatesLocality extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesLocality type. */
+/** 
+ * @deprecated since v10.0.0
+  * 
+ * Use PortalCandidatesLocality instead.
+ */
 export class PortalCandidatesLocalityInteractive extends PortalCandidatesLocality { }
 
 export class PortalCandidatesOrg extends TypedEntity {
@@ -466,7 +478,11 @@ export class PortalCandidatesOrg extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesOrg type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalCandidatesOrg instead.
+  */
 export class PortalCandidatesOrgInteractive extends PortalCandidatesOrg { }
 
 export class PortalCandidatesPerson extends TypedEntity {
@@ -500,7 +516,11 @@ export class PortalCandidatesPerson extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesPerson type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalCandidatesPerson instead.
+  */
 export class PortalCandidatesPersonInteractive extends PortalCandidatesPerson { }
 
 export class PortalCandidatesProfitcenter extends TypedEntity {
@@ -528,7 +548,11 @@ export class PortalCandidatesProfitcenter extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesProfitcenter type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalCandidatesProfitcenter instead.
+  */
 export class PortalCandidatesProfitcenterInteractive extends PortalCandidatesProfitcenter { }
 
 export class PortalCandidatesQamclassificationlevel extends TypedEntity {
@@ -556,7 +580,11 @@ export class PortalCandidatesQamclassificationlevel extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesQamclassificationlevel type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalCandidatesQamclassificationlevel instead.
+  */
 export class PortalCandidatesQamclassificationlevelInteractive extends PortalCandidatesQamclassificationlevel { }
 
 export class PortalCandidatesQamhelperheadpoi extends TypedEntity {
@@ -590,7 +618,11 @@ export class PortalCandidatesQamhelperheadpoi extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalCandidatesQamhelperheadpoi type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalCandidatesQamhelperheadpoi instead.
+  */
 export class PortalCandidatesQamhelperheadpoiInteractive extends PortalCandidatesQamhelperheadpoi { }
 
 export class PortalDgeClassificationlevels extends TypedEntity {
@@ -605,7 +637,11 @@ export class PortalDgeClassificationlevels extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeClassificationlevels type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeClassificationlevels instead.
+  */
 export class PortalDgeClassificationlevelsInteractive extends PortalDgeClassificationlevels { }
 
 export class PortalDgeClassificationSummary extends TypedEntity {
@@ -665,7 +701,11 @@ export class PortalDgeClassificationSummary extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeClassificationSummary type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeClassificationSummary instead.
+  */
 export class PortalDgeClassificationSummaryInteractive extends PortalDgeClassificationSummary { }
 
 export class PortalDgeNodes extends TypedEntity {
@@ -714,7 +754,11 @@ export class PortalDgeNodes extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeNodes type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeNodes instead.
+  */
 export class PortalDgeNodesInteractive extends PortalDgeNodes { }
 
 export class PortalDgeResources extends TypedEntity {
@@ -815,7 +859,11 @@ export class PortalDgeResources extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeResources type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeResources instead.
+  */
 export class PortalDgeResourcesInteractive extends PortalDgeResources { }
 
 export class PortalDgeResourcesAccessanalysis extends TypedEntity {
@@ -849,7 +897,11 @@ export class PortalDgeResourcesAccessanalysis extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeResourcesAccessanalysis type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeResourcesAccessanalysis instead.
+  */
 export class PortalDgeResourcesAccessanalysisInteractive extends PortalDgeResourcesAccessanalysis { }
 
 export class PortalDgeResourcesActivity extends TypedEntity {
@@ -903,7 +955,11 @@ export class PortalDgeResourcesActivity extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeResourcesActivity type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeResourcesActivity instead.
+  */
 export class PortalDgeResourcesActivityInteractive extends PortalDgeResourcesActivity { }
 
 export class PortalDgeResourcesbyid extends TypedEntity {
@@ -1060,7 +1116,11 @@ export class PortalDgeResourcesbyid extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeResourcesbyid type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeResourcesbyid instead.
+  */
 export class PortalDgeResourcesbyidInteractive extends PortalDgeResourcesbyid { }
 
 export class PortalDgeResourcesPerceivedowners extends TypedEntity {
@@ -1082,7 +1142,11 @@ export class PortalDgeResourcesPerceivedowners extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeResourcesPerceivedowners type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeResourcesPerceivedowners instead.
+  */
 export class PortalDgeResourcesPerceivedownersInteractive extends PortalDgeResourcesPerceivedowners { }
 
 export class PortalDgeTrusteesIdentity extends TypedEntity {
@@ -1110,7 +1174,11 @@ export class PortalDgeTrusteesIdentity extends TypedEntity {
   }
 }
 
-/** @deprecated Use the PortalDgeTrusteesIdentity type. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use PortalDgeTrusteesIdentity instead.
+  */
 export class PortalDgeTrusteesIdentityInteractive extends PortalDgeTrusteesIdentity { }
 
 export class PortalCandidatesAeroleWrapper {
@@ -1819,7 +1887,11 @@ export class PortalDgeTrusteesIdentityWrapper {
   }
 }
 
-/** @deprecated Use the V2ApiClientMethodFactory class for a stable method interface. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use V2ApiClientMethodFactory class for a stable method interface instead.
+  */
 export class ApiClientMethodFactory {
   portal_candidates_AERole_get(
     OrderBy: string,
@@ -3446,7 +3518,11 @@ export class ApiClientMethodFactory {
   }
 }
 
-/** @deprecated Use the V2Client class for a stable method interface. */
+/** 
+  * @deprecated since v10.0.0
+  * 
+  * Use V2Client class for a stable method interface instead.
+  */
 export class Client {
   private readonly methodFactory = new ApiClientMethodFactory();
 

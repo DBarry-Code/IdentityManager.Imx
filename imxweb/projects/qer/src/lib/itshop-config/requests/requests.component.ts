@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,10 +53,11 @@ import { RequestsService } from '../requests.service';
 const helperAlertKey = `${HELPER_ALERT_KEY_PREFIX}_requestShop`;
 
 @Component({
-  selector: 'imx-requests',
-  templateUrl: './requests.component.html',
-  styleUrls: ['./requests.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-requests',
+    templateUrl: './requests.component.html',
+    styleUrls: ['./requests.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class RequestsComponent implements OnInit, OnDestroy {
   public get showHelperAlert(): boolean {

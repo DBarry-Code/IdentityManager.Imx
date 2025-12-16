@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,9 +39,10 @@ import { ComplianceViolationService } from './compliance-violation.service';
 import { EditMitigatingControlsComponent } from './edit-mitigating-controls/edit-mitigating-controls.component';
 
 @Component({
-  selector: 'imx-compliance-violation-details',
-  templateUrl: './compliance-violation-details.component.html',
-  styleUrls: ['./compliance-violation-details.component.scss'],
+    selector: 'imx-compliance-violation-details',
+    templateUrl: './compliance-violation-details.component.html',
+    styleUrls: ['./compliance-violation-details.component.scss'],
+    standalone: false
 })
 export class ComplianceViolationDetailsComponent implements OnInit {
   @Input() public pwoId: string;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,9 +39,10 @@ import { AobPermissionsService } from '../../permissions/aob-permissions.service
  * A component that provides a form for viewing and editing entitlements/roles.
  */
 @Component({
-  selector: 'imx-entitlement-edit',
-  templateUrl: './entitlement-edit.component.html',
-  styleUrls: ['./entitlement-edit.component.scss'],
+    selector: 'imx-entitlement-edit',
+    templateUrl: './entitlement-edit.component.html',
+    styleUrls: ['./entitlement-edit.component.scss'],
+    standalone: false
 })
 export class EntitlementEditComponent implements OnChanges, OnInit {
   public readonly form = new UntypedFormGroup({});

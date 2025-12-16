@@ -1,0 +1,47 @@
+<h2 class="mat-headline-5">
+  <span>
+    {{ '#LDS#Heading Global KPIs' | translate }}
+  </span>
+  <imx-help-contextual [contextId]="contextId"></imx-help-contextual>
+</h2>
+
+<mat-card class="imx-flex-container-100 mat-elevation-z6">
+  @if (isLoading()) {
+    <div class="imx-no-results">
+      <imx-busy-indicator></imx-busy-indicator>
+    </div>
+  } @else if (isNoData()) {
+    <div class="imx-no-results">
+      <eui-icon icon="areachart"></eui-icon>
+      <h2>
+        {{ '#LDS#Currently, there are no global KPIs.' | translate }}
+      </h2>
+    </div>
+  } @else {
+    <mat-card-title class="imx-padding-bottom-16">
+      {{ '#LDS#These KPIs give you an overview of your applications, their contents, and states.' | translate }}
+    </mat-card-title>
+    <mat-card-content class="imx-kpi-container kpi-cards">
+      <div class="eui-grid">
+        <div class="eui-grid-inner">
+          @for (kpi of allKpis(); track kpi) {
+            <mat-card
+              class="eui-grid-cell eui-grid-cell--span-4 imx-kpi-card mat-elevation-z6"
+              euiClickable
+              [euiClickableDisabled]="!isCalculated(kpi)"
+              (click)="showDetails(kpi)"
+              [matTooltip]="kpi?.Description"
+            >
+              <div class="kpi-number">
+                {{ !isCalculated(kpi) ? '-' : hasCurrentValue(kpi) ? formatCurrentValue(kpi) : '' }}
+              </div>
+              <mat-card-content class="imx-kpi-content">
+                <div >{{ kpi?.Display }}</div>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      </div>
+    </mat-card-content>
+  }
+</mat-card>

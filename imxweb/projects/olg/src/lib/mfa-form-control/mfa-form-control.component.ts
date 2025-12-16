@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -50,16 +50,17 @@ interface AuthFactorInfo {
  * The initial value of the FormControl is false, and changes to true, if one log in method was sucessful
  */
 @Component({
-  selector: 'imx-mfa-form-control',
-  templateUrl: './mfa-form-control.component.html',
-  styleUrls: ['./mfa-form-control.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MfaFormControlComponent),
-      multi: true,
-    },
-  ],
+    selector: 'imx-mfa-form-control',
+    templateUrl: './mfa-form-control.component.html',
+    styleUrls: ['./mfa-form-control.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => MfaFormControlComponent),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class MfaFormControlComponent implements OnInit, ControlValueAccessor, AuthenticationFactors {
   /** Array, that stores auth factor information */

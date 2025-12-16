@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,17 +24,15 @@
  *
  */
 
-import { InjectionToken, NgModule } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterModule, Routes } from '@angular/router';
-import { AuthenticationGuardService, LoginComponent, RouteGuardService } from 'qbm';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthenticationGuardService, LoginPageComponent, RouteGuardService } from 'qbm';
 import { StartComponent } from './start.component';
-
-const externalUrlProvider = new InjectionToken('externalUrlRedirectResolver');
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: LoginPageComponent,
     canActivate: [AuthenticationGuardService],
     resolve: [RouteGuardService],
   },
@@ -50,16 +48,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule],
-  providers: [
-    {
-      provide: externalUrlProvider,
-      useValue: (route: ActivatedRouteSnapshot) => {
-        const externalUrl = route.paramMap.get('externalUrl');
-        if (externalUrl && externalUrl.toLocaleLowerCase() !== 'undefined') {
-          window.open(externalUrl, '_self');
-        }
-      },
-    },
-  ],
 })
 export class AppRoutingModule {}

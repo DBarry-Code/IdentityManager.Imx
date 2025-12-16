@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ import { DataSourceToolbarSettings, SettingsService } from 'qbm';
 import { GroupsService } from '../../groups.service';
 
 @Component({
-  selector: 'imx-child-system-entitlements',
-  templateUrl: './child-system-entitlements.component.html',
-  styleUrls: ['./child-system-entitlements.component.scss'],
+    selector: 'imx-child-system-entitlements',
+    templateUrl: './child-system-entitlements.component.html',
+    styleUrls: ['./child-system-entitlements.component.scss'],
+    standalone: false
 })
 export class ChildSystemEntitlementsComponent implements OnInit {
   @Input() public groupId: string;

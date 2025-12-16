@@ -1,0 +1,13 @@
+:host{
+  flex-grow: 1;
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+.imx-tree-select{
+  cursor:pointer;
+}
+.mat-mdc-form-field{
+  min-width: 250px;
+}
+

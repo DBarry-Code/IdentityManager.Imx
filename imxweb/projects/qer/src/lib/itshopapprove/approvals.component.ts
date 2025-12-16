@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,6 +39,7 @@ import { ApprovalsTableComponent } from './approvals-table.component';
   templateUrl: './approvals.component.html',
   selector: 'imx-itshop-approvals',
   styleUrls: ['./approvals.component.scss'],
+  standalone: false,
 })
 export class ApprovalsComponent implements OnInit {
   public params: Params = {};
@@ -47,6 +48,7 @@ export class ApprovalsComponent implements OnInit {
   public viewReady = false;
   public uidHelperPwo: string | undefined = undefined;
   public dataSource: DataViewSource<Approval, PwoExtendedData | undefined>;
+  public approvalsTableActive = true;
   @ViewChild('approvalsTableComponent', { static: false }) public approvalsTableComponent: ApprovalsTableComponent;
 
   constructor(
@@ -87,5 +89,9 @@ export class ApprovalsComponent implements OnInit {
     } else {
       return HELP_CONTEXTUAL.PendingRequestInquiries;
     }
+  }
+
+  public onTabChange(index: number): void {
+    this.approvalsTableActive = index === 0;
   }
 }

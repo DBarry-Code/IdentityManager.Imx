@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,15 +35,19 @@ import { MessageParameter } from './message-parameter.interface';
   selector: 'imx-message-dialog',
   templateUrl: './message-dialog.component.html',
   styleUrls: ['./message-dialog.component.scss'],
+  standalone: false
 })
 export class MessageDialogComponent {
   public readonly MessageDialogResult = MessageDialogResult; // Enables use of this Enum in Angular Templates.
+
+  // Indicates whether the confirmation input should be used and is valid.
+  public isConfirmationValid = false;
 
   constructor(
     public dialogRef: MatDialogRef<MessageDialogComponent>,
     public messageDialogService: MessageDialogService,
     @Inject(MAT_DIALOG_DATA) public data: MessageParameter,
-  ) {}
+  ) { }
 
   public click(state: MessageDialogResult): void {
     this.dialogRef.close(state);

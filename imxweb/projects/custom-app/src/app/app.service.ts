@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,21 +32,18 @@ import { ImxConfig, TypedClient } from '@imx-modules/imx-api-qbm';
 import { Globals } from '@imx-modules/imx-qbm-dbts';
 import {
   AppConfigService,
-  AuthenticationService,
-  CaptchaService,
-  ISessionState,
+  AppInitializationService,
   ImxTranslationProviderService,
   SplashService,
   SystemInfoService,
   imx_SessionService,
 } from 'qbm';
-import { environment } from '../environments/environment';
+import { environment } from '../../../qer-app-portal/src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
-  public recaptchaSiteKeyV3: string | null = null;
   private imxConfig: ImxConfig;
   constructor(
     private readonly config: AppConfigService,
@@ -55,25 +52,18 @@ export class AppService {
     private readonly session: imx_SessionService,
     private readonly translationProvider: ImxTranslationProviderService,
     private readonly title: Title,
-    private readonly authentication: AuthenticationService,
     private readonly splash: SplashService,
-    private readonly captchaService: CaptchaService,
+    private readonly appInitService: AppInitializationService,
   ) {}
 
   public async init(): Promise<void> {
     this.showSplash();
-    await this.config.init(environment.clientUrl);
-    if (this.config.Config.Translation?.Langs) {
-      this.translateService.addLangs(this.config.Config.Translation.Langs);
-    }
-    const browserCulture = this.translateService.getBrowserCultureLang() as string;
-    this.translateService.setDefaultLang(browserCulture);
-    await this.translateService.use(browserCulture).toPromise();
 
-    // If the session defines another culture, update the translation provider
-    this.authentication.onSessionResponse.subscribe((sessionState: ISessionState) =>
-      this.translationProvider.init(sessionState?.culture, sessionState?.cultureFormat),
-    );
+    await this.appInitService.initializeCommonServices({
+      captchaImageUrl: 'portal/captchaimage',
+      clientUrl: environment.clientUrl,
+    });
+
     this.imxConfig = await this.systemInfoService.getImxConfig();
 
     this.translateService.onLangChange.subscribe(() => {
@@ -83,12 +73,6 @@ export class AppService {
     this.setTitle();
 
     this.session.TypedClient = new TypedClient(this.config.v2client, this.translationProvider);
-
-    if (this.imxConfig.RecaptchaPublicKey) {
-      this.captchaService.enableReCaptcha(this.imxConfig.RecaptchaPublicKey);
-      this.recaptchaSiteKeyV3 = this.imxConfig.RecaptchaPublicKey;
-    }
-    this.captchaService.captchaImageUrl = 'portal/captchaimage';
   }
 
   private async setTitle(): Promise<void> {
@@ -97,14 +81,6 @@ export class AppService {
     this.title.setTitle(title);
 
     await this.updateSplash(title);
-  }
-
-  public static init(app: AppService): () => Promise<any> {
-    return () =>
-      new Promise<any>(async (resolve: any) => {
-        await app.init();
-        resolve();
-      });
   }
 
   private showSplash(): void {

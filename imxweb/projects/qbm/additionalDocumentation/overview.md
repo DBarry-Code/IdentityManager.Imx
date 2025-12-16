@@ -1,7 +1,7 @@
 # Library overview
 
-- [Administration](./admin.md)
-- [Properties of an object](./properties.md)
-- [Data sets](./datasets.md)
-- [Messages and translation](./messages.md)
-- [Other reusable components and services](./other.md)
+- [Administration](library-overview/administration.html)
+- [Properties of an object](library-overview/property-handling.html)
+- [Data sets](library-overview/data-sets.html)
+- [Messages and translation](library-overview/messages.html)
+- [Other reusable components and services](library-overview/other-reusable-components.html)

@@ -1,0 +1,52 @@
+<div eui-sidesheet-content>
+  <mat-card>
+    <mat-form-field class="imx-form-field-width-full" appearance="outline">
+      <mat-label>{{ '#LDS#Select where to add the configuration key' | translate }}</mat-label>
+      <mat-select [(ngModel)]="selectedKey" (selectionChange)="loadAddableKeys()">
+        @for (k of keyData; track k.Path) {
+          <mat-option [value]="k">
+            <config-key-path [path]="k.DisplayPath"></config-key-path>
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (busy) {
+      <mat-spinner></mat-spinner>
+    }
+    @if (selectedKey && !busy) {
+      <eui-alert type="info" [condensed]="true" [colored]="true">
+        {{ newKeyDescription }}
+      </eui-alert>
+
+      @if (addableKeys?.length === 0) {
+        <!-- for configuration keys that do not have a data source of addable keys, show an input field -->
+        <mat-form-field class="imx-form-field-width-full" appearance="outline">
+          <mat-label>{{ '#LDS#Name of the new configuration key' | translate }}</mat-label>
+          <input matInput [(ngModel)]="newKey" />
+        </mat-form-field>
+      } @else {
+        <eui-select
+          [(ngModel)]="newKey"
+          [placeholder]="'#LDS#Search' | translate"
+          [label]="'#LDS#Value (will also be the name of the new configuration key)' | translate"
+          [options]="addableKeys"
+          [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
+        >
+        </eui-select>
+      }
+    }
+  </mat-card>
+</div>
+
+<div eui-sidesheet-actions>
+  <button
+    data-imx-identifier="admin-add-config-submit-button"
+    [disabled]="!selectedKey || !newKey"
+    mat-flat-button
+    color="primary"
+    (click)="submit()"
+  >
+    {{ '#LDS#Create' | translate }}
+  </button>
+</div>

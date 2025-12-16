@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,8 +34,9 @@ import { Subscription } from 'rxjs';
 import { ApiService } from '../api.service';
 
 @Component({
-  templateUrl: './user-activation.component.html',
-  styleUrls: ['./user-activation.component.scss'],
+    templateUrl: './user-activation.component.html',
+    styleUrls: ['./user-activation.component.scss'],
+    standalone: false
 })
 export class UserActivationComponent implements OnDestroy {
   public busy = true;

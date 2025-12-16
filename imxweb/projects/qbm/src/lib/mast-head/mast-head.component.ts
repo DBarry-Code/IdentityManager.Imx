@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, effect, Input, OnDestroy } from '@angular/core';
+import { Component, effect, Input, OnDestroy, Optional } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EuiLoadingService, EuiSidesheetService, EuiTopNavigationItem } from '@elemental-ui/core';
@@ -32,6 +32,7 @@ import { Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 import { AboutComponent } from '../about/About.component';
+import { AboutService } from '../about/About.service';
 import { AppConfigService } from '../appConfig/appConfig.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { calculateSidesheetWidth, isMobile } from '../base/sidesheet-helper';
@@ -39,6 +40,7 @@ import { ConfirmationService } from '../confirmation/confirmation.service';
 import { ConnectionComponent } from '../connection/connection.component';
 import { ExtService } from '../ext/ext.service';
 import { IExtension } from '../ext/extension';
+import { PortalIdentifiers } from '../portal-switcher/portal-indentifier';
 import { ProcessingQueueService } from '../processing-queue/processing-queue.service';
 import { ISessionState } from '../session/session-state';
 import { SystemInfoService } from '../system-info/system-info.service';
@@ -106,17 +108,15 @@ import { MastHeadService } from './mast-head.service';
   selector: 'imx-mast-head',
   templateUrl: './mast-head.component.html',
   styleUrls: ['./mast-head.component.scss'],
+  standalone: false
 })
 export class MastHeadComponent implements OnDestroy {
   public isQueueFinished: boolean;
+  public canUseChatbot: boolean;
   /**
    * When these {@link EuiTopNavigationItem|items} are set, the menu is displayed.
    */
   @Input() public menuItems: EuiTopNavigationItem[];
-
-  public get hasDocumentationConfig(): boolean {
-    return !!this.appConfig.Config.LocalDocPath;
-  }
 
   public get isMobile(): boolean {
     return isMobile();
@@ -127,10 +127,10 @@ export class MastHeadComponent implements OnDestroy {
   }
 
   public get isAppOverview(): boolean {
-    return this.appConfig?.Config?.WebAppIndex === 'admin' && this.router.url === '/';
+    return this.appConfig?.Config?.WebAppIndex === PortalIdentifiers.Admin.id && this.router.url === '/';
   }
   public get isAppAdminPortal(): boolean {
-    return this.appConfig?.Config?.WebAppIndex === 'admin' && this.router.url === '/dashboard';
+    return this.appConfig?.Config?.WebAppIndex === PortalIdentifiers.Admin.id && this.router.url === '/dashboard';
   }
 
   public sessionState: ISessionState;
@@ -141,6 +141,7 @@ export class MastHeadComponent implements OnDestroy {
   private readonly subscriptions: Subscription[] = [];
 
   constructor(
+    @Optional() public aboutInfoService: AboutService,
     public readonly appConfig: AppConfigService,
     private readonly systemInfoService: SystemInfoService,
     private readonly router: Router,
@@ -148,7 +149,7 @@ export class MastHeadComponent implements OnDestroy {
     private readonly confirmationService: ConfirmationService,
     private queueService: ProcessingQueueService,
     private readonly busyService: EuiLoadingService,
-    private readonly mastHeadService: MastHeadService,
+    public readonly mastHeadService: MastHeadService,
     private readonly authentication: AuthenticationService,
     private readonly sideSheetService: EuiSidesheetService,
     private readonly translate: TranslateService,
@@ -156,7 +157,10 @@ export class MastHeadComponent implements OnDestroy {
   ) {
     effect(() => (this.isQueueFinished = this.queueService.isAllGroupsCompleted()));
     this.subscriptions.push(
-      this.authentication.onSessionResponse.subscribe((sessionState: ISessionState) => (this.sessionState = sessionState)),
+      this.authentication.onSessionResponse.subscribe(async (sessionState: ISessionState) => {
+        this.sessionState = sessionState;
+        if (this.sessionState.IsLoggedIn) await this.checkChatbotExtension();
+      })
     );
 
     // apply custom logo from configuration
@@ -172,6 +176,14 @@ export class MastHeadComponent implements OnDestroy {
     });
 
     this.getDynamicExtensions();
+  }
+
+  public async checkChatbotExtension() {
+    this.canUseChatbot = false;
+    const ext = this.extService.Registry['chatbotMastButton'];
+    if (ext && ext.length > 0 && ext[0]?.inputData?.checkVisibility) {
+      this.canUseChatbot = await ext[0].inputData.checkVisibility();
+    }
   }
 
   public getDynamicExtensions(): void {
@@ -259,12 +271,5 @@ export class MastHeadComponent implements OnDestroy {
         this.busyService.hide();
       }
     }
-  }
-
-  /**
-   * Logs out and kills the session.
-   */
-  public navigateToDocumentation(): void {
-    this.mastHeadService.openDocumentationLink();
   }
 }

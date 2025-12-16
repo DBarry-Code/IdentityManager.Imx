@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,7 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,11 +34,13 @@ import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ng
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 import { RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-2';
-import { CustomThemeModule } from 'projects/qbm/src/lib/custom-theme/custom-theme.module';
 import {
+  AboutService,
   AdminModule,
   AppConfigService,
+  AppInitializationService,
   AuthenticationModule,
+  CustomThemeModule,
   ExtModule,
   GlobalErrorHandler,
   ImxMissingTranslationHandler,
@@ -50,14 +52,13 @@ import {
 } from 'qbm';
 import appConfigJson from '../appconfig.json';
 import { environment } from '../environments/environment';
+import { AdminAboutService } from './about/admin-about.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppService } from './app.service';
-import { AppcontainerService } from './appcontainer.service';
-import { StartComponent } from './start/start.component';
 
 @NgModule({
-  declarations: [AppComponent, StartComponent],
+  declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
     AdminModule,
@@ -88,27 +89,25 @@ import { StartComponent } from './start/start.component';
   providers: [
     { provide: 'environment', useValue: environment },
     { provide: 'appConfigJson', useValue: appConfigJson },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: AppService.init,
-      deps: [AppService],
-      multi: true,
-    },
+    provideAppInitializer(() => inject(AppService).init()),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
     },
-    AppcontainerService,
     AppConfigService,
     imx_SessionService,
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: (config: AppService) => {
+      useFactory: (config: AppInitializationService) => {
         return config.recaptchaSiteKeyV3;
       },
       deps: [AppService],
     },
+    {
+      provide: AboutService,
+      useClass: AdminAboutService
+    },
     provideHttpClient(withInterceptorsFromDi()),
   ],
 })
-export class AppModule {}
+export class AppModule { }

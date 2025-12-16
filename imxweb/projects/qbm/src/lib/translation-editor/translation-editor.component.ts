@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { ReadWriteExtTypedEntity, TranslationDataRead, TranslationDataWrite, Tra
 import { SnackBarService } from '../snackbar/snack-bar.service';
 
 @Component({
-  selector: 'imx-translation-editor',
-  templateUrl: './translation-editor.component.html',
-  styleUrls: ['./translation-editor.component.scss'],
+    selector: 'imx-translation-editor',
+    templateUrl: './translation-editor.component.html',
+    styleUrls: ['./translation-editor.component.scss'],
+    standalone: false
 })
 export class TranslationEditorComponent implements OnInit {
   public translationData: TranslationDataRead | undefined;

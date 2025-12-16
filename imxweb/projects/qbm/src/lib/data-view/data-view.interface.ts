@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,6 +28,7 @@ import {
   CollectionLoadParameters,
   DataModel,
   EntitySchema,
+  ExtendedTypedEntityCollection,
   GroupInfo,
   GroupInfoData,
   IClientProperty,
@@ -45,8 +46,11 @@ export interface WritableEntitySchema extends EntitySchema {
   };
 }
 // Type for execute function.
-export type ExecuteFunction<T = any> = {
-  (params: CollectionLoadParameters, signal: AbortSignal): Promise<TypedEntityCollectionData<T> | undefined>;
+export type ExecuteFunction<T = any, ExtendedType = any> = {
+  (
+    params: CollectionLoadParameters,
+    signal: AbortSignal,
+  ): Promise<TypedEntityCollectionData<T> | ExtendedTypedEntityCollection<T, ExtendedType> | undefined>;
 };
 // Type for group execute function.
 export type ExecuteGroupFunction = {
@@ -81,11 +85,12 @@ export type SelectedFilter = KeywordFilter | ExpressionFilter;
 // Group info interface with an expanded extension to handle group expanded actions.
 export interface GroupInfoRow extends GroupInfo {
   expanded?: boolean;
+  refreshTable?: boolean;
 }
 
 // Interface for initialize data view.
-export interface DataViewInitParameters<T = any> {
-  execute: ExecuteFunction<T>;
+export interface DataViewInitParameters<T = any, ExtendedType = any> {
+  execute: ExecuteFunction<T, ExtendedType>;
   schema: EntitySchema;
   columnsToDisplay: IClientProperty[];
   dataModel?: DataModel;

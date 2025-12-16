@@ -1,8 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-
-@use '@angular/material' as mat;
-@import '@elemental-ui/core/src/styles/core.scss';
+@use '@elemental-ui/core/src/styles/core.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-dialog-panel-class > .mat-mdc-dialog-container {
-  background-color: mat.m2-get-color-from-palette($asher-gray-palette, 200);
+  background-color: eui.$color-gray-5;
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,12 +31,15 @@ import { EUI_SIDESHEET_DATA, EuiSidesheetRef } from '@elemental-ui/core';
 import { CdrSidesheetConfig } from './cdr-sidesheet-config';
 
 /**
+ * @deprecated since v10.0.0
+  * 
  * Provides a side sheet, that displays a form with {@link CdrEditor | cdr editors}.
  *
  * Writeable properties can be edited.
  */
 @Component({
-  templateUrl: './cdr-sidesheet.component.html',
+    templateUrl: './cdr-sidesheet.component.html',
+    standalone: false
 })
 export class CdrSidesheetComponent {
   /**

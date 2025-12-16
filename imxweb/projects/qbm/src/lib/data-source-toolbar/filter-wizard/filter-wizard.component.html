@@ -1,77 +1,158 @@
 <div eui-sidesheet-content class="imx-sidesheet-content">
   <!-- XOR to determine if we should use the tabs or only one of the two -->
-  <ng-container *ngIf="useTabs; else singleContent">
+  @if (useTabs) {
     <mat-tab-group mat-stretch-tabs="false" (selectedTabChange)="onSelectedTabChange($event)">
-      <mat-tab *ngIf="hasPredefinedFilters" [label]="'#LDS#Heading Default Filter' | translate" [id]="FTIPredefined">
+      @if (hasPredefinedFilters) {
+        <mat-tab [id]="FTIPredefined">
+          <ng-template mat-tab-label>
+            <div class="imx-filter-tab-label">
+              <span>
+                {{ '#LDS#Heading Default Filters' | translate }}
+              </span>
+              @if (nPreselectedFilters) {
+                <span class="imx-filter-tab-label-badge">{{ nPreselectedFilters }}</span>
+              }
+            </div>
+          </ng-template>
+          <imx-predefined-filter (nSelectedFilters)="nPreselectedFilters = $event"></imx-predefined-filter>
+        </mat-tab>
+      }
+      @if (hasTreeFilter) {
+        <mat-tab [id]="FTITargetSystem">
+          <ng-template mat-tab-label>
+            <div class="imx-filter-tab-label">
+              <span>
+                {{ data?.filterTreeParameter?.type }}
+              </span>
+              @if (nTreeFilters) {
+                <span class="imx-filter-tab-label-badge">{{ nTreeFilters }}</span>
+              }
+            </div>
+          </ng-template>
+          <imx-filter-tree-sidesheet
+            [data]="data?.filterTreeParameter"
+            (filterTreeSelectionChanged)="onFilterTreeSelectionChanged($event)"
+          ></imx-filter-tree-sidesheet>
+        </mat-tab>
+      }
+      @if (canUseCustomFilters) {
+        <mat-tab [id]="FTICustom">
+          <ng-template mat-tab-label>
+            <div class="imx-filter-tab-label">
+              <span>
+                {{ '#LDS#Heading Custom Filter' | translate }}
+              </span>
+              @if (nCustomFilters) {
+                <span class="imx-filter-tab-label-badge">{{ nCustomFilters }}</span>
+              }
+            </div>
+          </ng-template>
+          <ng-container *ngTemplateOutlet="customContent"></ng-container>
+        </mat-tab>
+      }
+    </mat-tab-group>
+  } @else {
+    @if (isLoading) {
+      <imx-busy-indicator></imx-busy-indicator>
+    }
+    @if (!isLoading) {
+      @if (canUseCustomFilters) {
+        <ng-container *ngTemplateOutlet="customContent"></ng-container>
+      }
+      @if (hasPredefinedFilters) {
         <imx-predefined-filter></imx-predefined-filter>
-      </mat-tab>
-      <mat-tab *ngIf="hasTreeFilter" [label]="data?.filterTreeParameter?.type" [id]="FTITargetSystem">
+      }
+      @if (!canUseCustomFilters && !hasPredefinedFilters && initialized) {
+        <div class="imx-no-items-container">
+          <eui-alert class="imx-margin-30" type="warning" [condensed]="true" [colored]="true">
+            {{ '#LDS#You do not have permission to show filters.' | translate }}
+          </eui-alert>
+        </div>
+      }
+      @if (hasTreeFilter) {
         <imx-filter-tree-sidesheet
           [data]="data?.filterTreeParameter"
           (filterTreeSelectionChanged)="onFilterTreeSelectionChanged($event)"
         ></imx-filter-tree-sidesheet>
-      </mat-tab>
-      <mat-tab *ngIf="canUseCustomFilters" [label]="'#LDS#Heading Custom Filter' | translate" [id]="FTICustom">
-        <ng-container *ngTemplateOutlet="customContent"></ng-container>
-      </mat-tab>
-    </mat-tab-group>
-  </ng-container>
+      }
+    }
+  }
 </div>
-<div eui-sidesheet-actions class="imx-sidesheet-actions" *ngIf="canUseCustomFilters || hasPredefinedFilters">
-  <button
-    mat-stroked-button
-    (click)="onClearFilters()"
-    [disabled]="!canRemoveCustomFilter()"
-    color="warn"
-    data-imx-identifier="clear-filter-button"
-  >
-    <div class="imx-button-clear-filters"><eui-icon icon="delete" size="s"></eui-icon>&nbsp;{{ '#LDS#Clear filters' | translate }}</div>
-  </button>
-  <span class="imx-sidesheet-actions-spacer"></span>
-  <button
-    mat-flat-button
-    (click)="onApplyFilters()"
-    [disabled]="!canApplyCustomFilters()"
-    color="primary"
-    data-imx-identifier="apply-filter-button"
-  >
-    {{ '#LDS#Apply filter' | translate }}
-  </button>
-</div>
-
-<ng-template #singleContent>
-  <imx-busy-indicator *ngIf="isLoading"></imx-busy-indicator>
-  <ng-container *ngIf="!isLoading">
-    <ng-container *ngIf="canUseCustomFilters">
-      <ng-container *ngTemplateOutlet="customContent"></ng-container>
-    </ng-container>
-    <ng-container *ngIf="hasPredefinedFilters">
-      <imx-predefined-filter></imx-predefined-filter>
-    </ng-container>
-    <ng-container *ngIf="!canUseCustomFilters && !hasPredefinedFilters && initialized">
-      <div class="imx-no-items-container">
-        <eui-alert class="imx-margin-30" type="warning" [condensed]="true" [colored]="true">
-          {{ '#LDS#You do not have permission to show filters.' | translate }}
-        </eui-alert>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="hasTreeFilter">
-      <imx-filter-tree-sidesheet
-        [data]="data?.filterTreeParameter"
-        (filterTreeSelectionChanged)="onFilterTreeSelectionChanged($event)"
-      ></imx-filter-tree-sidesheet>
-    </ng-container>
-  </ng-container>
-</ng-template>
+@if (canUseCustomFilters || hasPredefinedFilters) {
+  <div eui-sidesheet-actions class="imx-sidesheet-actions">
+    @if (hasPredefinedFilters) {
+      <button mat-stroked-button [matMenuTriggerFor]="menu" data-imx-identifier="filter-button-actions">
+        {{ '#LDS#Actions' | translate }}
+        <eui-icon icon="scrollup"></eui-icon>
+      </button>
+    } @else {
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="onClearSqlExpression()"
+        [disabled]="!canRemoveSqlExpressions()"
+        data-imx-identifier="clear-filter-button"
+      >
+        <eui-icon icon="delete" size="s"></eui-icon>
+        {{ '#LDS#Reset custom filter' | translate }}
+      </button>
+    }
+    <span class="imx-sidesheet-actions-spacer"></span>
+    <button mat-stroked-button (click)="close()" data-imx-identifier="cancel-filter-button">
+      {{ '#LDS#Cancel' | translate }}
+    </button>
+    <button
+      mat-flat-button
+      (click)="onApplyFilters()"
+      [disabled]="!canApplyCustomFilters()"
+      color="primary"
+      data-imx-identifier="apply-filter-button"
+    >
+      {{ '#LDS#Apply filter' | translate }}
+    </button>
+  </div>
+}
 
 <ng-template #customContent>
-  <mat-card class="imx-content-container mat-elevation-z4">
-    <imx-sqlwizard
-      [tableName]="data?.settings?.entitySchema?.TypeName"
-      [expression]="sqlExpression?.Expression"
-      (change)="checkChanges()"
-      data-imx-identifier="sqlwizard"
-    >
-    </imx-sqlwizard>
-  </mat-card>
+  <imx-sqlwizard
+    [tableName]="data?.settings?.entitySchema?.TypeName"
+    [expression]="sqlExpression?.Expression"
+    (change)="checkChanges()"
+    data-imx-identifier="sqlwizard"
+    #sqlWizard
+    class="imx-padding-20"
+  >
+  </imx-sqlwizard>
 </ng-template>
+
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    (click)="onClearSqlExpression()"
+    [disabled]="!canRemoveSqlExpressions()"
+    class="imx-error"
+    data-imx-identifier="clear-filter-button"
+  >
+    <div class="imx-button-clear-filters">
+      <eui-icon icon="delete" size="s"></eui-icon>{{ '#LDS#Reset custom filter' | translate }}
+    </div>
+  </button>
+  <button
+    mat-menu-item
+    (click)="onClearPredefinedFilters()"
+    [disabled]="!canRemovePredefinedFilters()"
+    class="imx-error"
+    data-imx-identifier="clear-filter-button"
+  >
+    <div class="imx-button-clear-filters"><eui-icon icon="refresh" size="s"></eui-icon>{{ '#LDS#Reset default filters' | translate }}</div>
+  </button>
+  <button
+    mat-menu-item
+    (click)="onClearFilters()"
+    [disabled]="!canRemoveCustomFilter()"
+    class="imx-error"
+    data-imx-identifier="clear-filter-button"
+  >
+    <div class="imx-button-clear-filters"><eui-icon icon="refresh" size="s"></eui-icon>{{ '#LDS#Reset all filters' | translate }}</div>
+  </button>
+</mat-menu>

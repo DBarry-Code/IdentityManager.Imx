@@ -1,0 +1,273 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use '../../stat-mixins.scss' as stat-mixins;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+
+  ::ng-deep .eui-search.mat-mdc-form-field.mat-form-field-appearance-outline {
+    margin-bottom: 0px;
+  }
+
+  .tab-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .point-status-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    @include mixins.eui-elevation-1;
+  }
+
+  .status-wrapper {
+    display: flex;
+    align-items: flex-start;
+
+    .status-item {
+      padding: 0 16px;
+    }
+
+    > :last-child {
+      padding-right: 0;
+    }
+  }
+
+  .imx-no-data {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    .imx-no-data-top {
+      display: flex;
+      align-items: center;
+
+      eui-icon {
+        font-size: min(70px, max(10vw, 48px));
+        margin-right: 20px;
+      }
+
+      .imx-no-data-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        h2 {
+          font-size: min(50px, max(5vw, 20px));
+          font-weight: 700;
+        }
+      }
+    }
+  }
+
+  .under-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 20px 20px;
+  }
+}
+
+// Theming
+:host {
+  @include stat-mixins.Stat-Colors;
+  @include stat-mixins.Point-Stat-Colors;
+
+  .status-title {
+    color: eui.$color-gray-40;
+  }
+
+  .point-status-container {
+    border: 1px solid eui.$color-gray-10;
+  }
+
+  .status-wrapper> :not(:last-child) {
+    border-right: 1px solid eui.$color-gray-10;
+  }
+
+  .imx-no-data-top {
+
+    h2,
+    eui-icon {
+      color: eui.$color-gray-20;
+    }
+
+    span {
+      color: eui.$color-gray-60;
+    }
+  }
+
+  ::ng-deep .bb-zoom-reset {
+    background-color: eui.$color-gray-0;
+    border-color: eui.$color-gray-20;
+    @include mixins.eui-elevation-1;
+
+    &:hover {
+      background-color: eui.$color-orange-20;
+      @include mixins.ease-transition;
+    }
+  }
+
+  .toggle-button-wrapper {
+    button {
+      border: 1px solid eui.$color-gray-20;
+    }
+
+    > :hover {
+      background-color: eui.$color-orange-20;
+    }
+  }
+
+  .colored-org-text {
+    color: eui.$color-blue-60;
+  }
+
+  .colored-favorite-text {
+    color: eui.$color-orange-60;
+  }
+}
+
+.eui-dark-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+    @include stat-mixins.Point-Stat-Colors(eui-dark-theme);
+
+    .point-status-container {
+      border: 1px solid eui.$color-gray-50;
+    }
+
+    .status-title {
+      color: eui.$color-gray-30;
+    }
+
+    .status-wrapper> :not(:last-child) {
+      border-right: 1px solid eui.$color-gray-60;
+    }
+
+    ::ng-deep .bb-zoom-reset {
+      background-color: eui.$color-gray-70;
+      border-color: eui.$color-gray-60;
+
+      &:hover {
+        @include mixins.ease-transition;
+        background-color: eui.$color-orange-80;
+      }
+    }
+
+    .imx-no-data-top {
+
+      h2,
+      eui-icon {
+        color: eui.$color-gray-20;
+      }
+
+      span {
+        color: eui.$color-gray-10;
+      }
+    }
+
+    .toggle-button-wrapper {
+      button {
+        border: 1px solid eui.$color-gray-60;
+      }
+
+      > :hover {
+        background-color: eui.$color-orange-80;
+      }
+    }
+
+    .colored-org-text {
+      color: eui.$color-blue-40;
+    }
+
+    .colored-favorite-text {
+      color: eui.$color-orange-40;
+    }
+  }
+}
+
+.eui-contrast-theme {
+  :host {
+    @include stat-mixins.Stat-Colors(eui-dark-theme);
+    @include stat-mixins.Point-Stat-Colors(eui-dark-theme);
+
+    .point-status-container {
+      border: 1px solid eui.$color-gray-70;
+    }
+
+    .status-title {
+      color: eui.$color-gray-30;
+    }
+
+    .status-wrapper> :not(:last-child) {
+      border-right: 1px solid eui.$color-gray-80;
+    }
+
+    ::ng-deep .bb-zoom-reset {
+      background-color: eui.$color-gray-90;
+      border-color: eui.$color-gray-80;
+
+      &:hover {
+        @include mixins.ease-transition;
+        background-color: eui.$color-orange-90;
+      }
+    }
+
+    ::ng-deep .bb-axis line,
+    ::ng-deep .bb-axis .domain {
+      stroke: eui.$color-gray-0;
+    }
+
+    ::ng-deep .bb-axis text,
+    ::ng-deep .bb-legend text {
+      fill: eui.$color-gray-0;
+    }
+
+    ::ng-deep .bb-tooltip-container,
+    ::ng-deep .bb-tooltip th {
+      color: eui.$color-gray-100;
+    }
+
+    ::ng-deep .bb-color-pattern {
+      background-image: url('#{eui.$color-blue-40};#{eui.$color-red-40};#{eui.$color-green-40};#{eui.$color-yellow-40};#{eui.$color-purple-40};#{eui.$color-pink-40};#{eui.$color-gray-60};');
+    }
+
+    .imx-no-data-top {
+
+      h2,
+      eui-icon {
+        color: eui.$color-gray-20;
+      }
+
+      span {
+        color: eui.$color-gray-10;
+      }
+    }
+
+    .toggle-button-wrapper {
+      button {
+        border: 1px solid eui.$color-gray-80;
+      }
+
+      > :hover {
+        background-color: eui.$color-orange-80;
+      }
+    }
+
+    .colored-org-text {
+      color: eui.$color-blue-40;
+    }
+
+    .colored-favorite-text {
+      color: eui.$color-orange-40;
+    }
+  }
+}

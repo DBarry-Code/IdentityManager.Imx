@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,7 +25,7 @@
  */
 
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,6 +39,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha-2';
 import {
+  AppInitializationService,
   AuthenticationModule,
   CustomThemeModule,
   GlobalErrorHandler,
@@ -86,16 +87,12 @@ import { StartComponent } from './start.component';
       },
     }),
     UserMessageModule,
+    QbmModule,
   ],
   providers: [
     { provide: 'environment', useValue: environment },
     { provide: 'appConfigJson', useValue: appConfigJson },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: AppService.init,
-      deps: [AppService],
-      multi: true,
-    },
+    provideAppInitializer(() => inject(AppService).init()),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
@@ -107,7 +104,7 @@ import { StartComponent } from './start.component';
     },
     {
       provide: RECAPTCHA_V3_SITE_KEY,
-      useFactory: (config: AppService) => {
+      useFactory: (config: AppInitializationService) => {
         return config.recaptchaSiteKeyV3;
       },
       deps: [AppService],

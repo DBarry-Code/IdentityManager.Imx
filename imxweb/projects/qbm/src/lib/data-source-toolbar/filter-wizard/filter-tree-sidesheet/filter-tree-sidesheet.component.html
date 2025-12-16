@@ -9,10 +9,10 @@
       mat-icon-button
       color="primary"
       (click)="closeAllNodes()"
-      [disabled]="!this.dynamicDataSource.isRootNodeOpen"
+      [disabled]="!dynamicDataSource.isRootNodeOpen"
       [matTooltip]="'#LDS#Collapse all' | translate"
       [attr.aria-label]="'#LDS#Collapse all' | translate"
-    >
+      >
       <eui-icon icon="compress"></eui-icon>
     </button>
   </div>
@@ -30,7 +30,9 @@
 
 <ng-template #categoryNodeContent let-node>
   <div class="imx-filter-tree-node" [ngClass]="{ 'imx-selected-text': node.isSelected }">
-    <eui-icon *ngIf="node.hasChildren" icon="folder" class="imx-icon-info"></eui-icon>
+    @if (node.hasChildren) {
+      <eui-icon icon="folder" class="imx-icon-info"></eui-icon>
+    }
     <span class="imx-margin-left-5" [ngClass]="{ 'imx-bold-text': node.hasChildren }">{{ node.nodeDisplay }}</span>
   </div>
 </ng-template>

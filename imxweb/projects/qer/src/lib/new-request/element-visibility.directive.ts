@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,8 +26,12 @@
 
 import { Directive, ElementRef, EventEmitter, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Directive({
-  selector: '[imxElementVisibility]',
+    selector: '[imxElementVisibility]',
+    standalone: false
 })
 export class ElementVisibilityDirective implements OnInit, OnDestroy {
   public intersection: IntersectionObserver;

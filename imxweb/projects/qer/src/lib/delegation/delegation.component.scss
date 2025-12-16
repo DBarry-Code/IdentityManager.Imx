@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 @mixin stepper-margin {
   margin-top: 16px;
@@ -7,7 +7,7 @@
 }
 
 :host {
-  @include flex-column-container($height: 100%, $overflow: hidden);
+  @include mixins.flex-column-container($height: 100%, $overflow: hidden);
 
   .imx-stepper-content {
     @include stepper-margin();
@@ -24,7 +24,7 @@
   }
 
   .imx-roles-form {
-    @include flex-column-container($height: 390px);
+    @include mixins.flex-column-container($height: 390px);
     border-radius: 5px;
     padding: 5px;
     @include stepper-margin();
@@ -37,17 +37,17 @@
   .imx-delegatable-elements {
     margin-bottom: 10px;
     max-height: 600px;
-    @include flex-row-container-fill();
+    @include mixins.flex-row-container-fill();
     overflow: hidden;
   }
 
   .imx-delegation-stepper {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     max-width: 100%;
     margin: 3px;
 
     > :first-child {
-      @include flex-column-container-fill();
+      @include mixins.flex-column-container-fill();
       overflow: auto;
     }
   }
@@ -66,6 +66,7 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+
       > :last-child {
         flex: 1 1 auto;
       }
@@ -87,7 +88,7 @@
   }
 
   .imx-global-elements {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     padding-left: 1em;
     overflow-y: auto;
 
@@ -104,7 +105,8 @@
 
   .imx-delegation-type {
     @include stepper-margin();
-    > * :not(last-child) {
+
+    >* :not(last-child) {
       margin-right: 15px;
     }
   }
@@ -138,12 +140,12 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-50;
+        color: eui.$color-gray-50;
       }
     }
 
     .imx-roles-form {
-      border: $color-gray-10 1px solid;
+      border: eui.$color-gray-10 1px solid;
     }
   }
 }
@@ -152,7 +154,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -162,7 +164,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

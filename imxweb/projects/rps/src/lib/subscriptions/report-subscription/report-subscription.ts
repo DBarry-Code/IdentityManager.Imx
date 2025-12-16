@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -75,27 +75,26 @@ export class ReportSubscription {
     const columns =
       properties.length === 0
         ? [
-            this.subscription.Ident_RPSSubscription.Column,
-            this.subscription.UID_RPSReport.Column,
-            this.subscription.UID_DialogSchedule.Column,
-            this.subscription.ExportFormat.Column,
-            this.subscription.AddtlSubscribers.Column,
-          ]
+          this.subscription.Ident_RPSSubscription.Column,
+          this.subscription.UID_RPSReport.Column,
+          this.subscription.UID_DialogSchedule.Column,
+          this.subscription.ExportFormat.Column,
+          this.subscription.AddtlSubscribers.Column,
+        ]
         : properties.map((prop) => this.subscription.GetEntity().GetColumn(prop.ColumnName ?? ''));
 
     return columns.map((col) => new BaseCdr(col));
   }
 
   public getParameterCdr(hiddenColumns: string[] = []): ColumnDependentReference[] {
-    return this.parameterColumns.filter(elem=> hiddenColumns.indexOf(elem.ColumnName) === -1).map((col) => new BaseCdr(col));
+    return this.parameterColumns.filter(elem => hiddenColumns.indexOf(elem.ColumnName) === -1).map((col) => new BaseCdr(col));
   }
 
   public async fillColumnsWithPreset(presetParameter: { [key: string]: string }): Promise<void> {
-    Object.entries(presetParameter).forEach(async ([key, value]) => {
+    for (const [key, value] of Object.entries(presetParameter)) {
       const test = this.parameterColumns.find((elem) => elem.ColumnName === key);
       await test?.PutValue(value);
-
-    });
+    }
   }
 
   public getParameterDictionary(): { [key: string]: any } {

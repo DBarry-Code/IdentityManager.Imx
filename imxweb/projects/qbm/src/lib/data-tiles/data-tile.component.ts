@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,15 +41,17 @@ import { DataTileMenuItem } from './data-tile-menu-item.interface';
  *
  */
 @Component({
-  selector: 'imx-data-tile',
-  templateUrl: './data-tile.component.html',
-  styleUrls: ['./data-tile.component.scss'],
+    selector: 'imx-data-tile',
+    templateUrl: './data-tile.component.html',
+    styleUrls: ['./data-tile.component.scss'],
+    standalone: false
 })
 export class DataTileComponent implements OnInit {
   /**
    * If present the badges will be shown in the upper right corner. Can be used e.g. to show different states.
    */
-  public get badges(): DataTileBadge[] | undefined {
+  public badges: DataTileBadge[] | undefined;
+  private getBadges(): DataTileBadge[] | undefined {
     return this.status?.getBadges ? this.status.getBadges(this.typedEntity) : undefined;
   }
 
@@ -184,6 +186,7 @@ export class DataTileComponent implements OnInit {
     } else if (this.image?.ColumnName) {
       this.imageUrl = this.base64ImageService.addBase64Prefix(this.typedEntity.GetEntity().GetColumn(this.image.ColumnName).GetValue());
     }
+    this.badges = this.getBadges();
   }
 
   /**

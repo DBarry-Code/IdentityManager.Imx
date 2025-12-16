@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,11 +27,11 @@
 import { Injectable } from '@angular/core';
 
 import {
-  ITShopConfig,
-  PortalItshopPatternItem,
-  PortalServicecategories,
-  PortalShopServiceitems,
-  V2ApiClientMethodFactory,
+    ITShopConfig,
+    PortalItshopPatternItem,
+    PortalServicecategories,
+    PortalShopServiceitems,
+    V2ApiClientMethodFactory,
 } from '@imx-modules/imx-api-qer';
 import { MethodDefinition, MethodDescriptor, TypedEntity } from '@imx-modules/imx-qbm-dbts';
 import { AppConfigService, CdrFactoryService } from 'qbm';
@@ -73,7 +73,9 @@ export class ImageService {
   }
 
   /**
-   * @deprecated Use getPath()
+   * @deprecated since v10.0.0
+  * 
+   * Use getPath() instead.
    */
   public async get(serviceItem: PortalShopServiceitems, config: ITShopConfig): Promise<Blob | undefined> {
     const tokens = serviceItem.ImageRef.value?.split('/');

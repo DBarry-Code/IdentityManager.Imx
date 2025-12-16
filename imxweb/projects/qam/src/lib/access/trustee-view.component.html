@@ -1,4 +1,4 @@
-<ng-container *ngIf="(data?.Trustees?.length ?? 0) > 0; else noResources">
+@if ((data?.Trustees?.length ?? 0) > 0) {
   <div class="imx-trustee-content">
     <mat-card class="imx-padding-vertical-0 qam-tree-content">
       <eui-scroll class="imx-scroll-pad">
@@ -21,7 +21,7 @@
               </button>
             </div>
             <!-- There is inline padding applied to this div using styles.
-          This padding value depends on the mat-icon-button width.  -->
+            This padding value depends on the mat-icon-button width.  -->
             <div [class.imx-trustee-tree-invisible]="!treeControl.isExpanded(node)" role="group">
               <ng-container matTreeNodeOutlet></ng-container>
             </div>
@@ -31,27 +31,28 @@
     </mat-card>
     <mat-card class="imx-selected-trustee">
       <eui-scroll class="imx-scroll-pad">
-        <mat-card class="imx-margin-bottom-3 imx-permission-card" *ngFor="let perm of currentSelectedTrusteePermissions">
-          <mat-card-header> {{ perm.path }} </mat-card-header>
-          <mat-card-content class="imx-flex-line">
-            <imx-box-icon [isChecked]="perm.allowRead" [display]="'#LDS#Allow read' | translate"></imx-box-icon>
-            <imx-box-icon [isChecked]="perm.allowWrite" [display]="'#LDS#Allow write' | translate"></imx-box-icon>
-            <imx-box-icon [isChecked]="perm.anyAllow" [display]="'#LDS#Any allow' | translate"></imx-box-icon>
-            <imx-box-icon [isChecked]="perm.allowFullControl" [display]="'#LDS#Allow full control' | translate"></imx-box-icon>
-            <imx-box-icon [isChecked]="perm.allowChangePermissions" [display]="'#LDS#Allow change permissions' | translate"></imx-box-icon>
-          </mat-card-content>
-        </mat-card>
+        @for (perm of currentSelectedTrusteePermissions; track perm) {
+          <mat-card class="imx-margin-bottom-3 imx-permission-card">
+            <mat-card-header> {{ perm.path }} </mat-card-header>
+            <mat-card-content class="imx-flex-line">
+              <imx-box-icon [isChecked]="perm.allowRead" [display]="'#LDS#Allow read' | translate"></imx-box-icon>
+              <imx-box-icon [isChecked]="perm.allowWrite" [display]="'#LDS#Allow write' | translate"></imx-box-icon>
+              <imx-box-icon [isChecked]="perm.anyAllow" [display]="'#LDS#Any allow' | translate"></imx-box-icon>
+              <imx-box-icon [isChecked]="perm.allowFullControl" [display]="'#LDS#Allow full control' | translate"></imx-box-icon>
+              <imx-box-icon [isChecked]="perm.allowChangePermissions" [display]="'#LDS#Allow change permissions' | translate"></imx-box-icon>
+            </mat-card-content>
+          </mat-card>
+        }
       </eui-scroll>
     </mat-card>
   </div>
-</ng-container>
-
-<ng-template #noResources>
+} @else {
   <div class="imx-no-results">
     <eui-icon icon="content-alert"></eui-icon>
     <p translate>#LDS#No groups or accounts have access to governed data.</p>
   </div>
-</ng-template>
+}
+
 
 <ng-template #selectNode>
   <div class="imx-no-results">

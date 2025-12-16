@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -47,9 +47,10 @@ interface AccessData {
 
 /** Shows access information for an identity. */
 @Component({
-  templateUrl: './identity.component.html',
-  styleUrls: ['./identity.component.scss', '../qam.scss'],
-  selector: 'imx-dge-identity',
+    templateUrl: './identity.component.html',
+    styleUrls: ['./identity.component.scss', '../qam.scss'],
+    selector: 'imx-dge-identity',
+    standalone: false
 })
 export class IdentityComponent implements OnInit, OnDestroy {
   public data: TrusteeAccessData;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -49,4 +49,10 @@ export interface DataSourceItemStatus {
   status?: (item: TypedEntity) => QueuedActionState;
   getBadges?: (input: TypedEntity) => DataTileBadge[];
   getImagePath?: (item: TypedEntity) => Promise<string>;
+  /**
+   * Function to return the CSS class that should be applied to the row.
+   * @param item row entity
+   * @returns return the css-class that should be applied to the row
+   */
+  rowCssClass?: (item: TypedEntity) => string;
 }

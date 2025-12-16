@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,10 +24,11 @@
  *
  */
 
-import { computed, effect, Signal, signal, WritableSignal } from '@angular/core';
+import { computed, effect, inject, NgZone, Signal, signal, WritableSignal } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 
 export class ActionGroup implements QueuedActionGroup {
+  private ngZone = inject(NgZone);
   public uid: string;
   public startDate: Date;
   public actions: WritableSignal<Action[]>;
@@ -48,12 +49,13 @@ export class ActionGroup implements QueuedActionGroup {
     this.uid = uuid();
     this.startDate = new Date();
     this.actions = signal<Action[]>(actions);
-    effect(
-      () => {
-        if (this.groupAction && CompletedActionStates.includes(this.state())) this.groupAction();
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      if (this.groupAction && CompletedActionStates.includes(this.state())) {
+        this.ngZone.run(() => {
+          this.groupAction!();
+        });
+      }
+    });
   }
 
   public finishedDate = computed(() => {

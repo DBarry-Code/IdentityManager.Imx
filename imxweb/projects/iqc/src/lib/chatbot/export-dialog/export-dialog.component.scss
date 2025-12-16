@@ -1,0 +1,43 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+:host {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .format-text {
+    display: block;
+    max-width: 300px;
+  }
+}
+
+
+// Theming
+.eui-light-theme {
+  :host {
+    .query-card {
+      background-color: eui.$color-blue-60;
+      color: eui.$color-gray-2;
+    }
+  }
+}
+
+.eui-dark-theme {
+  :host {
+    .query-card {
+      background-color: eui.$color-blue-40;
+      color: eui.$color-gray-85;
+    }
+  }
+}
+
+.eui-contrast-theme {
+  :host {
+    .query-card {
+      background-color: eui.$color-blue-40;
+      color: eui.$color-gray-100;
+    }
+  }
+}

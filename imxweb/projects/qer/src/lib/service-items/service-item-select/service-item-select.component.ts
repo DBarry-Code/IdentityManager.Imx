@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { ServiceItemsSelectorComponent } from '../service-items-selector/service
 import { TypedEntitySelectionData } from './typed-entity-selection-data.interface';
 
 @Component({
-  selector: 'imx-service-item-select',
-  templateUrl: './service-item-select.component.html',
-  styleUrls: ['./service-item-select.component.scss'],
+    selector: 'imx-service-item-select',
+    templateUrl: './service-item-select.component.html',
+    styleUrls: ['./service-item-select.component.scss'],
+    standalone: false
 })
 export class ServiceItemSelectComponent implements OnChanges {
   @Input() data: TypedEntitySelectionData;

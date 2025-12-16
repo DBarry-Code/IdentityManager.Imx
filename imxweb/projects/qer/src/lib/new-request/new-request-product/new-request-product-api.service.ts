@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,7 +28,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { PortalShopServiceitems, ServiceItemsExtendedData } from '@imx-modules/imx-api-qer';
-import { CollectionLoadParameters, EntitySchema, ExtendedTypedEntityCollection, IWriteValue } from '@imx-modules/imx-qbm-dbts';
+import { CollectionLoadParameters, DataModel, EntitySchema, ExtendedTypedEntityCollection, GroupInfoData } from '@imx-modules/imx-qbm-dbts';
 
 import { QerApiService } from '../../qer-api-client.service';
 import { NewRequestOrchestrationService } from '../new-request-orchestration.service';
@@ -56,7 +56,26 @@ export class NewRequestProductApiService implements OnDestroy {
 
   public async get(
     parameters: CollectionLoadParameters | ServiceItemParameters = {},
+    signal?: AbortSignal,
   ): Promise<ExtendedTypedEntityCollection<PortalShopServiceitems, ServiceItemsExtendedData>> {
-    return this.qerApi.typedClient.PortalShopServiceitems.Get(parameters, { signal: this.orchestration.abortController.signal });
+    return this.qerApi.typedClient.PortalShopServiceitems.Get(parameters, { signal });
+  }
+
+  public async getDataModel(): Promise<DataModel> {
+    return this.qerApi.client.portal_shop_serviceitems_datamodel_get(undefined);
+  }
+
+  public getGroupInfo(column: string, params: CollectionLoadParameters, signal: AbortSignal): Promise<GroupInfoData> {
+    return this.qerApi.client.portal_shop_serviceitems_group_get(
+      {
+        by: column,
+        def: params.def,
+        filter: params.filter,
+        StartIndex: params.StartIndex,
+        PageSize: params.PageSize,
+        withcount: params.withcount,
+      },
+      { signal },
+    );
   }
 }

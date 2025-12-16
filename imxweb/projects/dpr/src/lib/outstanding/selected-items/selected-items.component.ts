@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { DataSourceToolbarSettings } from 'qbm';
 import { OutstandingObjectEntity } from '../outstanding-object-entity';
 
 @Component({
-  selector: 'imx-selected-items',
-  templateUrl: './selected-items.component.html',
-  styleUrls: ['./selected-items.component.scss'],
+    selector: 'imx-selected-items',
+    templateUrl: './selected-items.component.html',
+    styleUrls: ['./selected-items.component.scss'],
+    standalone: false
 })
 export class SelectedItemsComponent implements OnInit {
   public sortedEntities: OutstandingObjectEntity[];

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,9 +24,8 @@
  *
  */
 
-import { ValType, IValueMetadata, LimitedValueData } from '@imx-modules/imx-qbm-dbts';
+import { IValueMetadata, LimitedValueData, ValType } from '@imx-modules/imx-qbm-dbts';
 import { LimitedValuesContainer } from './limited-values-container';
-
 describe('LimitedValuesContainer', () => {
   function buildLimitedValues(limited: any[]): ReadonlyArray<LimitedValueData> {
     return limited.map((element) => ({ Value: element, Description: `${element}` }));

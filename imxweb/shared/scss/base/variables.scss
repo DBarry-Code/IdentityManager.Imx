@@ -1,23 +1,22 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
-$IMX_Color_White: $color-gray-0;
-$IMX_Color_Black: $color-gray-100;
+$IMX_Color_White: eui.$color-gray-0;
+$IMX_Color_Black: eui.$color-gray-100;
 
-$IMX_Color_Light_Info: $color-blue-60;
-$IMX_Color_Light_New: $color-green-60;
-$IMX_Color_Light_Warning: $color-orange-60;
-$IMX_Color_Light_Error: $color-red-60;
+$IMX_Color_Light_Info: eui.$color-blue-60;
+$IMX_Color_Light_New: eui.$color-green-60;
+$IMX_Color_Light_Warning: eui.$color-orange-60;
+$IMX_Color_Light_Error: eui.$color-red-60;
 
-$IMX_Color_Dark_Info: $color-blue-40;
-$IMX_Color_Dark_New: $color-green-40;
-$IMX_Color_Dark_Warning: $color-orange-40;
-$IMX_Color_Dark_Error: $color-red-40;
+$IMX_Color_Dark_Info: eui.$color-blue-40;
+$IMX_Color_Dark_New: eui.$color-green-40;
+$IMX_Color_Dark_Warning: eui.$color-orange-40;
+$IMX_Color_Dark_Error: eui.$color-red-40;
 
-$IMX_Color_Contrast_Info: $color-blue-40;
-$IMX_Color_Contrast_New: $color-green-40;
-$IMX_Color_Contrast_Warning: $color-orange-40;
-$IMX_Color_Contrast_Error: $color-red-40;
+$IMX_Color_Contrast_Info: eui.$color-blue-40;
+$IMX_Color_Contrast_New: eui.$color-green-40;
+$IMX_Color_Contrast_Warning: eui.$color-orange-40;
+$IMX_Color_Contrast_Error: eui.$color-red-40;
 
 $Path_Material_Icons_Font: '~node_modules/@elemental-ui/core/assets/MaterialIcons';
 $Path_Cadence_Font: '~node_modules/@elemental-ui/core/assets/Cadence';

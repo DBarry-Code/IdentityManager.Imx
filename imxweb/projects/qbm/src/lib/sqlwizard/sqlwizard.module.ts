@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,6 +41,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { CdrModule } from '../cdr/cdr.module';
+import { HelpContextualModule } from '../help-contextual/help-contextual.module';
 import { LdsReplaceModule } from '../lds-replace/lds-replace.module';
 import { ColumnSelectionComponent } from './column-selection.component';
 import { DatePickerComponent } from './date-picker.component';
@@ -50,6 +51,7 @@ import { SingleValueComponent } from './single-value.component';
 import { SqlWizardComponent } from './sqlwizard.component';
 import { SqlWizardService } from './sqlwizard.service';
 import { TableSelectionComponent } from './table-selection.component';
+import { TreeSelectionSidesheetComponent } from './tree-selection-sidesheet.component';
 import { WhereClauseExpressionComponent } from './where-clause-expression.component';
 
 @NgModule({
@@ -73,6 +75,7 @@ import { WhereClauseExpressionComponent } from './where-clause-expression.compon
     MatRadioModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
+    HelpContextualModule,
   ],
   declarations: [
     SqlWizardComponent,
@@ -83,6 +86,7 @@ import { WhereClauseExpressionComponent } from './where-clause-expression.compon
     SingleValueComponent,
     TableSelectionComponent,
     WhereClauseExpressionComponent,
+    TreeSelectionSidesheetComponent,
   ],
   providers: [SqlWizardService],
   exports: [SqlWizardComponent],

@@ -3,6 +3,7 @@
   [inputControl]="formControl"
   [placeholder]="'#LDS#Group by' | translate"
   [options]="dataSource.groupOptions"
-  [feedbackMessages]="feedbackMessages"
+  [feedbackMessages]="elementalUiConfigService.SelectFeedbackMessages"
+  [matTooltip]="'#LDS#Group by' | translate"
 >
 </eui-select>

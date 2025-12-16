@@ -1,0 +1,20 @@
+<div eui-sidesheet-content class="wrapper">
+  @if (hasPieChart) {
+    <mat-card class="imx-flex-container-100 mat-elevation-z6">
+      <mat-card-title class="imx-chart-title">
+        {{ '#LDS#Heading Current Status' | translate }}
+      </mat-card-title>
+      <mat-card-content #pieChartContent class="card-content">
+        <eui-billboard [options]="pieChartOptions" (chart)="onChartCreated($event, true)"></eui-billboard>
+      </mat-card-content>
+    </mat-card>
+  }
+  <mat-card class="imx-flex-container-100 mat-elevation-z6">
+    <mat-card-title class="imx-chart-title">
+      {{ (hasPieChart ? '#LDS#Heading History' : '#LDS#Heading History') | translate }}
+    </mat-card-title>
+    <mat-card-content #lineChartContent class="imx-chart-content">
+      <eui-billboard [options]="lineChartOptions" (chart)="onChartCreated($event)"></eui-billboard>
+    </mat-card-content>
+  </mat-card>
+</div>

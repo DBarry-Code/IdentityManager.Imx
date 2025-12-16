@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,6 +43,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DataTableModule } from '../data-table/data-table.module';
+import { LdsReplaceModule } from '../lds-replace/lds-replace.module';
 import { BusyIndicatorModule } from './../busy-indicator/busy-indicator.module';
 import { DataViewAutoTableComponent } from './data-view-auto-table/data-view-auto-table.component';
 import { DataViewChipbarComponent } from './data-view-chipbar/data-view-chipbar.component';
@@ -72,6 +73,7 @@ import { DataViewToolbarComponent } from './data-view-toolbar/data-view-toolbar.
   imports: [
     CommonModule,
     CommonModule,
+    DragDropModule,
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
@@ -92,6 +94,7 @@ import { DataViewToolbarComponent } from './data-view-toolbar/data-view-toolbar.
     MatRippleModule,
     BusyIndicatorModule,
     DataTableModule,
+    LdsReplaceModule,
   ],
   exports: [
     DataViewAutoTableComponent,

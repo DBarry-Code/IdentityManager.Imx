@@ -1,3 +1,5 @@
-<div data-imx-identifier="duplicate-check" *ngIf="cartItemDisplay && detail">
-  {{ cartItemDisplay + ' (' + ('#LDS#{0} times in the shopping cart' | translate | ldsReplace: [].concat.apply([], detail).length) + ')' }}
-</div>
+@if (cartItemDisplay && detail) {
+  <div data-imx-identifier="duplicate-check">
+    {{ cartItemDisplay + ' (' + ('#LDS#{0} times in the shopping cart' | translate | ldsReplace: [].concat.apply([], detail).length) + ')' }}
+  </div>
+}

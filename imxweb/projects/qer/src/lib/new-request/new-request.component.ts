@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,9 +28,10 @@ import { Component, OnDestroy } from '@angular/core';
 import { NewRequestOrchestrationService } from './new-request-orchestration.service';
 
 @Component({
-  selector: 'imx-new-request',
-  templateUrl: './new-request.component.html',
-  styleUrls: ['./new-request.component.scss'],
+    selector: 'imx-new-request',
+    templateUrl: './new-request.component.html',
+    styleUrls: ['./new-request.component.scss'],
+    standalone: false
 })
 export class NewRequestComponent implements OnDestroy {
   constructor(private readonly orchestration: NewRequestOrchestrationService) {}

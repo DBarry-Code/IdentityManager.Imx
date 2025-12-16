@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,36 +25,41 @@
  */
 
 import {
-  Component,
-  Input,
-  ContentChildren,
-  QueryList,
-  ViewChild,
-  AfterContentInit,
-  Output,
-  EventEmitter,
-  ContentChild,
-  TemplateRef,
-  ElementRef,
-  OnDestroy,
+    AfterContentInit,
+    Component,
+    ContentChild,
+    ContentChildren,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    Output,
+    QueryList,
+    TemplateRef,
+    ViewChild,
 } from '@angular/core';
-import { MatTable, MatColumnDef } from '@angular/material/table';
+import { MatColumnDef, MatTable } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
-import { ImxDataSource } from './imx-data-source';
+import { ImxDataSource, ImxExpandableItem } from './imx-data-source';
 import { ImxMatColumnComponent } from './MatColumn';
-import { ImxExpandableItem } from './imx-data-source';
 
+/** 
+  * @deprecated  since v10.0.0
+  * 
+  * Use native implementations instead.
+  */
 @Component({
   selector: 'imx-tree-table',
   templateUrl: './treeTable.component.html',
   styles: [
     `
-              .customWidthClass {
-                flex: 0 0 50px;
-              }
-            `,
+      .customWidthClass {
+        flex: 0 0 50px;
+      }
+    `,
   ],
+  standalone: false,
 })
 
 /*

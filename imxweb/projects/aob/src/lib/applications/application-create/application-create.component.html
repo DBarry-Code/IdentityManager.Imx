@@ -8,32 +8,38 @@
       (controlCreated)="form.addControl(imageColumn.ColumnName, $event)"
     >
     </imx-application-image-select>
-    <imx-cdr-editor class="imx-select" *ngIf="name" [cdr]="name" (controlCreated)="form.addControl(name.column.ColumnName, $event)">
-    </imx-cdr-editor>
-    <imx-cdr-editor
-      class="imx-select"
-      *ngIf="description"
-      [cdr]="description"
-      (controlCreated)="form.addControl(description.column.ColumnName, $event)"
-    >
-    </imx-cdr-editor>
-    <imx-cdr-editor
-      class="imx-select"
-      *ngIf="serviceCategory"
-      [cdr]="serviceCategory"
-      (valueChange)="updateName($event)"
-      (controlCreated)="form.addControl(serviceCategory.column.ColumnName, $event)"
-    >
-    </imx-cdr-editor>
-    <imx-cdr-editor
-      class="imx-select"
-      *ngIf="manager"
-      [cdr]="manager"
-      (controlCreated)="form.addControl(manager.column.ColumnName, $event)"
-    >
-    </imx-cdr-editor>
-    <imx-cdr-editor class="imx-select" *ngIf="owner" [cdr]="owner" (controlCreated)="form.addControl(owner.column.ColumnName, $event)">
-    </imx-cdr-editor>
+    @if (name) {
+      <imx-cdr-editor class="imx-select" [cdr]="name" (controlCreated)="form.addControl(name.column.ColumnName, $event)"> </imx-cdr-editor>
+    }
+    @if (description) {
+      <imx-cdr-editor class="imx-select" [cdr]="description" (controlCreated)="form.addControl(description.column.ColumnName, $event)">
+      </imx-cdr-editor>
+    }
+    @if (serviceCategory) {
+      <imx-cdr-editor
+        class="imx-select"
+        [cdr]="serviceCategory"
+        (valueChange)="updateName($event)"
+        (controlCreated)="form.addControl(serviceCategory.column.ColumnName, $event)"
+      >
+      </imx-cdr-editor>
+    }
+    @if (manager) {
+      <imx-cdr-editor class="imx-select" [cdr]="manager" (controlCreated)="form.addControl(manager.column.ColumnName, $event)">
+      </imx-cdr-editor>
+    }
+    @if (owner) {
+      <imx-cdr-editor class="imx-select" [cdr]="owner" (controlCreated)="form.addControl(owner.column.ColumnName, $event)">
+      </imx-cdr-editor>
+    }
+    @if (applicationType) {
+      <imx-cdr-editor class="imx-select" [cdr]="applicationType" (controlCreated)="form.addControl(owner.column.ColumnName, $event)">
+      </imx-cdr-editor>
+    }
+    @if (personMachineIdentity) {
+      <imx-cdr-editor class="imx-select" [cdr]="personMachineIdentity" (controlCreated)="form.addControl(owner.column.ColumnName, $event)">
+      </imx-cdr-editor>
+    }
   </form>
 </mat-card>
 

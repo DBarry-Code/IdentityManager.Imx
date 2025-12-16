@@ -1,4 +1,6 @@
-<button mat-stroked-button (click)="viewReport()" *ngIf="referrer.HasListReport?.value">
-  <eui-icon icon="reports"></eui-icon>
-  <span translate>#LDS#View source data</span>
-</button>
+@if (referrer.HasListReport?.value) {
+  <button mat-stroked-button (click)="viewReport()">
+    <eui-icon icon="reports"></eui-icon>
+    <span translate>#LDS#View source data</span>
+  </button>
+}

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,37 +26,28 @@
 
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Event, NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Globals } from '@imx-modules/imx-qbm-dbts';
-import {
-  AppConfigService,
-  AuthenticationService,
-  ClassloggerService,
-  ConfirmationService,
-  ISessionState,
-  Message,
-  UserMessageService,
-} from 'qbm';
+import { AppConfigService, AuthenticationService, ConfirmationService, ISessionState, Message, UserMessageService } from 'qbm';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'imx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent {
   public isLoggedIn = false;
   public hideUserMessage = false;
   private readonly subscriptions: Subscription[] = [];
 
-  private overviewTitle: string;
   private adminPortalTitle: string;
   public message: Message | undefined;
 
   constructor(
-    private readonly logger: ClassloggerService,
     private readonly translate: TranslateService,
     private readonly titleService: Title,
     private readonly appConfigService: AppConfigService,
@@ -70,7 +61,7 @@ export class AppComponent {
 
     this.translateService.onLangChange.subscribe(() => {
       this.initTitles();
-      this.setTitle(this.router.url);
+      this.setTitle();
     });
 
     this.subscriptions.push(
@@ -93,8 +84,6 @@ export class AppComponent {
         }
       }),
     );
-
-    this.setupRouter();
   }
 
   public ngOnDestroy(): void {
@@ -104,6 +93,7 @@ export class AppComponent {
   public async ngOnInit(): Promise<void> {
     this.initTitles();
     await this.authentication.update();
+    this.appConfigService.loadCustomStyle();
   }
 
   /**
@@ -114,27 +104,12 @@ export class AppComponent {
     this.router.navigate([''], { queryParams: {} });
   }
 
-  private setupRouter(): void {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.setTitle(this.router.url);
-      }
-    });
-  }
-
   private initTitles(): void {
-    this.overviewTitle = this.translate.instant('#LDS#Heading Web Applications Overview');
     this.adminPortalTitle = this.translate.instant('#LDS#Heading Administration Portal');
   }
 
-  private setTitle(url: string): void {
-    if (url === '/') {
-      // show another title on the startpage
-      this.titleService.setTitle(Globals.QIM_ProductNameFull + ' ' + this.overviewTitle);
-      this.appConfigService.setTitle(this.overviewTitle);
-    } else {
-      this.titleService.setTitle(Globals.QIM_ProductNameFull + ' ' + this.adminPortalTitle);
-      this.appConfigService.setTitle(this.adminPortalTitle);
-    }
+  private setTitle(): void {
+    this.titleService.setTitle(Globals.QIM_ProductNameFull + ' ' + this.adminPortalTitle);
+    this.appConfigService.setTitle(this.adminPortalTitle);
   }
 }

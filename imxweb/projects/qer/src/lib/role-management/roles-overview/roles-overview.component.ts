@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -72,10 +72,11 @@ import { RoleService } from '../role.service';
 import { TreeDatabaseAdaptorService } from './tree-database-adaptor.service';
 
 @Component({
-  selector: 'imx-roles-overview',
-  templateUrl: './roles-overview.component.html',
-  styleUrls: ['./roles-overview.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-roles-overview',
+    templateUrl: './roles-overview.component.html',
+    styleUrls: ['./roles-overview.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class RolesOverviewComponent implements OnInit, OnDestroy, SideNavigationComponent {
   @Input() public data: OwnershipInformation;
@@ -299,9 +300,7 @@ export class RolesOverviewComponent implements OnInit, OnDestroy, SideNavigation
         ownershipInfo: this.ownershipInfo,
         entity: item,
         isAdmin: this.isAdmin,
-        canEdit:
-          !this.isAdmin ||
-          (this.isAdmin && ((await this.roleService.getCanEdit(this.ownershipInfo.TableName ?? '')) ?? this.isStructureAdmin)),
+        canEdit: !this.isAdmin || (this.isAdmin && this.isStructureAdmin),
       });
       await this.dataManagementService.setInteractive();
     } finally {

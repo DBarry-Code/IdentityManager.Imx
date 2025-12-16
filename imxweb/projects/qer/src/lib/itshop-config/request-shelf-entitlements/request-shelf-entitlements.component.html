@@ -23,7 +23,7 @@
       data-imx-identifier="roles-entitlements-table"
       mode="manual"
       [showSelectionInfo]="false"
-    >
+      >
       <imx-data-table-column [entityColumn]="entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]">
         <ng-template let-item>
           <div>{{ item.GetEntity().GetDisplay() }}</div>
@@ -33,36 +33,38 @@
       <imx-data-table-column [entityColumn]="entitySchema?.Columns?.XOrigin" [columnLabel]="'#LDS#Origin' | translate">
         <ng-template let-item>
           <div>{{ item.GetEntity().GetColumn('XOrigin').GetDisplayValue() }}</div>
-          <eui-badge *ngIf="item.GetEntity().GetColumn('ValidUntil').GetValue()" color="blue" textColor="white">
-            {{ '#LDS#Valid until' | translate }}
-            {{ item.GetEntity().GetColumn('ValidUntil').GetValue() | date }}</eui-badge
-          >
-        </ng-template>
-      </imx-data-table-column>
-      <imx-data-table-column [entityColumn]="entitySchema?.Columns?.XDateInserted" [columnLabel]="'#LDS#Added on' | translate">
-        <ng-template let-item>
-          <div>{{ item.GetEntity().GetColumn('XDateInserted').GetValue() | date }}</div>
-        </ng-template>
-      </imx-data-table-column>
-    </imx-data-table>
-    <imx-data-source-paginator [dst]="dst"></imx-data-source-paginator>
-  </mat-card>
-</div>
+          @if (item.GetEntity().GetColumn('ValidUntil').GetValue()) {
+            <eui-badge color="blue" textColor="white">
+              {{ '#LDS#Valid until' | translate }}
+              {{ item.GetEntity().GetColumn('ValidUntil').GetValue() | date }}</eui-badge
+              >
+            }
+          </ng-template>
+        </imx-data-table-column>
+        <imx-data-table-column [entityColumn]="entitySchema?.Columns?.XDateInserted" [columnLabel]="'#LDS#Added on' | translate">
+          <ng-template let-item>
+            <div>{{ item.GetEntity().GetColumn('XDateInserted').GetValue() | date }}</div>
+          </ng-template>
+        </imx-data-table-column>
+      </imx-data-table>
+      <imx-data-source-paginator [dst]="dst"></imx-data-source-paginator>
+    </mat-card>
+  </div>
 
-<div eui-sidesheet-actions>
-  <imx-selected-elements class="justify-start" [selectedElements]="selectedEntitlements"></imx-selected-elements>
-  <button
-    mat-button
-    color="warn"
-    [disabled]="selectedEntitlements.length === 0"
-    data-imx-identifier="delete-request-config-shelf-entitlements"
-    (click)="removeEntitlements()"
-  >
-    <eui-icon icon="delete"></eui-icon>
-    <span translate>#LDS#Remove</span>
-  </button>
+  <div eui-sidesheet-actions>
+    <imx-selected-elements class="justify-start" [selectedElements]="selectedEntitlements"></imx-selected-elements>
+    <button
+      mat-button
+      color="warn"
+      [disabled]="selectedEntitlements.length === 0"
+      data-imx-identifier="delete-request-config-shelf-entitlements"
+      (click)="removeEntitlements()"
+      >
+      <eui-icon icon="delete"></eui-icon>
+      <span translate>#LDS#Remove</span>
+    </button>
 
-  <button mat-flat-button color="primary" data-imx-identifier="add-request-shelf-entitlements" (click)="openEntitlementSelector()">
-    {{ '#LDS#Add products' | translate }}
-  </button>
-</div>
+    <button mat-flat-button color="primary" data-imx-identifier="add-request-shelf-entitlements" (click)="openEntitlementSelector()">
+      {{ '#LDS#Add products' | translate }}
+    </button>
+  </div>

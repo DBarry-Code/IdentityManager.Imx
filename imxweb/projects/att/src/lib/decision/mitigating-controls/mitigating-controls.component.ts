@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { IEntityColumn } from '@imx-modules/imx-qbm-dbts';
 import { BaseCdr, ColumnDependentReference } from 'qbm';
 
 @Component({
-  selector: 'imx-mitigating-controls',
-  templateUrl: './mitigating-controls.component.html',
-  styleUrls: ['./mitigating-controls.component.scss'],
+    selector: 'imx-mitigating-controls',
+    templateUrl: './mitigating-controls.component.html',
+    styleUrls: ['./mitigating-controls.component.scss'],
+    standalone: false
 })
 export class MitigatingControlsComponent {
   public mitigatingControlCdr: ColumnDependentReference;

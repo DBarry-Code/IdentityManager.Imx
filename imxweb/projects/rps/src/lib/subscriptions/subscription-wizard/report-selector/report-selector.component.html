@@ -5,10 +5,12 @@
     [placeholder]="'#LDS#Search' | translate"
     [searchControl]="searchControl"
     size="small"
-  >
+    >
   </eui-search>
   <div>
-    <mat-spinner class="imx-margin-top-10 imx-margin-left-5" diameter="16" *ngIf="loading"></mat-spinner>
+    @if (loading) {
+      <mat-spinner class="imx-margin-top-10 imx-margin-left-5" diameter="16"></mat-spinner>
+    }
   </div>
 </div>
 <mat-form-field appearance="outline">
@@ -21,17 +23,18 @@
     [hideSingleSelectionIndicator]="true"
     (selectionChange)="updateSelected($event)"
     data-imx-identifier="report-selector-selectionList"
-  >
-    <mat-list-option
-      *ngFor="let candidate of candidates; index as i"
-      [value]="candidate"
-      class="imx-candidate-option"
-      [attr.data-imx-identifier]="'report-selector-selectionList-element-' + i"
     >
-      <div class="imx-candidate-content">
-        <div class="imx-candidate-display">{{ candidate.GetEntity().GetDisplay() }}</div>
-        <div class="imx-candidate-longdisplay">{{ candidate.Description.Column.GetDisplayValue() }}</div>
-      </div>
-    </mat-list-option>
+    @for (candidate of candidates; track candidate; let i = $index) {
+      <mat-list-option
+        [value]="candidate"
+        class="imx-candidate-option"
+        [attr.data-imx-identifier]="'report-selector-selectionList-element-' + i"
+        >
+        <div class="imx-candidate-content">
+          <div class="imx-candidate-display">{{ candidate.GetEntity().GetDisplay() }}</div>
+          <div class="imx-candidate-longdisplay">{{ candidate.Description.Column.GetDisplayValue() }}</div>
+        </div>
+      </mat-list-option>
+    }
   </mat-selection-list>
 </mat-form-field>

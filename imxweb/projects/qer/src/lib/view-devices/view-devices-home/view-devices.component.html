@@ -7,16 +7,18 @@
   </div>
   <imx-data-view-toolbar [dataSource]="dataSource" [showSettings]="false"></imx-data-view-toolbar>
   <imx-data-view-auto-table [dataSource]="dataSource" mode="manual">
-    <ng-container [matColumnDef]="DisplayColumns.DISPLAY_PROPERTYNAME" *ngIf="entitySchema">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]?.Display }}
-      </th>
-      <td mat-cell *matCellDef="let item" role="gridcell" class="imx-table-cell">
-        <div>
-          {{ item?.GetEntity()?.GetDisplay() }}
-        </div>
-      </td>
-    </ng-container>
+    @if (entitySchema) {
+      <ng-container [matColumnDef]="DisplayColumns.DISPLAY_PROPERTYNAME">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]?.Display }}
+        </th>
+        <td mat-cell *matCellDef="let item" role="gridcell" class="imx-table-cell">
+          <div>
+            {{ item?.GetEntity()?.GetDisplay() }}
+          </div>
+        </td>
+      </ng-container>
+    }
     <ng-container [matColumnDef]="entitySchema?.Columns?.UID_HardwareType?.ColumnName">
       <ng-container>
         <th mat-header-cell *matHeaderCellDef>
@@ -52,17 +54,18 @@
     [matMenuTriggerFor]="menu"
     class="imx-create-device-button"
     data-imx-identifier="button-create-device"
-  >
+    >
     <eui-icon icon="add"></eui-icon>
     {{ '#LDS#Create device' | translate }}
   </button>
   <mat-menu #menu="matMenu">
-    <button
-      mat-menu-item
-      *ngFor="let hardwareType of deviceModelValueStruct; let i = index"
-      (click)="createNewDevice(hardwareType.DataValue, i)"
-    >
-      {{ hardwareType.DisplayValue }}
-    </button>
+    @for (hardwareType of deviceModelValueStruct; track hardwareType; let i = $index) {
+      <button
+        mat-menu-item
+        (click)="createNewDevice(hardwareType.DataValue, i)"
+        >
+        {{ hardwareType.DisplayValue }}
+      </button>
+    }
   </mat-menu>
 </div>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,10 +59,11 @@ import { ViewDevicesSidesheetComponent } from '../view-devices-sidesheet/view-de
 import { ViewDevicesService } from '../view-devices.service';
 
 @Component({
-  selector: 'imx-view-devices-home',
-  templateUrl: './view-devices.component.html',
-  styleUrls: ['./view-devices.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-view-devices-home',
+    templateUrl: './view-devices.component.html',
+    styleUrls: ['./view-devices.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class ViewDevicesComponent implements OnInit, OnDestroy, SideNavigationComponent {
   public entitySchema: EntitySchema;

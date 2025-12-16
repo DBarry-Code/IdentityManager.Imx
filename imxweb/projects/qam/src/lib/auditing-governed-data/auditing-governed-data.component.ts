@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,14 +31,14 @@ import { PortalDgeNodes } from '../TypedClient';
 import { AuditingGovernedDataService } from './auditing-governed-data.service';
 
 @Component({
+  standalone: false,
   selector: 'imx-auditing-governed-data',
   templateUrl: './auditing-governed-data.component.html',
   styleUrl: './auditing-governed-data.component.scss',
   providers: [DataViewSource],
 })
-export class AuditingGovernedDataComponent implements OnInit, SideNavigationComponent{
+export class AuditingGovernedDataComponent implements OnInit{
   
-  public contextId?: HelpContextualValues;
   public busyService = new BusyService();
   public entitySchema : EntitySchema;
   public uidNode: string = '';
@@ -76,7 +76,6 @@ export class AuditingGovernedDataComponent implements OnInit, SideNavigationComp
           };
       this.dataSource.init(dataViewInitParameters);
     } finally {
-      this.contextId = HELP_CONTEXTUAL.AuditingManagedHosts;
       isBusy.endBusy();
     }
   }

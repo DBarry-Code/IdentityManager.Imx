@@ -1,0 +1,11 @@
+<ng-container *cdkVirtualFor="let section of sections">
+  <h2 class="section-header">{{ section.topLevelNode.nodeData.Name }}</h2>
+
+  <p class="section-subtitle">{{ section.topLevelNode.nodeData.Description }}</p>
+
+  <mat-accordion class="imx-margin-bottom-2">
+    @for (conf of section.allSettings; track conf.Path) {
+      <imx-config-setting [conf]="conf"></imx-config-setting>
+    }
+  </mat-accordion>
+</ng-container>

@@ -1,9 +1,8 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins';
 
 :host {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  @include mixins.flex-column-container($overflow: hidden, $padding: true);
   flex-grow: 1;
 
   .imx-no-results {
@@ -19,7 +18,12 @@
       font-size: 18px;
     }
   }
+
+  imx-request-table {
+    padding: 0;
+  }
 }
+
 .imx-header {
   display: flex;
   align-items: center;
@@ -34,7 +38,7 @@
 :host {
   .imx-no-results {
     p {
-      color: $color-gray-80;
+      color: eui.$color-gray-80;
     }
   }
 }
@@ -43,7 +47,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -53,7 +57,7 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

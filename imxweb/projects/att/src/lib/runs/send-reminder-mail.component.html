@@ -1,8 +1,10 @@
 <div class="imx-sendremindermail-content">
-  <eui-alert *ngIf="showHelper" type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
-    <span translate>#LDS#Here you can optionally add a custom message to the reminder.</span>
-    <span translate>#LDS#Each attestor will receive a reminder.</span>
-  </eui-alert>
+  @if (showHelper) {
+    <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
+      <span translate>#LDS#Here you can optionally add a custom message to the reminder.</span>
+      <span translate>#LDS#Each attestor will receive a reminder.</span>
+    </eui-alert>
+  }
   <mat-form-field appearance="outline">
     <mat-label>{{ '#LDS#Message' | translate }}</mat-label>
     <textarea

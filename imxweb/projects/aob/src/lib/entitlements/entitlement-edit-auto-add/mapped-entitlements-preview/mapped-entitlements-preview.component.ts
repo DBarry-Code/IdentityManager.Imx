@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,10 @@ import { DataViewSource } from 'qbm';
 import { EntitlementToAddTyped } from '../entitlement-to-add-typed';
 
 @Component({
-  templateUrl: './mapped-entitlements-preview.component.html',
-  styleUrls: ['./mapped-entitlements-preview.component.scss'],
-  providers: [DataViewSource],
+    templateUrl: './mapped-entitlements-preview.component.html',
+    styleUrls: ['./mapped-entitlements-preview.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class MappedEntitlementsPreviewComponent implements OnInit {
   public readonly DisplayColumns = DisplayColumns;

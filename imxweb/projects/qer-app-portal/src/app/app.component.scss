@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 
 .page {
   display: flex;
@@ -20,14 +20,14 @@
     overflow: auto;
   }
 
-  @media #{$IMX_Mediaquery_Smartphone} {
+  @media #{imx-variables.$IMX_Mediaquery_Smartphone} {
     margin: 10px 15px;
 
     &--full-page {
       margin: 0;
     }
   }
-  @media #{$IMX_Mediaquery_SmallDesktops} {
+  @media #{imx-variables.$IMX_Mediaquery_SmallDesktops} {
     margin: 20px 30px;
 
     &--full-page {
@@ -36,25 +36,24 @@
   }
 }
 
-
 .eui-dark-theme {
   .page {
-    color: $color-gray-5;
-    background-color: $color-gray-80;
+    color: eui.$color-gray-5;
+    background-color: eui.$color-gray-80;
   }
   .pageContent {
-    color: $color-gray-5;
-    background-color: $color-gray-80;
+    color: eui.$color-gray-5;
+    background-color: eui.$color-gray-80;
   }
 }
 
 .eui-contrast-theme {
   .page {
-    color: $color-gray-0;
-    background-color: $color-gray-80;
+    color: eui.$color-gray-0;
+    background-color: eui.$color-gray-80;
   }
   .pageContent {
-    color: $color-gray-0;
-    background-color: $color-gray-80;
+    color: eui.$color-gray-0;
+    background-color: eui.$color-gray-80;
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -55,8 +55,9 @@ interface TosForm {
  * Depending on the server configuration, the user may have to authenticate himself with OneLogin.
  */
 @Component({
-  templateUrl: './terms-of-use-accept.component.html',
-  styleUrls: ['./terms-of-use-accept.component.scss'],
+    templateUrl: './terms-of-use-accept.component.html',
+    styleUrls: ['./terms-of-use-accept.component.scss'],
+    standalone: false
 })
 export class TermsOfUseAcceptComponent implements OnInit, OnDestroy {
   @ViewChild('authFormControls', { static: true, read: ViewContainerRef }) private authFormControls: ViewContainerRef;

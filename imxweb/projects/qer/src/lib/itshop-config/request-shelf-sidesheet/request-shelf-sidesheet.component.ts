@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -44,9 +44,10 @@ import { ACTION_DISMISS, RequestsService } from '../requests.service';
 const helperAlertKey = `${HELPER_ALERT_KEY_PREFIX}_requestShopShelfDetails`;
 
 @Component({
-  selector: 'imx-request-shelf-sidesheet',
-  templateUrl: './request-shelf-sidesheet.component.html',
-  styleUrls: ['../request-config-sidesheet-common.scss'],
+    selector: 'imx-request-shelf-sidesheet',
+    templateUrl: './request-shelf-sidesheet.component.html',
+    styleUrls: ['../request-config-sidesheet-common.scss'],
+    standalone: false
 })
 export class RequestShelfSidesheetComponent implements OnInit {
   public readonly detailsFormGroup: UntypedFormGroup;

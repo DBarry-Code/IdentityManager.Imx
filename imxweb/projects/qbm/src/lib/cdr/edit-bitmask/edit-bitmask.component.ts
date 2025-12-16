@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,11 +24,12 @@
  *
  */
 
-import { Component, ErrorHandler, EventEmitter } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { EuiSelectOption } from '@elemental-ui/core';
 import { Subject, Subscription } from 'rxjs';
 import { ClassloggerService } from '../../classlogger/classlogger.service';
+import { ElementalUiConfigService } from '../../configuration/elemental-ui-config.service';
 import { CdrEditor, ValueHasChangedEventArg } from '../cdr-editor.interface';
 import { ColumnDependentReference } from '../column-dependent-reference.interface';
 import { EntityColumnContainer } from '../entity-column-container';
@@ -37,6 +38,7 @@ import { EntityColumnContainer } from '../entity-column-container';
   selector: 'imx-edit-bitmask',
   templateUrl: './edit-bitmask.component.html',
   styleUrls: ['./edit-bitmask.component.scss'],
+  standalone: false,
 })
 export class EditBitmaskComponent implements CdrEditor {
   /**
@@ -68,9 +70,9 @@ export class EditBitmaskComponent implements CdrEditor {
   private isWriting = false;
 
   constructor(
-    private readonly errorHandler: ErrorHandler,
     private readonly logger: ClassloggerService,
-  ) {}
+    public elementalUiConfigService: ElementalUiConfigService,
+  ) { }
 
   /**
    * Binds a column dependent reference to the component.
@@ -124,39 +126,32 @@ export class EditBitmaskComponent implements CdrEditor {
    * @param values The values, that will be used as a new value.
    */
   private async writeValue(value: Number): Promise<void> {
-    if (this.control.errors) {
-      this.logger.debug(this, 'writeValue - client validation failed');
-      return;
-    }
     this.logger.debug(this, 'writeValue called with value', value);
 
     if (!this.columnContainer.canEdit || this.columnContainer.value === value) {
       return;
     }
 
-    const resetValue = this.columnContainer.value;
-
     try {
       this.isWriting = true;
       this.logger.debug(this, 'writeValue - PutValue...');
       await this.columnContainer.updateValue(value);
     } catch (e) {
-      this.errorHandler?.handleError(e);
-      this.control.setValue(resetValue, { emitEvent: true });
+      this.logger.error(this, e);
     } finally {
       this.isWriting = false;
       const valueAfterWrite = this.toArray(this.columnContainer.value);
       if (this.control.value !== valueAfterWrite) {
         this.control.setValue(valueAfterWrite, { emitEvent: false });
       }
-      this.control.updateValueAndValidity();
     }
 
     this.valueHasChanged.emit({ value, forceEmit: true });
   }
 
-  private toArray(value: Number): Number[] {
+  private toArray(value: Number | undefined): Number[] {
     let array: number[] = [];
+    if (!value) return array;
     let binaryRepresentation = parseInt(value.toString(), 10).toString(2);
     binaryRepresentation = binaryRepresentation.split('').reverse().join('');
 
@@ -182,8 +177,14 @@ export class EditBitmaskComponent implements CdrEditor {
   }
 
   private async initOptions(): Promise<void> {
+    let order = this.columnContainer.metaData?.GetBitMaskConfigOrder?.();
     const bitMaskCaptions = this.columnContainer?.metaData?.GetBitMaskCaptions();
-    const allOptions = bitMaskCaptions?.map((elem, idx): EuiSelectOption => ({ display: elem, value: this.getBinaryNumber(idx) })) || [];
+    const allOptions =
+      bitMaskCaptions
+        ?.map((elem, idx): EuiSelectOption => ({ display: elem, value: this.getBinaryNumber(idx) }))
+        .sort((a, b) => (order === 1 ? /*by caption*/ a.display!.localeCompare(b?.display!) : /*by bitposition*/ a?.value - b?.value)) ||
+      [];
+
     // filter out deactivated captions, these are empty strings
     this.options = allOptions?.filter((option: EuiSelectOption) => !!option?.display.length);
   }

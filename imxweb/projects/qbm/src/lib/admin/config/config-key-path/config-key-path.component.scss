@@ -1,0 +1,6 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+.key-path-separator {
+  margin: 0 0.15em;
+  color: eui.$color-gray-40;
+}

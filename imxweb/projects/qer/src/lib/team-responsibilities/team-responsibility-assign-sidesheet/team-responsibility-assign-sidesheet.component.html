@@ -1,5 +1,5 @@
 <div eui-sidesheet-content>
-  <imx-data-view-toolbar [dataSource]="dataSource" [showSettings]="false" [showGrouping]="false"></imx-data-view-toolbar>
+  <imx-data-view-toolbar [dataSource]="dataSource" [showGrouping]="false"></imx-data-view-toolbar>
   <mat-card class="imx-margin-bottom-16">
     <imx-data-view-selection [dataSource]="dataSource"></imx-data-view-selection>
     <imx-data-view-auto-table
@@ -47,12 +47,15 @@
   <button mat-stroked-button (click)="closeSidesheet()">
     {{ '#LDS#Cancel' | translate }}
   </button>
-  <button mat-flat-button color="primary" (click)="assignMore()" [disabled]="!assignButtonEnabled" *ngIf="!!data.reassign">
-    <eui-icon icon="forward"></eui-icon>
-    {{ '#LDS#Reassign' | translate }}
-  </button>
-  <button mat-flat-button color="primary" (click)="assignMore()" [disabled]="!assignButtonEnabled" *ngIf="!data.reassign">
-    <eui-icon icon="useradd"></eui-icon>
-    {{ '#LDS#Assign' | translate }}
-  </button>
+  @if (!!data.reassign) {
+    <button mat-flat-button color="primary" (click)="assignMore()" [disabled]="!assignButtonEnabled">
+      <eui-icon icon="forward"></eui-icon>
+      {{ '#LDS#Reassign' | translate }}
+    </button>
+  }
+  @if (!data.reassign) {
+    <button mat-flat-button color="primary" (click)="assignMore()" [disabled]="!assignButtonEnabled">
+      {{ '#LDS#Save' | translate }}
+    </button>
+  }
 </div>

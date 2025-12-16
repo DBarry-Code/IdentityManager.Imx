@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,13 +30,14 @@ import { NewRequestOrchestrationService } from '../new-request-orchestration.ser
 import { SelectedProductSource } from '../new-request-selected-products/selected-product-item.interface';
 
 @Component({
-  selector: 'imx-new-request-product-bundle',
-  templateUrl: './new-request-product-bundle.component.html',
-  styleUrls: ['./new-request-product-bundle.component.scss'],
+    selector: 'imx-new-request-product-bundle',
+    templateUrl: './new-request-product-bundle.component.html',
+    styleUrls: ['./new-request-product-bundle.component.scss'],
+    standalone: false
 })
 export class NewRequestProductBundleComponent {
   public contextId = HELP_CONTEXTUAL.NewRequestProductBundle;
   constructor(public readonly orchestration: NewRequestOrchestrationService) {
-    this.orchestration.selectedView = SelectedProductSource.ProductBundles;
+    this.orchestration.selectedView.set(SelectedProductSource.ProductBundles);
   }
 }

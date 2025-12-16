@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,11 +25,12 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { Inject, Injectable, Injector, signal, DOCUMENT } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+
 import { V2Client } from '@imx-modules/imx-api-qbm';
 import { ApiClient } from '@imx-modules/imx-qbm-dbts';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { ApiClientFetch } from '../api-client/api-client-fetch';
 import { ClassloggerService } from '../classlogger/classlogger.service';
@@ -63,22 +64,25 @@ export class AppConfigService {
   private baseUrl: string;
 
   public initializedSubject = new Subject<void>();
-  public onConfigTitleUpdated = new Subject<void>();
+  public title = signal<string>('');
 
   constructor(
     private readonly httpClient: HttpClient,
     private readonly logger: ClassloggerService,
     private readonly injector: Injector,
+    @Inject(DOCUMENT) private document: Document,
   ) {}
 
   public async init(apiServerUrl: string): Promise<void> {
     this.config = (await this.httpClient.get('appconfig.json').toPromise()) as AppConfig;
+    this.title.set(this.config.Title);
     this.initialize(apiServerUrl);
     await this.client.loadSchema();
   }
 
   public initSynchronous(apiServerUrl: string, config: AppConfig): void {
     this.config = config;
+    this.title.set(this.config.Title);
     const basepathArray = window.location.pathname.split('html');
     this.config.Basepath = basepathArray[0].slice(0, -1);
     this.initialize(apiServerUrl);
@@ -86,7 +90,7 @@ export class AppConfigService {
 
   public setTitle(title: string) {
     this.config.Title = title;
-    this.onConfigTitleUpdated.next();
+    this.title.set(title);
   }
 
   public async loadSchema(): Promise<void> {
@@ -127,5 +131,19 @@ export class AppConfigService {
     this._apiClient = new ApiClientFetch(this.baseUrl, this.logger, translation);
     this._v2client = new V2Client(this._apiClient);
     this.initializedSubject.next();
+  }
+
+  /**
+   * Load custom css configuration.
+   */
+  public async loadCustomStyle(): Promise<void> {
+    const head = this.document.getElementsByTagName('head')[0];
+    const styleComponent = this.document.createElement('link');
+    styleComponent.id = 'imx-custom-style';
+    styleComponent.rel = 'stylesheet';
+    styleComponent.type = 'text/css';
+    styleComponent.href = `${this.baseUrl}/imx/customstyles`;
+    this.document.getElementById('imx-custom-style')?.remove();
+    head.appendChild(styleComponent);
   }
 }

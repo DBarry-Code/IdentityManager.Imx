@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -48,9 +48,10 @@ import { HierarchicalCandidate } from './hierarchical-candidate';
 import { HierarchicalFkDatabase } from './hierarchical-fk-database';
 
 @Component({
-  selector: 'imx-fk-hierarchical-dialog',
-  templateUrl: './fk-hierarchical-dialog.component.html',
-  styleUrls: ['./fk-hierarchical-dialog.component.scss'],
+    selector: 'imx-fk-hierarchical-dialog',
+    templateUrl: './fk-hierarchical-dialog.component.html',
+    styleUrls: ['./fk-hierarchical-dialog.component.scss'],
+    standalone: false
 })
 export class FkHierarchicalDialogComponent implements OnInit, OnDestroy {
   public readonly hierarchyService: HierarchicalFkDatabase;

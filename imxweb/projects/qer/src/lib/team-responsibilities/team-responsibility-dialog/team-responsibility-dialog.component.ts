@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PortalRespTeamResponsibilities } from '@imx-modules/imx-api-qer';
 
 @Component({
-  selector: 'imx-team-responsibility-dialog',
-  templateUrl: './team-responsibility-dialog.component.html',
-  styleUrl: './team-responsibility-dialog.component.scss',
+    selector: 'imx-team-responsibility-dialog',
+    templateUrl: './team-responsibility-dialog.component.html',
+    styleUrl: './team-responsibility-dialog.component.scss',
+    standalone: false
 })
 export class TeamResponsibilityDialogComponent {
   constructor(

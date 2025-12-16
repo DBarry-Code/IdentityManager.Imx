@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -41,8 +41,9 @@ import { SnackBarService } from '../../snackbar/snack-bar.service';
 import { DataViewSource } from '../data-view-source';
 
 @Component({
-  selector: 'imx-data-view-settings',
-  templateUrl: './data-view-settings.component.html',
+    selector: 'imx-data-view-settings',
+    templateUrl: './data-view-settings.component.html',
+    standalone: false
 })
 export class DataViewSettingsComponent {
   /**

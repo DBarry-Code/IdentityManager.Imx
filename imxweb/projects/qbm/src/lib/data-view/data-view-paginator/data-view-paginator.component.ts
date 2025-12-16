@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { PageEvent } from '@angular/material/paginator';
 import { DataViewSource } from '../data-view-source';
 
 @Component({
-  selector: 'imx-data-view-paginator',
-  templateUrl: './data-view-paginator.component.html',
-  styleUrls: ['./data-view-paginator.component.scss'],
+    selector: 'imx-data-view-paginator',
+    templateUrl: './data-view-paginator.component.html',
+    styleUrls: ['./data-view-paginator.component.scss'],
+    standalone: false
 })
 export class DataViewPaginatorComponent {
   /**

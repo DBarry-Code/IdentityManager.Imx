@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -54,33 +54,39 @@ import { DataSourceToolbarComponent } from './data-source-toolbar.component';
 import { FilterTreeComponent } from './filter-tree/filter-tree.component';
 import { SaveConfigDialogComponent } from './save-config-dialog/save-config-dialog.component';
 
-@NgModule({ declarations: [
-        DataSourceToolbarComponent,
-        DataSourcePaginatorComponent,
-        DataSourceToolbarCustomComponent,
-        FilterTreeComponent,
-        AdditionalInfosComponent,
-        SaveConfigDialogComponent,
-    ],
-    exports: [DataSourceToolbarComponent, DataSourcePaginatorComponent, DataSourceToolbarCustomComponent, FilterTreeComponent], imports: [CommonModule,
-        EuiCoreModule,
-        EuiMaterialModule,
-        MatFormFieldModule,
-        MatMenuModule,
-        MatIconModule,
-        MatTooltipModule,
-        MatPaginatorModule,
-        MatButtonToggleModule,
-        MatChipsModule,
-        MatListModule,
-        MatCardModule,
-        MatDividerModule,
-        DragDropModule,
-        TranslateModule,
-        DataTreeModule,
-        LdsReplaceModule,
-        ClassloggerModule,
-        ReactiveFormsModule,
-        FormsModule,
-        LoggerModule], providers: [AppConfigService, provideHttpClient(withInterceptorsFromDi())] })
+@NgModule({
+  declarations: [
+    DataSourceToolbarComponent,
+    DataSourcePaginatorComponent,
+    DataSourceToolbarCustomComponent,
+    FilterTreeComponent,
+    AdditionalInfosComponent,
+    SaveConfigDialogComponent,
+  ],
+  exports: [DataSourceToolbarComponent, DataSourcePaginatorComponent, DataSourceToolbarCustomComponent, FilterTreeComponent],
+  imports: [
+    CommonModule,
+    EuiCoreModule,
+    EuiMaterialModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatListModule,
+    MatCardModule,
+    MatDividerModule,
+    DragDropModule,
+    TranslateModule,
+    DataTreeModule,
+    LdsReplaceModule,
+    ClassloggerModule,
+    ReactiveFormsModule,
+    FormsModule,
+    LoggerModule,
+  ],
+  providers: [AppConfigService, provideHttpClient(withInterceptorsFromDi())],
+})
 export class DataSourceToolbarModule {}

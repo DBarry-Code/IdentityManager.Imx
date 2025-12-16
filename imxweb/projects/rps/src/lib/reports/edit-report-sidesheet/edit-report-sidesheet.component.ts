@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -55,8 +55,9 @@ import { RpsApiService } from '../../rps-api-client.service';
 import { EditReportSqlWizardService } from '../editreport-sqlwizard.service';
 
 @Component({
-  templateUrl: './edit-report-sidesheet.component.html',
-  styleUrls: ['./edit-report-sidesheet.component.scss'],
+    templateUrl: './edit-report-sidesheet.component.html',
+    styleUrls: ['./edit-report-sidesheet.component.scss'],
+    standalone: false
 })
 export class EditReportSidesheetComponent implements OnInit, OnDestroy {
   public get formArray(): UntypedFormArray {

@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   height: 100%;
@@ -37,5 +37,5 @@
   flex-direction: column;
   text-align: center;
   border: 1px solid transparent;
-  @include eui-elevation-1;
+  @include mixins.eui-elevation-1;
 }

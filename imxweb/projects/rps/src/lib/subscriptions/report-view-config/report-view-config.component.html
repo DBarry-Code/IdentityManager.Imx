@@ -6,33 +6,45 @@
     <mat-card>
       <imx-report-selector [controlHeigth]="400" formControlName="reportTable"></imx-report-selector>
     </mat-card>
-    <mat-card *ngIf="reportFormGroup.controls.reportTable.value" class="imx-flex-card">
-      <imx-busy-indicator *ngIf="isLoading"></imx-busy-indicator>
-
-      <div class="imx-cdr-container" *ngIf="!isLoading">
-        <div class="imx-export-type">
-          <mat-radio-group formControlName="viewType" *ngIf="isListReport">
-            <mat-radio-button [value]="'view'" data-imx-identifier="export-view-config-view-in-browser">
-              {{ '#LDS#View in browser' | translate }}
-            </mat-radio-button>
-            <mat-radio-button [value]="'export'" data-imx-identifier="export-view-config-export">
-              {{ '#LDS#Export' | translate }}
-            </mat-radio-button>
-          </mat-radio-group>
-          <imx-cdr-editor
-            *ngIf="formatCdr && (reportFormGroup.controls.viewType.value === 'export' || !isListReport)"
-            [cdr]="formatCdr"
-            (controlCreated)="addExportControl($event)"
-          >
-          </imx-cdr-editor>
-        </div>
-        <imx-cdr-editor *ngFor="let cdr of parameterCdrList" [cdr]="cdr" (controlCreated)="addFormControl($event)"> </imx-cdr-editor>
-        <div class="imx-no-results" *ngIf="!hasParameter">
-          <eui-icon icon="reports"></eui-icon>
-          <p translate>#LDS#For this report, no parameters must be specified.</p>
-        </div>
-      </div>
-    </mat-card>
+    @if (reportFormGroup.controls.reportTable.value) {
+      <mat-card class="imx-flex-card">
+        @if (isLoading) {
+          <imx-busy-indicator></imx-busy-indicator>
+        }
+        @if (!isLoading) {
+          <div class="imx-cdr-container">
+            <div class="imx-export-type">
+              @if (isListReport) {
+                <mat-radio-group formControlName="viewType">
+                  <mat-radio-button [value]="'view'" data-imx-identifier="export-view-config-view-in-browser">
+                    {{ '#LDS#View in browser' | translate }}
+                  </mat-radio-button>
+                  <mat-radio-button [value]="'export'" data-imx-identifier="export-view-config-export">
+                    {{ '#LDS#Export' | translate }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              }
+              @if (formatCdr && (reportFormGroup.controls.viewType.value === 'export' || !isListReport)) {
+                <imx-cdr-editor
+                  [cdr]="formatCdr"
+                  (controlCreated)="addExportControl($event)"
+                  >
+                </imx-cdr-editor>
+              }
+            </div>
+            @for (cdr of parameterCdrList; track cdr) {
+              <imx-cdr-editor [cdr]="cdr" (controlCreated)="addFormControl($event)"> </imx-cdr-editor>
+            }
+            @if (!hasParameter) {
+              <div class="imx-no-results">
+                <eui-icon icon="reports"></eui-icon>
+                <p translate>#LDS#For this report, no parameters must be specified.</p>
+              </div>
+            }
+          </div>
+        }
+      </mat-card>
+    }
   </form>
 </div>
 
@@ -43,7 +55,7 @@
     (click)="viewReport()"
     [disabled]="reportFormGroup.invalid || isLoading"
     data-imx-identifier="view-config-view-report-button"
-  >
+    >
     <eui-icon icon="reports"></eui-icon>
     <span translate>#LDS#View report</span>
   </button>

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,6 +30,7 @@ import { CdrEditorProvider } from './cdr-editor-provider.interface';
 import { CdrEditor } from './cdr-editor.interface';
 import { ColumnDependentReference } from './column-dependent-reference.interface';
 import { DateRangeComponent } from './date-range/date-range.component';
+import { EditBitmaskComponent } from './edit-bitmask/edit-bitmask.component';
 import { EditBooleanComponent } from './edit-boolean/edit-boolean.component';
 import { EditDateComponent } from './edit-date/edit-date.component';
 import { EditImageComponent } from './edit-image/edit-image.component';
@@ -38,7 +39,6 @@ import { EditMultiLimitedValueComponent } from './edit-multi-limited-value/edit-
 import { EditMultiValueComponent } from './edit-multi-value/edit-multi-value.component';
 import { EditMultilineComponent } from './edit-multiline/edit-multiline.component';
 import { EditNumberComponent } from './edit-number/edit-number.component';
-import { EditBitmaskComponent } from './edit-bitmask/edit-bitmask.component';
 import { EditRiskIndexComponent } from './edit-risk-index/edit-risk-index.component';
 import { EditUrlComponent } from './edit-url/edit-url.component';
 
@@ -68,9 +68,9 @@ export class DefaultCdrEditorProvider implements CdrEditorProvider {
     const multiValue = meta.IsMultiValue();
     const range = meta.IsRange();
     const limitedValues = this.isLimitedValues(meta);
-    const schemaKey = meta.GetSchemaKey();
-    const isRiskIndexColumn =
-      ['RiskIndex', 'RiskRange', 'RiskLevel'].includes(schemaKey.substring(schemaKey.lastIndexOf('.') + 1)) || schemaKey == 'QERRiskIndex.Weight';
+    const minValue = meta.GetMinValue ? meta.GetMinValue() : undefined;
+    const maxValue = meta.GetMaxValue ? meta.GetMaxValue() : undefined;
+    const isRiskIndexColumn = minValue !== undefined && maxValue !== undefined && minValue !== maxValue;
     const type = meta.GetType();
 
     if (type === ValType.Binary) {
@@ -141,7 +141,6 @@ export class DefaultCdrEditorProvider implements CdrEditorProvider {
    */
   private isLimitedValues(meta: IValueMetadata): boolean {
     const limitedValues = meta.GetLimitedValues();
-
     return limitedValues != null && limitedValues.length > 0;
   }
 }

@@ -1,4 +1,6 @@
-<eui-icon *ngIf="icon" class="imx-icon-circle" [icon]="icon"></eui-icon>
+@if (icon) {
+  <eui-icon class="imx-icon-circle" [icon]="icon"></eui-icon>
+}
 <div class="imx-application-property">
   <ng-content></ng-content>
   <span class="imx-application-property-display">{{ display }}</span>

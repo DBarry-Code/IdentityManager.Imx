@@ -1,17 +1,17 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 .heading-wrapper {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
   flex: 0 0 auto;
 }
 
 :host {
-  @include flex-column-container($overflow: hidden, $height: 100%, $max-width: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $max-width: 100%);
 }
 
 .imx-pattern-page {
   background-color: inherit;
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill($padding: true);
 
 }
 

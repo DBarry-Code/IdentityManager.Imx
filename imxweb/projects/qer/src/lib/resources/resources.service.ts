@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 
 import {
   PortalAdminResourcesQerassign,
@@ -83,6 +83,7 @@ export class ResourcesService {
   constructor(
     protected readonly project: ProjectConfigurationService,
     private readonly api: QerApiService,
+    private errorHandler: ErrorHandler
   ) {
     this.registerMap();
   }
@@ -113,7 +114,9 @@ export class ResourcesService {
 
   public getSchema(tableName: string, isAdmin: boolean, interactive: boolean): EntitySchema {
     const conf = isAdmin ? this.resourceMap.get(tableName)?.admin : this.resourceMap.get(tableName)?.resp;
-    return conf == null ? null : interactive ? conf.interactive.GetSchema() : conf.schema;
+    const schema = conf && interactive ? conf?.interactive.getSchema() : conf?.schema
+    if (!schema) this.errorHandler.handleError('There was no valid schema to use')
+    return schema;
   }
 
   public async getEditableFields(objectType: string, entity: IEntity, primary: boolean = false): Promise<string[]> {
@@ -126,7 +129,7 @@ export class ResourcesService {
     return list?.[objectType].filter((name) => entity.GetSchema().Columns[name]) || [];
   }
 
-  public async getServiceItem(tablename: string, uidResource: string): Promise<TypedEntity> {
+  public async getServiceItem(tablename: string, uidResource: string): Promise<TypedEntity | undefined> {
     const filter: FilterData[] = [
       {
         Type: FilterType.Compare,

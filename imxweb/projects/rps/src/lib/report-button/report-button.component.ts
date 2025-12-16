@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,6 +43,7 @@ import { ReportButtonParameter } from './report-button-parameter';
   selector: 'imx-report-button',
   templateUrl: './report-button.component.html',
   styleUrls: ['./report-button.component.scss'],
+  standalone: false
 })
 export class ReportButtonComponent implements OnInit, OnDestroy {
   public downloadOptions: EuiDownloadOptions;
@@ -56,7 +57,7 @@ export class ReportButtonComponent implements OnInit, OnDestroy {
   private readonly apiMethodFactory: V2ApiClientMethodFactory = new V2ApiClientMethodFactory();
 
   constructor(
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly config: AppConfigService,
     private readonly http: HttpClient,
     private readonly injector: Injector,
@@ -68,7 +69,7 @@ export class ReportButtonComponent implements OnInit, OnDestroy {
     private readonly translator: TranslateService,
     private readonly userModelService: UserModelService,
     private readonly downloadService: EuiDownloadService,
-  ) {}
+  ) { }
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribeEvents;

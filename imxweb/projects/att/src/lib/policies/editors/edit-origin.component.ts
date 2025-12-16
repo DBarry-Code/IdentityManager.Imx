@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { FilterChangedArgument } from './filter-changed-argument.interface';
 import { FilterElementModel } from './filter-element-model';
 
 @Component({
-  templateUrl: './edit-origin.component.html',
-  selector: 'imx-edit-origin',
-  styleUrls: ['./edit-origin.component.scss'],
+    templateUrl: './edit-origin.component.html',
+    selector: 'imx-edit-origin',
+    styleUrls: ['./edit-origin.component.scss'],
+    standalone: false
 })
 export class EditOriginComponent implements OnChanges, OnDestroy {
   public candidates: ParmOpt[];

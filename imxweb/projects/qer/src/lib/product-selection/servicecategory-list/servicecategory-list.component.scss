@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -14,7 +14,7 @@ button.imx-button {
 }
 
 .mat-mdc-dialog-content {
-  @include flex-column-container($height: inherit);
+  @include mixins.flex-column-container($height: inherit);
   flex: 1;
 }
 

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,10 +31,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { imx_SessionService } from 'qbm';
 import { RequestHistoryLoadParameters } from './request-history-load-parameters.interface';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use the DataViewFilterComponent instead.
+ */
 @Component({
-  templateUrl: './requestfilter.component.html',
-  selector: 'imx-request-filter',
-  styleUrls: ['./requestfilter.component.scss'],
+    templateUrl: './requestfilter.component.html',
+    selector: 'imx-request-filter',
+    styleUrls: ['./requestfilter.component.scss'],
+    standalone: false
 })
 export class RequestFilterComponent implements OnInit {
   @ViewChild('Call1') public tplCall1: TemplateRef<any>;

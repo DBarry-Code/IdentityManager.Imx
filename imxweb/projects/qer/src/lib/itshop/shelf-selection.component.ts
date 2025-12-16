@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,9 +30,10 @@ import { EUI_SIDESHEET_DATA, EuiSidesheetRef } from '@elemental-ui/core';
 import { PersonForProduct, ShelfObject, ShelfSelectionObject } from './shelf-selection-sidesheet.model';
 
 @Component({
-  selector: 'imx-shelf-selection',
-  templateUrl: './shelf-selection.component.html',
-  styleUrls: ['./shelf-selection.component.scss'],
+    selector: 'imx-shelf-selection',
+    templateUrl: './shelf-selection.component.html',
+    styleUrls: ['./shelf-selection.component.scss'],
+    standalone: false
 })
 export class ShelfSelectionComponent {
   public showHelperAlert = true;

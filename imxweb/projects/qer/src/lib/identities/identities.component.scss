@@ -1,5 +1,6 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+
 .data-explorer {
   &.data-explorer--identities {
     &.identities--fullscreen {
@@ -14,7 +15,9 @@
     }
   }
 }
+
 ::ng-deep {
+
   imx-report-button,
   imx-report-button-ext {
     display: none;

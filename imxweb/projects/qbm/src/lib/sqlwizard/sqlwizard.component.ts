@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,7 +37,6 @@ import {
   SimpleChanges,
   ViewChildren,
 } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { SqlExpression, LogOp as _logOp } from '@imx-modules/imx-qbm-dbts';
 import { SqlViewSettings } from './SqlNodeView';
 import { SqlWizardApiService } from './sqlwizard-api.service';
@@ -46,6 +45,7 @@ import { SqlWizardApiService } from './sqlwizard-api.service';
   templateUrl: './sqlwizard.component.html',
   styleUrls: ['./sqlwizard.scss'],
   selector: 'imx-sqlwizard',
+  standalone: false,
 })
 export class SqlWizardComponent implements OnInit, OnChanges, AfterViewInit {
   public readonly andConditionLabel = '#LDS#Condition_And';
@@ -119,15 +119,21 @@ export class SqlWizardComponent implements OnInit, OnChanges, AfterViewInit {
     await this.addEmptyExpression();
   }
 
-  public onOperatorChanged(event: MatButtonToggleChange): void {
-    (event.value as string).toLowerCase() === 'and'
+  public onOperatorChanged(): void {
+    this.expression.LogOperator === this.LogOp.OR
       ? (this.expression.LogOperator = this.LogOp.AND)
       : (this.expression.LogOperator = this.LogOp.OR);
     this.change.emit();
   }
 
+  /** Returns the text for the logical operator toggle button. */
   public logOpText(): string {
     return this.expression.LogOperator === this.LogOp.AND ? this.andConditionLabel : this.orConditionLabel;
+  }
+
+  /** Returns the tooltip for the logical operator toggle button. */
+  public logOpTooltip(): string {
+    return this.expression.LogOperator === this.LogOp.AND ? '#LDS#Change logical operator to OR' : '#LDS#Change logical operator to AND';
   }
 
   private async reinit(): Promise<void> {

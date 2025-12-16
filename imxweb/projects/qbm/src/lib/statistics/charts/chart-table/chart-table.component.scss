@@ -1,0 +1,12 @@
+@use '../../stat-mixins.scss' as stat-mixins;
+
+:host {
+  .above {
+    display: flex;
+    justify-content: flex-end;
+
+    imx-data-source-toolbar {
+      width: 50%;
+    }
+  }
+}

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -50,10 +50,11 @@ import { PoliciesSidesheetComponent } from './policies-sidesheet/policies-sidesh
 import { PoliciesService } from './policies.service';
 
 @Component({
-  selector: 'imx-policies',
-  templateUrl: './policies.component.html',
-  styleUrls: ['./policies.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-policies',
+    templateUrl: './policies.component.html',
+    styleUrls: ['./policies.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class PoliciesComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

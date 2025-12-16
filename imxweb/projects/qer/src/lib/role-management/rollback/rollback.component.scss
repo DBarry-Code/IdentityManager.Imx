@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .item {
   flex-grow: 1;
@@ -9,7 +8,7 @@
 .subtext {
   font-size: small;
   font-style: italic;
-  color: $black_9;
+  color: eui.$color-gray-40;
   margin-bottom: 10px;
 }
 
@@ -25,9 +24,9 @@
 }
 
 .eui-dark-theme {
-  background-color: $color-gray-70;
+  background-color: eui.$color-gray-70;
 }
 
 .eui-contrast-theme {
-  background-color: $color-gray-90;
+  background-color: eui.$color-gray-90;
 }

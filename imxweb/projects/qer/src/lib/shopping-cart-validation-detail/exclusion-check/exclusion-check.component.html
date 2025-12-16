@@ -1,1 +1,3 @@
-<div *ngFor="let item of detail; let i = index" [attr.data-imx-identifier]="'exclusion-check-' + i">{{ item?.ObjectDisplayExcluded }}</div>
+@for (item of detail; track item; let i = $index) {
+  <div [attr.data-imx-identifier]="'exclusion-check-' + i">{{ item?.ObjectDisplayExcluded }}</div>
+}

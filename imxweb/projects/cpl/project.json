@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "cpl",
   "sourceRoot": "projects/cpl/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "generators": {
     "@schematics/angular:component": {
@@ -24,9 +26,6 @@
         "development": {
           "tsConfig": "projects/cpl/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/cpl/ng-package.dynamic.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/cpl/tsconfig.lib.json"
         },
@@ -34,7 +33,9 @@
           "tsConfig": "projects/cpl/tsconfig.lib.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/cpl"]
+      "outputs": [
+        "{workspaceRoot}/dist/cpl"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -56,8 +57,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/cpl/tsconfig.lib.json", "projects/cpl/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/cpl/tsconfig.lib.json",
+          "projects/cpl/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

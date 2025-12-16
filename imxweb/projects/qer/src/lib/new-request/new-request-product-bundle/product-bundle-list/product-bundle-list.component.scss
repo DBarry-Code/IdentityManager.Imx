@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -10,25 +10,16 @@
   .imx-product-bundle-list-header {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    margin: 5px 0;
+    align-items: baseline;
+    margin: 8px 16px 0 16px;
 
     .imx-product-bundle-list-header-text {
-      margin: auto;
-      margin-left: 24px;
+      margin-right: auto;
+      margin-bottom: 16px;
       font-size: 16px;
       line-height: 20px;
       font-weight: 600;
     }
-
-    > :last-child {
-      margin-right: 16px;
-    }
-
-    .toolbar--hidden {
-      width: 0;
-    }
-
     .expand-control-button {
       ::ng-deep .mdc-button__label {
         width: 100%;
@@ -47,21 +38,23 @@
       }
     }
   }
-
-  imx-data-source-paginator {
-    max-height: 57px;
+  imx-data-view-toolbar{
+    visibility: hidden;
+    ::ng-deep .imx-data-view-controls{
+      flex-wrap: nowrap;
+    }
   }
 }
 
 // Theming
 :host {
   .imx-private-bundle {
-    color: $color-red-60;
+    color: eui.$color-red-60;
   }
 
   .imx-product-bundle-list-header {
     .imx-product-bundle-list-header-text {
-      color: $color-blue-60;
+      color: eui.$color-blue-60;
     }
   }
 }
@@ -69,18 +62,17 @@
 .eui-dark-theme {
   :host {
     .imx-private-bundle {
-      color: $color-red-40;
+      color: eui.$color-red-40;
     }
 
     .imx-product-bundle-list-header {
       .imx-product-bundle-list-header-text {
-        color: $color-blue-40;
+        color: eui.$color-blue-40;
       }
     }
   }
 }
 
 .eui-contrast-theme {
-  :host {
-  }
+  :host {}
 }

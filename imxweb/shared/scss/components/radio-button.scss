@@ -1,3 +1,5 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
 /* Elemental UI */
 
 /* Angular Material */
@@ -11,14 +13,17 @@
 .mat-mdc-radio-button {
   display: block;
   margin-right: 5px;
-  .mdc-form-field{
+
+  .mdc-form-field {
     align-items: center !important;
   }
+
   .mdc-label {
     display: flex;
     flex-direction: column;
     padding: 0;
-    .imx-radio-label-strong{
+
+    .imx-radio-label-strong {
       font-weight: 600;
     }
   }
@@ -45,7 +50,7 @@
 }
 
 .imx-fk-table-radio {
-  > *:not(:last-child) {
+  >*:not(:last-child) {
     margin-right: 30px;
   }
 }
@@ -56,6 +61,6 @@
 
 .eui-contrast-theme {
   ::ng-deep .mat-mdc-radio-outer-circle {
-    border-color: $color-gray-100;
+    border-color: eui.$color-gray-100;
   }
 }

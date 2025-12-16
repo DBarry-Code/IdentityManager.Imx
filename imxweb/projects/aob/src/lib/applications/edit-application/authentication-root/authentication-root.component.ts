@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { PortalApplication } from '@imx-modules/imx-api-aob';
 import { BaseCdr } from 'qbm';
 
 @Component({
-  selector: 'imx-authentication-root',
-  templateUrl: './authentication-root.component.html',
-  styleUrls: ['./authentication-root.component.scss'],
+    selector: 'imx-authentication-root',
+    templateUrl: './authentication-root.component.html',
+    styleUrls: ['./authentication-root.component.scss'],
+    standalone: false
 })
 export class AuthenticationRootComponent implements OnInit {
   public readonly form = new UntypedFormGroup({}, (__) => {

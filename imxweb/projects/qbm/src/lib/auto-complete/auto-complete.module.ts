@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,8 +24,8 @@
  *
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,6 +34,11 @@ import { EuiCoreModule } from '@elemental-ui/core';
 
 import { AutoCompleteComponent } from './auto-complete.component';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use EUI components instead.
+ */
 @NgModule({
   declarations: [AutoCompleteComponent],
   imports: [CommonModule, FormsModule, EuiCoreModule, MatAutocompleteModule, MatInputModule, MatButtonModule],

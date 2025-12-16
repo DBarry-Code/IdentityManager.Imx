@@ -27,9 +27,10 @@
           </th>
         </ng-container>
         <td mat-cell *matCellDef="let item" role="gridcell">
-          <span>
+          <div>
             {{ item.UID_Person.Column.GetDisplayValue() }}
-          </span>
+          </div>
+          <div subtitle>{{ getSubtitleText(item?.GetEntity()) }}</div>
         </td>
       </ng-container>
       <ng-container [matColumnDef]="entitySchema?.Columns?.UID_NonCompliance?.ColumnName">
@@ -58,9 +59,15 @@
       </ng-container>
       <ng-container [matColumnDef]="entitySchema?.Columns?.RiskIndexCalculated?.ColumnName">
         <ng-container>
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ entitySchema?.Columns?.RiskIndexCalculated?.Display }}
-          </th>
+          @if (dataSource.isSortable(entitySchema?.Columns?.RiskIndexCalculated?.ColumnName)) {
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ entitySchema?.Columns?.RiskIndexCalculated?.Display }}
+            </th>
+          } @else {
+            <th mat-header-cell *matHeaderCellDef>
+              {{ entitySchema?.Columns?.RiskIndexCalculated?.Display }}
+            </th>
+          }
         </ng-container>
         <td mat-cell *matCellDef="let item" role="gridcell">
           <span>
@@ -70,9 +77,15 @@
       </ng-container>
       <ng-container [matColumnDef]="entitySchema?.Columns?.RiskIndexReduced?.ColumnName">
         <ng-container>
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ entitySchema?.Columns?.RiskIndexReduced?.Display }}
-          </th>
+          @if (dataSource.isSortable(entitySchema?.Columns?.RiskIndexReduced?.ColumnName)) {
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ entitySchema?.Columns?.RiskIndexReduced?.Display }}
+            </th>
+          } @else {
+            <th mat-header-cell *matHeaderCellDef>
+              {{ entitySchema?.Columns?.RiskIndexReduced?.Display }}
+            </th>
+          }
         </ng-container>
         <td mat-cell *matCellDef="let item" role="gridcell">
           <span>

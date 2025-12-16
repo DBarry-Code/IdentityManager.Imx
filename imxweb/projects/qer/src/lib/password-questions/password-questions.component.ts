@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,6 +53,7 @@ import { PasswordQuestionsSidesheetComponent } from './password-questions-sidesh
   templateUrl: './password-questions.component.html',
   styleUrls: ['./password-questions.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class PasswordQuestionsComponent implements OnInit {
   @Input() public passwordQuestionType: PasswordQuestionType = 'passwordreset';
@@ -88,7 +89,7 @@ export class PasswordQuestionsComponent implements OnInit {
       isBusy.endBusy();
     }
 
-    this.getData();
+    await this.getData();
   }
 
   public async openEditSidesheet(question: PortalPasswordquestions): Promise<void> {
@@ -114,7 +115,7 @@ export class PasswordQuestionsComponent implements OnInit {
     }
   }
 
-  public getData(): void {
+  public async getData(): Promise<void> {
     const dataViewInitParameters: DataViewInitParameters<PortalPasswordquestions> = {
       execute: (params: CollectionLoadParameters, signal: AbortSignal): Promise<TypedEntityCollectionData<PortalPasswordquestions>> =>
         this.passwordQuestionService.get(params),
@@ -127,7 +128,7 @@ export class PasswordQuestionsComponent implements OnInit {
         this.selectedQuestions = selection;
       },
     };
-    this.dataSource.init(dataViewInitParameters);
+    await this.dataSource.init(dataViewInitParameters);
   }
 
   public async create(): Promise<void> {

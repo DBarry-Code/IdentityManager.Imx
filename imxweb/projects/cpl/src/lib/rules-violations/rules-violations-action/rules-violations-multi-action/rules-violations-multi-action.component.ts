@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ import { ColumnDependentReference } from 'qbm';
  * violation as well: {@link RulesViolationsSingleActionComponent}.
  */
 @Component({
-  selector: 'imx-rules-violations-multi-action',
-  templateUrl: './rules-violations-multi-action.component.html',
-  styleUrls: ['./rules-violations-multi-action.component.scss'],
+    selector: 'imx-rules-violations-multi-action',
+    templateUrl: './rules-violations-multi-action.component.html',
+    styleUrls: ['./rules-violations-multi-action.component.scss'],
+    standalone: false
 })
 export class RulesViolationsMultiActionComponent implements OnInit {
   /**

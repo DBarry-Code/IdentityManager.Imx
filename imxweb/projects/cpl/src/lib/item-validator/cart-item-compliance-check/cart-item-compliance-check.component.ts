@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,9 +33,10 @@ import { calculateSidesheetWidth } from 'qbm';
 import { ComplianceViolationDetailsComponent } from '../../request/compliance-violation-details/compliance-violation-details.component';
 
 @Component({
-  selector: 'imx-cart-item-compliance-check',
-  templateUrl: './cart-item-compliance-check.component.html',
-  styleUrls: ['./cart-item-compliance-check.component.scss'],
+    selector: 'imx-cart-item-compliance-check',
+    templateUrl: './cart-item-compliance-check.component.html',
+    styleUrls: ['./cart-item-compliance-check.component.scss'],
+    standalone: false
 })
 export class CartItemComplianceCheckComponent {
   public check: ICartItemCheck;

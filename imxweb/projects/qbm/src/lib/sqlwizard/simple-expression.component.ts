@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,13 +25,14 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SqlNodeView } from './SqlNodeView';
 import { SqlColumnTypes, ValType as _valType } from '@imx-modules/imx-qbm-dbts';
+import { SqlNodeView } from './SqlNodeView';
 
 @Component({
   selector: 'imx-sqlwizard-simpleexpression',
   styleUrls: ['./sqlwizard.scss', './simple-expression.component.scss'],
   templateUrl: './simple-expression.component.html',
+  standalone: false,
 })
 export class SimpleExpressionComponent {
   @Input() public expr: SqlNodeView;

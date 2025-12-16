@@ -1,0 +1,54 @@
+@if (isLoading()) {
+  <div class="imx-no-results">
+    <imx-busy-indicator></imx-busy-indicator>
+  </div>
+} @else if (isNoData()) {
+  <div class="imx-no-results">
+    <eui-icon icon="areachart"></eui-icon>
+    <h2>
+      {{ '#LDS#There are no KPIs affecting this application.' | translate }}
+    </h2>
+  </div>
+} @else {
+  <h2>
+    {{ '#LDS#KPIs That Affect This Application' | translate }}
+  </h2>
+  @if (failedKpis().length > 0) {
+    <ng-container [ngTemplateOutlet]="chartCards" [ngTemplateOutletContext]="{ charts: failedKpis(), passBool: false }"></ng-container>
+  }
+  @if (passedKpis().length > 0) {
+    <ng-container [ngTemplateOutlet]="chartCards" [ngTemplateOutletContext]="{ charts: passedKpis(), passBool: true }"></ng-container>
+  }
+}
+
+<ng-template #chartCards let-charts="charts" let-passBool="passBool">
+  <h3 class="kpi-cards-title">
+    {{ (passBool ? '#LDS#Passed' : '#LDS#Failed') | translate }}
+  </h3>
+  <div class="imx-kpi-container kpi-cards eui-grid">
+    <div class="eui-grid-inner">
+      @for (chart of charts; track chart) {
+        <mat-card
+          class="eui-grid-cell eui-grid-cell--span-4 imx-kpi-card mat-elevation-z6"
+          euiClickable
+          [euiClickableDisabled]="!kpiHasDetails(chart)"
+          (click)="showDetails(chart, passBool)"
+          [matTooltip]="chart?.Description"
+        >
+          @if (passBool) {
+            <div class="imx-new">
+              <eui-icon icon="check" size="m"></eui-icon>
+            </div>
+          } @else {
+            <div class="imx-error">
+              <eui-icon icon="ignore" size="m"></eui-icon>
+            </div>
+          }
+          <mat-card-content class="imx-kpi-content">
+            <div>{{ chart?.Display }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </div>
+</ng-template>

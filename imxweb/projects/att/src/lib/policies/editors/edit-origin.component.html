@@ -3,13 +3,14 @@
   <input matInput value="_hidden" [hidden]="true" class="input-hidden" />
   <div [formGroup]="form" class="imx-multi-value-container">
     <ng-container formArrayName="candidates">
-      <mat-checkbox
-        *ngFor="let candidate of candidates; let i = index"
-        [formControlName]="i"
-        [attr.data-imx-identifier]="testId + 'edit-origin-checkbox-' + i"
-      >
-        {{ candidate?.Display }}
-      </mat-checkbox>
+      @for (candidate of candidates; track candidate; let i = $index) {
+        <mat-checkbox
+          [formControlName]="i"
+          [attr.data-imx-identifier]="testId + 'edit-origin-checkbox-' + i"
+          >
+          {{ candidate?.Display }}
+        </mat-checkbox>
+      }
     </ng-container>
   </div>
 </mat-form-field>

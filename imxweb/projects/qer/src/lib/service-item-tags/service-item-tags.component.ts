@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { AbstractControl, UntypedFormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
-  selector: 'imx-service-item-tags',
-  templateUrl: './service-item-tags.component.html',
+    selector: 'imx-service-item-tags',
+    templateUrl: './service-item-tags.component.html',
+    standalone: false
 })
 export class ServiceItemTagsComponent implements OnInit {
   public readonly separatorKeysCodes: number[] = [ENTER, COMMA];

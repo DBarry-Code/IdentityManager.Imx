@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,11 +24,11 @@
  *
  */
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component, computed, OnDestroy, Signal } from '@angular/core';
 import { EuiSidesheetService } from '@elemental-ui/core';
 import { MultiValue } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
-import { ConfirmationService, FkAdvancedPickerComponent, MultiValueService, calculateSidesheetWidth } from 'qbm';
+import { calculateSidesheetWidth, ConfirmationService, FkAdvancedPickerComponent, MultiValueService } from 'qbm';
 import { NewRequestOrchestrationService } from '../../new-request-orchestration.service';
 import { FKAdvancedPickerResponse } from '../../new-request-product/fk-advanced-picker-response';
 import { SelectedProductSource } from '../../new-request-selected-products/selected-product-item.interface';
@@ -38,8 +38,27 @@ import { RecipientsApiService } from './recipients-api.service';
   selector: 'imx-new-request-recipients',
   templateUrl: './new-request-recipients.component.html',
   styleUrls: ['./new-request-recipients.component.scss'],
+  standalone: false,
 })
 export class NewRequestRecipientsComponent implements OnDestroy {
+  /**
+   * Check if we have a multi or singular valued selection
+   */
+  public isMultiValue = computed(() => [
+    SelectedProductSource.AllProducts,
+    SelectedProductSource.ReferenceUserProducts,
+    SelectedProductSource.ReferenceUserOrgs,
+    SelectedProductSource.ProductBundles
+  ].includes(this.orchestration.selectedView())
+  );
+
+  public nRecipients: Signal<number> = computed(() => {
+    if (this.orchestration.recipientsIds()) {
+      return MultiValue.FromString(this.orchestration.recipients()?.Column.GetValue() || '').GetValues().length;
+    } else {
+      return 0;
+    }
+  });
   constructor(
     public readonly orchestration: NewRequestOrchestrationService,
     private readonly multiValueProvider: MultiValueService,
@@ -54,25 +73,9 @@ export class NewRequestRecipientsComponent implements OnDestroy {
     this.setDefaultUser();
   }
 
-  /**
-   * Check if we have a multi or singular valued selection
-   */
-  public get isMultiValue(): boolean {
-    return [
-      SelectedProductSource.AllProducts,
-      SelectedProductSource.ReferenceUserProducts,
-      SelectedProductSource.ReferenceUserOrgs,
-      SelectedProductSource.ProductBundles
-    ].includes(this.orchestration.selectedView);
-  }
-
-  public get nRecipients(): number {
-    return MultiValue.FromString(this.orchestration.recipients.Column.GetValue()).GetValues().length;
-  }
-
   public async openSidesheet(): Promise<void> {
-    const idList = MultiValue.FromString(this.orchestration.recipients?.Column.GetValue() || '').GetValues();
-    const title = this.isMultiValue ? '#LDS#Heading Select Recipients' : '#LDS#Heading Select Recipient';
+    const idList = MultiValue.FromString(this.orchestration.recipients()?.Column.GetValue() || '').GetValues();
+    const title = this.isMultiValue() ? '#LDS#Heading Select Recipients' : '#LDS#Heading Select Recipient';
     const response: FKAdvancedPickerResponse = await this.sidesheetService
       .open(FkAdvancedPickerComponent, {
         title: await this.translateService.instant(title),
@@ -85,8 +88,9 @@ export class NewRequestRecipientsComponent implements OnDestroy {
           displayValue: '',
           isRequired: true,
           fkRelations: this.recipientsApi.getFKRelations(),
-          isMultiValue: this.isMultiValue,
+          isMultiValue: this.isMultiValue(),
           idList,
+          viewConfigSettings: this.recipientsApi.getViewConfigSettings(),
         },
       })
       .afterClosed()

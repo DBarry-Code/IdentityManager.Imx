@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { ReportSubscription } from '../report-subscription/report-subscription';
 import { ReportSubscriptionService } from '../report-subscription/report-subscription.service';
 
 @Component({
-  selector: 'imx-subscription-wizard',
-  templateUrl: './subscription-wizard.component.html',
-  styleUrls: ['./subscription-wizard.component.scss'],
+    selector: 'imx-subscription-wizard',
+    templateUrl: './subscription-wizard.component.html',
+    styleUrls: ['./subscription-wizard.component.scss'],
+    standalone: false
 })
 export class SubscriptionWizardComponent implements OnDestroy {
   public readonly reportFormGroup = new UntypedFormGroup({

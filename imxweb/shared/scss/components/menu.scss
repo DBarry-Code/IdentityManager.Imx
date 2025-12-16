@@ -1,3 +1,7 @@
+
+@use '@angular/material' as mat;
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
 /* Elemental UI */
 
 /* Angular Material */
@@ -23,7 +27,57 @@
     width: 100%;
   }
 }
+.mat-mdc-menu-item {
+  &.imx-primary{
+    @include mat.menu-overrides((
+      item-label-text-color: eui.$color-blue-60,
+      item-icon-color: eui.$color-blue-60,
+    ));
+  }
+  &.imx-warn{
+    @include mat.menu-overrides((
+      item-label-text-color: eui.$color-red-60,
+      item-icon-color: eui.$color-red-60,
+    ));
+  }
+}
 
 /* Dark theme */
 
+.eui-dark-theme {
+.mat-mdc-menu-item {
+  &.imx-primary{
+    @include mat.menu-overrides((
+      item-label-text-color: eui.$color-blue-60,
+      item-icon-color: eui.$color-blue-60,
+    ));
+  }
+  &.imx-warn{
+    @include mat.menu-overrides((
+      item-label-text-color: eui.$color-red-60,
+      item-icon-color: eui.$color-red-60,
+    ));
+  }
+}
+
+}
+
 /* High-contrast theme */
+
+.eui-contrast-theme {
+.mat-mdc-menu-item {
+  &.imx-primary{
+    @include mat.menu-overrides((
+      item-label-text-color: eui.$color-blue-60,
+    item-icon-color: eui.$color-blue-60,
+    ));
+  }
+  &.imx-warn{
+    @include mat.menu-overrides((
+      item-label-text-color: eui.$color-red-60,
+      item-icon-color: eui.$color-red-60,
+    ));
+  }
+}
+
+}

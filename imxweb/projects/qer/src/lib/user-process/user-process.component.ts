@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { BusyService } from 'qbm';
 import { UserProcessService } from './user-processes.service';
 
 @Component({
-  selector: 'imx-user-process',
-  templateUrl: './user-process.component.html',
-  styleUrls: ['./user-process.component.scss'],
+    selector: 'imx-user-process',
+    templateUrl: './user-process.component.html',
+    styleUrls: ['./user-process.component.scss'],
+    standalone: false
 })
 export class UserProcessComponent implements OnInit {
   public userProcesses: ProcessChain[] = [];

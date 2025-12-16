@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .FilterIcon,
 .FilterIconChecked {
@@ -38,7 +37,7 @@
 .FilterContentClassChecked {
   display: flex;
   height: 100%;
-  color: $black-6;
+  color: eui.$color-gray-60;
 }
 
 .FilterMatContent {
@@ -46,7 +45,7 @@
 }
 
 .FilterContentClassChecked {
-  color: $white;
+  color: eui.$color-gray-0;
 }
 
 .FilterMatCardDiv {
@@ -56,12 +55,12 @@
 
 .FilterMatCard {
   height: 100%;
-  background-color: $white;
+  background-color: eui.$color-gray-0;
 }
 
 .FilterMatCardChecked {
   height: 100%;
-  background-color: $iris-shade;
+  background-color: eui.$color-blue-80;
 }
 
 .FilterList {
@@ -73,11 +72,11 @@
 .eui-dark-theme {
   :host {
     .FilterContentClassChecked {
-      color: $color-gray-60;
+      color: eui.$color-gray-60;
     }
 
     .FilterMatCard {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 }
@@ -85,11 +84,11 @@
 .eui-contrast-theme {
   :host {
     .FilterContentClassChecked {
-      color: $color-gray-80;
+      color: eui.$color-gray-80;
     }
 
     .FilterMatCard {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 }

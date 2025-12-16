@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,6 +27,11 @@
 import { CollectionLoadParameters, TypedEntity } from '@imx-modules/imx-qbm-dbts';
 import { DataSourceToolbarSettings } from '../data-source-toolbar/data-source-toolbar-settings';
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataViewModule instead.
+ */
 export function getParameterSubsetForGrouping(original: CollectionLoadParameters): CollectionLoadParameters {
   return {
     by: original.by,
@@ -37,6 +42,11 @@ export function getParameterSubsetForGrouping(original: CollectionLoadParameters
   };
 }
 
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataViewModule instead.
+ */
 export interface DataTableGroupedData {
   /**
    * The data that has the groupedBy filter applied to it

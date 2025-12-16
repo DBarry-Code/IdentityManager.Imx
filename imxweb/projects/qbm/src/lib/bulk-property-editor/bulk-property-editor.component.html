@@ -1,14 +1,15 @@
 <mat-accordion>
   <form [formGroup]="formGroup">
-    <imx-bulk-item
-      *ngFor="let entity of entities; let i = index"
-      [bulkItem]="entity"
-      (saveItem)="handleAction($event, true)"
-      (skipItem)="handleAction($event, false)"
-      [hideButtons]="hideButtons"
-      (validationStateChanged)="validationStateChanged.emit($event)"
-      (controlCreated)="formGroup.addControl('bulk-item' + i, $event)"
-    >
-    </imx-bulk-item>
+    @for (entity of entities; track entity; let i = $index) {
+      <imx-bulk-item
+        [bulkItem]="entity"
+        (saveItem)="handleAction($event, true)"
+        (skipItem)="handleAction($event, false)"
+        [hideButtons]="hideButtons"
+        (validationStateChanged)="validationStateChanged.emit($event)"
+        (controlCreated)="formGroup.addControl('bulk-item' + i, $event)"
+        >
+      </imx-bulk-item>
+    }
   </form>
 </mat-accordion>

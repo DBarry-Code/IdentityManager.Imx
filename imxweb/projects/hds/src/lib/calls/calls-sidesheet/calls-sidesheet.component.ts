@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ export interface CallsSidesheetData {
 }
 
 @Component({
-  selector: 'imx-calls-sidesheet',
-  templateUrl: './calls-sidesheet.component.html',
-  styleUrls: ['./calls-sidesheet.component.scss'],
+    selector: 'imx-calls-sidesheet',
+    templateUrl: './calls-sidesheet.component.html',
+    styleUrls: ['./calls-sidesheet.component.scss'],
+    standalone: false
 })
 export class CallsSidesheetComponent implements OnInit {
   public readonly detailsFormGroup: UntypedFormGroup;

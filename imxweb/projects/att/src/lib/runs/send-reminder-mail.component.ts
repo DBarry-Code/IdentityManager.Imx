@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { EuiSidesheetRef, EUI_SIDESHEET_DATA } from '@elemental-ui/core';
 import { Subscription } from 'rxjs';
 
 @Component({
-  templateUrl: './send-reminder-mail.component.html',
-  styleUrls: ['./send-reminder-mail.component.scss'],
+    templateUrl: './send-reminder-mail.component.html',
+    styleUrls: ['./send-reminder-mail.component.scss'],
+    standalone: false
 })
 export class SendReminderMailComponent implements OnDestroy {
   public showHelper = true;

@@ -4,16 +4,20 @@
       <imx-role-main-data #mainData></imx-role-main-data>
     </ng-template>
   </mat-tab>
-  <mat-tab data-imx-identifier="roles-overview-tab-memberships" *ngIf="canHaveMemberships()" [label]="'#LDS#Memberships' | translate">
-    <ng-template matTabContent>
-      <imx-role-memberships #memberships> </imx-role-memberships>
-    </ng-template>
-  </mat-tab>
-  <mat-tab data-imx-identifier="roles-overview-tab-entitlements" *ngIf="canHaveEntitlements()" [label]="'#LDS#Entitlements' | translate">
-    <ng-template matTabContent>
-      <imx-role-entitlements></imx-role-entitlements>
-    </ng-template>
-  </mat-tab>
+  @if (canHaveMemberships()) {
+    <mat-tab data-imx-identifier="roles-overview-tab-memberships" [label]="'#LDS#Memberships' | translate">
+      <ng-template matTabContent>
+        <imx-role-memberships #memberships> </imx-role-memberships>
+      </ng-template>
+    </mat-tab>
+  }
+  @if (canHaveEntitlements()) {
+    <mat-tab data-imx-identifier="roles-overview-tab-entitlements" [label]="'#LDS#Entitlements' | translate">
+      <ng-template matTabContent>
+        <imx-role-entitlements></imx-role-entitlements>
+      </ng-template>
+    </mat-tab>
+  }
   <mat-tab data-imx-identifier="roles-overview-tab-hyperview" [label]="'#LDS#Heading Hyperview' | translate">
     <ng-template matTabContent>
       <div eui-sidesheet-content>
@@ -32,16 +36,18 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab data-imx-identifier="roles-overview-tab-statistics" [label]="'#LDS#Statistics' | translate" *ngIf="canHaveStatistics()">
-    <ng-template matTabContent>
-      <div class="imx-tab-content">
-        <div eui-sidesheet-content>
-          <imx-statistics-for-objects [objectType]="objectType" [objectUid]="objectUid"></imx-statistics-for-objects>
+  @if (canHaveStatistics()) {
+    <mat-tab data-imx-identifier="roles-overview-tab-statistics" [label]="'#LDS#Statistics' | translate">
+      <ng-template matTabContent>
+        <div class="imx-tab-content">
+          <div eui-sidesheet-content>
+            <imx-statistics-for-objects [objectType]="objectType" [objectUid]="objectUid"></imx-statistics-for-objects>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </mat-tab>
-  <ng-container *ngFor="let tab of dynamicTabs">
+      </ng-template>
+    </mat-tab>
+  }
+  @for (tab of dynamicTabs; track tab) {
     <mat-tab [imxDataProvider]="parameters" [label]="tab.inputData.label | translate">
       <ng-template matTabContent>
         <div eui-sidesheet-content>
@@ -51,5 +57,5 @@
         </div>
       </ng-template>
     </mat-tab>
-  </ng-container>
+  }
 </mat-tab-group>

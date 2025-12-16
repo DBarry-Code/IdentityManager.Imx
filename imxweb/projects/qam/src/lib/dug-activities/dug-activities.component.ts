@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,10 +37,11 @@ export const DataViewSourceResource = new InjectionToken<DataViewSource<DugActiv
 export const DataViewSourceTrustee = new InjectionToken<DataViewSource<DugActivityEntity>>('DataViewSourceTrustee');
 
 @Component({
-  selector: 'imx-dug-activities',
-  templateUrl: './dug-activities.component.html',
-  styleUrls: ['./dug-activities.component.scss'],
-  providers: [
+    selector: 'imx-dug-activities',
+    templateUrl: './dug-activities.component.html',
+    styleUrls: ['./dug-activities.component.scss'],
+    standalone: false,
+    providers: [
     { provide: DataViewSourceResource, useClass: DataViewSource },
     { provide: DataViewSourceTrustee, useClass: DataViewSource }
   ]

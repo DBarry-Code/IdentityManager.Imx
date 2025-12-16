@@ -1,14 +1,14 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   .imx-sidesheet-content__overflow {
     .mat-mdc-card {
-      @include flex-column-container-fill();
+      @include mixins.flex-column-container-fill();
     }
 
     .imx-data {
-      @include flex-column-container($overflow: auto);
+      @include mixins.flex-column-container($overflow: auto);
     }
 
     .imx-sidesheet-actions {
@@ -16,7 +16,7 @@
     }
 
     .imx-source-info {
-      color: $color-gray-30;
+      color: eui.$color-gray-30;
     }
 
     .mat-column-description {

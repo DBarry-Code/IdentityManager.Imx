@@ -1,19 +1,21 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
+@use 'base/mixins' as mixins;
 
 .imx-searchbar-card {
-  max-width: $IMX_SearchBar_Width;
-  width: $IMX_SearchBar_Width;
+  max-width: imx-variables.$IMX_SearchBar_Width;
+  width: imx-variables.$IMX_SearchBar_Width;
   padding: 0;
+
   .imx-searchbar-card-content {
     padding: 0 !important;
   }
+
   margin-top: 4px;
 }
 
 .imx-search-component {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
 }
 
 .imx-display-card {
@@ -28,24 +30,24 @@
 
 .imx-searchbar-resultcard {
   padding: 0 !important;
-  background: $white !important;
+  background: eui.$color-gray-0 !important;
   min-height: 50px !important;
   z-index: 100;
 }
 
 .imx-searchbar-noitems {
   padding: 15px;
-  background: $white;
+  background: eui.$color-gray-0;
 }
 
 .imx-searchbar-dropdown {
-  max-width: $IMX_SearchBar_Width;
+  max-width: imx-variables.$IMX_SearchBar_Width;
   margin-top: 2px;
   padding: 0;
 }
 
 .matlistItem:hover {
-  background-color: $color-blue-40;
+  background-color: eui.$color-blue-40;
 }
 
 .matlistItem {
@@ -67,14 +69,15 @@ imx-searchbar {
 }
 
 .imx-searchbar-control {
-  height: $IMX_SearchBar_Height;
+  height: imx-variables.$IMX_SearchBar_Height;
 }
 
 .imx-searchbar-table {
   display: flex;
   flex-direction: column;
   width: 100%;
-  line-height: $IMX_SearchBar_Height;
+  line-height: imx-variables.$IMX_SearchBar_Height;
+
   .imx-input-searchbar {
     flex-grow: 1;
   }

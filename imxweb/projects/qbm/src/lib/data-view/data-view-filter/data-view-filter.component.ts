@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -40,12 +40,20 @@ import { ExpressionFilter, SelectedFilter, SelectedFilterType } from '../data-vi
   selector: 'imx-data-view-filter',
   templateUrl: './data-view-filter.component.html',
   styleUrls: ['./data-view-filter.component.scss'],
+  standalone: false,
 })
 export class DataViewFilterComponent {
   /**
    * Input the DataViewSource service. It handles all the action and the data loading. This input property is required.
    */
   @Input({ required: true }) public dataSource: DataViewSource;
+  public filterCount: Signal<number> = computed(
+    () =>
+      (this.dataSource.selectedFilters().filter((filter) => filter.type !== SelectedFilterType.Keyword)?.length || 0) +
+      this.predefinedFiltersCount() +
+      (!!this.dataSource.filterTreeSelection() ? 1 : 0) +
+      (this.dataSource.externalFilters().length || 0),
+  );
   /**
    * This unique id is required to use only the related navigationStateChanged events from FilterWizardService.
    */
@@ -89,6 +97,23 @@ export class DataViewFilterComponent {
   });
 
   private filterType: Signal<string> = computed(() => this.dataSource.filterTreeData().Description || '');
+
+  private predefinedFiltersCount: Signal<number> = computed(() => {
+    let filtersCount: number = 0;
+    this.dataSource
+      .predefinedFilters()
+      .filter((filter) => !!filter?.CurrentValue)
+      .map((filter) => {
+        if (!!filter.Delimiter) {
+          filter.CurrentValue?.split(filter.Delimiter).map((splitedValue) => {
+            filtersCount++;
+          });
+        } else {
+          filtersCount++;
+        }
+      });
+    return filtersCount;
+  });
 
   constructor(
     public readonly filterService: FilterWizardService,
@@ -145,7 +170,7 @@ export class DataViewFilterComponent {
     const sidesheetRef = this.sidesheetService.open(FilterWizardComponent, {
       title: await this.translate.instant('#LDS#Heading Filter Data'),
       icon: 'filter',
-      width: calculateSidesheetWidth(800, 0.5),
+      width: calculateSidesheetWidth(850, 0.5),
       padding: '0px',
       testId: 'filter-wizard-sidesheet',
       disableClose: true,
@@ -199,7 +224,7 @@ export class DataViewFilterComponent {
    * Remove the filter wizard expression from the DataViewSource state signal and update calls DataViewSource updateState function.
    */
   public removeFilterWizard(): void {
-    this.dataSource.state.update((state) => ({ ...state, filter: state.filter?.filter((x) => x.Expression == null) }));
+    this.dataSource.selectedFilters.update((filters) => filters.filter((filter) => filter.type !== SelectedFilterType.Custom));
     this.dataSource.updateState();
   }
 }

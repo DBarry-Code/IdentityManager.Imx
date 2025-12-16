@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { DugReportEntity } from './dug-report-entity';
 import { DugReportService } from './dug-reports.service';
 
 @Component({
-  selector: 'imx-dug-reports',
-  templateUrl: './dug-reports.component.html',
-  styleUrls: ['./dug-reports.component.scss'],
+    selector: 'imx-dug-reports',
+    templateUrl: './dug-reports.component.html',
+    styleUrls: ['./dug-reports.component.scss'],
+    standalone: false
 })
 export class DugReportsComponent implements OnInit {
   @Input() public dugUid: string;

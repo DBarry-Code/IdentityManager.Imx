@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -37,10 +37,12 @@ import {
   DataModel,
   DisplayColumns,
   EntitySchema,
+  IEntity,
   TypedEntityCollectionData,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
 import {
+  buildAdditionalElementsString,
   BusyService,
   calculateSidesheetWidth,
   ClientPropertyForTableColumns,
@@ -59,6 +61,7 @@ import { PolicyViolationsService } from './policy-violations.service';
   templateUrl: './policy-violations.component.html',
   styleUrls: ['./policy-violations.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class PolicyViolationsComponent implements OnInit {
   @Input() public selectedCompanyPolicy: PortalPolicies;
@@ -103,13 +106,13 @@ export class PolicyViolationsComponent implements OnInit {
       this.entitySchema?.Columns.State,
       ...(!this.selectedCompanyPolicy
         ? [
-          {
-            ColumnName: 'actions',
-            Type: ValType.String,
-            afterAdditionals: true,
-            untranslatedDisplay: '#LDS#Approval decision',
-          },
-        ]
+            {
+              ColumnName: 'actions',
+              Type: ValType.String,
+              afterAdditionals: true,
+              untranslatedDisplay: '#LDS#Approval decision',
+            },
+          ]
         : []),
     ];
 
@@ -206,6 +209,10 @@ export class PolicyViolationsComponent implements OnInit {
       selectionChange: (selection: PolicyViolation[]) => this.onSelectionChanged(selection),
     };
     this.dataSource.init(dataViewInitParameters);
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns()!);
   }
 
   private updateFiltersFromRouteParams(params: Params): void {

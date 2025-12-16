@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,8 +42,9 @@ import { IdentityRuleViolationsMitigationControlComponent } from './identity-rul
 import { IdentityRuleViolationService } from './identity-rule-violations.service';
 
 @Component({
-  templateUrl: './identity-rule-violations.component.html',
-  styleUrls: ['./identity-rule-violations.component.scss'],
+    templateUrl: './identity-rule-violations.component.html',
+    styleUrls: ['./identity-rule-violations.component.scss'],
+    standalone: false
 })
 export class IdentityRuleViolationsComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

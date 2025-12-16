@@ -1,6 +1,6 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
-@import '../new-request-global.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use '../new-request-global.scss' as new-request-global;
 
 :host {
   .container {
@@ -12,7 +12,7 @@
   }
 
   .imx-request-title {
-    @include new-request-text(title);
+    @include mixins.new-request-text(title);
     margin-right: 8px;
   }
 
@@ -23,25 +23,26 @@
   .imx-card {
     padding: 10px 16px;
     padding-bottom: 0;
-    @include eui-elevation-1;
+    @include mixins.eui-elevation-1;
 
     &:hover {
-      @include eui-elevation-2;
+      @include mixins.eui-elevation-2;
     }
 
     .imx-label {
-      @include new-request-text(label);
+      @include mixins.new-request-text(label);
     }
 
     .imx-description {
-      @include new-request-text(description);
+      @include mixins.new-request-text(description);
     }
 
     .imx-content {
       display: flex;
       align-items: center;
+
       span {
-        @include new-request-text(emphasize);
+        @include mixins.new-request-text(emphasize);
         display: flex;
         align-items: center;
         height: 40px; //This is for the incoming button
@@ -57,48 +58,50 @@
 // Theming
 :host {
   .imx-card {
-    border: 1px solid $color-gray-20;
+    border: 1px solid eui.$color-gray-20;
 
     &:hover {
-      border: 1px solid $color-blue-60;
+      border: 1px solid eui.$color-blue-60;
     }
+
     .imx-label {
-      color: $color-gray-60;
+      color: eui.$color-gray-60;
     }
 
     .imx-content {
       span {
-        color: $color-blue-60;
+        color: eui.$color-blue-60;
       }
     }
   }
 
   .imx-icon-separator {
-    color: $color-gray-60;
+    color: eui.$color-gray-60;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-card {
-      border: 1px solid $color-gray-60;
+      border: 1px solid eui.$color-gray-60;
 
       &:hover {
-        border: 1px solid $color-blue-40;
+        border: 1px solid eui.$color-blue-40;
       }
+
       .imx-label {
-        color: $color-gray-20;
+        color: eui.$color-gray-20;
       }
 
       .imx-content {
         span {
-          color: $color-blue-40;
+          color: eui.$color-blue-40;
         }
       }
     }
 
     .imx-icon-separator {
-      color: $color-gray-20;
+      color: eui.$color-gray-20;
     }
   }
 }
@@ -106,32 +109,33 @@
 .eui-contrast-theme {
   :host {
     .imx-card {
-      border: 1px solid $color-gray-80;
+      border: 1px solid eui.$color-gray-80;
 
       &:hover {
-        border: 1px solid $color-blue-40;
+        border: 1px solid eui.$color-blue-40;
       }
+
       .imx-label {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
 
       .imx-content {
         span {
-          color: $color-blue-40;
+          color: eui.$color-blue-40;
         }
       }
     }
 
     .imx-icon-separator {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .imx-info-icon {
-      color: $color-blue-40;
-      @include ease-transition;
+      color: eui.$color-blue-40;
+      @include mixins.ease-transition;
 
       &:hover {
-        color: $color-orange-40;
+        color: eui.$color-orange-40;
       }
     }
   }

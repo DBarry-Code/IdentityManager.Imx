@@ -1,4 +1,16 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use '@angular/material' as mat;
+@use 'base/colors' as colors;
+@use 'base/mixins' as mixins;
+
 :host {
+  // Override badge offset to appear next to text
+  @include mat.badge-overrides(
+    (
+      container-offset: -18px 5px,
+    )
+  );
+
   .imx-sidesheet-content {
     overflow: hidden;
     padding: 0px;
@@ -11,7 +23,7 @@
       row-gap: 10px;
       overflow: hidden;
       height: 100%;
-      padding:20px;
+      padding: 20px;
       margin: 20px;
     }
   }
@@ -32,8 +44,23 @@
   .imx-no-items-container {
     flex: 1 1 auto;
   }
+  .imx-filter-tab-label{
+    display:flex;
+    align-items: center;
+    gap: 8px;
+    &-badge{
+      @include mixins.eui-elevation-4;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 16px;
+      min-width: 16px;
+      padding: 0 4px;
+      border-radius: 4px;
+      color: eui.$color-gray-0;
+      background: eui.$color-orange-60;
+    }
+  }
 }
-
 
 imx-sqlwizard {
   overflow: hidden;
@@ -46,4 +73,8 @@ imx-busy-indicator {
   flex: 1 1 auto;
   justify-content: center;
   align-items: center;
+}
+.imx-button-clear-filters{
+  display: flex;
+  gap: 4px;
 }

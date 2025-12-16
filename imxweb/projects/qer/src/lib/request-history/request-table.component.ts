@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -66,6 +66,7 @@ import { RequestHistoryService } from './request-history.service';
   styleUrls: ['./request-table.component.scss'],
   selector: 'imx-request-table',
   providers: [DataViewSource],
+  standalone: false,
 })
 export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
   public additional: IClientProperty[] = [];
@@ -262,8 +263,8 @@ export class RequestTableComponent implements OnInit, OnDestroy, OnChanges {
     this.updateCollectionParameters();
     const dataViewInitParameters: DataViewInitParameters<ItshopRequest> = {
       execute: this.isArchivedRequests
-        ? (): Promise<ExtendedTypedEntityCollection<ItshopRequest, PwoExtendedData>> =>
-            this.requestHistoryService.getArchivedRequests(this.userUid, this.uidRecipient)
+        ? (_: CollectionLoadParameters, signal: AbortSignal): Promise<ExtendedTypedEntityCollection<ItshopRequest, PwoExtendedData>> =>
+            this.requestHistoryService.getArchivedRequests(this.userUid, this.uidRecipient, signal)
         : async (
             params: CollectionLoadParameters,
             signal: AbortSignal,

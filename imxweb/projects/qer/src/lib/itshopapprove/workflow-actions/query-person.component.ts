@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LdsReplacePipe } from 'qbm';
 import { QerApiService } from '../../qer-api-client.service';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  templateUrl: './query-person.component.html',
-  selector: 'imx-itshop-queryperson',
+    templateUrl: './query-person.component.html',
+    selector: 'imx-itshop-queryperson',
+    standalone: false
 })
 export class QueryPersonComponent {
   public Notice: IWriteValue<string>;

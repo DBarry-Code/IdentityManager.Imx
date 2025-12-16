@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { Component, effect, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, computed, effect, EventEmitter, Input, OnInit, Output, Signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FilterType } from '@imx-modules/imx-qbm-dbts';
 import { debounceTime } from 'rxjs/operators';
@@ -34,12 +34,17 @@ import { KeywordFilter, SelectedFilterType } from '../data-view.interface';
 @Component({
   selector: 'imx-data-view-search',
   templateUrl: './data-view-search.component.html',
+  standalone: false,
 })
 export class DataViewSearchComponent implements OnInit {
   /**
    * Input the dataViewSource service. It handles all the action and the data loading. This input property is required.
    */
   @Input({ required: true }) public dataSource: DataViewSource;
+  /**
+   * Input the search form field placeholder.
+   */
+  @Input() public searchPlaceholder: string = '#LDS#Search';
   /**
    * Event to emit all the search params on change.
    */
@@ -48,6 +53,10 @@ export class DataViewSearchComponent implements OnInit {
    * FormControl to tracks the value and valueChange on eui-search component.
    */
   public searchControl: FormControl<string> = new FormControl('', { nonNullable: true });
+  /**
+   * Signal about grouping is applied.
+   */
+  public isGroupingApplied: Signal<boolean> = computed(() => !!this.dataSource.groupByColumn());
   /**
    * Private reset property to not call search accidentally.
    */
@@ -79,7 +88,6 @@ export class DataViewSearchComponent implements OnInit {
       this.reset = false;
       return;
     }
-
     this.dataSource.setKeywords(keywords);
   }
 

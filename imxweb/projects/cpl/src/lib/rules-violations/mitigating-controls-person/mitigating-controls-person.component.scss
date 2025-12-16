@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   height: 100%;
@@ -78,16 +78,16 @@
 :host {
   .imx-no-results {
     p {
-      color: $color-gray-50;
+      color: eui.$color-gray-50;
     }
   }
 
   .imx-no-mitigating-controls {
-    color: $color-gray-50;
+    color: eui.$color-gray-50;
   }
 
   .mitigating-control {
-    border-bottom: 1px solid $color-gray-50;
+    border-bottom: 1px solid eui.$color-gray-50;
   }
 }
 
@@ -95,15 +95,15 @@
   :host {
     .imx-no-results {
       p {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
     .imx-no-mitigating-controls {
-      color: $color-gray-10;
+      color: eui.$color-gray-10;
     }
 
     .mitigating-control {
-      border-bottom: 1px solid $color-gray-10;
+      border-bottom: 1px solid eui.$color-gray-10;
     }
   }
 }
@@ -112,15 +112,15 @@
   :host {
     .imx-data-no-results {
       p {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
     .imx-no-mitigating-controls {
-      color: $color-gray-0;
+      color: eui.$color-gray-0;
     }
 
     .mitigating-control {
-      border-bottom: 1px solid $color-gray-0;
+      border-bottom: 1px solid eui.$color-gray-0;
     }
   }
 }

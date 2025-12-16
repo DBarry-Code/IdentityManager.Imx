@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,8 +52,8 @@ export class LimitedValuesContainer {
   /**
    * Determines, whether the value is part of the limited value range or not
    */
-  public isNotInLimitedValueRange(value: string | number): boolean {
-    return !((value || '') === (this.getNullValue() || '')) && !this.contains(value);
+  public isNotInLimitedValueRange(value: string | number | undefined): boolean {
+    return value !== undefined && !(value === (this.getNullValue() || '')) && !this.contains(value);
   }
 
   /**

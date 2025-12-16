@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,7 +31,8 @@ import { DashboardService, PendingItemsType, UserModelService } from 'qer';
 import { CplPermissionsService } from '../rules/admin/cpl-permissions.service';
 
 @Component({
-  templateUrl: './dashboard-plugin.component.html',
+    templateUrl: './dashboard-plugin.component.html',
+    standalone: false
 })
 export class DashboardPluginComponent implements OnInit {
   public pendingItems: PendingItemsType;

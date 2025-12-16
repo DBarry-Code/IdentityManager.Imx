@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 /* Elemental UI */
 eui-alert {
@@ -53,7 +53,7 @@ eui-alert {
 
   &-flex {
     &-column {
-      @include flex-column-container();
+      @include mixins.flex-column-container();
 
       &-end {
         @extend .imx-alert-flex-column;
@@ -69,7 +69,7 @@ eui-alert {
   }
 
   &-shadow {
-    @include eui-elevation-1;
+    @include mixins.eui-elevation-1;
   }
 
   &-content {

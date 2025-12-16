@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,9 +27,10 @@
 import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 @Component({
-  templateUrl: './tile.component.html',
-  selector: 'imx-tile',
-  styleUrls: ['./tile.component.scss'],
+    templateUrl: './tile.component.html',
+    selector: 'imx-tile',
+    styleUrls: ['./tile.component.scss'],
+    standalone: false
 })
 export class TileComponent {
   @Input() public caption: string;

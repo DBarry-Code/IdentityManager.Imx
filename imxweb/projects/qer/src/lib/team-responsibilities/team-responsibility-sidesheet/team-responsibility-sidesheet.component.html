@@ -13,9 +13,11 @@
         }
       </ng-template>
       <div eui-sidesheet-content>
-        <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true" *ngIf="!data.extendedData?.OtherIdentities?.length">
-          <span> {{ '#LDS#There are no other identities who are also responsible for the object.' | translate }} </span>
-        </eui-alert>
+        @if (!data.extendedData?.OtherIdentities?.length) {
+          <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true">
+            <span> {{ '#LDS#There are no other identities who are also responsible for the object.' | translate }} </span>
+          </eui-alert>
+        }
         @if (!!data.extendedData?.OtherIdentities?.length) {
           <mat-card>
             <imx-data-view-toolbar [dataSource]="dataSource" [showSettings]="false"></imx-data-view-toolbar>
@@ -87,9 +89,9 @@
 
 <div eui-sidesheet-actions>
   @if (!isDirectResponsibility()) {
-    <button mat-stroked-button color="primary" (click)="onAssignResponsibilities()" class="justify-start">
-      <eui-icon icon="useradd"></eui-icon>
-      {{ '#LDS#Assign additional identities' | translate }}
+    <button mat-stroked-button color="primary" (click)="onManageResponsibility()" class="justify-start">
+      <eui-icon icon="role"></eui-icon>
+      {{ '#LDS#Manage my reports responsible for the object' | translate }}
     </button>
   }
   <button mat-flat-button color="primary" (click)="closeSidesheet()">

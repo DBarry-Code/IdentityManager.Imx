@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { Router } from '@angular/router';
 import { RelatedApplicationsService } from '../related-applications.service';
 
 @Component({
-  selector: 'imx-related-application-menu-item',
-  templateUrl: './related-application-menu-item.component.html',
-  styleUrls: ['./related-application-menu-item.component.scss'],
+    selector: 'imx-related-application-menu-item',
+    templateUrl: './related-application-menu-item.component.html',
+    styleUrls: ['./related-application-menu-item.component.scss'],
+    standalone: false
 })
 export class RelatedApplicationMenuItemComponent implements OnInit {
   showButton = false;

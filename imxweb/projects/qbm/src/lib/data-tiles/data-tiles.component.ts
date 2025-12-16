@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ import { DataTileMenuItem } from './data-tile-menu-item.interface';
  * Collaborates with a DST (datasource toolbar).
  */
 @Component({
-  selector: 'imx-data-tiles',
-  templateUrl: './data-tiles.component.html',
-  styleUrls: ['./data-tiles.component.scss'],
+    selector: 'imx-data-tiles',
+    templateUrl: './data-tiles.component.html',
+    styleUrls: ['./data-tiles.component.scss'],
+    standalone: false
 })
 export class DataTilesComponent implements OnChanges, OnDestroy {
   /**

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,6 +26,9 @@
 
 import { ErrorHandler, Injectable } from '@angular/core';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Injectable()
 export class UserActionService {
   constructor(private errorHandler: ErrorHandler) {}

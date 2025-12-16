@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { ServiceItemsEditService } from '../../service-items-edit/service-items-
 import { ServiceItemsEditFormComponent } from '../service-items-edit-form/service-items-edit-form.component';
 
 @Component({
-  selector: 'imx-service-items-edit-sidesheet',
-  templateUrl: './service-items-edit-sidesheet.component.html',
-  styleUrls: ['./service-items-edit-sidesheet.component.scss'],
+    selector: 'imx-service-items-edit-sidesheet',
+    templateUrl: './service-items-edit-sidesheet.component.html',
+    styleUrls: ['./service-items-edit-sidesheet.component.scss'],
+    standalone: false
 })
 export class ServiceItemsEditSidesheetComponent implements OnDestroy {
   @ViewChild('serviceItemsEditForm') public serviceItemsEditForm: ServiceItemsEditFormComponent;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { Approval } from '../approval';
 import { WorkflowActionService } from '../workflow-action/workflow-action.service';
 
 @Component({
-  selector: 'imx-approvals-sidesheet',
-  templateUrl: './approvals-sidesheet.component.html',
-  styleUrls: ['./approvals-sidesheet.component.scss'],
+    selector: 'imx-approvals-sidesheet',
+    templateUrl: './approvals-sidesheet.component.html',
+    styleUrls: ['./approvals-sidesheet.component.scss'],
+    standalone: false
 })
 export class ApprovalsSidesheetComponent implements OnDestroy, OnInit {
   public readonly hasPeerGroupAnalysis: boolean;
@@ -91,22 +92,6 @@ export class ApprovalsSidesheetComponent implements OnDestroy, OnInit {
 
   public canWithdrawInquiry(): boolean {
     return this.data.pwo.IsReserved.value && this.data.pwo.hasAskedLastQuestion && this.data.pwo.hasOpenQuestions;
-  }
-
-  public async acceptTermsOfUse(): Promise<void> {
-    /* TODO #241926
-    lock DoApprove as long as MustApproveTermsOfUse is true for a PWOToDecide
-
-    QER_ITShop_AcceptTermsOfUse({
-        HeaderText: '#LDS#You must accept the terms of use before proceeding.',
-        AccProductFilter: this.SelectedRequest.UID_AccProduct.value,
-        OnTermsOfUseAccepted: () => {
-            this.session.Client.termsofuse_accept_post(bla);
-            // TODO later: trigger reload of decision history for this request
-            this.router.navigate(["form:Approvals"], {});
-        }
-    });
-    */
   }
 
   public canDenyApproval(): boolean {

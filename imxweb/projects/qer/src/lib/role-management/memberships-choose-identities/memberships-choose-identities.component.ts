@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -46,9 +46,10 @@ import { IdentitiesService } from './identities.service';
 import { NotRequestableMembershipsComponent } from './not-requestable-memberships/not-requestable-memberships.component';
 
 @Component({
-  selector: 'imx-memberships-choose-identities',
-  templateUrl: './memberships-choose-identities.component.html',
-  styleUrls: ['./memberships-choose-identities.component.scss', '../sidesheet.scss'],
+    selector: 'imx-memberships-choose-identities',
+    templateUrl: './memberships-choose-identities.component.html',
+    styleUrls: ['./memberships-choose-identities.component.scss', '../sidesheet.scss'],
+    standalone: false
 })
 export class MembershipsChooseIdentitiesComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings | undefined;

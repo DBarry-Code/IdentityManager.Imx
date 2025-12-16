@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,8 +24,8 @@
  *
  */
 
-import { DOCUMENT } from '@angular/common';
-import { Component, ErrorHandler, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+
+import { Component, ErrorHandler, Inject, OnDestroy, OnInit, ViewChild, DOCUMENT } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatTab } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -54,8 +54,9 @@ import { MailInfoType, MailSubscriptionService } from './mailsubscription.servic
 import { SecurityKeysService } from './security-keys/security-keys.service';
 
 @Component({
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    standalone: false
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @ViewChild('passwordQuestionTab') public set passwordTab(tab: MatTab) {

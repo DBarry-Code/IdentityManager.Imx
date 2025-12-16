@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,9 +38,10 @@ import { DuplicateCheckParameter } from './duplicate-check-parameter.interface';
 import { DuplicatesSidesheetComponent } from './duplicates-sidesheet/duplicates-sidesheet.component';
 
 @Component({
-  selector: 'imx-create-new-identity',
-  templateUrl: './create-new-identity.component.html',
-  styleUrls: ['./create-new-identity.component.scss'],
+    selector: 'imx-create-new-identity',
+    templateUrl: './create-new-identity.component.html',
+    styleUrls: ['./create-new-identity.component.scss'],
+    standalone: false
 })
 export class CreateNewIdentityComponent implements OnDestroy {
   public identityForm = new UntypedFormGroup({});

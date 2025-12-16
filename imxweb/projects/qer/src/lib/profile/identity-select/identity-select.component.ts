@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,11 +29,13 @@ import { UntypedFormControl } from '@angular/forms';
 
 import { EuiSelectOption } from '@elemental-ui/core';
 import { IEntity } from '@imx-modules/imx-qbm-dbts';
+import { ElementalUiConfigService } from 'qbm';
 
 @Component({
   selector: 'imx-identity-select',
   templateUrl: './identity-select.component.html',
   styleUrls: ['./identity-select.component.scss'],
+  standalone: false
 })
 export class IdentitySelectComponent implements OnChanges {
   public readonly control = new UntypedFormControl(undefined);
@@ -48,7 +50,9 @@ export class IdentitySelectComponent implements OnChanges {
 
   private selectedId: string;
 
-  constructor() {
+  constructor(
+    public elementalUiConfigService: ElementalUiConfigService,
+  ) {
     this.filter = this.filter.bind(this);
   }
 

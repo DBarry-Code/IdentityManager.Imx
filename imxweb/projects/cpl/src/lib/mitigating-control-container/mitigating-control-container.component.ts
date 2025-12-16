@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,7 +27,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { EuiSelectOption } from '@elemental-ui/core';
-import { ConfirmationService } from 'qbm';
+import { ConfirmationService, ElementalUiConfigService } from 'qbm';
 import { ExtendedDeferredOperationsData } from '../request/compliance-violation-details/edit-mitigating-controls/mitigating-controls-request/extended-deferred-operations-data';
 import { RequestMitigatingControls } from '../request/compliance-violation-details/edit-mitigating-controls/mitigating-controls-request/request-mitigating-controls';
 import { PersonMitigatingControls } from '../rules-violations/mitigating-controls-person/person-mitigating-controls';
@@ -36,6 +36,7 @@ import { PersonMitigatingControls } from '../rules-violations/mitigating-control
   selector: 'imx-mitigating-control-container',
   templateUrl: './mitigating-control-container.component.html',
   styleUrls: ['../mitigating-controls-common.scss'],
+  standalone: false
 })
 export class MitigatingControlContainerComponent {
   @Input() public mControls: Array<RequestMitigatingControls | ExtendedDeferredOperationsData | PersonMitigatingControls> = [];
@@ -49,7 +50,8 @@ export class MitigatingControlContainerComponent {
   constructor(
     private readonly cd: ChangeDetectorRef,
     private readonly confirmationService: ConfirmationService,
-  ) {}
+    public elementalUiConfigService: ElementalUiConfigService,
+  ) { }
 
   public filter = (option: EuiSelectOption, searchInputValue: string): boolean =>
     option.value.toString().toUpperCase() === searchInputValue.toUpperCase();

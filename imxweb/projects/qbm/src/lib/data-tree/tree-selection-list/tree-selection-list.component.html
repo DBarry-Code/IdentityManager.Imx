@@ -2,17 +2,20 @@
   <mat-card class="imx-dialog-content">
     <mat-list dense role="list" data-imx-identifier="tree-selection-list">
       <div class="imx-category-part">
-        <div *ngFor="let item of items">
-          <h2>{{ item.tableName }}</h2>
-          <mat-list-item
-            class="imx-selected-item"
-            [attr.data-imx-identifier]="'tree-selection-list-result-' + entity.GetKeys()[0]"
-            *ngFor="let entity of item.entities"
-            role="listitem"
-          >
-            {{ entity.GetDisplayLong() }}
-          </mat-list-item>
-        </div>
+        @for (item of items; track item) {
+          <div>
+            <h2>{{ item.tableName }}</h2>
+            @for (entity of item.entities; track entity) {
+              <mat-list-item
+                class="imx-selected-item"
+                [attr.data-imx-identifier]="'tree-selection-list-result-' + entity.GetKeys()[0]"
+                role="listitem"
+                >
+                {{ entity.GetDisplayLong() }}
+              </mat-list-item>
+            }
+          </div>
+        }
       </div>
     </mat-list>
   </mat-card>

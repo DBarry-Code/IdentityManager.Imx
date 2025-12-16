@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,9 +52,10 @@ import { SoftwareSidesheetComponent } from './software-sidesheet/software-sidesh
 import { SoftwareService } from './software.service';
 
 @Component({
-  templateUrl: './software.component.html',
-  styleUrls: ['./software.component.scss'],
-  providers: [DataViewSource],
+    templateUrl: './software.component.html',
+    styleUrls: ['./software.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class SoftwareComponent implements OnInit, SideNavigationComponent {
   @Input() public contextId: HelpContextualValues;

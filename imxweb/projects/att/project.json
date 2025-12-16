@@ -26,12 +26,6 @@
         "development": {
           "tsConfig": "projects/att/tsconfig.lib.json"
         },
-        "dynamic": {
-          "project": "projects/att/ng-package.dynamic.json"
-        },
-        "dynamic-pwd": {
-          "project": "projects/att/ng-package.dynamic-pwd.json"
-        },
         "remote-dev": {
           "tsConfig": "projects/att/tsconfig.lib.json"
         },

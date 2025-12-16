@@ -1,42 +1,50 @@
 <div eui-sidesheet-content>
-  <eui-alert *ngIf="data.orderStatus" class="imx-alert-shadow" type="info" [condensed]="true" [colored]="true" [dismissable]="true">
-    {{ data.orderStatus.statusDisplay }}
-  </eui-alert>
+  @if (data.orderStatus) {
+    <eui-alert class="imx-alert-shadow" type="info" [condensed]="true" [colored]="true" [dismissable]="true">
+      {{ data.orderStatus.statusDisplay }}
+    </eui-alert>
+  }
   <mat-card class="imx-card-border">
-    <mat-tab-group mat-stretch-tabs="false" (selectedTabChange)="onTabChange($event)">
+    <mat-tab-group mat-stretch-tabs="false">
       <mat-tab label="{{ '#LDS#Heading Details' | translate }}">
         <div class="details-container">
           <div class="details-text">
             <!-- the following properties cannot be customized in the Adminportal because they are calculated properties -->
-            <div class="details-item" *ngFor="let fixedProperty of fixedProductProperties">
-              <div class="details-label">{{ getCaption(fixedProperty) }}:</div>
-              <div class="details-value {{ getCssClass(fixedProperty) }}">
-                <ng-template *ngTemplateOutlet="formatValue; context: { $implicit: getDisplay(fixedProperty) }"></ng-template>
+            @for (fixedProperty of fixedProductProperties; track fixedProperty) {
+              <div class="details-item">
+                <div class="details-label">{{ getCaption(fixedProperty) }}:</div>
+                <div class="details-value {{ getCssClass(fixedProperty) }}">
+                  <ng-template *ngTemplateOutlet="formatValue; context: { $implicit: getDisplay(fixedProperty) }"></ng-template>
+                </div>
               </div>
-            </div>
+            }
             <!-- the following properties can be customized in the Adminportal -> ServerConfig/ITShopConfig/AccProductProperties -->
-            <div class="details-item" *ngFor="let property of accProductProperties">
-              <div class="details-label">{{ getCaption(property) }}:</div>
-              <div class="details-value {{ getCssClass(property) }}">
-                <ng-template *ngTemplateOutlet="formatValue; context: { $implicit: getDisplay(property) }"></ng-template>
+            @for (property of accProductProperties; track property) {
+              <div class="details-item">
+                <div class="details-label">{{ getCaption(property) }}:</div>
+                <div class="details-value {{ getCssClass(property) }}">
+                  <ng-template *ngTemplateOutlet="formatValue; context: { $implicit: getDisplay(property) }"></ng-template>
+                </div>
               </div>
+            }
+          </div>
+          @if (data.imageUrl) {
+            <div class="details-image">
+              <img [src]="data.imageUrl" [alt]="'#LDS#Product image' | translate" />
             </div>
-          </div>
-          <div *ngIf="data.imageUrl" class="details-image">
-            <img [src]="data.imageUrl" [alt]="'#LDS#Product image' | translate" />
-          </div>
+          }
         </div>
       </mat-tab>
-      <mat-tab *ngIf="hasEntitlements" label="{{ '#LDS#Heading Entitlements' | translate }}">
-        <div class="tab-container">
-          <imx-new-request-product-entitlements [uidAccProduct]="data.item.GetEntity().GetKeys()[0]"></imx-new-request-product-entitlements>
-        </div>
-      </mat-tab>
+      @if (hasEntitlements) {
+        <mat-tab label="{{ '#LDS#Heading Entitlements' | translate }}">
+          <imx-help-contextual [contextId]="entitlementInfoContextId" [title]="'#LDS#Information about this tab:'"></imx-help-contextual>
+            <div class="tab-container">
+            <imx-new-request-product-entitlements [uidAccProduct]="data.item.GetEntity().GetKeys()[0]"></imx-new-request-product-entitlements>
+          </div>
+        </mat-tab>
+      }
     </mat-tab-group>
   </mat-card>
-  <span class="entitlement-info" *ngIf="onEntitlements">
-    {{ ldsEntitlementInfo | translate }}
-  </span>
 </div>
 
 <div eui-sidesheet-actions>

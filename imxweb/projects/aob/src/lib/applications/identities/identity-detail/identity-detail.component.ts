@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,10 +39,11 @@ import { IdentityDetailData } from '../identity-detail-data';
 import { IdentityService } from '../identity.service';
 
 @Component({
-  selector: 'imx-identity-detail',
-  templateUrl: './identity-detail.component.html',
-  styleUrls: ['./identity-detail.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-identity-detail',
+    templateUrl: './identity-detail.component.html',
+    styleUrls: ['./identity-detail.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class IdentityDetailComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

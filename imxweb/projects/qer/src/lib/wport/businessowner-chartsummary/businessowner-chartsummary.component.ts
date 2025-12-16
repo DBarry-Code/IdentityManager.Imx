@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -40,9 +40,10 @@ import { UserModelService } from '../../user/user-model.service';
 import { DashboardService } from '../start/dashboard.service';
 
 @Component({
-  templateUrl: './businessowner-chartsummary.component.html',
-  selector: 'imx-businessowner-chartsummary',
-  styleUrls: ['./businessowner-chartsummary.component.scss'],
+    templateUrl: './businessowner-chartsummary.component.html',
+    selector: 'imx-businessowner-chartsummary',
+    styleUrls: ['./businessowner-chartsummary.component.scss'],
+    standalone: false
 })
 export class BusinessOwnerChartSummaryComponent implements OnInit {
   public reports: PortalPersonReports[];

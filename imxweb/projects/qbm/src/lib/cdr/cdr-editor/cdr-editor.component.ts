@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -55,9 +55,10 @@ import { ColumnDependentReference } from '../column-dependent-reference.interfac
  * </form
  */
 @Component({
-  selector: 'imx-cdr-editor',
-  templateUrl: './cdr-editor.component.html',
-  styleUrls: ['./cdr-editor.component.scss'],
+    selector: 'imx-cdr-editor',
+    templateUrl: './cdr-editor.component.html',
+    styleUrls: ['./cdr-editor.component.scss'],
+    standalone: false
 })
 export class CdrEditorComponent implements OnChanges {
   public editor: CdrEditor | undefined;

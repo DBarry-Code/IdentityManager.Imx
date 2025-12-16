@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,8 +53,9 @@ import { Policy } from '../policy.interface';
 import { PolicyService } from '../policy.service';
 
 @Component({
-  templateUrl: './edit-master-data.component.html',
-  styleUrls: ['./edit-master-data.component.scss'],
+    templateUrl: './edit-master-data.component.html',
+    styleUrls: ['./edit-master-data.component.scss'],
+    standalone: false
 })
 export class EditMasterDataComponent implements OnInit, OnDestroy {
   public readonly formGroup: UntypedFormGroup;

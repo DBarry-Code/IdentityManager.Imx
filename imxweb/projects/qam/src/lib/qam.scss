@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 .trusteetype {
   font-style: italic;
@@ -19,14 +19,14 @@
 }
 
 .imx-flex-line {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
 }
 
 .eui-light-theme {
   :host {
     .qam-tree-content {
-      background-color: $color-blue-10;
-      border: 1px solid $color-blue-20;
+      background-color: eui.$color-blue-10;
+      border: 1px solid eui.$color-blue-20;
     }
   }
 }
@@ -34,8 +34,8 @@
 .eui-dark-theme {
   :host {
     .qam-tree-content {
-      background-color: $color-blue-90;
-      border: 1px solid $color-blue-80;
+      background-color: eui.$color-blue-90;
+      border: 1px solid eui.$color-blue-80;
     }
   }
 }
@@ -43,8 +43,8 @@
 .eui-contrast-theme {
   :host {
     .qam-tree-content {
-      background-color: $color-gray-90;
-      border: 1px solid $color-gray-0;
+      background-color: eui.$color-gray-90;
+      border: 1px solid eui.$color-gray-0;
     }
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,15 +33,18 @@ import { CartItemLogic } from './cart-item-logic.interface';
 
 /** Default display component for cart items; simply displaying the service item. */
 @Component({
-  template: `<div data-imx-identifier="default-cart-item-display">{{ cartItem.GetEntity().GetDisplay() }}</div>
+    template: `<div data-imx-identifier="default-cart-item-display">{{ cartItem.GetEntity().GetDisplay() }}</div>
     <div subtitle>
       <span>{{ '#LDS#Recipient' | translate }}: </span>
       <span data-imx-identifier="default-cart-item-recipient">{{ cartItem.UID_PersonOrdered?.Column?.GetDisplayValue() }}</span>
     </div>
-    <div *ngIf="parameterizedText">
-      <imx-parameterized-text [parameterizedText]="parameterizedText"></imx-parameterized-text>
-    </div>`,
-  styleUrls: ['./default-cart-item-display.component.scss'],
+    @if (parameterizedText) {
+      <div>
+        <imx-parameterized-text [parameterizedText]="parameterizedText"></imx-parameterized-text>
+      </div>
+    }`,
+    styleUrls: ['./default-cart-item-display.component.scss'],
+    standalone: false
 })
 export class DefaultCartItemDisplayComponent implements CartItemLogic {
   private _cartItem: PortalCartitem;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { CollectionLoadParameters, EntityCollectionData, FilterTreeData, TypedEn
 import { BusyService } from 'qbm';
 
 @Component({
-  templateUrl: './member-selector.component.html',
-  styleUrls: ['./member-selector.component.scss'],
+    templateUrl: './member-selector.component.html',
+    styleUrls: ['./member-selector.component.scss'],
+    standalone: false
 })
 export class MemberSelectorComponent {
   public selectedItems: TypedEntity[] = [];

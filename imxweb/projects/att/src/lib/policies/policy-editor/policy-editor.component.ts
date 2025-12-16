@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -59,9 +59,10 @@ import { SelectedObjectsComponent } from '../selected-objects/selected-objects.c
 import { FilterModel } from './filter-model';
 
 @Component({
-  templateUrl: './policy-editor.component.html',
-  selector: 'imx-policy-editor',
-  styleUrls: ['./policy-editor.component.scss'],
+    templateUrl: './policy-editor.component.html',
+    selector: 'imx-policy-editor',
+    styleUrls: ['./policy-editor.component.scss'],
+    standalone: false
 })
 export class PolicyEditorComponent implements OnInit, OnDestroy, AfterViewInit {
   public parametersReady: boolean;

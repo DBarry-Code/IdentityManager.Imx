@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,9 +31,10 @@ import { BulkItem } from './bulk-item/bulk-item';
 import { BulkItemComponent } from './bulk-item/bulk-item.component';
 
 @Component({
-  selector: 'imx-bulk-editor',
-  templateUrl: './bulk-property-editor.component.html',
-  styleUrls: ['./bulk-property-editor.component.scss'],
+    selector: 'imx-bulk-editor',
+    templateUrl: './bulk-property-editor.component.html',
+    styleUrls: ['./bulk-property-editor.component.scss'],
+    standalone: false
 })
 export class BulkPropertyEditorComponent implements OnChanges {
   public formGroup = new UntypedFormGroup({});

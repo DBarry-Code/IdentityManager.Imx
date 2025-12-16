@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -56,6 +56,7 @@ export class CartItemCloneService {
       title: await this.translate.get('#LDS#Heading Request for Multiple Identities').toPromise(),
       subTitle: item.accProduct.DisplayValue,
       width: calculateSidesheetWidth(800),
+      padding: '0px',
       testId: 'request-for-multiple-identities-sidesheet',
       data: {
         fkData: {

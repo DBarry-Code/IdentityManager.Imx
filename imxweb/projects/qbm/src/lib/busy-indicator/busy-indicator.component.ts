@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,8 +27,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'imx-busy-indicator',
-  templateUrl: './busy-indicator.component.html',
-  styleUrls: ['./busy-indicator.component.scss'],
+    selector: 'imx-busy-indicator',
+    templateUrl: './busy-indicator.component.html',
+    styleUrls: ['./busy-indicator.component.scss'],
+    standalone: false
 })
 export class BusyIndicatorComponent {}

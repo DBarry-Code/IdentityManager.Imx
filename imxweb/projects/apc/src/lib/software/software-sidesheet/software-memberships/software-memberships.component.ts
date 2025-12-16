@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,10 +45,11 @@ import { SourceDetectiveSidesheetComponent, SourceDetectiveSidesheetData, Source
 import { SoftwareService } from '../../software.service';
 
 @Component({
-  selector: 'imx-software-memberships',
-  templateUrl: './software-memberships.component.html',
-  styleUrls: ['./software-memberships.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-software-memberships',
+    templateUrl: './software-memberships.component.html',
+    styleUrls: ['./software-memberships.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class SoftwareMembershipsComponent implements OnChanges {
   public DisplayColumns = DisplayColumns;

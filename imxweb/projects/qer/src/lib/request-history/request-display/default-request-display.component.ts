@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { ParameterizedText } from 'qbm';
 import { RequestDisplayInterface } from './request-display.interface';
 
 @Component({
-  templateUrl: './default-request-display.component.html',
-  styleUrls: ['./default-request-display.component.scss'],
+    templateUrl: './default-request-display.component.html',
+    styleUrls: ['./default-request-display.component.scss'],
+    standalone: false
 })
 export class DefaultRequestDisplayComponent implements RequestDisplayInterface {
   @Input() public readonly isReadOnly: boolean;

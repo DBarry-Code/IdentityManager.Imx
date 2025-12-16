@@ -1,39 +1,39 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
-.imx-responsibilities{
+.imx-responsibilities {
   height: 100%;
-  &-subtitle{
-    color: $color-gray-60;
+  &-subtitle {
+    color: eui.$color-gray-60;
     font-size: 14px;
   }
-  &-type{
+  &-type {
     font-size: 14px;
-    &-title{
-      color: $color-gray-60;
+    &-title {
+      color: eui.$color-gray-60;
     }
-    &-name{
+    &-name {
       font-weight: 600;
     }
   }
 
-  .eui-icon{
+  .eui-icon {
     margin-right: 4px;
     font-size: 14px;
   }
-  .imx-action-needed{
-    display:flex;
+  .imx-action-needed {
+    display: flex;
     gap: 16px;
     line-height: 16px;
     font-size: 14px;
-    color: $color-gray-0;
-    background-color: $color-orange-60;
+    color: eui.$color-gray-0;
+    background-color: eui.$color-orange-60;
     margin-bottom: 16px;
     border-radius: 4px;
     padding: 6px 8px;
   }
-  .imx-action-needed-column{
-    color: $color-orange-60;
-    eui-icon{
+  .imx-action-needed-column {
+    color: eui.$color-orange-60;
+    eui-icon {
       margin-left: 8px;
     }
   }
@@ -41,13 +41,13 @@
 
 .eui-dark-theme {
   :host {
-    .imx-responsibilities{
-      &-subtitle{
-        color: $color-gray-10;
+    .imx-responsibilities {
+      &-subtitle {
+        color: eui.$color-gray-10;
       }
-      &-type{
-        &-title{
-          color: $color-gray-60;
+      &-type {
+        &-title {
+          color: eui.$color-gray-60;
         }
       }
     }
@@ -56,13 +56,13 @@
 
 .eui-contrast-theme {
   :host {
-    .imx-responsibilities{
-      &-subtitle{
-        color: $color-gray-0;
+    .imx-responsibilities {
+      &-subtitle {
+        color: eui.$color-gray-0;
       }
-      &-type{
-        &-title{
-          color: $color-gray-60;
+      &-type {
+        &-title {
+          color: eui.$color-gray-60;
         }
       }
     }

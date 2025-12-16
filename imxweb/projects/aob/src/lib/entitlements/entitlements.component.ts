@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -77,10 +77,11 @@ import { EntitlementsService } from './entitlements.service';
  * @see unassign
  */
 @Component({
-  selector: 'imx-entitlements',
-  templateUrl: './entitlements.component.html',
-  styleUrls: ['./entitlements.component.scss'],
-  providers: [DataViewSource],
+    selector: 'imx-entitlements',
+    templateUrl: './entitlements.component.html',
+    styleUrls: ['./entitlements.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class EntitlementsComponent implements OnChanges {
   /** The {@link PortalApplication|application} */

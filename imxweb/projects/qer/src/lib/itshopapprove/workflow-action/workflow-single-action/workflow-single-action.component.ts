@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,6 +43,7 @@ import { WorkflowActionEdit } from '../workflow-action-edit.interface';
   selector: 'imx-workflow-single-action',
   templateUrl: './workflow-single-action.component.html',
   styleUrls: ['./workflow-single-action.component.scss'],
+  standalone: false,
 })
 export class WorkflowSingleActionComponent implements OnInit {
   /**
@@ -103,14 +104,16 @@ export class WorkflowSingleActionComponent implements OnInit {
   constructor(
     private stepService: DecisionStepSevice,
     private approvalService: ApprovalsService,
-  ) {}
+  ) { }
 
+  public exceptionDateCdr: ColumnDependentReference | undefined;
   /**
    * @ignore since this is only an internal component
    *
    * Sets up the {@link columns} to be displayed/edited during OnInit lifecycle hook.
    */
   public async ngOnInit(): Promise<void> {
+    this.stepService.isEscalationApprover = this.data.isInEscalationView ?? false;
     this.request = this.data.requests[0] as Approval;
 
     if (this.request?.OrderState?.Column) {
@@ -125,10 +128,6 @@ export class WorkflowSingleActionComponent implements OnInit {
       this.columns.push(new BaseCdr(this.request.ValidFrom.Column));
     }
 
-    if (this.data.showValidDate?.validUntil && this.request.OrderState.value !== 'OrderProlongate') {
-      this.columns.push(new BaseCdr(this.request.ValidUntil.Column));
-    }
-
     if (this.request.ValidUntilProlongation?.value && this.request.OrderState.value === 'OrderProlongate') {
       this.columns.push(new BaseCdr(this.request.ValidUntilProlongation.Column));
     }
@@ -140,9 +139,9 @@ export class WorkflowSingleActionComponent implements OnInit {
         const interactiveColumns = entityWrapper.parameterCategoryColumns.map((item) => item.column);
         interactiveColumns.forEach((pCol) => {
           pCol.ColumnChanged.subscribe(() => {
-            const originalColumn = this.request.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName);
-            if (originalColumn && originalColumn.GetMetadata().CanEdit()) {
-              originalColumn.PutValue(pCol.GetType() === ValType.Date ? new Date(pCol.GetValue()) : pCol.GetValue());
+            const value = this.request.parameterColumns.find((elem) => elem.ColumnName === pCol.ColumnName);
+            if (value && value.GetMetadata().CanEdit()) {
+              value.PutValue(pCol.GetType() === ValType.Date ? new Date(pCol.GetValue()) : pCol.GetValue());
             }
           });
           this.requestParameterColumns.push(this.data.approve ? new BaseCdr(pCol) : new BaseReadonlyCdr(pCol));
@@ -155,6 +154,8 @@ export class WorkflowSingleActionComponent implements OnInit {
     if (this.request.pwoData) {
       this.currentStepCdr = this.stepService.getCurrentStepCdr(this.request, this.request.pwoData, '#LDS#Current approval step');
       this.complianceCdr = this.stepService.getAdditionalInfoCdr(this.request, this.request.pwoData, '#LDS#Compliance rule');
+      if (this.stepService.checkStepForRules(['CPL-PWODecisionRule-OC', 'CPL-PWODecisionRule-OH'], this.request.pwoData, this.request))
+        this.exceptionDateCdr = new BaseCdr(this.request?.exceptionValidUntil, '#LDS#Grant rule violation exception until');
     }
   }
 

@@ -1,5 +1,5 @@
 <div class="imx-reference-toolbar">
-  <mat-chip-listbox (change)="onChipListChange($event)">
+  <mat-chip-listbox>
     <mat-chip-option (click)="onChipClicked(0)" selected>
       <span translate>#LDS#Products</span>
     </mat-chip-option>
@@ -12,126 +12,139 @@
 </div>
 
 <mat-card class="imx-card-container">
-  <imx-data-table
-    *ngIf="selectedChipIndex == 0 && productDst"
-    [dst]="productDst"
-    [detailViewVisible]="false"
-    [selectable]="true"
-    [noDataText]="noDataText"
-    mode="manual"
-    fallbackIcon="DefaultTypeNameImage"
-    (selectionChanged)="onProductSelectionChanged($event, SelectedProductSource.ReferenceUserProducts)"
-    (highlightedEntityChanged)="onRowSelected($event)"
-    [showSelectedItemsMenu]="false"
-  >
-    <imx-data-table-column
-      [entityColumn]="productApi.entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]"
-      columnLabel="{{ '#LDS#Product' | translate }}"
-    >
-      <ng-template let-prod>
-        <div class="imx-request-col-image">
-          <img
-            *ngIf="productDetailsService.getProductImage(prod); else noImage"
-            [src]="productDetailsService.getProductImage(prod)"
-            alt=""
-          />
-          <ng-template #noImage>
-            <eui-icon class="imx-icon-info" icon="application" size="32px"></eui-icon>
-          </ng-template>
-          &nbsp;&nbsp;
-          <span class="imx-request-col-display">{{ prod.GetEntity()?.GetDisplay() }} </span>
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-column [entityColumn]="productApi.entitySchema?.Columns?.['ServiceCategoryFullPath']">
-      <ng-template let-prod>
-        <div class="imx-request-col-text">
-          {{ prod.ServiceCategoryFullPath?.Column?.GetDisplayValue() }}
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-column [entityColumn]="productApi.entitySchema?.Columns?.['TableName']">
-      <ng-template let-prod>
-        <div class="imx-request-col-text">
-          {{ prod.TableName?.Column?.GetDisplayValue() }}
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-column [entityColumn]="productApi.entitySchema?.Columns?.['Description']">
-      <ng-template let-prod>
-        <div class="imx-request-col-text">
-          {{ prod.Description?.Column?.GetDisplayValue() }}
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-column
-      [entityColumn]="productApi.entitySchema?.Columns?.['OrderableStatus']"
-      columnLabel="{{ '#LDS#Status' | translate }}"
-      align="center"
-    >
-      <ng-template let-prod>
-        <div class="imx-request-col">
-          <div
-            *ngIf="
-              productDetailsService.valueContains(prod.OrderableStatus?.value, ['PERSONHASOBJECT', 'PERSONHASASSIGNMENTORDER', 'ASSIGNED'])
-            "
-            class="imx-request-col-status"
-          >
-            <eui-icon
-              icon="approvals"
-              [matTooltip]="
-                '#LDS#This product has already been assigned to {0}.' | translate | ldsReplace: recipients.Column?.GetDisplayValue()
-              "
-            ></eui-icon>
+  @if (selectedChipIndex == 0 && !!orchestration.recipients()) {
+    <imx-data-view-auto-table [dataSource]="productDataSource" mode="manual" [selectable]="true">
+      <ng-container [matColumnDef]="DisplayColumns.DISPLAY_PROPERTYNAME">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ '#LDS#Product' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let item" role="gridcell" class="imx-table-cell">
+          <div class="imx-request-col-image">
+            @if (productDetailsService.getProductImage(item)) {
+              <img [src]="productDetailsService.getProductImage(item)" alt="" />
+            } @else {
+              <eui-icon class="imx-icon-info" icon="application" size="32px"></eui-icon>
+            }
+            <span class="imx-request-col-display">{{ item.GetEntity()?.GetDisplay() }} </span>
           </div>
-          <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, 'ORDER')" class="imx-request-col-status">
-            <eui-icon icon="request" [matTooltip]="'#LDS#This product has already been requested.' | translate"></eui-icon>
+        </td>
+      </ng-container>
+      <ng-container [matColumnDef]="productApi.entitySchema.Columns.ServiceCategoryFullPath.ColumnName">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ productApi.entitySchema?.Columns?.ServiceCategoryFullPath?.Display }}
+          </th>
+        </ng-container>
+        <td mat-cell *matCellDef="let item" role="gridcell">
+          <div class="imx-request-col-text">
+            {{ item.ServiceCategoryFullPath?.Column?.GetDisplayValue() }}
           </div>
-          <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, 'NOTORDERABLE')" class="imx-request-col-status">
-            <eui-icon icon="error" [matTooltip]="'#LDS#This product cannot currently be requested.' | translate"></eui-icon>
+        </td>
+      </ng-container>
+      <ng-container [matColumnDef]="productApi.entitySchema.Columns.TableName.ColumnName">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ productApi.entitySchema?.Columns?.TableName?.Display }}
+          </th>
+        </ng-container>
+        <td mat-cell *matCellDef="let item" role="gridcell">
+          <div class="imx-request-col-text">
+            {{ item.TableName?.Column?.GetDisplayValue() }}
           </div>
-          <div *ngIf="productDetailsService.valueContains(prod.OrderableStatus?.value, 'CART')" class="imx-request-col-status">
-            <eui-icon icon="cart" [matTooltip]="'#LDS#This product is already in your shopping cart.' | translate"></eui-icon>
+        </td>
+      </ng-container>
+      <ng-container [matColumnDef]="productApi.entitySchema.Columns.Description.ColumnName">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ productApi.entitySchema?.Columns?.Description?.Display }}
+          </th>
+        </ng-container>
+        <td mat-cell *matCellDef="let item" role="gridcell">
+          <div class="imx-request-col-text">
+            {{ item.GetEntity()?.columns?.Description?.GetDisplayValue() }}
           </div>
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-  </imx-data-table>
-  <imx-data-table
-    *ngIf="selectedChipIndex == 1 && membershipDst"
-    [dst]="membershipDst"
-    [detailViewVisible]="false"
-    [selectable]="true"
-    [noDataText]="noDataText"
-    mode="manual"
-    fallbackIcon="DefaultTypeNameImage"
-    (selectionChanged)="onProductSelectionChanged($event, SelectedProductSource.ReferenceUserOrgs)"
-    [showSelectedItemsMenu]="false"
-  >
-    <imx-data-table-column
-      [entityColumn]="membershipApi.PortalItshopPeergroupMembershipsSchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]"
-    >
-      <ng-template let-prod>
-        <div>
-          <span class="imx-request-col-display">{{ prod.GetEntity()?.GetDisplay() }} </span>
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-column [entityColumn]="membershipApi.PortalItshopPeergroupMembershipsSchema?.Columns?.['FullPath']">
-      <ng-template let-prod>
-        <div class="imx-request-col-text">
-          {{ prod.FullPath?.Column?.GetDisplayValue() }}
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-    <imx-data-table-column [entityColumn]="membershipApi.PortalItshopPeergroupMembershipsSchema?.Columns?.['Description']">
-      <ng-template let-prod>
-        <div class="imx-request-col-text">
-          {{ prod.Description?.Column?.GetDisplayValue() }}
-        </div>
-      </ng-template>
-    </imx-data-table-column>
-  </imx-data-table>
-  <imx-data-source-paginator *ngIf="selectedChipIndex == 0 && productDst" [dst]="productDst"></imx-data-source-paginator>
-  <imx-data-source-paginator *ngIf="selectedChipIndex == 1 && membershipDst" [dst]="membershipDst"></imx-data-source-paginator>
+        </td>
+      </ng-container>
+      <ng-container [matColumnDef]="productApi.entitySchema.Columns.OrderableStatus.ColumnName">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ '#LDS#Status' | translate }}
+          </th>
+        </ng-container>
+        <td mat-cell *matCellDef="let item" role="gridcell">
+          <div class="imx-request-col">
+            @if (
+              productDetailsService.valueContains(item.OrderableStatus?.value, ['PERSONHASOBJECT', 'PERSONHASASSIGNMENTORDER', 'ASSIGNED'])
+            ) {
+              <div class="imx-request-col-status">
+                <eui-icon
+                  icon="approvals"
+                  [matTooltip]="
+                    '#LDS#This product has already been assigned to {0}.'
+                      | translate
+                      | ldsReplace: orchestration.recipients()?.Column?.GetDisplayValue()
+                  "
+                ></eui-icon>
+              </div>
+            }
+            @if (productDetailsService.valueContains(item.OrderableStatus?.value, 'ORDER')) {
+              <div class="imx-request-col-status">
+                <eui-icon icon="request" [matTooltip]="'#LDS#This product has already been requested.' | translate"></eui-icon>
+              </div>
+            }
+            @if (productDetailsService.valueContains(item.OrderableStatus?.value, 'NOTORDERABLE')) {
+              <div class="imx-request-col-status">
+                <eui-icon icon="error" [matTooltip]="'#LDS#This product cannot currently be requested.' | translate"></eui-icon>
+              </div>
+            }
+            @if (productDetailsService.valueContains(item.OrderableStatus?.value, 'CART')) {
+              <div class="imx-request-col-status">
+                <eui-icon icon="cart" [matTooltip]="'#LDS#This product is already in your shopping cart.' | translate"></eui-icon>
+              </div>
+            }
+          </div>
+        </td>
+      </ng-container>
+    </imx-data-view-auto-table>
+    <imx-data-view-paginator [dataSource]="productDataSource"></imx-data-view-paginator>
+  }
+  @if (selectedChipIndex == 1 && !!orchestration.recipients()) {
+    <imx-data-view-auto-table [dataSource]="membershipDataSource" mode="manual" [selectable]="true">
+      <ng-container [matColumnDef]="DisplayColumns.DISPLAY_PROPERTYNAME">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ membershipApi.PortalItshopPeergroupMembershipsSchema.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]?.Display }}
+        </th>
+        <td mat-cell *matCellDef="let item" role="gridcell" class="imx-table-cell">
+          <div>
+            <span class="imx-request-col-display">{{ item.GetEntity()?.GetDisplay() }} </span>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container [matColumnDef]="membershipApi.PortalItshopPeergroupMembershipsSchema.Columns.FullPath.ColumnName">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ membershipApi.PortalItshopPeergroupMembershipsSchema?.Columns?.FullPath?.Display }}
+          </th>
+        </ng-container>
+        <td mat-cell *matCellDef="let item" role="gridcell">
+          <div class="imx-request-col-text">
+            {{ item.FullPath?.Column?.GetDisplayValue() }}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container [matColumnDef]="membershipApi.PortalItshopPeergroupMembershipsSchema.Columns.Description.ColumnName">
+        <ng-container>
+          <th mat-header-cell *matHeaderCellDef>
+            {{ membershipApi.PortalItshopPeergroupMembershipsSchema?.Columns?.Description?.Display }}
+          </th>
+        </ng-container>
+        <td mat-cell *matCellDef="let item" role="gridcell">
+          <div class="imx-request-col-text">
+            {{ item.GetEntity()?.columns?.Description?.GetDisplayValue() }}
+          </div>
+        </td>
+      </ng-container>
+    </imx-data-view-auto-table>
+    <imx-data-view-paginator [dataSource]="membershipDataSource"></imx-data-view-paginator>
+  }
 </mat-card>

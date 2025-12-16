@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,13 +29,15 @@ import { DateAdapter } from '@angular/material/core';
 import { DefaultServiceResolver, EntitySchema, ITranslationProvider, MultiLanguageStringData } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
 import moment from 'moment-timezone';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 import { AppConfigService } from '../appConfig/appConfig.service';
 import { LdsReplacePipe } from '../lds-replace/lds-replace.pipe';
 import { TextContainer } from './text-container';
+
+const defaultCulture: string = 'en-US';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +46,11 @@ export class ImxTranslationProviderService implements ITranslationProvider {
   private multilanguageTranslationDict: { [key: string]: { [key: string]: string } } = {};
   private culture: string;
   private cultureFormat: string;
+
+  public cultureChanged: BehaviorSubject<{ culture: string; cultureFormat: string }> = new BehaviorSubject({
+    culture: defaultCulture,
+    cultureFormat: defaultCulture,
+  });
 
   constructor(
     private appConfig: AppConfigService,
@@ -70,7 +77,7 @@ export class ImxTranslationProviderService implements ITranslationProvider {
       filter: [{ ColumnName: 'Ident_DialogCulture', Value1: culture }],
     });
     if (cultures.TotalCount === 0) {
-      culture = 'en-US';
+      culture = defaultCulture;
     }
 
     if (culture && defaultLang !== culture) {
@@ -88,7 +95,7 @@ export class ImxTranslationProviderService implements ITranslationProvider {
       return;
     }
 
-    this.culture = culture ?? 'en-US';
+    this.culture = culture ?? defaultCulture;
 
     this.multilanguageTranslationDict = await this.appConfig.client.imx_multilanguage_translations_get('all', {
       cultureName: this.culture,
@@ -99,6 +106,8 @@ export class ImxTranslationProviderService implements ITranslationProvider {
 
     // reload schemas
     await this.appConfig.client.loadSchema(culture);
+
+    this.cultureChanged.next({ culture: this.culture, cultureFormat: this.cultureFormat });
   }
 
   /**
@@ -117,6 +126,8 @@ export class ImxTranslationProviderService implements ITranslationProvider {
     });
     DefaultServiceResolver.UseTranslator(this);
     await this.appConfig.client.loadSchema(this.culture);
+
+    this.cultureChanged.next({ culture: this.culture, cultureFormat: this.cultureFormat });
 
     // We may have stale data or schemas from the current page, so we nav back to refresh existing components
     let currentUrl = router.url;
@@ -146,7 +157,9 @@ export class ImxTranslationProviderService implements ITranslationProvider {
   }
 
   /**
-   * @deprecated Use the column's display from the schema.
+   * @deprecated since v10.0.0
+   *
+   * Use the column's display from the schema instead.
    */
   public GetColumnDisplay(name: string, entitySchema: EntitySchema): string {
     const column = entitySchema?.Columns[name];

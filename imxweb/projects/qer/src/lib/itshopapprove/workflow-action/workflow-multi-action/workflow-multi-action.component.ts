@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,6 +43,7 @@ import { WorkflowActionEdit } from '../workflow-action-edit.interface';
   selector: 'imx-workflow-multi-action',
   templateUrl: './workflow-multi-action.component.html',
   styleUrls: ['./workflow-multi-action.component.scss'],
+  standalone: false,
 })
 export class WorkflowMultiActionComponent implements OnInit {
   /**
@@ -78,7 +79,7 @@ export class WorkflowMultiActionComponent implements OnInit {
   constructor(
     private readonly stepService: DecisionStepSevice,
     private readonly approvalService: ApprovalsService,
-  ) {}
+  ) { }
 
   /**
    * @ignore since this is only an internal component
@@ -86,6 +87,7 @@ export class WorkflowMultiActionComponent implements OnInit {
    * Sets up during OnInit lifecycle hook the bulk items and their {@link columns} to be displayed/edited for the requests.
    */
   public async ngOnInit(): Promise<void> {
+    this.stepService.isEscalationApprover = this.data.isInEscalationView ?? false;
     const isBusy = this.busyService.beginBusy();
     try {
       this.requests = await Promise.all(this.data.requests.map(async (item) => this.buildSingleItem(item as Approval)));
@@ -139,6 +141,10 @@ export class WorkflowMultiActionComponent implements OnInit {
       const step = this.stepService.getCurrentStepCdr(approval, approval.pwoData, '#LDS#Current approval step');
       if (step != null) {
         bulkItem.properties.unshift(step);
+      }
+
+      if (this.stepService.checkStepForRules(['CPL-PWODecisionRule-OC', 'CPL-PWODecisionRule-OH'], approval.pwoData, approval)) {
+        bulkItem.properties.push(new BaseCdr(approval.exceptionValidUntil, '#LDS#Grant rule violation exception until'));
       }
 
       const cRule = this.stepService.getAdditionalInfoCdr(approval, approval.pwoData, '#LDS#Compliance rule');

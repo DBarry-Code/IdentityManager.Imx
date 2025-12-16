@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,6 +34,8 @@ import {
   EntitySchema,
   ExtendedTypedEntityCollection,
   FilterType,
+  IWriteValue,
+  MultiValue,
   TypedEntity,
   ValueStruct,
 } from '@imx-modules/imx-qbm-dbts';
@@ -62,7 +64,12 @@ export class ServiceItemsService {
     return this.qerClient.typedClient.PortalShopServiceitems.Get(parameters);
   }
 
-  public async getServiceItem(serviceItemUid: string, isSkippable?: boolean): Promise<PortalShopServiceitems | undefined> {
+  public async getServiceItem(
+    serviceItemUid: string,
+    isSkippable?: boolean,
+    recipients?: IWriteValue<string>,
+  ): Promise<PortalShopServiceitems | undefined> {
+    const recipientsIds = recipients ? MultiValue.FromString(recipients?.value).GetValues().join(',') : undefined;
     const serviceItemCollection = await this.get({
       IncludeChildCategories: false,
       filter: [
@@ -73,6 +80,7 @@ export class ServiceItemsService {
           Value1: serviceItemUid,
         },
       ],
+      UID_Person: recipientsIds,
     });
 
     if (serviceItemCollection == null || serviceItemCollection.Data == null || serviceItemCollection.Data.length === 0) {

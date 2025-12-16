@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,8 +38,9 @@ import { ApplicationContent } from './application-content.interface';
 import { ApplicationsService } from './applications.service';
 
 @Component({
-  templateUrl: './application-detail.component.html',
-  styleUrls: ['./application-detail.component.scss'],
+    templateUrl: './application-detail.component.html',
+    styleUrls: ['./application-detail.component.scss'],
+    standalone: false
 })
 export class ApplicationDetailComponent implements ApplicationContent, OnInit, OnDestroy {
   @Input() public application: PortalApplication | undefined;

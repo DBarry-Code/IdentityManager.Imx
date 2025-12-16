@@ -1,0 +1,9 @@
+<mat-card class="card">
+  <imx-data-view-toolbar [dataSource]="dataSource" [showSettings]="false"></imx-data-view-toolbar>
+  <imx-data-view-auto-table
+    [dataSource]="dataSource"
+    [noDataText]="dataSource.state()?.search || dataSource.selectedFilters().length > 0 ? null : '#LDS#Enter the name of an object you want to search for in the database.'"
+  ></imx-data-view-auto-table>
+  <!-- TODO: PBI #542378 - Need pagination defined for the opsweb api, don't show pagination for now -->
+  <!-- <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator> -->
+</mat-card>

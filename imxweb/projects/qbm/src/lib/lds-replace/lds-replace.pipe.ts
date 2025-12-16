@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,7 +30,8 @@ import { Pipe, PipeTransform, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 @Pipe({
-  name: 'ldsReplace',
+    name: 'ldsReplace',
+    standalone: false
 })
 export class LdsReplacePipe implements PipeTransform {
   public transform(query: string, ...args: any[]): string {

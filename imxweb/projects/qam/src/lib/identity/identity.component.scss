@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
   flex: 1 1 auto;
@@ -6,11 +6,11 @@
 }
 
 .imx-resource-line {
-  @include flex-row-container($overflow: hidden);
+  @include mixins.flex-row-container($overflow: hidden);
 }
 
 .imx-resource-toolbar {
-  @include flex-row-container();
+  @include mixins.flex-row-container();
 }
 
 .imx-resource-line:not(:last-of-type) {
@@ -22,11 +22,11 @@ span[bold] {
 }
 
 .imx-resource-content {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 }
 
 .imx-scrollable-resoures {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
 }
 
 .hidden {

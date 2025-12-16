@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -60,9 +60,10 @@ type SourceNodeEnriched = SourceNode & {
 };
 
 @Component({
-  templateUrl: './sourcedetective.component.html',
-  styleUrls: ['./sourcedetective.component.scss'],
-  selector: 'imx-source-detective',
+    templateUrl: './sourcedetective.component.html',
+    styleUrls: ['./sourcedetective.component.scss'],
+    selector: 'imx-source-detective',
+    standalone: false
 })
 export class SourceDetectiveComponent implements OnInit, OnChanges, OnDestroy {
   public treeControl = new FlatTreeControl<SourceNodeEnriched>(

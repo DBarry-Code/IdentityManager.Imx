@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,6 +38,7 @@ import { RequestHistoryService } from '../request-history.service';
 @Component({
   templateUrl: './request-action.component.html',
   styleUrls: ['./request-action.component.scss'],
+  standalone: false,
 })
 export class RequestActionComponent implements OnDestroy {
   public readonly requestsDst: DataSourceToolbarSettings;
@@ -92,7 +93,7 @@ export class RequestActionComponent implements OnDestroy {
   }
 
   public addProlongationMaxValidDaysCheck(control: AbstractControl): void {
-    this.formGroup.addControl('prolongation', control);
+    this.formGroup.addControl('prolongate', control);
     this.subscribers.push(
       control.valueChanges.subscribe(
         (value) =>
@@ -112,7 +113,7 @@ export class RequestActionComponent implements OnDestroy {
   }
 
   public addUnsubscribeMaxValidDaysCheck(control: AbstractControl): void {
-    this.formGroup.addControl('unsubscription', control);
+    this.formGroup.addControl('unsubscribe', control);
     this.subscribers.push(
       control.valueChanges.subscribe(
         (value) =>

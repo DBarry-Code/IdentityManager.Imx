@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -55,9 +55,10 @@ interface DugResourceFormGroup {
 }
 
 @Component({
-  selector: 'imx-dug-sidesheet',
-  styleUrls: ['./dug-sidesheet.component.scss'],
-  templateUrl: './dug-sidesheet.component.html',
+    selector: 'imx-dug-sidesheet',
+    styleUrls: ['./dug-sidesheet.component.scss'],
+    templateUrl: './dug-sidesheet.component.html',
+    standalone: false
 })
 export class DugSidesheetComponent implements OnInit, OnDestroy {
   public dug: PortalDgeResourcesbyid;
@@ -167,6 +168,7 @@ export class DugSidesheetComponent implements OnInit, OnDestroy {
       this.supportsActivity = this.dug.UID_QAMResourceType.value != 'QAM-A2EB93DC78054195837671623098181F';
       this.isShare = this.dug.UID_QAMResourceType.value == 'QAM-52F4B02EFBCAEB7A2EE35B8A4636FAEA';
       if (this.isPerceivedOwner()) {
+        // Get perceived owners only if the user is not the owner
         this.perceivedOwners = await this.ownershipService.getPerceivedowners(this.data.uid);
         this.onAssignSelectionChange(this.perceivedOwners?.Data?.[0]?.UID_PersonPerceivedOwner)
         this.dstSettings = {

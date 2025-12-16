@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-hyperview-shape-header {
   display: flex;
@@ -54,10 +54,10 @@
 
 .imx-hyperview-caption--link:hover,
 .imx-hyperview-caption--link:focus {
-  background-color: rgba($color: $color-gray-100, $alpha: 0.2);
+  background-color: rgba($color: eui.$color-gray-100, $alpha: 0.2);
 }
 
 .imx-hyperview-caption,
 .imx-hyperview-header {
-  color: $color-gray-2;
+  color: eui.$color-gray-2;
 }

@@ -6,45 +6,45 @@
     [userId]="data.userUid"
   ></imx-requestinfo>
 
-  <div eui-sidesheet-actions *ngIf="!data.isReadOnly && allowedActionCount > 0">
-    <!-- TODO later
-    <button mat-stroked-button *ngIf="data.personWantsOrg.ResendRequestAllowed.value"
-      data-imx-identifier="request-detail-submit-again" (click)="submitAgain()">
-      {{'#LDS#Request product again' | translate}}
-    </button>
-  -->
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canProlongate"
-      data-imx-identifier="request-detail-renew-request"
-      (click)="actionService.prolongate([data.personWantsOrg])"
-    >
-      {{ '#LDS#Renew product' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.UnsubscribeRequestAllowed.value"
-      data-imx-identifier="request-detail-unsubscribe-request"
-      (click)="actionService.unsubscribe([data.personWantsOrg])"
-    >
-      {{ '#LDS#Unsubscribe product' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.CancelRequestAllowed.value"
-      data-imx-identifier="request-detail-Withdraw-request"
-      (click)="actionService.withdrawRequest([data.personWantsOrg])"
-    >
-      {{ '#LDS#Cancel request' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canWithdrawDelegation && data.itShopConfig?.VI_ITShop_OrderHistory_CancelOrder"
-      data-imx-identifier="request-detail-withdraw-delegation"
+  @if (!data.isReadOnly && allowedActionCount > 0) {
+    <div eui-sidesheet-actions>
+      <!-- TODO later
+      <button mat-stroked-button *ngIf="data.personWantsOrg.ResendRequestAllowed.value"
+        data-imx-identifier="request-detail-submit-again" (click)="submitAgain()">
+        {{'#LDS#Request product again' | translate}}
+      </button>
+      -->
+      @if (data.personWantsOrg.canProlongate) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-renew-request"
+          (click)="actionService.prolongate([data.personWantsOrg])"
+          >
+          {{ '#LDS#Renew product' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.UnsubscribeRequestAllowed.value) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-unsubscribe-request"
+          (click)="actionService.unsubscribe([data.personWantsOrg])"
+          >
+          {{ '#LDS#Unsubscribe product' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.CancelRequestAllowed.value) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-Withdraw-request"
+          (click)="actionService.withdrawRequest([data.personWantsOrg])"
+          >
+          {{ '#LDS#Cancel request' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canWithdrawDelegation && data.itShopConfig?.VI_ITShop_OrderHistory_CancelOrder) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-withdraw-delegation"
       (click)="
         actionService.revokeDelegation(
           [data.personWantsOrg],
@@ -53,14 +53,14 @@
           '#LDS#Withdraw delegations of approval for the following requests.'
         )
       "
-    >
-      {{ '#LDS#Withdraw delegation' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canWithdrawAdditionalApprover && data.itShopConfig?.VI_ITShop_OrderHistory_CancelOrder"
-      data-imx-identifier="request-detail-withdraw-additional-approver"
+          >
+          {{ '#LDS#Withdraw delegation' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canWithdrawAdditionalApprover && data.itShopConfig?.VI_ITShop_OrderHistory_CancelOrder) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-withdraw-additional-approver"
       (click)="
         actionService.revokeAdditionalApprover(
           [data.personWantsOrg],
@@ -69,55 +69,57 @@
           '#LDS#Withdraw additional approvers for the following requests.'
         )
       "
-    >
-      {{ '#LDS#Withdraw additional approver' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canRecallLastQuestion"
-      data-imx-identifier="request-detail-recall-last-question"
-      (click)="actionService.recallLastQuestion([data.personWantsOrg])"
-    >
-      {{ '#LDS#Withdraw question' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canRevokeHoldStatus"
-      data-imx-identifier="request-detail-revoke-hold-status"
-      (click)="actionService.revokeHoldStatus([data.personWantsOrg])"
-    >
-      {{ '#LDS#Revoke hold status' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      data-imx-identifier="request-detail-recall-decision"
-      (click)="actionService.recallDecision([data.personWantsOrg])"
-      *ngIf="data.personWantsOrg.canRecallDecision"
-    >
-      {{ '#LDS#Undo approval decision' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canEscalateDecision"
-      data-imx-identifier="request-detail-escalate-approval"
-      title="{{ '#LDS#Escalates the approval for this request' | translate }}"
-      (click)="actionService.escalateDecisions([data.personWantsOrg])"
-    >
-      {{ '#LDS#Escalate approval' | translate }}
-    </button>
-
-    <button
-      mat-stroked-button
-      *ngIf="data.personWantsOrg.canCopyItems"
-      data-imx-identifier="request-detail-copy-request"
-      title="{{ '#LDS#Adds this product to your shopping cart so you can request it again' | translate }}"
-      (click)="actionService.copyItems([data.personWantsOrg])"
-    >
-      {{ '#LDS#Request product again' | translate }}
-    </button>
-  </div>
+          >
+          {{ '#LDS#Withdraw additional approver' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canRecallLastQuestion) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-recall-last-question"
+          (click)="actionService.recallLastQuestion([data.personWantsOrg])"
+          >
+          {{ '#LDS#Withdraw question' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canRevokeHoldStatus) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-revoke-hold-status"
+          (click)="actionService.revokeHoldStatus([data.personWantsOrg])"
+          >
+          {{ '#LDS#Revoke hold status' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canRecallDecision) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-recall-decision"
+          (click)="actionService.recallDecision([data.personWantsOrg])"
+          >
+          {{ '#LDS#Undo approval decision' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canEscalateDecision) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-escalate-approval"
+          title="{{ '#LDS#Escalates the approval for this request' | translate }}"
+          (click)="actionService.escalateDecisions([data.personWantsOrg])"
+          >
+          {{ '#LDS#Escalate approval' | translate }}
+        </button>
+      }
+      @if (data.personWantsOrg.canCopyItems) {
+        <button
+          mat-stroked-button
+          data-imx-identifier="request-detail-copy-request"
+          title="{{ '#LDS#Adds this product to your shopping cart so you can request it again' | translate }}"
+          (click)="actionService.copyItems([data.personWantsOrg])"
+          >
+          {{ '#LDS#Request product again' | translate }}
+        </button>
+      }
+    </div>
+  }
 </div>

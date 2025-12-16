@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,10 +26,14 @@
 
 import { Component, Input } from '@angular/core';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  selector: 'imx-icon-stack',
-  templateUrl: './icon-stack.component.html',
-  styleUrls: ['./icon-stack.component.scss'],
+    selector: 'imx-icon-stack',
+    templateUrl: './icon-stack.component.html',
+    styleUrls: ['./icon-stack.component.scss'],
+    standalone: false
 })
 export class IconStackComponent {
   @Input() public icon1: string;

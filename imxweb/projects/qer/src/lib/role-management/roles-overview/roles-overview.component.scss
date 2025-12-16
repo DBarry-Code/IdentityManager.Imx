@@ -1,6 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -15,7 +14,7 @@ imx-data-table {
 
 .imx-subtext {
   font-size: smaller;
-  color: $black-b;
+  color: eui.$color-gray-30;
 }
 
 .imx-page-card {
@@ -27,7 +26,7 @@ imx-data-table {
 
 .imx-data-tree-container {
   overflow: hidden;
-  background-color: $white;
+  background-color: eui.$color-gray-0;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -51,7 +50,7 @@ imx-data-table {
 .eui-dark-theme {
   :host {
     .imx-data-tree-container {
-      background: $color-gray-70;
+      background: eui.$color-gray-70;
     }
   }
 }
@@ -59,7 +58,7 @@ imx-data-table {
 .eui-contrast-theme {
   :host {
     .imx-data-tree-container {
-      background: $color-gray-90;
+      background: eui.$color-gray-90;
     }
   }
 }

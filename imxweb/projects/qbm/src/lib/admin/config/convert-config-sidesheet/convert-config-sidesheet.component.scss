@@ -1,0 +1,11 @@
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+
+ul {
+  margin: 1em;
+  max-height: 200px;
+  overflow: auto;
+}
+
+li {
+  list-style-type: disc;
+}

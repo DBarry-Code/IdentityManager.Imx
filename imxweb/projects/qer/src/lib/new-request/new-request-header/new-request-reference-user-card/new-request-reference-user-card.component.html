@@ -1,4 +1,4 @@
-<ng-container *ngIf="orchestration.referenceUser && orchestration.selectedTab?.link === 'productsByReferenceUser'">
+@if (orchestration.referenceUser() && orchestration.selectedTab()?.link === 'productsByReferenceUser') {
   <mat-card
     class="imx-card"
     euiClickable="primary"
@@ -9,9 +9,9 @@
     <span class="imx-description">({{ '#LDS#Click to change' | translate }})</span>
     <div class="imx-content">
       <span>
-        {{ orchestration.referenceUser.DisplayValue }}
+        {{ orchestration.referenceUser()?.DisplayValue }}
       </span>
     </div>
   </mat-card>
   <eui-icon icon="collapseright" class="imx-icon-separator"></eui-icon>
-</ng-container>
+}

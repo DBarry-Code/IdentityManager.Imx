@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,6 +27,7 @@
 import { AfterContentInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
 import { EuiSelectOption } from '@elemental-ui/core';
+import { ElementalUiConfigService } from '../../configuration/elemental-ui-config.service';
 
 import { IClientProperty, IEntity } from '@imx-modules/imx-qbm-dbts';
 
@@ -34,6 +35,7 @@ import { IClientProperty, IEntity } from '@imx-modules/imx-qbm-dbts';
   selector: 'imx-entity-select',
   templateUrl: './entity-select.component.html',
   styleUrls: ['./entity-select.component.scss'],
+  standalone: false
 })
 export class EntitySelectComponent implements OnChanges, AfterContentInit {
   public readonly control = new UntypedFormControl(undefined, Validators.required);
@@ -49,7 +51,9 @@ export class EntitySelectComponent implements OnChanges, AfterContentInit {
 
   @Output() public selectionChange = new EventEmitter<IEntity>();
 
-  constructor() {
+  constructor(
+    public elementalUiConfigService: ElementalUiConfigService,
+  ) {
     this.filter = this.filter.bind(this);
   }
 

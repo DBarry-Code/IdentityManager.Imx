@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -33,8 +33,9 @@ import { Subscription } from 'rxjs';
 import { PolicyGroup } from '../policy-group.interface';
 import { PolicyGroupService } from '../policy-group.service';
 @Component({
-  templateUrl: './edit-policy-group-sidesheet.component.html',
-  styleUrls: ['./edit-policy-group-sidesheet.component.scss'],
+    templateUrl: './edit-policy-group-sidesheet.component.html',
+    styleUrls: ['./edit-policy-group-sidesheet.component.scss'],
+    standalone: false
 })
 export class EditPolicyGroupSidesheetComponent implements OnInit {
   public readonly formGroup = new UntypedFormGroup({});

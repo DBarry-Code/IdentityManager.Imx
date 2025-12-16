@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -53,7 +53,7 @@ export class ProductDetailsService {
     const orderStatus = await this.getOrderStatus(item, recipients);
     await this.sidesheetService
       .open(ProductDetailsSidesheetComponent, {
-        title: await this.translateService.get('#LDS#Heading View Product Details').toPromise(),
+        title: await this.translateService.instant('#LDS#Heading View Product Details'),
         subTitle: item.GetEntity().GetDisplay(),
         icon: 'info',
         width: calculateSidesheetWidth(),
@@ -95,25 +95,25 @@ export class ProductDetailsService {
 
     switch (true) {
       case this.valueContains(orderableStatus, ['PERSONHASOBJECT', 'PERSONHASASSIGNMENTORDER', 'ASSIGNED']):
-        const statusDisplay: string = await this.translateService.get('#LDS#This product has already been assigned to {0}.').toPromise();
+        const statusDisplay: string = await this.translateService.instant('#LDS#This product has already been assigned to {0}.');
         return { statusIcon: 'info', statusDisplay: this.ldsReplace.transform(statusDisplay, recipients.Column.GetDisplayValue()) };
 
       case this.valueContains(orderableStatus, 'ORDER'):
         return {
           statusIcon: 'request',
-          statusDisplay: await this.translateService.get('#LDS#This product has already been requested.').toPromise(),
+          statusDisplay: await this.translateService.instant('#LDS#This product has already been requested.'),
         };
 
       case this.valueContains(orderableStatus, 'NOTORDERABLE'):
         return {
           statusIcon: 'error',
-          statusDisplay: await this.translateService.get('#LDS#This product cannot currently be requested.').toPromise(),
+          statusDisplay: await this.translateService.instant('#LDS#This product cannot currently be requested.'),
         };
 
       case this.valueContains(orderableStatus, 'CART'):
         return {
           statusIcon: 'error',
-          statusDisplay: await this.translateService.get('#LDS#This product is already in your shopping cart.').toPromise(),
+          statusDisplay: await this.translateService.instant('#LDS#This product is already in your shopping cart.'),
         };
     }
   }

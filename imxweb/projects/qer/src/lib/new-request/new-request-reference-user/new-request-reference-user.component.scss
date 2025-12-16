@@ -1,9 +1,9 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
-@import '../new-request-global.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use '../new-request-global.scss' as new-request-global;
 
-@include Layout-Styles;
-@include Table-Styles;
+@include new-request-global.Layout-Styles;
+@include new-request-global.Table-Styles;
 
 :host {
   flex-direction: column;
@@ -17,7 +17,7 @@
     }
 
     .imx-info-button-caption {
-      @include new-request-text();
+      @include mixins.new-request-text();
     }
   }
 }

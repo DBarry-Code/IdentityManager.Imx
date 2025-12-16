@@ -1,13 +1,14 @@
 <div eui-sidesheet-content>
   <mat-card>
     <form [formGroup]="formGroup">
-      <imx-cdr-editor
-        *ngFor="let cdr of cdrList"
-        [cdr]="cdr"
-        [attr.data-imx-identifier]="'edit-service-category-information-' + cdr?.column?.ColumnName"
-        (controlCreated)="formGroup.controls.cdrArray.push($event)"
-      >
-      </imx-cdr-editor>
+      @for (cdr of cdrList; track cdr) {
+        <imx-cdr-editor
+          [cdr]="cdr"
+          [attr.data-imx-identifier]="'edit-service-category-information-' + cdr?.column?.ColumnName"
+          (controlCreated)="formGroup.controls.cdrArray.push($event)"
+          >
+        </imx-cdr-editor>
+      }
     </form>
   </mat-card>
 </div>
@@ -18,7 +19,7 @@
     data-imx-identifier="edit-service-category-information-button-save"
     color="primary"
     (click)="save()"
-  >
+    >
     <span translate>#LDS#Save</span>
   </button>
 </div>

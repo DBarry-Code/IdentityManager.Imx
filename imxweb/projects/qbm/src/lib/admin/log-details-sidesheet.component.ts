@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { EuiSidesheetRef, EUI_SIDESHEET_DATA } from '@elemental-ui/core';
 import { ApiLogEntry } from '@imx-modules/imx-api-qbm';
 
 @Component({
-  selector: 'imx-log-details-sidesheet',
-  templateUrl: './log-details-sidesheet.component.html',
-  styleUrls: ['./log-details-sidesheet.component.scss'],
+    selector: 'imx-log-details-sidesheet',
+    templateUrl: './log-details-sidesheet.component.html',
+    styleUrls: ['./log-details-sidesheet.component.scss'],
+    standalone: false
 })
 export class LogDetailsSidesheetComponent implements OnInit {
   constructor(

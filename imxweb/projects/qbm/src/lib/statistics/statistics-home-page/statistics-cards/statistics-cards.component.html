@@ -1,0 +1,146 @@
+@if (!isSearch && showAncestors) {
+  <div class="above-card">
+    <div class="ancestor-path">
+      @for (ancestor of selectedNodeAncestors; track ancestor; let i = $index; let isFirst = $first; let isLast = $last) {
+        <div class="ancestor-path-item">
+          @if (!isFirst) {
+            <eui-icon icon="collapseright"></eui-icon>
+          }
+          @if (!isLast) {
+            <button
+              mat-button
+              color="primary"
+              class="selectable-ancestor"
+              (click)="selectAncestor(i)"
+              [attr.data-imx-identifier]="'parent-area-' + i"
+              >
+              <h3>{{ !!ancestor.LeafNameHeading ? ancestor.LeafNameHeading : ancestor.leafName }} ({{ ancestor.countBelow }})</h3>
+            </button>
+          }
+          @if (isLast) {
+            <button mat-button disabled class="unselectable-ancestor">
+              <h3>{{ !!ancestor.LeafNameHeading ? ancestor.LeafNameHeading : ancestor.leafName }} ({{ ancestor.countBelow }})</h3>
+            </button>
+          }
+        </div>
+      }
+      @if (isUserAdmin && isOrg) {
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="openOrgSideSheet()"
+          data-imx-identifier="org-open-sidesheet"
+          >
+          <eui-icon icon="edit"></eui-icon>
+          <span>{{ '#LDS#Edit shared statistics' | translate }}</span>
+        </button>
+      }
+    </div>
+  </div>
+}
+@if (isSearch) {
+  <div class="above-card--search">
+    <button mat-button disabled>
+      <h3>
+        {{ '#LDS#Heading Search Results' | translate }}
+      </h3>
+    </button>
+  </div>
+}
+
+<mat-card class="cards-container">
+  @if ((hasData && !isSearch) || (isSearch && searchHasData)) {
+    <eui-scroll [options]="{ alwaysShowTracks: true }">
+      <div #cardsWrapper class="cards-wrapper">
+        <!-- Show normal cards -->
+        @if (!isSearch) {
+          <div class="grid-container">
+            @for (node of selectedNode?.children; track node; let i = $index) {
+              <mat-card
+                class="area-card"
+                euiClickable
+                (click)="selectArea(node)"
+                [attr.data-imx-identifier]="'select-area-' + i"
+                >
+                <span>
+                  {{ node.leafName }}
+                </span>
+                <div class="area-card-contents">
+                  <eui-icon icon="openfolder"></eui-icon>
+                  <p>
+                    {{ getnStatsText(node.countBelow) }}
+                  </p>
+                </div>
+              </mat-card>
+            }
+            @for (stat of selectedNode?.statistics; track stat; let i = $index) {
+              <imx-statistics-cards-visuals
+                [stat]="stat"
+                [attr.data-imx-identifier]="'select-statistic-' + i"
+                >
+              </imx-statistics-cards-visuals>
+            }
+          </div>
+        }
+        <!-- Show search cards -->
+        @if (isSearch && searchHasData) {
+          <div class="grid-container">
+            @for (stat of searchStats; track stat; let i = $index) {
+              <imx-statistics-cards-visuals
+                [stat]="stat"
+                [showArea]="true"
+                [attr.data-imx-identifier]="'select-statistic-' + i"
+                >
+              </imx-statistics-cards-visuals>
+            }
+          </div>
+        }
+      </div>
+    </eui-scroll>
+  } @else {
+    <!-- Show no search results -->
+    @if (isSearch && !searchHasData) {
+      <div class="imx-no-data">
+        <div class="imx-no-data-top">
+          <eui-icon icon="content-alert"></eui-icon>
+          <div class="imx-no-data-text">
+            <h2>{{ '#LDS#Heading No Matching Results' | translate }}</h2>
+            <span>{{ '#LDS#There are no statistics that match your search.' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    }
+    <!-- Show the empty org results -->
+    @if (!hasData && !isSearch && isOrg) {
+      <div class="imx-no-data">
+        <div class="imx-no-data-top">
+          <eui-icon icon="content-alert"></eui-icon>
+          <div class="imx-no-data-text">
+            <h2>{{ '#LDS#Heading No Shared Statistics' | translate }}</h2>
+            <span>{{ '#LDS#There are currently no shared statistics.' | translate }}</span>
+          </div>
+        </div>
+        <!-- TODO 454155: Add translations -->
+        @if (isUserAdmin) {
+          <button mat-flat-button color="primary" (click)="openOrgSideSheet()" data-imx-identifier="org-open-sidesheet">
+            <eui-icon icon="network"></eui-icon>
+            <span>???Manage shared statistics???</span>
+          </button>
+        }
+      </div>
+    }
+    <!-- Show no stats -->
+    @if (!hasData && !isSearch && isGrouped) {
+      <div class="imx-no-data">
+        <div class="imx-no-data-top">
+          <eui-icon icon="content-alert"></eui-icon>
+          <div class="imx-no-data-text">
+            <h2>{{ '#LDS#Heading No Statistics' | translate }}</h2>
+            <span>{{ '#LDS#There are currently no statistics.' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  }
+
+</mat-card>

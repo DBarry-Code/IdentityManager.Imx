@@ -1,11 +1,12 @@
 <h2 class="mat-headline-5">{{ '#LDS#Heading Password Manager' | translate }}</h2>
 
-<ng-container *ngIf="dataReady">
-  <eui-alert *ngIf="!links" type="error">{{
-    '#LDS#You cannot open Password Manager. The Password Manager integration is not enabled.' | translate
-  }}</eui-alert>
-
-  <ng-container *ngIf="links">
+@if (dataReady) {
+  @if (!links) {
+    <eui-alert type="error">{{
+      '#LDS#You cannot open Password Manager. The Password Manager integration is not enabled.' | translate
+    }}</eui-alert>
+  }
+  @if (links) {
     <mat-card class="imx-password-card">
       <mat-card-header>
         <div mat-card-avatar>
@@ -23,7 +24,6 @@
         <a #passwordLink mat-flat-button color="primary">{{ '#LDS#Manage my passwords' | translate }}</a>
       </mat-card-actions>
     </mat-card>
-
     <mat-card class="imx-password-card">
       <mat-card-header>
         <div mat-card-avatar>
@@ -41,7 +41,6 @@
         <a #qaLink mat-flat-button color="primary">{{ '#LDS#Manage my Q&A profile' | translate }}</a>
       </mat-card-actions>
     </mat-card>
-
     <mat-card class="imx-password-card">
       <mat-card-header>
         <div mat-card-avatar>
@@ -59,5 +58,5 @@
         <a #alertLink mat-flat-button color="primary">{{ '#LDS#Manage my alerts' | translate }}</a>
       </mat-card-actions>
     </mat-card>
-  </ng-container>
-</ng-container>
+  }
+}

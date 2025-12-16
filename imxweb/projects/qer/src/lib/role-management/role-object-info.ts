@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -77,7 +77,6 @@ export interface RoleObjectInfo {
   canUseRecommendations?: boolean;
   translateKeys?: RoleTranslateKeys;
   exportMethod?: (isAdmin: boolean) => DataSourceToolbarExportMethod;
-  canEdit?: () => Promise<boolean>;
 
   /** ID to inject into the HelpContextualService  */
   respHelpContextId?: HelpContextualValues;

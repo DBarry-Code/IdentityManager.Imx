@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -61,7 +61,10 @@ const mockMatDialogRef = {
   close: jasmine.createSpy('close'),
 };
 
-@Pipe({ name: 'ldsReplace' })
+@Pipe({
+    name: 'ldsReplace',
+    standalone: false
+})
 class MockLdsReplacePipe implements PipeTransform {
   transform() {}
 }
@@ -71,8 +74,9 @@ const mockLdsReplacePipe = {
 };
 
 @Component({
-  selector: 'imx-data-source-toolbar',
-  template: '<p>MockDataSourceToolbarComponent</p>',
+    selector: 'imx-data-source-toolbar',
+    template: '<p>MockDataSourceToolbarComponent</p>',
+    standalone: false
 })
 class MockDataSourceToolbarComponent {
   @Input() public dst: any;
@@ -81,16 +85,18 @@ class MockDataSourceToolbarComponent {
 }
 
 @Component({
-  selector: 'imx-data-table',
-  template: '<p>MockDataTableComponent</p>',
+    selector: 'imx-data-table',
+    template: '<p>MockDataTableComponent</p>',
+    standalone: false
 })
 class MockDataTableComponent {
   @Input() public dst: any;
 }
 
 @Component({
-  selector: 'imx-data-table-column',
-  template: '<p>MockDataTableColumnComponent</p>',
+    selector: 'imx-data-table-column',
+    template: '<p>MockDataTableColumnComponent</p>',
+    standalone: false
 })
 class MockDataTableColumnComponent {
   @Input() public entityColumn: any;

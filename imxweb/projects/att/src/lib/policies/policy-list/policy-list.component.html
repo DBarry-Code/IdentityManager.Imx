@@ -13,8 +13,14 @@
       </th>
       <td mat-cell *matCellDef="let item" role="gridcell" class="imx-table-cell">
         <div data-imx-identifier="policy-list-show-edit">{{ item.GetEntity().GetDisplay() }}</div>
-        <div subtitle-long>
-          <div *ngIf="isComplienceFrameworkEnabled && item.Areas.value !== ''">{{ item.Areas.Column.GetDisplayValue() }}</div>
+        <div subtitle>
+          @if (isComplienceFrameworkEnabled && item.Areas.value !== '') {
+            <span>{{ item.Areas.Column.GetDisplayValue() }}</span>
+          }
+          @if (isComplienceFrameworkEnabled && item.Areas.value !== '' && getSubtitleText(item?.GetEntity())) {
+            <span class="imx-padding-right-4">;</span>
+          }
+          <span>{{ getSubtitleText(item?.GetEntity()) }}</span>
         </div>
       </td>
     </ng-container>
@@ -54,7 +60,9 @@
             >
               {{ '#LDS#Delete' | translate }}
             </button>
-            <mat-spinner diameter="24" *ngIf="menuLoading"></mat-spinner>
+            @if (menuLoading) {
+              <mat-spinner diameter="24"></mat-spinner>
+            }
           </div>
 
           <button

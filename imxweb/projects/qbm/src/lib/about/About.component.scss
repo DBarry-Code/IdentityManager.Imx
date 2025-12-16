@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 
 ::ng-deep {
   .imx-AboutPanel {
@@ -33,7 +33,7 @@
     text-align: center;
     display: block;
   }
-  @media #{$IMX_Mediaquery_Smartphone} {
+  @media #{imx-variables.$IMX_Mediaquery_Smartphone} {
     .imx-productLink {
       font-size: 9vw;
     }
@@ -42,7 +42,7 @@
   .imx-productNameVersion {
     padding: 15px 0;
     margin: 30px 20px;
-    border: solid $color-gray-60;
+    border: solid eui.$color-gray-60;
     border-width: 1px 0;
     text-align: center;
   }
@@ -74,7 +74,7 @@
 .imx-legalNotice-Header {
   margin-top: 10px;
   margin-bottom: 6px;
-  font-family: $IMX_Base_FontFamily;
+  font-family: imx-variables.$IMX_Base_FontFamily;
 }
 
 .imx-legalNotice {
@@ -91,7 +91,7 @@
 
 .imx-legalNotice-Content > span {
   font-size: 1em;
-  font-family: $IMX_Base_FontFamily;
+  font-family: imx-variables.$IMX_Base_FontFamily;
   margin-right: 4px;
 }
 
@@ -103,7 +103,7 @@
   margin-top: 10px;
   padding-top: 15px;
   padding-bottom: 20px;
-  font-family: $IMX_Base_FontFamily;
+  font-family: imx-variables.$IMX_Base_FontFamily;
 }
 
 .imx-contact-Header > span {

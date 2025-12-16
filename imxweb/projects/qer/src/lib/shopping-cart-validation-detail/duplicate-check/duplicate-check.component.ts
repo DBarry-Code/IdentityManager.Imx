@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,8 +29,9 @@ import { BaseViewerComponent } from '../base-viewer/base-viewer.component';
 import { DetailsView } from '../details-view.interface';
 
 @Component({
-  selector: 'imx-duplicate-check',
-  templateUrl: './duplicate-check.component.html',
+    selector: 'imx-duplicate-check',
+    templateUrl: './duplicate-check.component.html',
+    standalone: false
 })
 export class DuplicateCheckComponent extends BaseViewerComponent implements DetailsView, OnInit {
   public declare detail: string[][];

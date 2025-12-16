@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,11 +31,11 @@ import { DecisionHistoryService } from '../decision-history.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ApproverContainer } from './approver-container';
 import { WorkflowHistoryItemWrapper } from './workflow-history-item-wrapper';
-
 @Component({
   selector: 'imx-decision-history',
   templateUrl: './decision-history.component.html',
   styleUrls: ['./decision-history.component.scss'],
+  standalone: false,
 })
 export class DecisionHistoryComponent implements OnChanges {
   @Input() public approverContainer: ApproverContainer;

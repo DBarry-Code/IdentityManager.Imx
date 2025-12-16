@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,8 +36,9 @@ import { PersonService } from 'qer';
 import { ClaimDeviceService } from './claim-device.service';
 
 @Component({
-  styleUrls: ['./claim-device.component.scss'],
-  templateUrl: './claim-device.component.html',
+    styleUrls: ['./claim-device.component.scss'],
+    templateUrl: './claim-device.component.html',
+    standalone: false
 })
 export class ClaimDeviceComponent implements OnDestroy, OnInit {
   public get ownerDisplay(): string {

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -52,6 +52,7 @@ import {
   HvElement,
   HvSettings,
   HyperViewLayout,
+  HyperViewLayoutAlgorithm,
   HyperViewNavigation,
   HyperViewNavigationEnum,
   LayoutResult,
@@ -73,13 +74,15 @@ export enum ShapeType {
   selector: 'imx-hyperview',
   templateUrl: './hyperview.component.html',
   styleUrls: ['./hyperview.component.scss'],
+  standalone: false,
 })
 export class HyperviewComponent implements AfterViewInit, OnDestroy, AfterViewChecked {
   @Input() public fontSize: 'inherit' | 'medium' | 'small' | 'x-small' | 'large' = 'inherit';
   @Input() public selected: EventEmitter<ShapeClickArgs> = new EventEmitter();
-  @Input() public layout: 'Hierarchical' | 'Vertical' | 'Horizontal';
+  @Input() public layout: HyperViewLayoutAlgorithm;
   @Input() public showResetButton = true;
   @Input() public navigation: HyperViewNavigation;
+  @Input() public showToolbar = true;
   @Input() set shapes(value: ShapeData[]) {
     this._shapes = value;
     if (value?.length > 0) {
@@ -203,6 +206,7 @@ export class HyperviewComponent implements AfterViewInit, OnDestroy, AfterViewCh
     this.renderer.setStyle(this.rootElem.nativeElement, 'top', '');
     this.renderer.setStyle(this.rootElem.nativeElement, 'left', `${this.baseTransformWidth}px`);
     this.renderer.setAttribute(this.rootElem.nativeElement, 'att-relative-x', `${this.baseTransformWidth}`);
+
     this.renderer.removeAttribute(this.rootElem.nativeElement, 'att-relative-y');
     this.renderer.setAttribute(this.containerElem.nativeElement, 'att-scale', '1');
     this.viewChanged = false;
@@ -238,6 +242,8 @@ export class HyperviewComponent implements AfterViewInit, OnDestroy, AfterViewCh
     this.renderer.setStyle(this.rootElem.nativeElement, 'transform', `scale(${this.baseScale})`);
     this.renderer.setStyle(this.rootElem.nativeElement, 'left', `${this.baseTransformWidth}px`);
     this.renderer.setAttribute(this.rootElem.nativeElement, 'att-relative-x', `${this.baseTransformWidth}`);
+    this.renderer.setAttribute(this.rootElem.nativeElement, 'att-scale', `${this.baseScale}`);
+
     this.changeDetectorRef.detectChanges();
   }
 

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { Component, Input } from '@angular/core';
 import { PortalAttestationCaseHistory } from '@imx-modules/imx-api-att';
 import { DecisionHistoryService } from 'qer';
 @Component({
-  selector: 'imx-decision-history-item',
-  templateUrl: './decision-history-item.component.html',
-  styleUrls: ['./decision-history-item.component.scss'],
+    selector: 'imx-decision-history-item',
+    templateUrl: './decision-history-item.component.html',
+    styleUrls: ['./decision-history-item.component.scss'],
+    standalone: false
 })
 export class DecisionHistoryItemComponent {
   @Input() public workflowHistoryEntity: PortalAttestationCaseHistory;

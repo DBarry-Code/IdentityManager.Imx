@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-data-table-container {
   flex: 1 1 auto;
@@ -10,7 +10,7 @@
 .subtext {
   font-size: small;
   font-style: italic;
-  color: $color-gray-40;
+  color: eui.$color-gray-40;
   margin-bottom: 10px;
 }
 

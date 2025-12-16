@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -35,9 +35,10 @@ import { ServicecategoryTreeDatabase } from './servicecategory-tree-database';
 
 /** Shows information about the currently selected category. */
 @Component({
-  templateUrl: './servicecategory-list.component.html',
-  styleUrls: ['./servicecategory-list.component.scss'],
-  selector: 'imx-servicecategory-list',
+    templateUrl: './servicecategory-list.component.html',
+    styleUrls: ['./servicecategory-list.component.scss'],
+    selector: 'imx-servicecategory-list',
+    standalone: false
 })
 export class ServiceCategoryListComponent implements OnInit, OnChanges {
   @Input() public selectedServiceCategory: PortalShopCategories;

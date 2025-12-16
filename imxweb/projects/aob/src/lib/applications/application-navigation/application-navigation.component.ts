@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -49,9 +49,10 @@ import { ApplicationsService } from '../applications.service';
  * {@link ApplicationCardComponent|ApplicationCardComponent}.
  */
 @Component({
-  selector: 'imx-application-navigation',
-  templateUrl: './application-navigation.component.html',
-  styleUrls: ['./application-navigation.component.scss'],
+    selector: 'imx-application-navigation',
+    templateUrl: './application-navigation.component.html',
+    styleUrls: ['./application-navigation.component.scss'],
+    standalone: false
 })
 export class ApplicationNavigationComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings | undefined;

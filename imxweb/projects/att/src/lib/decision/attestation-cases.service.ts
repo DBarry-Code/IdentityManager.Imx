@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -75,9 +75,9 @@ export class AttestationCasesService {
   constructor(
     private readonly attClient: ApiService,
     private readonly parameterDataService: ParameterDataService,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly config: AppConfigService,
-  ) {}
+  ) { }
 
   public get attestationApproveSchema(): EntitySchema {
     return this.attClient.typedClient.PortalAttestationApprove.GetSchema();
@@ -94,8 +94,7 @@ export class AttestationCasesService {
     const collection = await this.attClient.typedClient.PortalAttestationApprove.Get(attDecisionParameters, { signal });
     if (!collection) return { totalCount: 0, Data: [] };
     return {
-      tableName: collection.tableName,
-      totalCount: collection.totalCount,
+      ...collection,
       Data: collection.Data.map((item: PortalAttestationApprove, index: number) => {
         const parameterDataContainer = this.parameterDataService.createContainer(
           item.GetEntity(),
@@ -145,10 +144,10 @@ export class AttestationCasesService {
   public async getApprovers(
     attestationCase:
       | (TypedEntity & {
-          DecisionLevel: IReadValue<number>;
-          UID_QERWorkingMethod: IReadValue<string>;
-          data: AttestationCaseData;
-        })
+        DecisionLevel: IReadValue<number>;
+        UID_QERWorkingMethod: IReadValue<string>;
+        data: AttestationCaseData;
+      })
       | AttestationHistoryCase
       | AttestationCase,
   ): Promise<Approvers> {

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -40,9 +40,10 @@ import { DataSourceToolBarGroup, DataSourceToolbarGroupData, DataSourceToolbarSe
 import { SapComplianceByAbilityBuilder } from './sap-compliance-violation-views-by-ability-builder';
 import { SapComplianceByAbilityEntity } from './sap-compliance-violation-views-by-ability-entity';
 @Component({
-  selector: 'imx-sap-compliance-violation-views-by-ability',
-  templateUrl: './sap-compliance-violation-views-by-ability.component.html',
-  styleUrls: ['./sap-compliance-violation-views-by-ability.component.scss'],
+    selector: 'imx-sap-compliance-violation-views-by-ability',
+    templateUrl: './sap-compliance-violation-views-by-ability.component.html',
+    styleUrls: ['./sap-compliance-violation-views-by-ability.component.scss'],
+    standalone: false
 })
 export class SapComplianceViolationViewsByAbilityComponent {
   @Input() set resultByAbility(value: ByAbilityResult) {

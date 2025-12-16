@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,9 +26,13 @@
 
 import { Component, Input } from '@angular/core';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  templateUrl: './indexbar.component.html',
-  selector: 'imx-indexbar',
+    templateUrl: './indexbar.component.html',
+    selector: 'imx-indexbar',
+    standalone: false
 })
 export class IndexBarComponent {
   // TODO replace VI_Common_Color_Gray, VI_Common_Color_Badge_Important,VI_Common_Color_Badge_Success,VI_Common_Color_Badge_Warning

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,8 +31,9 @@ import { ExtDirective, ClassloggerService } from 'qbm';
 import { PortalCartitem } from '@imx-modules/imx-api-qer';
 
 @Component({
-  template: `<ng-template imxExtd></ng-template>`,
-  selector: 'imx-cart-item-display',
+    template: `<ng-template imxExtd></ng-template>`,
+    selector: 'imx-cart-item-display',
+    standalone: false
 })
 export class CartItemDisplayComponent implements OnInit {
   @Input() public cartItem: PortalCartitem;

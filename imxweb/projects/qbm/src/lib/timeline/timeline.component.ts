@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,12 +30,13 @@ import { ExtendedObjectHistoryEvent, TimelineEventsGroupedByDate } from './timel
 import { EventChangeTypes, HistoryEventChangeType } from './timeline.model';
 
 @Component({
-  selector: 'imx-timeline',
-  templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss'],
+    selector: 'imx-timeline',
+    templateUrl: './timeline.component.html',
+    styleUrls: ['./timeline.component.scss'],
+    standalone: false
 })
 export class TimelineComponent implements OnInit, OnChanges {
-  @Input() public data: ExtendedObjectHistoryEvent[] = [];
+  @Input() public data: ExtendedObjectHistoryEvent[];
 
   public eventsGroupedByDate: TimelineEventsGroupedByDate[] = [];
   public eventChangeTypes = EventChangeTypes;
@@ -62,7 +63,7 @@ export class TimelineComponent implements OnInit, OnChanges {
   public loadEvents(): void {
     this.eventsGroupedByDate = [];
 
-    this.data.forEach((elem) => {
+    this.data?.forEach((elem) => {
       const date = moment(elem.ChangeTime).format('L');
 
       elem.Time = moment(elem.ChangeTime).format('HH:mm:ss');

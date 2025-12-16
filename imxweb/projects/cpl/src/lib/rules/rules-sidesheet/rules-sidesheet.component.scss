@@ -1,5 +1,5 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 .eui-sidesheet-actions {
-  @include eui-sidesheet-actions__mixin_01($padding: 16px 20px);
+  @include mixins.eui-sidesheet-actions__mixin_01($padding: 16px 20px);
 }

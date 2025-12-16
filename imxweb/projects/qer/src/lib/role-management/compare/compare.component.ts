@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -43,8 +43,9 @@ import { DataManagementService } from '../data-management.service';
 
 /** Compares two roles, with the option of merging the two roles into one. */
 @Component({
-  templateUrl: './compare.component.html',
-  styleUrls: ['./compare.component.scss'],
+    templateUrl: './compare.component.html',
+    styleUrls: ['./compare.component.scss'],
+    standalone: false
 })
 export class CompareComponent implements OnInit {
   // Takes place of the previous injected data

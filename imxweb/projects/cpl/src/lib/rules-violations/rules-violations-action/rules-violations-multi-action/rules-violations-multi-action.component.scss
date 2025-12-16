@@ -1,8 +1,8 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 mat-card {
-  @include flex-column-container();
+  @include mixins.flex-column-container();
   margin-bottom: 20px;
 }
 

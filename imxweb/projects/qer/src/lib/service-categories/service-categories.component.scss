@@ -1,11 +1,8 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $padding: true);
 }
 
 .heading-wrapper {
@@ -18,10 +15,8 @@
 }
 
 .imx-data-tree {
-  @include flex-column-container-fill();
-  margin-bottom: 3px;
-  margin-right: 3px;
-  background-color: $color-gray-0;
+  @include mixins.flex-column-container-fill();
+  background-color: eui.$color-gray-0;
 
   > :first-child {
     flex: 1 1 auto;
@@ -42,7 +37,7 @@
 .eui-dark-theme {
   :host {
     .imx-data-tree {
-      background-color: $color-gray-70;
+      background-color: eui.$color-gray-70;
     }
   }
 }
@@ -50,7 +45,7 @@
 .eui-contrast-theme {
   :host {
     .imx-data-tree {
-      background-color: $color-gray-90;
+      background-color: eui.$color-gray-90;
     }
   }
 }

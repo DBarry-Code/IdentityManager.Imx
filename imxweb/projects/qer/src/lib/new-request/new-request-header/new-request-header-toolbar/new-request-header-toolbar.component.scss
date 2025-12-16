@@ -1,21 +1,22 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
-@import '../../new-request-global.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use '../../new-request-global.scss' as new-request-global;
 
 :host {
   display: flex;
-  column-gap: 10px;
-  align-items: center;
+  column-gap: 12px;
+  align-items: baseline;
+  margin-left: auto;
 
   .imx-request-label {
-    @include new-request-text();
+    @include mixins.new-request-text();
   }
 
   .imx-request-label-value {
-    @include new-request-text(body, true);
+    @include mixins.new-request-text(body, true);
   }
 
-  imx-data-source-toolbar ::ng-deep .imx-data-source-toolbar-search {
+  imx-data-view-toolbar ::ng-deep imx-data-view-search {
     width: min(480px, 70vw);
   }
 }
@@ -23,14 +24,14 @@
 // Theming
 :host {
   .imx-request-label-value {
-    color: $color-orange-60;
+    color: eui.$color-orange-60;
   }
 }
 
 .eui-dark-theme {
   :host {
     .imx-request-label-value {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
   }
 }
@@ -38,7 +39,7 @@
 .eui-contrast-theme {
   :host {
     .imx-request-label-value {
-      color: $color-blue-40;
+      color: eui.$color-blue-40;
     }
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,12 +30,19 @@ import { Subscription } from 'rxjs';
 
 import { CollectionLoadParameters, GroupInfoData } from '@imx-modules/imx-qbm-dbts';
 
+/**
+ * @deprecated since v10.0.0
+ */
 export interface GroupPaginatorInformation {
   currentData: GroupInfoData;
   navigationState: CollectionLoadParameters;
 }
 
 /**
+ * @deprecated since v10.0.0
+  * 
+ * Use DataView instead.
+ * 
  * Paginator for navigating groups of a type {@link DataSourceToolbarComponent| datasource toolbar component}.
  *
  * @example
@@ -47,8 +54,9 @@ export interface GroupPaginatorInformation {
  * <imx-group-paginator [groupPaginatorInformation]="informationForGroupSettings"></imx-group-paginator>
  */
 @Component({
-  selector: 'imx-group-paginator',
-  templateUrl: './group-paginator.component.html',
+    selector: 'imx-group-paginator',
+    templateUrl: './group-paginator.component.html',
+    standalone: false
 })
 export class GroupPaginatorComponent implements OnChanges, OnDestroy {
   @Input() public groupPaginatorInformation: GroupPaginatorInformation;

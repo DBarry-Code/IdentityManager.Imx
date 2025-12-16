@@ -1,0 +1,10 @@
+<mat-form-field appearance="outline" class="wide-field">
+  <mat-label>{{ '#LDS#Value' | translate }}</mat-label>
+  <mat-select (selectionChange)="configSvc.addChange(conf)" [(ngModel)]="conf.Value">
+    @for (pr of validvalues; track pr.Value) {
+      <mat-option [value]="pr.Value">
+        {{ pr.Display }}
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>

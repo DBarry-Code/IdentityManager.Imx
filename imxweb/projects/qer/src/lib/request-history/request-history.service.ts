@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -104,10 +104,11 @@ export class RequestHistoryService {
   public async getArchivedRequests(
     userUid: string,
     recipientId: string,
+    signal: AbortSignal,
   ): Promise<ExtendedTypedEntityCollection<ItshopRequest, PwoExtendedData>> {
     const dummy: ArchivedRequestHistoryLoadParameters = {};
     recipientId ? (dummy.uidpersonordered = recipientId) : (dummy.uidpersoninserted = userUid);
-    const collection = await this.qerClient.typedClient.PortalItshopHistoryRequests.Get(new Date(), dummy);
+    const collection = await this.qerClient.typedClient.PortalItshopHistoryRequests.Get(new Date(), dummy, { signal });
 
     const data = collection.extendedData;
     return {

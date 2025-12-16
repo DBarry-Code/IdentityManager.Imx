@@ -6,16 +6,15 @@
     {{ '#LDS#Show effective permissions' | translate }}
   </mat-radio-button>
 </mat-radio-group>
-<imx-busy-indicator *ngIf="isLoading"></imx-busy-indicator>
-<ng-container *ngIf="!isShowEffectivePermissions && assigned && !isLoading">
+@if (isLoading) {
+  <imx-busy-indicator></imx-busy-indicator>
+}
+@if (!isShowEffectivePermissions && assigned && !isLoading) {
   <p>{{ ldsAssignedAccess | translate }}</p>
-
   <imx-assigned-permissions [trustees]="assigned"></imx-assigned-permissions>
-</ng-container>
+}
 
-<ng-container *ngIf="isShowEffectivePermissions && data && !isLoading">
+@if (isShowEffectivePermissions && data && !isLoading) {
   <p translate>#LDS#The following accounts and groups have access to this resource.</p>
-
   <imx-effective-permission [trusteeTypes]="trusteeTypes" [trustees]="assigned" [accessData]="data.Trustees"></imx-effective-permission>
-
-</ng-container>
+}

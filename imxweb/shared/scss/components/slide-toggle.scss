@@ -1,4 +1,4 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 /* Elemental UI */
 
 /* Angular Material */
@@ -9,6 +9,7 @@ form {
     margin-left: 8px;
   }
 }
+
 .escalation-approver-toggle {
   margin: 0.5em;
 }
@@ -30,8 +31,9 @@ form {
 
 .imx-flex-toggle-container {
   margin-bottom: 20px;
-  @include flex-row-container();
-  > * {
+  @include mixins.flex-row-container();
+
+  >* {
     margin-right: 20px;
   }
 }

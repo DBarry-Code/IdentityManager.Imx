@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,32 +27,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Routes } from '@angular/router';
 import { EuiCoreModule, EuiMaterialModule } from '@elemental-ui/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import {
-  BulkPropertyEditorModule,
-  CdrModule,
-  ClassloggerModule,
-  ClassloggerService,
-  DataSourceToolbarModule,
-  DataTableModule,
-  DataTilesModule,
-  DataTreeWrapperModule,
-  DisableControlModule,
-  HELP_CONTEXTUAL,
-  HelpContextualModule,
-  LdsReplaceModule,
-  MenuItem,
-  MenuService,
-  QbmModule,
-  RouteGuardService,
-  SelectedElementsModule,
+    BulkPropertyEditorModule,
+    CdrModule,
+    ClassloggerModule,
+    ClassloggerService,
+    DataSourceToolbarModule,
+    DataTableModule,
+    DataTilesModule,
+    DataTreeWrapperModule,
+    DisableControlModule,
+    HelpContextualModule,
+    LdsReplaceModule,
+    MenuItem,
+    MenuService,
+    QbmModule,
+    SelectedElementsModule
 } from 'qbm';
 import { ItshopModule } from '../itshop/itshop.module';
 import { PatternItemsModule } from '../pattern-item-list/pattern-items.module';
-import { RequestsFeatureGuardService } from '../requests-feature-guard.service';
 import { ServiceItemsModule } from '../service-items/service-items.module';
 import { UserModule } from '../user/user.module';
 import { OptionalItemsSidesheetComponent } from './optional-items-sidesheet/optional-items-sidesheet.component';
@@ -65,18 +61,11 @@ import { ServiceItemEditComponent } from './service-item-edit/service-item-edit.
 import { CategoryTreeComponent } from './servicecategory-list/category-tree.component';
 import { ServiceCategoryListComponent } from './servicecategory-list/servicecategory-list.component';
 
-const routes: Routes = [
-  {
-    path: 'productselection',
-    component: ProductSelectionComponent,
-    canActivate: [RequestsFeatureGuardService],
-    resolve: [RouteGuardService],
-    data: {
-      contextId: HELP_CONTEXTUAL.NewRequest,
-    },
-  },
-];
-
+/**
+ * @deprecated since v10.0.0
+  * 
+ * Use NewRequestModule instead.
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -115,10 +104,6 @@ const routes: Routes = [
   ],
   providers: [ProductSelectionService],
 })
-
-/**
- * @deprecated Use NewRequestModule
- */
 export class ProductSelectionModule {
   constructor(
     private readonly menuService: MenuService,

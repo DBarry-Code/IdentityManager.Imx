@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,9 +29,10 @@ import { Component, Input } from '@angular/core';
 import { Approvers } from '../approvers.interface';
 
 @Component({
-  selector: 'imx-approvers',
-  templateUrl: './approvers.component.html',
-  styleUrls: ['./approvers.component.scss'],
+    selector: 'imx-approvers',
+    templateUrl: './approvers.component.html',
+    styleUrls: ['./approvers.component.scss'],
+    standalone: false
 })
 export class ApproversComponent {
   @Input() public approvers: Approvers;

@@ -1,2 +1,11 @@
-<eui-search [placeholder]="'#LDS#Search' | translate" [searchControl]="searchControl" size="small" (keydown.enter)="onAssignKeywords()">
+<eui-search
+  [placeholder]="searchPlaceholder | translate"
+  [searchControl]="searchControl"
+  size="small"
+  (keydown.enter)="onAssignKeywords()"
+  [disabled]="isGroupingApplied()"
+  [matTooltip]="isGroupingApplied() ? ('#LDS#Searching in grouped elements is not possible.' | translate) : ''"
+>
+  <eui-icon euiSuffix name="imx-icon-search" class="eui-text-muted" [matTooltip]="'#LDS#Search' | translate" matTooltipPosition="above">
+  </eui-icon>
 </eui-search>

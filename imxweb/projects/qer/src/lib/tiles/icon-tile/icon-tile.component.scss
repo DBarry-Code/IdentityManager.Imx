@@ -1,11 +1,11 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import 'base/variables';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/variables' as imx-variables;
 
 :host > ::ng-deep imx-tile .mat-mdc-card {
   height: 140px;
   display: flex;
-  width: $IMX_Tile_Width;
-  min-width: $IMX_Tile_Width;
+  width: imx-variables.$IMX_Tile_Width;
+  min-width: imx-variables.$IMX_Tile_Width;
   flex-direction: column;
   cursor: auto;
   padding: 25px;
@@ -24,7 +24,7 @@
   cursor: auto;
   line-height: normal;
   margin-bottom: 4px;
-  h3{
+  h3 {
     font-size: inherit;
   }
 }
@@ -36,7 +36,7 @@
 }
 
 .mat-mdc-card-title > eui-icon {
-  color: $black-9;
+  color: eui.$color-gray-40;
   margin-right: 0.5em;
 }
 
@@ -57,7 +57,7 @@
   text-align: left;
   overflow: auto;
   overflow-x: hidden;
-  color: $black-9;
+  color: eui.$color-gray-40;
   margin-bottom: 0;
 }
 

@@ -1,14 +1,14 @@
 <div class="page">
-  <ng-container *ngIf="isLoggedIn">
-    <imx-mast-head [hidden]="isPageHeadless">
-      <span imx-profile-menu-items>
-        <button mat-menu-item data-imx-identifier="user-menu-settings" (click)="openSettingsDialog()">
-          <span translate>#LDS#Menu Entry User interface settings</span>
-        </button>
-      </span>
-    </imx-mast-head>
-  </ng-container>
+  <imx-mast-head [hidden]="isPageHeadless">
+    <span imx-profile-menu-items>
+      <button mat-menu-item data-imx-identifier="user-menu-settings" (click)="openSettingsDialog()">
+        <span translate>#LDS#Menu Entry User interface settings</span>
+      </button>
+    </span>
+  </imx-mast-head>
   <div class="pageContent">
-    <router-outlet *ngIf="showPageContent"></router-outlet>
+    @if (showPageContent) {
+      <router-outlet></router-outlet>
+    }
   </div>
 </div>

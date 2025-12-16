@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -45,6 +45,7 @@ import { EuiCoreModule } from '@elemental-ui/core';
 
 import { TranslateModule } from '@ngx-translate/core';
 
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DateComponent } from './date/date.component';
 import { CalendarComponent } from './date/calendar/calendar.component';
 import { TimePickerComponent } from './date/time-picker/time-picker.component';
@@ -72,6 +73,7 @@ import { LocalizedDatePipe } from './localized-date.pipe';
     TranslateModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-no-results {
   text-align: center;
@@ -12,6 +12,6 @@
   p {
     margin: 0;
     font-size: 18px;
-    color: $black-9;
+    color: eui.$color-gray-40;
   }
 }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -30,8 +30,9 @@ import { DisplayColumns } from '@imx-modules/imx-qbm-dbts';
 import { BaseReadonlyCdr, ColumnDependentReference } from 'qbm';
 
 @Component({
-  selector: 'imx-service-item-detail',
-  templateUrl: './service-item-detail.component.html',
+    selector: 'imx-service-item-detail',
+    templateUrl: './service-item-detail.component.html',
+    standalone: false
 })
 export class ServiceItemDetailComponent implements OnInit {
   @Input() public serviceItem: PortalShopServiceitems;

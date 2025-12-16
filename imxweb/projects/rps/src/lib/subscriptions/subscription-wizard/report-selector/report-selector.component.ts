@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,16 +36,17 @@ import { SettingsService } from 'qbm';
 import { ReportSubscriptionService } from '../../report-subscription/report-subscription.service';
 
 @Component({
-  selector: 'imx-report-selector',
-  templateUrl: './report-selector.component.html',
-  styleUrls: ['./report-selector.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ReportSelectorComponent),
-      multi: true,
-    },
-  ],
+    selector: 'imx-report-selector',
+    templateUrl: './report-selector.component.html',
+    styleUrls: ['./report-selector.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ReportSelectorComponent),
+            multi: true,
+        },
+    ],
+    standalone: false
 })
 export class ReportSelectorComponent implements ControlValueAccessor, OnInit, OnDestroy, AfterViewInit {
   public candidatesTotalCount: number;

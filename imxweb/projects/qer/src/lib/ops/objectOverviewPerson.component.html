@@ -3,6 +3,6 @@
   <button mat-stroked-button color="primary" (click)="generateAndShowPasscode()">{{ '#LDS#Create passcode' | translate }}</button>
 </div>
 
-<ng-container *ngIf="isPasswordResetAllowed">
+@if (isPasswordResetAllowed) {
   <imx-password-reset [uidPerson]="uidPerson" [embedded]="true"></imx-password-reset>
-</ng-container>
+}

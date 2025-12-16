@@ -1,63 +1,74 @@
-<imx-busy-indicator *ngIf="busy"></imx-busy-indicator>
+@if (busy) {
+  <imx-busy-indicator></imx-busy-indicator>
+}
 
 <div eui-sidesheet-content>
-  <ng-container *ngIf="dataReady">
-    <eui-alert *ngIf="!!dataSource.data.length" type="info" [condensed]="true" [colored]="true">
-      <span *ngIf="dataSource.data.length > 1">
-        {{
-          (Type == SourceDetectiveType.MembershipOfRole
+  @if (dataReady) {
+    @if (!!dataSource.data.length) {
+      <eui-alert type="info" [condensed]="true" [colored]="true">
+        @if (dataSource.data.length > 1) {
+          <span>
+            {{
+            (Type == SourceDetectiveType.MembershipOfRole
             ? '#LDS#There are {0} origins for the role membership.'
             : '#LDS#There are {0} origins for the assignment.'
-          )
+            )
             | translate
             | ldsReplace: dataSource.data.length
-        }}
-      </span>
-      <span translate *ngIf="dataSource.data.length == 1">#LDS#Here you can see how the assignment originated.</span>
-    </eui-alert>
-
-    <mat-card class="imx-source-card">
-      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" *ngIf="!!dataSource.data.length; else noData">
-        <mat-tree-node class="imx-source-treenode" *matTreeNodeDef="let node" matTreeNodePadding>
-          <button *ngIf="!hasChild(node)" mat-icon-button disabled></button>
-          <button *ngIf="hasChild(node)" mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-            </mat-icon>
-          </button>
-
-          <imx-parameterized-text [parameterizedText]="node.Description" (textReady)="grabText(node, $event)"></imx-parameterized-text>
-
-          <ng-container *ngIf="node.IsPrimaryAssignment && node.LastPrimaryAssignmentChange"
-            >,
-            {{
-              '#LDS#Last modified by {0} on {1}'
-                | translate
-                | ldsReplace: node.LastPrimaryAssignmentChange.UserUpdated : node.LastPrimaryAssignmentChange.DateUpdated
             }}
-          </ng-container>
-
-          <div *ngIf="node.ObjectType == 'PersonWantsOrg'">
-            <eui-icon
-              euiClickable="primary"
-              data-imx-identifier="imx-source-detective-request"
-              (click)="openRequestDetail(node)"
-              [matTooltip]="'#LDS#View request information' | translate"
-              icon="info"
-              size="24px"
-              [aria-hidden]="false"
-              [attr.aria-label]="'#LDS#View request information' | translate"
-            ></eui-icon>
-          </div>
-        </mat-tree-node>
-      </mat-tree>
+          </span>
+        }
+        @if (dataSource.data.length == 1) {
+          <span translate>#LDS#Here you can see how the assignment originated.</span>
+        }
+      </eui-alert>
+    }
+    <mat-card class="imx-source-card">
+      @if (!!dataSource.data.length) {
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+          <mat-tree-node class="imx-source-treenode" *matTreeNodeDef="let node" matTreeNodePadding>
+            @if (!hasChild(node)) {
+              <button mat-icon-button disabled></button>
+            }
+            @if (hasChild(node)) {
+              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                </mat-icon>
+              </button>
+            }
+            <imx-parameterized-text [parameterizedText]="node.Description" (textReady)="grabText(node, $event)"></imx-parameterized-text>
+            @if (node.IsPrimaryAssignment && node.LastPrimaryAssignmentChange) {
+              ,
+              {{
+              '#LDS#Last modified by {0} on {1}'
+              | translate
+              | ldsReplace: node.LastPrimaryAssignmentChange.UserUpdated : node.LastPrimaryAssignmentChange.DateUpdated
+              }}
+            }
+            @if (node.ObjectType == 'PersonWantsOrg') {
+              <div>
+                <eui-icon
+                  euiClickable="primary"
+                  data-imx-identifier="imx-source-detective-request"
+                  (click)="openRequestDetail(node)"
+                  [matTooltip]="'#LDS#View request information' | translate"
+                  icon="info"
+                  size="24px"
+                  [aria-hidden]="false"
+                  [attr.aria-label]="'#LDS#View request information' | translate"
+                ></eui-icon>
+              </div>
+            }
+          </mat-tree-node>
+        </mat-tree>
+      } @else {
+        <div class="imx-no-results">
+          <eui-icon icon="content-alert"></eui-icon>
+          <p translate>#LDS#There is no information available for this assignment.</p>
+        </div>
+      }
     </mat-card>
-  </ng-container>
+  }
 
-  <ng-template #noData>
-    <div class="imx-no-results">
-      <eui-icon icon="content-alert"></eui-icon>
-      <p translate>#LDS#There is no information available for this assignment.</p>
-    </div>
-  </ng-template>
 </div>

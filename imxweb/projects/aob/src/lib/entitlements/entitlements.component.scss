@@ -1,5 +1,5 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
   display: flex;
@@ -10,15 +10,17 @@
 }
 
 .imx-entitlements-site {
-  &.imx-hidden{
-    display:none;
+  &.imx-hidden {
+    display: none;
   }
+
   padding: 16px 40px;
   height: 100%;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  .imx-entitlements-row-actions{
+
+  .imx-entitlements-row-actions {
     display: flex;
     gap: 8px;
   }
@@ -40,7 +42,7 @@ imx-data-source-toolbar-custom button {
     font-weight: 600;
   }
 
-  > div {
+  >div {
     margin-top: 30px;
   }
 
@@ -52,9 +54,10 @@ imx-data-source-toolbar-custom button {
     display: flex;
     flex-direction: column;
 
-    > .mat-mdc-unelevated-button {
+    >.mat-mdc-unelevated-button {
       margin-bottom: 15px;
     }
+
     > :last-child {
       justify-self: center;
     }
@@ -68,13 +71,13 @@ imx-data-source-toolbar-custom button {
 
 div[subtitle] {
   font-size: smaller;
-  color: $color-gray-40;
+  color: eui.$color-gray-40;
 }
 
 .eui-contrast-theme {
   :host {
     .imx-entitlements-site {
-      background-color: $color-gray-100;
+      background-color: eui.$color-gray-100;
     }
   }
 }

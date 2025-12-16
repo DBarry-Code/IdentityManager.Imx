@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,15 +24,16 @@
  *
  */
 
-import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, output, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatTableDataSource } from '@angular/material/table';
-import { EUI_SIDESHEET_DATA, EuiSelectFeedbackMessages, EuiSelectOption } from '@elemental-ui/core';
+import { EUI_SIDESHEET_DATA, EuiSelectOption } from '@elemental-ui/core';
 import { CollectionLoadParameters, DataModelFilterOption, TypedEntity } from '@imx-modules/imx-qbm-dbts';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { ElementalUiConfigService } from '../../../configuration/elemental-ui-config.service';
 import { DataSourceToolbarFilter, DataSourceToolbarSelectedFilter } from '../../data-source-toolbar-filters.interface';
 import { DataSourceToolbarSettings } from '../../data-source-toolbar-settings';
 import { DSTViewConfig } from '../../data-source-toolbar-view-config.interface';
@@ -50,6 +51,7 @@ enum FilterTypes {
   selector: 'imx-predefined-filter',
   templateUrl: './predefined-filter.component.html',
   styleUrls: ['./predefined-filter.component.scss'],
+  standalone: false,
 })
 export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() public settings: DataSourceToolbarSettings;
@@ -85,6 +87,11 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
   public internalSelectedFilters: DataSourceToolbarSelectedFilter[] = [];
 
   /**
+   * Count of currently applied filters
+   */
+  public nSelectedFilters = output<number>();
+
+  /**
    * Occurs when a selectedFilter that is marked as custom is removed from the selectedFilters array
    */
   @Output() public customSelectedFilterRemoved = new EventEmitter<DataSourceToolbarSelectedFilter>();
@@ -108,7 +115,6 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
   public searchTerms: DataSourceToolbarSelectedFilter[] = [];
 
   public hiddenFilterSet: Set<string> = new Set([]);
-  public filterOptionLengthThreshold = 5;
 
   public filters: DataSourceToolbarFilter[] = [];
 
@@ -127,8 +133,6 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     currentValue: FormControl;
     options: EuiSelectOption[];
   }[] = [];
-
-  public feedbackMessages: EuiSelectFeedbackMessages;
 
   /**
    * Method to handle searching over options
@@ -169,6 +173,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
   constructor(
     private readonly filterService: FilterWizardService,
     private translateService: TranslateService,
+    public elementalUiConfigService: ElementalUiConfigService,
     @Inject(EUI_SIDESHEET_DATA) public data?: FilterWizardSidesheetData,
   ) {
     // this.hiddenFilters = ['namespace'];
@@ -178,7 +183,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     this.selectedFilters = data?.selectedFilters ?? [];
     this.filters = _.cloneDeep(data?.settings.filters) ?? [];
     this.getFilterTypes();
-    this.internalSelectedFilters = Object.create(this.selectedFilters);
+    this.internalSelectedFilters = this.selectedFilters.map((filter) => filter);
     this.formState = { canClearFilters: this.selectedFilters.length > 0, dirty: false, filterIdentifier: FilterTypeIdentifier.Predefined };
 
     this.subscriptions.push(
@@ -188,23 +193,10 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     );
 
     this.subscriptions.push(
-      this.filterService.clearFiltersEvent.subscribe(() => {
-        this.clearFilters();
+      this.filterService.clearFiltersEvent.subscribe((emit: boolean) => {
+        this.clearFilters(emit);
       }),
     );
-
-    this.feedbackMessages = {
-      selected: this.translateService.instant('#LDS#{{value}} selected'),
-      clear: this.translateService.instant('#LDS#Clear selection'),
-      search: this.translateService.instant('#LDS#Search'),
-      plusOther: this.translateService.instant('#LDS#and 1 more'),
-      plusOtherPlural: this.translateService.instant('#LDS#and {{value}} more'),
-      unsupportedCharacter: this.translateService.instant('#LDS#You are using unsupported characters.'),
-      noResults: this.translateService.instant('#LDS#There is no data matching your search.'),
-      clearAll: this.translateService.instant('#LDS#Clear selection'),
-      ok: this.translateService.instant('#LDS#OK'),
-      keyboardOptionsListAria: this.translateService.instant('#LDS#Use the arrow keys to select items.'),
-    };
   }
 
   public ngAfterViewInit(): void {
@@ -216,6 +208,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
 
   public ngOnInit(): void {
     this.filterService.formStatusChanged(this.formState);
+    this.calculateNumberOfSelectedFilters();
   }
 
   public ngOnDestroy(): void {
@@ -290,6 +283,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
 
     this.formState.dirty = true;
     this.filterService.formStatusChanged(this.formState);
+    this.calculateNumberOfSelectedFilters();
   }
 
   /**
@@ -298,36 +292,27 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
    * @param options option set to apply as filters
    */
   public onMultiSelectFilterChanged(filter: DataSourceToolbarFilter, options: EuiSelectOption | EuiSelectOption[]): void {
-    // Add new options
-    let selectedFilterData: DataSourceToolbarSelectedFilter;
-    options.forEach((option) => {
-      selectedFilterData = { selectedOption: option.option, filter };
-      if (
-        !this.internalSelectedFilters.some(
-          (internalFilter) => internalFilter.filter?.Name === filter.Name && internalFilter.filter?.CurrentValue?.includes(option.value),
-        )
-      ) {
-        // If this is a new selection
-        this.internalSelectedFilters.push(selectedFilterData);
-      }
-    });
-    // Check all selected filters for values not in the optionset, remove them
-    const optionValues = options.map((option) => option.value);
-    this.internalSelectedFilters.forEach((internalFilter) => {
-      if (internalFilter.filter?.Name === filter.Name && !optionValues.includes(internalFilter.selectedOption?.Value)) {
-        this.removeSelectedFilter(filter, false, internalFilter.selectedOption?.Value);
-      }
-    });
-    // Set current value, mark dirty
-    filter.CurrentValue = optionValues.join(filter.Delimiter);
+    // Update filter current value
+    const selectedOptions = Array.isArray(options) ? options : [options];
+    const optionValues = selectedOptions.map((option) => option.value);
+    const value = optionValues.join(filter.Delimiter);
+    filter.CurrentValue = value === '' ? undefined : value;
+    let selectedFilterData: DataSourceToolbarSelectedFilter = { selectedOption: { Value: value === '' ? undefined : value }, filter };
+    const index = this.findSelectedFilterIndex(filter.Name);
+    if (index >= 0) {
+      this.internalSelectedFilters[index] = selectedFilterData;
+    } else {
+      this.internalSelectedFilters.push(selectedFilterData);
+    }
+    // Mark dirty and recalculate filters
     this.formState.dirty = true;
     this.filterService.formStatusChanged(this.formState);
+    this.calculateNumberOfSelectedFilters();
   }
 
   public onRadioFilterChanged(filter: DataSourceToolbarFilter, option: any): void {
-    let selectedFilterData: DataSourceToolbarSelectedFilter;
     filter.CurrentValue = option ? option.Value : undefined;
-    selectedFilterData = { selectedOption: option, filter };
+    const selectedFilterData: DataSourceToolbarSelectedFilter = { selectedOption: option, filter };
     const index = this.findSelectedFilterIndex(filter.Name);
     if (index >= 0) {
       this.internalSelectedFilters[index] = selectedFilterData;
@@ -336,13 +321,16 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     }
     this.formState.dirty = true;
     this.filterService.formStatusChanged(this.formState);
+    this.calculateNumberOfSelectedFilters();
   }
 
   public onSelectFilterChanged(filter: DataSourceToolbarFilter, option: EuiSelectOption | EuiSelectOption[]): void {
-    let selectedFilterData: DataSourceToolbarSelectedFilter;
     const selectedOption: EuiSelectOption = Array.isArray(option) ? option[0] : option;
     filter.CurrentValue = selectedOption ? selectedOption.value : undefined;
-    selectedFilterData = { selectedOption: { Value: selectedOption.value, Display: selectedOption.display }, filter };
+    let selectedFilterData: DataSourceToolbarSelectedFilter = {
+      selectedOption: { Value: selectedOption ? selectedOption.value : undefined },
+      filter,
+    };
     const index = this.findSelectedFilterIndex(filter.Name);
     if (index >= 0) {
       this.internalSelectedFilters[index] = selectedFilterData;
@@ -351,6 +339,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     }
     this.formState.dirty = true;
     this.filterService.formStatusChanged(this.formState);
+    this.calculateNumberOfSelectedFilters();
   }
 
   /**
@@ -378,6 +367,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
         this.internalSelectedFilters.push(filter);
       }
     });
+    this.calculateNumberOfSelectedFilters();
   }
 
   /**
@@ -404,8 +394,6 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     filter.CurrentValue = undefined;
     const index = this.findSelectedFilterIndex(filter.Name, optionValue);
     if (index >= 0) {
-      this.internalSelectedFilters.splice(index, 1);
-
       // If filter allows delimited values then we need to only remove the selected option and rebuild
       // currentValue to include any other selected options
       if (filter.Delimiter) {
@@ -424,6 +412,7 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
       //   this.updateNavigateStateWithFilters();
       // }
     }
+    this.calculateNumberOfSelectedFilters();
   }
 
   /**
@@ -433,13 +422,17 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
    */
   private clearFilters(emit = true): void {
     this.filters?.forEach((filter) => (filter.CurrentValue = undefined));
+    this.filterTypes.map((filterType) => filterType.currentValue.setValue(undefined));
     const containsCustomFilters = this.selectedFiltersContainsCustomFilters();
     if (containsCustomFilters) {
       this.customSelectedFilterRemoved.emit();
     }
     this.selectedFilters = [];
     this.internalSelectedFilters = [];
-    this.updateNavigateStateWithFilters(emit);
+    this.nSelectedFilters.emit(0);
+    if (emit) {
+      this.updateNavigateStateWithFilters(emit);
+    }
   }
 
   private applyFilters(): void {
@@ -607,5 +600,17 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
       totalCount: this.internalDataSource.filteredData.length,
     };
     this.settingsChanged.emit(this.settings);
+  }
+
+  private calculateNumberOfSelectedFilters(): void {
+    // Loop through the filters, if there is a delim then split the current value and count the number of selected options
+    const totalCount = this.internalSelectedFilters
+      .map((filter) => {
+        if (!filter.filter?.CurrentValue) return 0;
+        if (filter.filter?.Delimiter) return filter.filter.CurrentValue.split(filter.filter.Delimiter).length;
+        return 1;
+      })
+      .reduce((a, b) => a + b, 0);
+    this.nSelectedFilters.emit(totalCount);
   }
 }

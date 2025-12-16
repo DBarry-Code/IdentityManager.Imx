@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { ProjectConfigurationService } from '../../project-configuration/project
 import { AddressbookDetail } from './addressbook-detail.interface';
 
 @Component({
-  selector: 'imx-addressbook-detail',
-  templateUrl: './addressbook-detail.component.html',
+    selector: 'imx-addressbook-detail',
+    templateUrl: './addressbook-detail.component.html',
+    standalone: false
 })
 export class AddressbookDetailComponent implements OnInit {
   constructor(

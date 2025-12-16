@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { UserMessageService } from './user-message.service';
  * A component that displays a message inside an ElementalUI alert control
  */
 @Component({
-  selector: 'imx-usermessage',
-  templateUrl: './user-message.component.html',
-  styleUrls: ['./user-message.component.scss'],
+    selector: 'imx-usermessage',
+    templateUrl: './user-message.component.html',
+    styleUrls: ['./user-message.component.scss'],
+    standalone: false
 })
 export class UserMessageComponent implements AfterContentInit, OnDestroy {
   /**

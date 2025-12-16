@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,9 +42,10 @@ interface TrusteePermissionData {
 
 /** Component to display a TrusteeAccessData structure. */
 @Component({
-  templateUrl: './trustee-view.component.html',
-  styleUrls: ['../qam.scss', './trustee-view.component.scss'],
-  selector: 'imx-trustee-view',
+    templateUrl: './trustee-view.component.html',
+    styleUrls: ['../qam.scss', './trustee-view.component.scss'],
+    selector: 'imx-trustee-view',
+    standalone: false
 })
 export class TrusteeViewComponent implements OnInit, OnChanges {
   public currentSelectedTrustee: TrusteeData | undefined;

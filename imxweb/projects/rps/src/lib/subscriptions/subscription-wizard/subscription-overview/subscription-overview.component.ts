@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,9 +36,10 @@ import { ReportSubscription } from '../../report-subscription/report-subscriptio
 type NameAddress = { name: string; address: string };
 
 @Component({
-  selector: 'imx-subscription-overview',
-  templateUrl: './subscription-overview.component.html',
-  styleUrls: ['./subscription-overview.component.scss'],
+    selector: 'imx-subscription-overview',
+    templateUrl: './subscription-overview.component.html',
+    styleUrls: ['./subscription-overview.component.scss'],
+    standalone: false
 })
 export class SubscriptionOverviewComponent implements OnInit, OnDestroy {
   public userIsMissingEMail = false;

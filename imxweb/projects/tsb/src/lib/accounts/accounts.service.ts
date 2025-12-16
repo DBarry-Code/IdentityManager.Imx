@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -28,15 +28,15 @@ import { Injectable } from '@angular/core';
 
 import { PortalTargetsystemUnsAccount, V2ApiClientMethodFactory } from '@imx-modules/imx-api-tsb';
 import {
-  CollectionLoadParameters,
-  DataModel,
-  DataModelFilter,
-  EntityCollectionData,
-  EntitySchema,
-  FilterTreeData,
-  MethodDefinition,
-  MethodDescriptor,
-  TypedEntityCollectionData,
+    CollectionLoadParameters,
+    DataModel,
+    DataModelFilter,
+    EntityCollectionData,
+    EntitySchema,
+    FilterTreeData,
+    MethodDefinition,
+    MethodDescriptor,
+    TypedEntityCollectionData,
 } from '@imx-modules/imx-qbm-dbts';
 import { DataSourceToolbarExportMethod } from 'qbm';
 import { DbObjectKeyBase } from '../target-system/db-object-key-wrapper.interface';
@@ -93,7 +93,11 @@ export class AccountsService {
     return (await this.dynamicMethod.getById(AccountTypedEntity, { dbObjectKey, columnName })) as AccountTypedEntity;
   }
 
-  /** @deprecated Will be removed. Please load the data model first. */
+  /** 
+  * @deprecated since v10.0.0
+  * 
+  * Use the data model instead.
+  */
   public async getFilterOptions(): Promise<DataModelFilter[]> {
     return (await this.getDataModel()).Filters ?? [];
   }

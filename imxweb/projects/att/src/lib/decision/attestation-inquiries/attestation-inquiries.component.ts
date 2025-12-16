@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -61,10 +61,11 @@ import { LossPreview } from '../loss-preview.interface';
 import { AttestationInquiry } from './attestation-inquiry.model';
 
 @Component({
-  templateUrl: './attestation-inquiries.component.html',
-  selector: 'imx-attestation-inquiries',
-  styleUrls: ['./attestation-inquiries.component.scss'],
-  providers: [DataViewSource],
+    templateUrl: './attestation-inquiries.component.html',
+    selector: 'imx-attestation-inquiries',
+    styleUrls: ['./attestation-inquiries.component.scss'],
+    providers: [DataViewSource],
+    standalone: false
 })
 export class AttestationInquiriesComponent implements OnInit, OnDestroy {
   public readonly entitySchema: EntitySchema;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -58,6 +58,7 @@ class OtherIdentitiesTypedEntity extends TypedEntity {
   templateUrl: './team-responsibility-sidesheet.component.html',
   styleUrl: './team-responsibility-sidesheet.component.scss',
   providers: [DataViewSource],
+  standalone: false,
 })
 export class TeamResponsibilitySidesheetComponent implements OnInit {
   private readonly builder = new TypedEntityBuilder(OtherIdentitiesTypedEntity);
@@ -146,14 +147,12 @@ export class TeamResponsibilitySidesheetComponent implements OnInit {
       });
   }
 
-  public onAssignResponsibilities(): void {
+  public onManageResponsibility(): void {
     this.sidesheetService
       .open(TeamResponsibilityAssignSidesheetComponent, {
-        title: this.translateService.instant(
-          !this.isDirectResponsibility() ? '#LDS#Heading Assign Additional Identities' : '#LDS#Heading Assign Additional Identity',
-        ),
+        title: this.translateService.instant('#LDS#Heading Manage My Reports Responsible for the Object'),
         subTitle: this.data.responsibility.GetEntity().GetDisplay(),
-        icon: 'useradd',
+        icon: 'role',
         padding: '0',
         width: calculateSidesheetWidth(600, 0.4),
         testId: 'team-responsibilities-assign-sidesheet',
@@ -161,6 +160,7 @@ export class TeamResponsibilitySidesheetComponent implements OnInit {
           responsibility: [this.data.responsibility],
           reassign: false,
           extendedData: [this.data.extendedData],
+          manage: true,
         },
       })
       .afterClosed()

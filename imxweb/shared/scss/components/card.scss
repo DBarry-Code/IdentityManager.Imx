@@ -1,11 +1,12 @@
-@import 'base/mixins';
-@import 'components/icon';
-
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+@use 'components/icon' as *;
 /* Elemental UI */
 
 /* Angular Material */
 .mat-mdc-card {
   padding: 16px;
+
   .mat-mdc-card-content,
   .mat-mdc-card-header {
     padding: 0 16px 0 0 !important;
@@ -15,18 +16,18 @@
 /* Imx */
 .mat-mdc-card.imx-card,
 div.imx-card {
-  @include flex-column-container($overflow: hidden);
+  @include mixins.flex-column-container($overflow: hidden);
 
   &-border {
-    border: 1px solid $color-gray-20;
+    border: 1px solid eui.$color-gray-20;
   }
 
   &-fill {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
   }
 
   &-fill-sidesheet-margin {
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
     margin: 20px;
   }
 
@@ -37,17 +38,17 @@ div.imx-card {
 
   &-data-explorer {
     &-header {
-      background-color: $color-gray-0;
+      background-color: eui.$color-gray-0;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
       z-index: 100;
-      border: 1px solid rgba($color-blue-60, 0.6);
+      border: 1px solid rgba(eui.$color-blue-60, 0.6);
       margin-bottom: 20px;
 
       &-bg {
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
-        background-color: $color-blue-20;
+        background-color: eui.$color-blue-20;
         padding: 10px 24px;
         display: flex;
         align-items: center;
@@ -68,7 +69,7 @@ div.imx-card {
     cursor: pointer;
 
     &.selected {
-      border: 3px solid $color-blue-60;
+      border: 3px solid eui.$color-blue-60;
     }
   }
 
@@ -93,7 +94,8 @@ div.imx-card {
   }
 
   &-scroll-content {
-    @include flex-column-container($overflow: hidden);
+    @include mixins.flex-column-container($overflow: auto);
+
     .mat-mdc-card-content {
       overflow: auto;
     }
@@ -119,7 +121,7 @@ div.imx-card {
   .mat-mdc-card.imx-card,
   div.imx-card {
     &-border {
-      border: 1px solid $color-gray-60;
+      border: 1px solid eui.$color-gray-60;
     }
   }
 }
@@ -129,7 +131,7 @@ div.imx-card {
   .mat-mdc-card.imx-card,
   div.imx-card {
     &-border {
-      border: 1px solid $color-gray-0;
+      border: 1px solid eui.$color-gray-0;
     }
   }
 }
@@ -142,18 +144,18 @@ div.imx-card {
     &-data-explorer {
       &-header {
         &-bg {
-          background-color: $color-blue-80;
+          background-color: eui.$color-blue-80;
         }
 
         .eui-icon {
-          color: $color-gray-0;
+          color: eui.$color-gray-0;
         }
       }
     }
 
     &-select {
       &.selected {
-        border: 3px solid $color-blue-40;
+        border: 3px solid eui.$color-blue-40;
       }
     }
   }

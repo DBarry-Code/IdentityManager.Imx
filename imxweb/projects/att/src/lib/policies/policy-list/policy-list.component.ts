@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,6 +39,7 @@ import {
   EntitySchema,
   ExtendedTypedEntityCollection,
   FilterType,
+  IEntity,
   TypedEntityCollectionData,
   ValType,
 } from '@imx-modules/imx-qbm-dbts';
@@ -55,6 +56,7 @@ import {
   SettingsService,
   SnackBarService,
   SystemInfoService,
+  buildAdditionalElementsString,
   calculateSidesheetWidth,
 } from 'qbm';
 import { UserModelService, ViewConfigService } from 'qer';
@@ -70,6 +72,7 @@ import { AttestationPolicy } from './attestation-policy';
   templateUrl: './policy-list.component.html',
   styleUrls: ['./policy-list.component.scss'],
   providers: [DataViewSource],
+  standalone: false,
 })
 export class PolicyListComponent implements OnInit {
   @ViewChild('deleteButton') public deleteButton: MatButton;
@@ -322,6 +325,10 @@ export class PolicyListComponent implements OnInit {
         testId: 'policy-list-view-details-sidesheet',
       });
     }
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns() || []);
   }
 
   private async navigate(): Promise<void> {

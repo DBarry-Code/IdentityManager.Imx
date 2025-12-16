@@ -1,11 +1,8 @@
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 :host {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%, $padding: true);
 
   .imx-cases-content {
     flex: 1 1 auto;
@@ -17,10 +14,10 @@
 
   .mat-mdc-outlined-button,
   .mat-mdc-unelevated-button {
-    @include image-button-icon();
+    @include mixins.image-button-icon();
   }
 
-  > * {
+  >* {
     margin-right: 16px;
   }
 }
@@ -35,8 +32,9 @@
 }
 
 .imx-decision {
-  @include button-column-right();
-  > button:not(:last-of-type) {
+  @include mixins.button-column-right();
+
+  >button:not(:last-of-type) {
     margin-right: 5px;
   }
 }

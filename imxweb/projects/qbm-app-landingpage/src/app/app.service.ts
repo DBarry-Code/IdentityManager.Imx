@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,66 +25,50 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { TypedClient } from '@imx-modules/imx-api-qbm';
-import { TranslateService } from '@ngx-translate/core';
 import {
   AppConfigService,
-  AuthenticationService,
-  CaptchaService,
+  AppInitializationService,
   CdrRegistryService,
   ClassloggerService,
   ImxTranslationProviderService,
-  SystemInfoService,
   imx_SessionService,
 } from 'qbm';
 import { environment } from '../environments/environment';
+import { AdminDynamicModuleImportService } from './dynamic-import/admin-dynamic-modules-import.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
-  public recaptchaSiteKeyV3: string | null = null;
   constructor(
     private logger: ClassloggerService,
     private readonly config: AppConfigService,
-    private readonly translateService: TranslateService,
     private readonly session: imx_SessionService,
     private readonly translationProvider: ImxTranslationProviderService,
     public readonly registry: CdrRegistryService,
-    private readonly authentication: AuthenticationService,
-    private readonly systemInfoService: SystemInfoService,
-    private readonly captchaService: CaptchaService,
+    private readonly router: Router,
+    private readonly appInitService: AppInitializationService,
+    private dynamicModuleService: AdminDynamicModuleImportService,
   ) {}
 
   public async init(): Promise<void> {
-    await this.config.init(environment.clientUrl);
-
-    if (this.config.Config.Translation?.Langs) {
-      this.translateService.addLangs(this.config.Config.Translation.Langs);
+    try {
+      await this.initInternal();
+    } catch (e) {
+      this.logger.error(this, 'Error during app initialization: ' + e);
+      this.router.navigate(['error']);
     }
-    const browserCulture = this.translateService.getBrowserCultureLang() as string;
-    this.logger.debug(this, 'Set default language to', browserCulture);
-    this.translateService.setDefaultLang(browserCulture);
-    await this.translateService.use(browserCulture).toPromise();
-
-    this.authentication.onSessionResponse.subscribe((sessionState) => this.translationProvider.init(sessionState?.culture));
-
-    this.session.TypedClient = new TypedClient(this.config.v2client, this.translationProvider);
-
-    const imxConfig = await this.systemInfoService.getImxConfig();
-
-    if (imxConfig.RecaptchaPublicKey) {
-      this.captchaService.enableReCaptcha(imxConfig.RecaptchaPublicKey);
-      this.recaptchaSiteKeyV3 = imxConfig.RecaptchaPublicKey;
-    }
-    this.captchaService.captchaImageUrl = 'admin/captchaimage';
   }
 
-  public static init(app: AppService): () => Promise<any> {
-    return () =>
-      new Promise<any>(async (resolve: any) => {
-        await app.init();
-        resolve();
-      });
+  private async initInternal(): Promise<void> {
+    await this.appInitService.initializeCommonServices({
+      captchaImageUrl: 'admin/captchaimage',
+      clientUrl: environment.clientUrl,
+    });
+
+    this.session.TypedClient = new TypedClient(this.config.v2client, this.translationProvider);
+    await this.dynamicModuleService.setupModulesForApp(environment.appName);
   }
 }

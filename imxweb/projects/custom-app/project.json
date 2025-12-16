@@ -1,7 +1,9 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "custom-app",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "application",
   "sourceRoot": "projects/custom-app/src",
   "prefix": "imx",
@@ -41,7 +43,9 @@
         ],
         "index": "projects/custom-app/src/index.html",
         "browser": "projects/custom-app/src/main.ts",
-        "polyfills": ["projects/custom-app/src/polyfills.ts"],
+        "polyfills": [
+          "projects/custom-app/src/polyfills.ts"
+        ],
         "tsConfig": "projects/custom-app/tsconfig.app.json",
         "aot": true,
         "assets": [
@@ -63,7 +67,10 @@
             "output": "./assets"
           }
         ],
-        "styles": ["projects/custom-app/src/styles.scss", "projects/qbm/src/lib/styles/imx-page-title.scss"],
+        "styles": [
+          "projects/custom-app/src/styles.scss",
+          "projects/qbm/src/lib/styles/imx-page-title.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./shared/assets",
@@ -124,9 +131,7 @@
               "with": "../imxweb_envs/custom-app/environments/environment.remote-qs.ts"
             }
           ],
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -135,7 +140,9 @@
           "tsConfig": "./projects/custom-app/tsconfig-es5.app.json"
         }
       },
-      "outputs": ["{options.outputPath}"]
+      "outputs": [
+        "{options.outputPath}"
+      ]
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -173,8 +180,13 @@
         "polyfills": "projects/custom-app/src/polyfills.ts",
         "tsConfig": "projects/custom-app/tsconfig.spec.json",
         "karmaConfig": "projects/custom-app/karma.conf.js",
-        "assets": ["projects/custom-app/src/appconfig.json", "projects/custom-app/src/assets"],
-        "styles": ["projects/custom-app/src/styles.scss"],
+        "assets": [
+          "projects/custom-app/src/appconfig.json",
+          "projects/custom-app/src/assets"
+        ],
+        "styles": [
+          "projects/custom-app/src/styles.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "./shared/assets",
@@ -189,8 +201,13 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/custom-app/tsconfig.app.json", "projects/custom-app/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**"]
+        "tsConfig": [
+          "projects/custom-app/tsconfig.app.json",
+          "projects/custom-app/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**"
+        ]
       }
     }
   }

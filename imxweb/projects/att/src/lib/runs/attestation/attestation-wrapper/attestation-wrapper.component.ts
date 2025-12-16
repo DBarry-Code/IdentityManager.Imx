@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,8 +32,9 @@ import { Subscription } from 'rxjs';
 import { IdentityAttestationService } from '../../../identity-attestation.service';
 
 @Component({
-  templateUrl: './attestation-wrapper.component.html',
-  styleUrls: ['./attestation-wrapper.component.scss'],
+    templateUrl: './attestation-wrapper.component.html',
+    styleUrls: ['./attestation-wrapper.component.scss'],
+    standalone: false
 })
 export class AttestationWrapperComponent implements OnInit, OnDestroy {
   public referrer: { objecttable: string; objectuid: string };

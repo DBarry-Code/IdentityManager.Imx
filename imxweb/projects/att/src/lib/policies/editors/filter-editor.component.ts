@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,16 +32,17 @@ import { FilterChangedArgument } from './filter-changed-argument.interface';
 import { FilterElementModel } from './filter-element-model';
 
 @Component({
-  selector: 'imx-filter-editor',
-  templateUrl: './filter-editor.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FilterEditorComponent),
-      multi: true,
-    },
-  ],
-  styleUrls: ['./filter-editor.component.scss'],
+    selector: 'imx-filter-editor',
+    templateUrl: './filter-editor.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FilterEditorComponent),
+            multi: true,
+        },
+    ],
+    styleUrls: ['./filter-editor.component.scss'],
+    standalone: false
 })
 export class FilterEditorComponent implements ControlValueAccessor {
   public onChange: (event: FilterElementModel) => void;

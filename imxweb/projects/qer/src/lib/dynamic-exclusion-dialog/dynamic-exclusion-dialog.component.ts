@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,8 +29,9 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'imx-dynamic-exclusion-dialog',
-  templateUrl: './dynamic-exclusion-dialog.component.html',
+    selector: 'imx-dynamic-exclusion-dialog',
+    templateUrl: './dynamic-exclusion-dialog.component.html',
+    standalone: false
 })
 export class DynamicExclusionDialogComponent implements OnInit {
   public dynamicExclusionForm: UntypedFormGroup;

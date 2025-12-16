@@ -1,0 +1,168 @@
+@use '@angular/material' as mat;
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
+
+:host {
+  // Overwrites pagecontent
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  .imx-loginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: inherit;
+  }
+
+  .imx-companyLogo {
+    margin: 20px;
+    color: eui.$color-gray-2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    img {
+      object-fit: contain;
+    }
+
+    eui-icon {
+      margin: auto;
+      font-size: 128px;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 600;
+    }
+  }
+
+  .imx-card {
+    // Used for coloring background of header
+    padding: 0;
+    min-width: 420px;
+    max-width: 50%;
+    @include mat.elevation(8);
+  }
+
+  .imx-card-header {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    // Overwrite our own padding
+    padding: 8px !important;
+  }
+
+  // to center material card header
+  ::ng-deep .mat-card-header-text,
+  ::ng-deep .mat-mdc-card-header-text {
+    margin: auto;
+    overflow: hidden;
+  }
+
+  .mat-card-title,
+  .mat-mdc-card-title {
+    font-size: xx-large;
+    font-weight: 600;
+    overflow: hidden;
+    line-height: normal;
+    @include mixins.text-overflow-ellipsis;
+  }
+
+  .imx-card-header-button {
+    align-self: center;
+  }
+
+  .mat-card-content,
+  .mat-mdc-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    // Override our own settings
+    padding: 8px !important;
+  }
+
+  // Set hidden mat hint to display none
+  ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
+  .imx-loginMask {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    * {
+      width: 100%;
+    }
+  }
+
+  .imx-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .below-login {
+      display: flex;
+      gap: 15px;
+      .imx-button{
+        text-transform:none;
+      }
+    }
+  }
+
+  .imx-copywrite {
+    // Force copywrite to bottom of page
+    margin-top: auto;
+    text-align: center;
+    padding-bottom: 8px;
+    color: eui.$color-gray-2;
+  }
+}
+
+// Theming
+.eui-light-theme {
+  :host {
+    .imx-loginPage {
+      background-color: eui.$color-blue-60;
+    }
+
+    .imx-card-header {
+      color: eui.$color-gray-2;
+      background-color: eui.$color-blue-85;
+
+      ::ng-deep eui-icon {
+        color: eui.$color-gray-2;
+      }
+    }
+  }
+}
+
+.eui-dark-theme {
+  :host {
+    .imx-card-header {
+      color: eui.$color-gray-80;
+      background-color: eui.$color-blue-40;
+
+      ::ng-deep eui-icon {
+        color: eui.$color-gray-80;
+      }
+    }
+  }
+}
+
+.eui-high-contrast {
+  :host {
+    .imx-card-header {
+      color: eui.$color-gray-0;
+      background-color: eui.$color-blue-60;
+
+      ::ng-deep eui-icon {
+        color: eui.$color-gray-0;
+      }
+    }
+  }
+}

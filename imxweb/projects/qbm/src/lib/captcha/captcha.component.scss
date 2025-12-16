@@ -1,4 +1,4 @@
-@import 'common/captcha-login';
+@use 'common/captcha-login' as captcha-login;
 
 :host {
   display: block;
@@ -6,14 +6,19 @@
 
 .captcha-container {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  img {
+    object-fit: contain;
+  }
 
   .mat-mdc-form-field {
     flex: 1 1 auto;
   }
+}
 
-  img {
-    padding-right: 1em;
-    height: 36px;
-    margin-top: 5px;
-  }
+.captcha-input {
+  display: flex;
+  gap: 8px;
 }

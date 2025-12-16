@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -34,9 +34,10 @@ import { SideNavigationComponent } from '../side-navigation-view/side-navigation
 type T = CacheData & { key: string };
 
 @Component({
-  templateUrl: './cache.component.html',
-  styleUrls: ['./shared.scss'],
-  selector: 'imx-cache',
+    templateUrl: './cache.component.html',
+    styleUrls: ['./shared.scss'],
+    selector: 'imx-cache',
+    standalone: false
 })
 export class CacheComponent implements OnInit, SideNavigationComponent {
   @Input() public isAdmin: boolean;

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,15 +38,16 @@ import { DynamicRoleSqlWizardService } from '../dynamicrole-sqlwizard.service';
 import { RoleService } from '../role.service';
 
 @Component({
-  templateUrl: './dynamic-role.component.html',
-  styleUrls: ['./role-sidesheet-tabs.scss', './dynamic-role.component.scss'],
-  selector: 'imx-dynamic-group',
-  providers: [
-    {
-      provide: SqlWizardApiService,
-      useClass: DynamicRoleSqlWizardService,
-    },
-  ],
+    templateUrl: './dynamic-role.component.html',
+    styleUrls: ['./role-sidesheet-tabs.scss', './dynamic-role.component.scss'],
+    selector: 'imx-dynamic-group',
+    providers: [
+        {
+            provide: SqlWizardApiService,
+            useClass: DynamicRoleSqlWizardService,
+        },
+    ],
+    standalone: false
 })
 export class DynamicRoleComponent implements OnInit {
   constructor(

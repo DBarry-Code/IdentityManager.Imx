@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -31,7 +31,7 @@ import {
   PortalItshopPeergroupMemberships,
   PortalShopServiceitems,
 } from '@imx-modules/imx-api-qer';
-import { TypedEntity } from '@imx-modules/imx-qbm-dbts';
+import { TypedEntity, ValType } from '@imx-modules/imx-qbm-dbts';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import {
   GetSelectedProductType,
@@ -57,7 +57,6 @@ export class NewRequestSelectionService {
     return this.selectedProductsProperty.map((product) => product.item);
   }
 
-
   constructor() {}
 
   public clearProducts(): void {
@@ -67,49 +66,41 @@ export class NewRequestSelectionService {
 
   public addProducts(
     products: TypedEntity[],
+    allProducts: TypedEntity[],
     productSource: SelectedProductSource = SelectedProductSource.Undefined,
-    wholeBundle: boolean = false,
     productBundle?: PortalItshopPatternRequestable,
   ): void {
-    productSource === SelectedProductSource.ProductBundles
-      ? this.addBundleItems(products as PortalItshopPatternItem[], productBundle, wholeBundle)
-      : this.addNonBundleItems(products as PortalShopServiceitems[] | PortalItshopPeergroupMemberships[], productSource);
-  }
-
-  private addNonBundleItems(
-    products: PortalShopServiceitems[] | PortalItshopPeergroupMemberships[],
-    productSource: SelectedProductSource = SelectedProductSource.Undefined,
-  ): void {
-    this.selectedProducts = this.selectedProducts.filter((x) => x.source != productSource);
-
-    products.forEach((x) => {
-      this.selectedProducts.push({ item: x, type: GetSelectedProductType(x), source: productSource });
-    });
-  }
-
-  private addBundleItems(
-    products: PortalItshopPatternItem[],
-    productBundle: PortalItshopPatternRequestable | undefined,
-    wholeBundle: boolean,
-  ): void {
-    // determine all items that do not belong to the specified product bundle
-    this.selectedProducts = wholeBundle
-      ? this.selectedProducts.filter(
-          (x) =>
-            !(x.item instanceof PortalItshopPatternItem) ||
-            (x.item instanceof PortalItshopPatternItem &&
-              x.item.GetEntity().GetColumn('UID_ShoppingCartPattern').GetValue() !== productBundle?.UID_ShoppingCartPattern.value),
+    const removeProducts = allProducts.filter(
+      (productItem) =>
+        !products.find(
+          (product) =>
+            product.GetEntity().GetColumn('selectionKey').GetValue() == productItem.GetEntity().GetColumn('selectionKey').GetValue(),
+        ),
+    );
+    this.selectedProducts = this.selectedProducts.filter(
+      (productItem) =>
+        !removeProducts.find(
+          (product) =>
+            product.GetEntity().GetColumn('selectionKey').GetValue() == productItem.item.GetEntity().GetColumn('selectionKey').GetValue(),
+        ),
+    );
+    products.forEach((product: PortalShopServiceitems | PortalItshopPeergroupMemberships | PortalItshopPatternItem) => {
+      if (
+        !this.selectedProducts.find(
+          (productItem) =>
+            productItem.item.GetEntity().GetColumn('selectionKey').GetValue() == product.GetEntity().GetColumn('selectionKey').GetValue(),
         )
-      : (this.selectedProducts = this.selectedProducts.filter((x) => !(x.item instanceof PortalItshopPatternItem)));
-
-    // add all products from the specified product bundle
-    products.forEach((x) => {
-      this.selectedProducts.push({
-        item: x,
-        type: GetSelectedProductType(x),
-        source: SelectedProductSource.ProductBundles,
-        bundle: productBundle,
-      });
+      ) {
+        this.selectedProducts.push({ item: product, type: GetSelectedProductType(product), source: productSource, bundle: productBundle });
+      }
     });
+  }
+
+  public async addSelectionKeyColumn<T>(products: TypedEntity[]): Promise<T[]> {
+    for (const product of products) {
+      product.GetEntity().AddColumns([{ ColumnName: 'selectionKey', Type: ValType.String }]);
+      await product.GetEntity().GetColumn('selectionKey').PutValue(product.GetEntity().GetKeys()[0]);
+    }
+    return products as T[];
   }
 }

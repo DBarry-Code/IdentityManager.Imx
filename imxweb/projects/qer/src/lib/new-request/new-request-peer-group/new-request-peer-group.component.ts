@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,25 +24,32 @@
  *
  */
 
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
-import { from } from 'rxjs';
+import { Component, effect, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 
-import { PortalItshopPeergroupMemberships } from '@imx-modules/imx-api-qer';
-import { CollectionLoadParameters, DisplayColumns, IClientProperty, IWriteValue, MultiValue, TypedEntity } from '@imx-modules/imx-qbm-dbts';
+import { PortalItshopPeergroupMemberships, PortalShopServiceitems, ServiceItemsExtendedData } from '@imx-modules/imx-api-qer';
+import {
+  CollectionLoadParameters,
+  DisplayColumns,
+  ExtendedTypedEntityCollection,
+  IClientProperty,
+  MultiValue,
+  TypedEntity,
+} from '@imx-modules/imx-qbm-dbts';
 
 import { MatDialog } from '@angular/material/dialog';
 import {
-  Busy,
   BusyService,
   DataSourceToolbarComponent,
   DataSourceToolbarSettings,
+  DataViewInitParameters,
+  DataViewSource,
+  DataViewSourceFactoryService,
   HELP_CONTEXTUAL,
   ImxTranslationProviderService,
   SettingsService,
 } from 'qbm';
 import { ItshopService } from '../../itshop/itshop.service';
-import { CurrentProductSource } from '../current-product-source';
 import { NewRequestOrchestrationService } from '../new-request-orchestration.service';
 import { NewRequestCategoryApiService } from '../new-request-product/new-request-category-api.service';
 import { NewRequestProductApiService } from '../new-request-product/new-request-product-api.service';
@@ -56,32 +63,27 @@ import { PeerGroupDiscardSelectedComponent } from './peer-group-discard-selected
   selector: 'imx-new-request-peer-group',
   templateUrl: './new-request-peer-group.component.html',
   styleUrls: ['./new-request-peer-group.component.scss'],
+  providers: [DataViewSource],
+  standalone: false,
 })
-export class NewRequestPeerGroupComponent implements AfterViewInit, OnDestroy {
-  //#region Private
-  private subscriptions: Subscription[] = [];
-  private busy: Busy;
-  //#endregion
-
-  //#region Public
-
+export class NewRequestPeerGroupComponent implements OnDestroy {
   public selectedChipIndex = 0;
-  public productDst: DataSourceToolbarComponent;
   public membershipDst: DataSourceToolbarComponent;
-  public productDstSettings: DataSourceToolbarSettings;
   public membershipDstSettings: DataSourceToolbarSettings;
-  public productNavigationState: CollectionLoadParameters | ServiceItemParameters;
   public membershipNavigationState: CollectionLoadParameters | ServiceItemParameters;
-  public noDataText = '#LDS#No data';
   public DisplayColumns = DisplayColumns;
   public displayedProductColumns: IClientProperty[];
   public displayedMembershipColumns: IClientProperty[];
   public peerGroupSize = 0;
   public SelectedProductSource = SelectedProductSource;
-  public selectedSource: SelectedProductSource;
   public contextId = HELP_CONTEXTUAL.NewRequestRecommendedProduct;
+  public productDataSource: DataViewSource<PortalShopServiceitems, ServiceItemsExtendedData>;
+  public membershipDataSource: DataViewSource<PortalItshopPeergroupMemberships, ServiceItemsExtendedData>;
+  public isLoading: boolean;
   public readonly currentCulture: string;
-  //#endregion
+
+  private recipientsIds: string | undefined;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     public readonly productApi: NewRequestProductApiService,
@@ -91,14 +93,13 @@ export class NewRequestPeerGroupComponent implements AfterViewInit, OnDestroy {
     public readonly orchestration: NewRequestOrchestrationService,
     private readonly categoryApi: NewRequestCategoryApiService,
     private readonly settingService: SettingsService,
-    private readonly cd: ChangeDetectorRef,
     public readonly busyService: BusyService,
     private readonly dialog: MatDialog,
+    public dataSourceFactory: DataViewSourceFactoryService,
     private readonly translationProviderService: ImxTranslationProviderService,
   ) {
-    this.orchestration.selectedView = SelectedProductSource.PeerGroupProducts;
-    this.orchestration.searchApi$.next(this.searchApi);
-    this.orchestration.selectedChip = 0;
+    this.orchestration.selectedView.set(SelectedProductSource.PeerGroupProducts);
+    this.orchestration.selectedChip.set(0);
 
     this.displayedProductColumns = [
       this.productApi.entitySchema.Columns[DisplayColumns.DISPLAY_PROPERTYNAME],
@@ -115,137 +116,67 @@ export class NewRequestPeerGroupComponent implements AfterViewInit, OnDestroy {
       this.membershipApi.PortalItshopPeergroupMembershipsSchema.Columns.Description,
     ];
 
+    this.productDataSource = dataSourceFactory.getDataSource<PortalShopServiceitems, ServiceItemsExtendedData>();
+    this.membershipDataSource = dataSourceFactory.getDataSource<PortalItshopPeergroupMemberships, ServiceItemsExtendedData>();
+    this.orchestration.dataViewPeerGroupProducts.set(this.productDataSource);
+    this.orchestration.dataViewPeerGroupOrgs.set(this.membershipDataSource);
     this.currentCulture = this.translationProviderService.CultureFormat;
 
     //#region Subscriptions
 
-    this.subscriptions.push(
-      this.orchestration.currentProductSource$.subscribe(async (source: CurrentProductSource) => {
-        this.selectedSource = source?.view;
-
-        if (source?.view === SelectedProductSource.PeerGroupProducts) {
-          this.productDst = source.dst;
-          this.productDst.busyService = this.busyService;
-          this.productDst.clearSearch();
-          this.orchestration.dstSettingsPeerGroupProducts = this.productDstSettings;
-          this.subscriptions.push(
-            this.selectionService.selectedProducts$.subscribe(() => {
-              this.orchestration.preselectBySource(SelectedProductSource.PeerGroupProducts, this.productDst);
-            }),
-          );
-          this.subscriptions.push(
-            this.productDst.searchResults$.subscribe((data) => {
-              if (data) {
-                this.productDstSettings = {
-                  dataSource: data,
-                  displayedColumns: this.displayedProductColumns,
-                  entitySchema: this.productApi.entitySchema,
-                  navigationState: this.productNavigationState,
+    effect(() => {
+      if (this.orchestration.recipientsIds() !== this.recipientsIds) {
+        this.recipientsIds = this.orchestration.recipientsIds();
+        const recipientsVals = MultiValue.FromString(this.orchestration.recipients()?.Column.GetValue())?.GetValues();
+        if (recipientsVals.length > 1) {
+          this.dialog
+            .open(PeerGroupDiscardSelectedComponent)
+            .afterClosed()
+            .subscribe((result) => {
+              if (result) {
+                const firstRecipient = {
+                  DataValue: recipientsVals?.[0],
+                  DisplayValue: MultiValue.FromString(this.orchestration.recipients()?.Column.GetDisplayValue() || '').GetValues()?.[0],
                 };
-                this.orchestration.dstSettingsPeerGroupProducts = this.productDstSettings;
+                this.orchestration.setRecipients(firstRecipient).then(() => this.getData());
               }
-              this.busy.endBusy(true);
-            }),
-          );
+            });
+        } else {
+          this.getData();
         }
-
-        if (source?.view === SelectedProductSource.PeerGroupOrgs) {
-          this.membershipDst = source.dst;
-          this.membershipDst.busyService = this.busyService;
-          this.membershipDst.clearSearch();
-          this.orchestration.dstSettingsPeerGroupOrgs = this.membershipDstSettings;
-          this.subscriptions.push(
-            this.selectionService.selectedProducts$.subscribe(() => {
-              this.orchestration.preselectBySource(SelectedProductSource.PeerGroupOrgs, this.membershipDst);
-            }),
-          );
-          this.subscriptions.push(
-            this.membershipDst.searchResults$.subscribe((data) => {
-              if (data) {
-                this.membershipDstSettings = {
-                  dataSource: data,
-                  displayedColumns: this.displayedMembershipColumns,
-                  entitySchema: this.membershipApi.PortalItshopPeergroupMembershipsSchema,
-                  navigationState: this.membershipNavigationState,
-                };
-                this.orchestration.dstSettingsPeerGroupOrgs = this.membershipDstSettings;
-              }
-              this.busy.endBusy(true);
-            }),
-          );
-        }
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.navigationState$.subscribe(async (navigation: CollectionLoadParameters | ServiceItemParameters) => {
-        if (this.selectedChipIndex === 0 && this.selectedSource === SelectedProductSource.PeerGroupProducts) {
-          this.productNavigationState = navigation;
-          if (this.productDstSettings) {
-            this.productDstSettings.displayedColumns = this.displayedProductColumns;
-            await this.getProductData();
-          }
-        }
-        if (this.selectedChipIndex === 1 && this.selectedSource === SelectedProductSource.PeerGroupOrgs) {
-          this.membershipNavigationState = navigation;
-          if (this.membershipDstSettings) {
-            this.membershipDstSettings.displayedColumns = this.displayedMembershipColumns;
-            await this.getMembershipData();
-          }
-        }
-      }),
-    );
-
-    this.subscriptions.push(
-      this.orchestration.recipients$.subscribe((recipients: IWriteValue<string>) => {
-        this.getData();
-      }),
-    );
+      }
+    });
 
     this.subscriptions.push(
       this.selectionService.selectedProductsCleared$.subscribe(() => {
-        this.productDst?.clearSelection();
-        this.membershipDst?.clearSelection();
+        this.productDataSource.selection.clear();
+        this.membershipDataSource.selection.clear();
       }),
     );
 
-    //#endregion
-  }
-
-  public async ngAfterViewInit(): Promise<void> {
-    this.productNavigationState = { StartIndex: 0, PageSize: this.settingService.PageSizeForAllElements };
-    this.membershipNavigationState = { StartIndex: 0, PageSize: this.settingService.PageSizeForAllElements };
-
-    await this.getProductData();
+    this.subscriptions.push(
+      this.busyService.busyStateChanged.subscribe((value) => {
+        this.isLoading = value;
+      }),
+    );
   }
 
   public ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    this.orchestration.dataViewPeerGroupProducts.set(undefined);
+    this.orchestration.dataViewPeerGroupOrgs.set(undefined);
   }
 
   public onSelectionChanged(items: TypedEntity[] | PortalItshopPeergroupMemberships[], type: SelectedProductSource): void {
     type === SelectedProductSource.PeerGroupProducts
-      ? this.selectionService.addProducts(items, SelectedProductSource.PeerGroupProducts)
-      : this.selectionService.addProducts(items, SelectedProductSource.PeerGroupOrgs);
+      ? this.selectionService.addProducts(items, this.productDataSource.data, SelectedProductSource.PeerGroupProducts)
+      : this.selectionService.addProducts(items, this.membershipDataSource.data, SelectedProductSource.PeerGroupOrgs);
   }
 
-  public searchApi = (keywords: string) => {
-    this.busy = this.busyService.beginBusy();
-    this.orchestration.abortCall();
-    if (this.selectedChipIndex === 0) {
-      const parameters = { ...this.getCollectionLoadParamaters(this.productNavigationState), search: keywords };
-      return from(this.productApi.get(parameters));
-    }
-    if (this.selectedChipIndex === 1) {
-      const parameters = { ...this.getCollectionLoadParamaters(this.membershipNavigationState), search: keywords };
-      return from(this.membershipApi.getPeerGroupMemberships(parameters, { signal: this.orchestration.abortController.signal }));
-    }
-
-    return undefined;
-  };
-
   public async onRowSelected(item: TypedEntity): Promise<void> {
-    this.productDetailsService.showProductDetails(item, this.orchestration.recipients);
+    if (!!this.orchestration.recipients()) {
+      this.productDetailsService.showProductDetails(item, this.orchestration.recipients()!);
+    }
   }
 
   public getCIPGCurrentValue(prod: any): number {
@@ -254,70 +185,40 @@ export class NewRequestPeerGroupComponent implements AfterViewInit, OnDestroy {
 
   public async onChipClicked(index: number): Promise<void> {
     this.selectedChipIndex = index;
-    this.orchestration.selectedChip = index;
-    // this.orchestration.clearSearch$.next(true);
+    this.orchestration.selectedChip.set(index);
 
     if (index === 0) {
-      this.orchestration.selectedView = SelectedProductSource.PeerGroupProducts;
-      // this.orchestration.dstSettingsPeerGroupProducts = this.productDstSettings;
-      // this.productNavigationState = { StartIndex: 0 };
-      // this.productDst.clearSearch();
+      this.orchestration.selectedView.set(SelectedProductSource.PeerGroupProducts);
       await this.getProductData();
-      this.orchestration.preselectBySource(SelectedProductSource.PeerGroupProducts, this.productDst);
     }
-
     if (index === 1) {
-      this.orchestration.selectedView = SelectedProductSource.PeerGroupOrgs;
-      // this.orchestration.dstSettingsPeerGroupOrgs = this.membershipDstSettings;
-      // this.membershipNavigationState = { StartIndex: 0 };
-      // this.membershipDst.clearSearch();
+      this.orchestration.selectedView.set(SelectedProductSource.PeerGroupOrgs);
       await this.getMembershipData();
-      this.orchestration.preselectBySource(SelectedProductSource.PeerGroupOrgs, this.membershipDst);
     }
   }
 
   private async getData(): Promise<void> {
-    if (this.selectedChipIndex === 0 && this.selectedSource === SelectedProductSource.PeerGroupProducts) {
+    if (this.selectedChipIndex === 0 && this.orchestration.selectedView() === SelectedProductSource.PeerGroupProducts) {
       await this.getProductData();
     }
-    if (this.selectedChipIndex === 1 && this.selectedSource === SelectedProductSource.PeerGroupOrgs) {
+    if (this.selectedChipIndex === 1 && this.orchestration.selectedView() === SelectedProductSource.PeerGroupOrgs) {
       await this.getMembershipData();
     }
   }
 
   private async getProductData(): Promise<void> {
-    if (!this.orchestration.isLoggedIn) {
-      return;
-    }
     let busy;
     let load: boolean;
-
     try {
       this.orchestration.abortCall();
-      let recipientsVals = MultiValue.FromString(this.orchestration.recipients.Column.GetValue())?.GetValues();
-      if (recipientsVals.length > 1) {
-        if (this.selectionService.selectedProducts.length > 0) {
-          load = await this.discardSelectedProducts();
-
-          if (!load) {
-            return;
-          }
-        }
-
-        // select first recipient
-        // TODO #427279: ask user to select one of his recipients
-        const firstRecipient = {
-          DataValue: recipientsVals?.[0],
-          DisplayValue: MultiValue.FromString(this.orchestration.recipients.Column.GetDisplayValue()).GetValues()?.[0],
-        };
-        await this.orchestration.setRecipients(firstRecipient);
-      }
 
       busy = this.busyService.beginBusy();
 
       const userParams = {
-        UID_Person: this.orchestration.recipients
-          ? MultiValue.FromString(this.orchestration.recipients.value).GetValues().join(',')
+        UID_Person: this.orchestration.recipients()
+          ? MultiValue.FromString(this.orchestration.recipients()?.value || '')
+              .GetValues()
+              .join(',')
           : undefined,
         ParentKey: '',
         PageSize: -1,
@@ -325,76 +226,77 @@ export class NewRequestPeerGroupComponent implements AfterViewInit, OnDestroy {
       const servicecategories = await this.categoryApi.get(userParams);
       const serviceCategoriesTotalCount = servicecategories?.totalCount;
 
+      busy.endBusy();
       if (serviceCategoriesTotalCount < 1) {
-        this.orchestration.disableSearch = true;
+        this.orchestration.disableSearch.set(true);
         return;
       }
+      const dataViewInitParameters: DataViewInitParameters<PortalShopServiceitems, ServiceItemsExtendedData> = {
+        execute: (
+          params: CollectionLoadParameters,
+          signal: AbortSignal,
+        ): Promise<ExtendedTypedEntityCollection<PortalShopServiceitems, ServiceItemsExtendedData>> => {
+          const parameters = this.getCollectionLoadParamaters(params);
+          return this.productApi.get(parameters, signal).then(async (data) => {
+            if (data) {
+              data.Data = await this.selectionService.addSelectionKeyColumn(data.Data);
+              // sort by CountInPeerGroup value
+              data.Data?.sort((a, b) => {
+                if (a?.CountInPeerGroup?.value < b?.CountInPeerGroup.value) return 1;
+                if (a?.CountInPeerGroup?.value > b?.CountInPeerGroup.value) return -1;
+                return a?.GetEntity().GetDisplay().localeCompare(b?.GetEntity().GetDisplay());
+              });
 
-      this.orchestration.disableSearch = false;
-      const parameters = this.getCollectionLoadParamaters(this.productNavigationState);
-      let data = await this.productApi.get(parameters);
-
-      if (data) {
-        // sort by CountInPeerGroup value
-        data.Data?.sort((a, b) => {
-          if (a?.CountInPeerGroup?.value < b?.CountInPeerGroup.value) return 1;
-          if (a?.CountInPeerGroup?.value > b?.CountInPeerGroup.value) return -1;
-          return a?.GetEntity().GetDisplay().localeCompare(b?.GetEntity().GetDisplay());
-        });
-
-        this.peerGroupSize = data.extendedData?.PeerGroupSize || 0;
-        this.productDstSettings = {
-          dataSource: data,
-          displayedColumns: this.displayedProductColumns,
-          entitySchema: this.productApi.entitySchema,
-          navigationState: this.productNavigationState,
-        };
-        this.orchestration.dstSettingsPeerGroupProducts = this.productDstSettings;
-      }
+              this.peerGroupSize = data.extendedData?.PeerGroupSize || 0;
+              this.orchestration.disableSearch.set(false);
+            }
+            return data;
+          });
+        },
+        schema: this.productApi.entitySchema,
+        columnsToDisplay: this.displayedProductColumns,
+        highlightEntity: (product: PortalShopServiceitems) => {
+          this.onRowSelected(product);
+        },
+        selectionChange: (products: PortalShopServiceitems[]) =>
+          this.onSelectionChanged(products as TypedEntity[], SelectedProductSource.PeerGroupProducts),
+      };
+      await this.productDataSource.init(dataViewInitParameters);
+      this.orchestration.preselectBySource(this.productDataSource);
     } finally {
-      busy?.endBusy();
+      busy.endBusy();
     }
   }
 
   private async getMembershipData(): Promise<void> {
-    if (!this.orchestration.isLoggedIn) {
-      return;
-    }
-    let busy;
-    try {
-      this.orchestration.abortCall();
-      // let recipientsVals = MultiValue.FromString(this.orchestration.recipients.Column.GetValue());
-      // if (recipientsVals.GetValues().length > 1) {
-      //   await this.orchestration.setDefaultUser();
-      // }
-
-      busy = this.busyService.beginBusy();
-      this.cd.detectChanges();
-      const parameters = this.getCollectionLoadParamaters(this.membershipNavigationState);
-      let data = await this.membershipApi.getPeerGroupMemberships(parameters, { signal: this.orchestration.abortController.signal });
-
-      if (data) {
-        // sort by CountInPeerGroup value
-        data.Data?.sort((a, b) => {
-          if (a?.CountInPeerGroup?.value < b?.CountInPeerGroup.value) return 1;
-          if (a?.CountInPeerGroup?.value > b?.CountInPeerGroup.value) return -1;
-          return a?.GetEntity().GetDisplay().localeCompare(b?.GetEntity().GetDisplay());
+    const dataViewInitParameters: DataViewInitParameters<PortalItshopPeergroupMemberships, ServiceItemsExtendedData> = {
+      execute: (
+        params: CollectionLoadParameters,
+        signal: AbortSignal,
+      ): Promise<ExtendedTypedEntityCollection<PortalItshopPeergroupMemberships, ServiceItemsExtendedData>> => {
+        const parameters = this.getCollectionLoadParamaters(params);
+        return this.membershipApi.getPeerGroupMemberships(parameters, { signal }).then(async (data) => {
+          if (data) {
+            data.Data = await this.selectionService.addSelectionKeyColumn(data.Data);
+            // sort by CountInPeerGroup value
+            data.Data?.sort((a, b) => {
+              if (a?.CountInPeerGroup?.value < b?.CountInPeerGroup.value) return 1;
+              if (a?.CountInPeerGroup?.value > b?.CountInPeerGroup.value) return -1;
+              return a?.GetEntity().GetDisplay().localeCompare(b?.GetEntity().GetDisplay());
+            });
+            this.orchestration.disableSearch.set(data.totalCount < 1);
+            this.peerGroupSize = data.extendedData?.PeerGroupSize || 0;
+          }
+          return data;
         });
-
-        this.orchestration.disableSearch = data.totalCount < 1;
-        this.peerGroupSize = data.extendedData?.PeerGroupSize || 0;
-        this.membershipDstSettings = {
-          dataSource: data,
-          displayedColumns: this.displayedMembershipColumns,
-          entitySchema: this.membershipApi.PortalItshopPeergroupMembershipsSchema,
-          navigationState: this.membershipNavigationState,
-        };
-
-        this.orchestration.dstSettingsPeerGroupOrgs = this.membershipDstSettings;
-      }
-    } finally {
-      busy?.endBusy();
-    }
+      },
+      schema: this.membershipApi.PortalItshopPeergroupMembershipsSchema,
+      columnsToDisplay: this.displayedMembershipColumns,
+      selectionChange: (products: PortalItshopPeergroupMemberships[]) =>
+        this.onSelectionChanged(products as TypedEntity[], SelectedProductSource.PeerGroupOrgs),
+    };
+    await this.membershipDataSource.init(dataViewInitParameters);
+    this.orchestration.preselectBySource(this.membershipDataSource);
   }
 
   private getCollectionLoadParamaters(
@@ -402,19 +304,13 @@ export class NewRequestPeerGroupComponent implements AfterViewInit, OnDestroy {
   ): CollectionLoadParameters | ServiceItemParameters {
     return {
       ...navigationState,
-      UID_Person: this.orchestration.recipients
-        ? MultiValue.FromString(this.orchestration.recipients.value).GetValues().join(',')
+      UID_Person: this.orchestration.recipients()
+        ? MultiValue.FromString(this.orchestration.recipients()!.value).GetValues().join(',')
         : undefined,
-      UID_PersonPeerGroup: this.orchestration.recipients
-        ? MultiValue.FromString(this.orchestration.recipients.value).GetValues().join(',')
+      UID_PersonPeerGroup: this.orchestration.recipients()
+        ? MultiValue.FromString(this.orchestration.recipients()!.value).GetValues().join(',')
         : undefined,
+      PageSize: this.settingService.PageSizeForAllElements,
     };
-  }
-
-  private async discardSelectedProducts(): Promise<boolean> {
-    const dialogRef = this.dialog.open(PeerGroupDiscardSelectedComponent);
-
-    let result = await dialogRef.afterClosed().toPromise();
-    return result;
   }
 }

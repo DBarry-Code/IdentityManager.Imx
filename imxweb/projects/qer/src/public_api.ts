@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -32,9 +32,8 @@ export { AddressbookComponent } from './lib/addressbook/addressbook.component';
 export { AddressbookModule } from './lib/addressbook/addressbook.module';
 export { AuthenticationFactors } from './lib/admin/authentication-factors.interface';
 export { FeatureConfigService } from './lib/admin/feature-config.service';
-export { isAuditor, isRoleAdmin, isRoleStatistics } from './lib/admin/qer-permissions-helper';
+export { isAuditor, isRoleAdmin, isRoleStatistics, isStatistics } from './lib/admin/qer-permissions-helper';
 export { QerPermissionsService } from './lib/admin/qer-permissions.service';
-export { ApprovalWorkFlowModule } from './lib/approval-workflows/approval-workflows.module';
 export { ArchivedRequestsComponent } from './lib/archived-requests/archived-requests.component';
 export { ArchivedRequestsModule } from './lib/archived-requests/archived-requests.module';
 export { BusinessOwnerAddOnTileComponent } from './lib/businessowner-addon-tile/businessowner-addon-tile.component';
@@ -164,8 +163,8 @@ export { ServiceItemTagsComponent } from './lib/service-item-tags/service-item-t
 export { ServiceItemTagsModule } from './lib/service-item-tags/service-item-tags.module';
 export { ServiceItemTagsService } from './lib/service-item-tags/service-item-tags.service';
 export {
-  ServiceItemsEditFormComponent,
   additionalColumnsForServiceItemsKey,
+  ServiceItemsEditFormComponent,
 } from './lib/service-items-edit/service-items-edit-form/service-items-edit-form.component';
 export { ServiceItemsEditFormModule } from './lib/service-items-edit/service-items-edit-form/service-items-edit-form.module';
 export { ServiceItemsEditModule } from './lib/service-items-edit/service-items-edit.module';
@@ -185,12 +184,6 @@ export { SourceDetectiveSidesheetComponent, SourceDetectiveSidesheetData } from 
 export { SourceDetectiveType } from './lib/sourcedetective/sourcedetective-type.enum';
 export { SourceDetectiveComponent } from './lib/sourcedetective/sourcedetective.component';
 export { SourceDetectiveModule } from './lib/sourcedetective/sourcedetective.module';
-export { ChartTileComponent } from './lib/statistics/charts/chart-tile/chart-tile.component';
-export { PointStatVisualService } from './lib/statistics/charts/chart-tile/point-stat-visual/point-stat-visual.service';
-export { StatisticsChartHandlerService } from './lib/statistics/charts/statistics-chart-handler.service';
-export { StatisticsForObjectsComponent } from './lib/statistics/statistics-for-objects/statistics-for-objects.component';
-export { ChartInfoTyped } from './lib/statistics/statistics-home-page/chart-info-typed';
-export { StatisticsModule } from './lib/statistics/statistics.module';
 export { TeamResponsibilitiesModule } from './lib/team-responsibilities/team-responsibilities.module';
 export { TermsOfUseItem } from './lib/terms-of-use/terms-of-use-item';
 export { TermsOfUseViewerComponent } from './lib/terms-of-use/terms-of-use-viewer/terms-of-use-viewer.component';

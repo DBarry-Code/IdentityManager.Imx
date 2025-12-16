@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -50,6 +50,7 @@ import {
   ObjectHistoryModule,
   RouteGuardService,
   SelectedElementsModule,
+  StatisticsModule,
   UserMessageModule,
 } from 'qbm';
 
@@ -61,11 +62,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProjectConfig } from '@imx-modules/imx-api-qbm';
-import { isAuditor, isStructAdmin, isStructStatistics } from '../admin/qer-permissions-helper';
+import { isAuditor, isRoleAdmin, isRoleStatistics, isStructAdmin, isStructStatistics } from '../admin/qer-permissions-helper';
 import { DataExplorerRegistryService } from '../data-explorer-view/data-explorer-registry.service';
 import { MyResponsibilitiesRegistryService } from '../my-responsibilities-view/my-responsibilities-registry.service';
 import { ObjectHyperviewModule } from '../object-hyperview/object-hyperview.module';
-import { StatisticsModule } from '../statistics/statistics.module';
 import { CompareItemComponent } from './compare/compare-item.component';
 import { CompareComponent } from './compare/compare.component';
 import { NewRoleComponent } from './new-role/new-role.component';
@@ -170,7 +170,13 @@ export class RoleManangementModule {
   private setupDataExplorer(): void {
     this.dataExplorerRegistryService.registerFactory(
       (preProps: string[], features: string[], projectConfig?: ProjectConfig, groups?: string[]) => {
-        if (!isStructStatistics(features) && !isStructAdmin(features) && !isAuditor(groups ?? [])) {
+        if (
+          !isRoleAdmin(features) &&
+          !isRoleStatistics(features) &&
+          !isStructStatistics(features) &&
+          !isStructAdmin(features) &&
+          !isAuditor(groups ?? [])
+        ) {
           return;
         }
         const contextId: string = HELP_CONTEXTUAL.DataExplorerDepartment;
@@ -203,7 +209,13 @@ export class RoleManangementModule {
         };
       },
       (preProps: string[], features: string[], projectConfig: ProjectConfig, groups: string[]) => {
-        if (!isStructStatistics(features) && !isStructAdmin(features) && !isAuditor(groups)) {
+        if (
+          !isRoleAdmin(features) &&
+          !isRoleStatistics(features) &&
+          !isStructStatistics(features) &&
+          !isStructAdmin(features) &&
+          !isAuditor(groups)
+        ) {
           return;
         }
         return {
@@ -219,7 +231,13 @@ export class RoleManangementModule {
         };
       },
       (preProps: string[], features: string[], projectConfig: ProjectConfig, groups: string[]) => {
-        if (!isStructStatistics(features) && !isStructAdmin(features) && !isAuditor(groups)) {
+        if (
+          !isRoleAdmin(features) &&
+          !isRoleStatistics(features) &&
+          !isStructStatistics(features) &&
+          !isStructAdmin(features) &&
+          !isAuditor(groups)
+        ) {
           return;
         }
         return {
@@ -241,7 +259,13 @@ export class RoleManangementModule {
   private setupMenu(): void {
     this.menuService.addMenuFactories((preProps: string[], features: string[], projectConfig: ProjectConfig, groups: string[]) => {
       // must also work if ITSHOP is disabled!
-      if (!isStructStatistics(features) && !isStructAdmin(features) && !isAuditor(groups)) {
+      if (
+        !isRoleAdmin(features) &&
+        !isRoleStatistics(features) &&
+        !isStructStatistics(features) &&
+        !isStructAdmin(features) &&
+        !isAuditor(groups)
+      ) {
         return;
       }
       const menu = {

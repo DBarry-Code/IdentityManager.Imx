@@ -1,5 +1,5 @@
 /* You can add styles to this file, and also import other style files */
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 :host {
   display: flex;
@@ -27,6 +27,6 @@
   p {
     margin: 0;
     font-size: 18px;
-    color: $color-gray-40;
+    color: eui.$color-gray-40;
   }
 }

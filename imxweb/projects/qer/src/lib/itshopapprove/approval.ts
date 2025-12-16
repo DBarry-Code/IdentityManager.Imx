@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,8 +25,8 @@
  */
 
 import { ITShopConfig, PortalItshopApproveRequests, PwoData } from '@imx-modules/imx-api-qer';
-import { IEntity, IEntityColumn } from '@imx-modules/imx-qbm-dbts';
-import { BaseReadonlyCdr } from 'qbm';
+import { IEntity, IEntityColumn, ValType } from '@imx-modules/imx-qbm-dbts';
+import { BaseReadonlyCdr, EntityService } from 'qbm';
 import { ItshopRequestEntityWrapper } from '../itshop/request-info/itshop-request-entity-wrapper.interface';
 import { RequestParameterDataEntity } from '../itshop/request-info/request-parameter-data-entity.interface';
 import { WorkflowDataWrapper } from '../itshop/workflow-data-wrapper';
@@ -55,12 +55,19 @@ export class Approval extends PortalItshopApproveRequests implements RequestPara
   public readonly pwoData: PwoData;
   public readonly key: string;
 
+  public exceptionValidUntil: IEntityColumn;
+
+  public complianceRuleViolation?: boolean | undefined;
+
   private directDecisionTarget: number;
   private currentUser: string;
 
   private readonly workflowWrapper: WorkflowDataWrapper;
 
-  constructor(private readonly entityWrapper: ItshopRequestEntityWrapper) {
+  constructor(
+    private readonly entityWrapper: ItshopRequestEntityWrapper,
+    private readonly entityService: EntityService,
+  ) {
     super(entityWrapper.entity);
 
     this.key = entityWrapper.entity.GetKeys()[0];
@@ -100,6 +107,7 @@ export class Approval extends PortalItshopApproveRequests implements RequestPara
       .map((property) => new BaseReadonlyCdr(property.Column));
 
     this.currentUser = entityWrapper.uidCurrentUser ?? '';
+    this.createExceptionColumn();
   }
 
   public async commit(): Promise<void> {
@@ -153,5 +161,20 @@ export class Approval extends PortalItshopApproveRequests implements RequestPara
 
   public canResetReservation(isChiefApprover: boolean): boolean {
     return this.IsReserved.value && (this.hasAskedLastQuestion || isChiefApprover);
+  }
+
+  private createExceptionColumn() {
+    const minDate = new Date();
+    this.exceptionValidUntil = this.entityService.createLocalEntityColumn(
+      {
+        ColumnName: 'ExceptionValidUntil',
+        Type: ValType.Date,
+        MinLen: 0,
+      },
+      [],
+      {
+        ValueConstraint: { MinValue: minDate },
+      },
+    );
   }
 }

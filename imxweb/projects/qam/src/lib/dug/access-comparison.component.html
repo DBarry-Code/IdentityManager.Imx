@@ -1,13 +1,10 @@
-<ng-container *ngIf="dug && dugB && comparisonData">
+@if (dug && dugB && comparisonData) {
   <h1>{{ LdsHeader | translate | ldsReplace: [dug.GetEntity().GetDisplay(), dugB.GetEntity().GetDisplay()] }}</h1>
-
   <div>{{ LdsTitle | translate }}</div>
-
   <div>{{ LdsSubTitle | translate | ldsReplace: [dugB.GetEntity().GetDisplay(), dug.GetEntity().GetDisplay()]}}</div>
-
-  <ul><li *ngFor="let trustee of comparisonData">
-    {{ trustee.display}} <span class="trusteetype">({{ trusteeTypes[trustee.trusteeType] }})</span>: A = {{trustee.accessA}}, B = {{trustee.accessB}}
-  </li></ul>
-
-
-</ng-container>
+  <ul>@for (trustee of comparisonData; track trustee) {
+    <li>
+      {{ trustee.display}} <span class="trusteetype">({{ trusteeTypes[trustee.trusteeType] }})</span>: A = {{trustee.accessA}}, B = {{trustee.accessB}}
+    </li>
+  }</ul>
+}

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -51,9 +51,10 @@ interface ServiceItemsFormGroup {
 export const additionalColumnsForServiceItemsKey = 'additionalCdrColumns';
 
 @Component({
-  selector: 'imx-service-items-edit-form',
-  templateUrl: './service-items-edit-form.component.html',
-  styleUrls: ['./service-items-edit-form.component.scss'],
+    selector: 'imx-service-items-edit-form',
+    templateUrl: './service-items-edit-form.component.html',
+    styleUrls: ['./service-items-edit-form.component.scss'],
+    standalone: false
 })
 export class ServiceItemsEditFormComponent implements OnInit, OnChanges {
   @ViewChild('ownerControl') public ownercontrol: OwnerControlComponent;
@@ -88,7 +89,7 @@ export class ServiceItemsEditFormComponent implements OnInit, OnChanges {
     private readonly cdrFactoryService: CdrFactoryService,
   ) {}
 
-  get getSelectedUidPerson(): string {
+  get getSelectedUidPerson(): string | undefined {
     return this.ownercontrol?.uidPersonSelected;
   }
 

@@ -1,0 +1,18 @@
+@use 'common/kpi-cards' as kpi-cards;
+@use 'base/mixins' as mixins;
+
+:host {
+  height: 100%;
+  @include mixins.flex-column-container();
+}
+
+.kpi-cards {
+  overflow: auto;
+  flex-grow: 1;
+  padding: 0 !important;
+}
+
+.kpi-number {
+  font-size: x-large;
+  font-weight: 600;
+}

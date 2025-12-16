@@ -26,8 +26,8 @@
           <div class="imx-legalNotice-Content" data-imx-identifier="Text">
             <span
               >{{
-                '#LDS#This product contains some third party components (listed below). Copies of their licenses may be found at'
-                  | translate
+              '#LDS#This product contains some third party components (listed below). Copies of their licenses may be found at'
+              | translate
               }}
             </span>
             <a href="{{ product['ThirdPartyLicencesUrl'] }}">{{ product['ThirdPartyLicencesUrl'] }}</a>
@@ -39,11 +39,11 @@
             <span>.</span>
           </div>
         </mat-card>
-        <ng-container *ngIf="dstSettings?.dataSource">
+        @if (dstSettings?.dataSource) {
           <imx-data-source-toolbar #dst [settings]="dstSettings" (navigationStateChanged)="update($event)"></imx-data-source-toolbar>
           <imx-data-table [dst]="dst" [selectable]="false" [detailViewVisible]="false" mode="auto"></imx-data-table>
           <imx-data-source-paginator [dst]="dst"></imx-data-source-paginator>
-        </ng-container>
+        }
       </div>
     </mat-tab>
     <mat-tab label="{{ '#LDS#Heading Contact' | translate }}">
@@ -65,10 +65,12 @@
         </div>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="ShowSystemOverviewTab()">
-      <ng-template mat-tab-label>{{ '#LDS#System information' | translate }}</ng-template>
-      <imx-ext id="SystemOverview" [referrer]="this"> </imx-ext>
-    </mat-tab>
+    @if (ShowSystemOverviewTab()) {
+      <mat-tab>
+        <ng-template mat-tab-label>{{ '#LDS#System information' | translate }}</ng-template>
+        <imx-ext id="SystemOverview" [referrer]="this"> </imx-ext>
+      </mat-tab>
+    }
   </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions>

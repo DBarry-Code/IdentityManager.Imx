@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -29,7 +29,7 @@ import { EuiLoadingService, EuiSidesheetService } from '@elemental-ui/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 
-import { AttestationCaseData, PortalAttestationApprove } from '@imx-modules/imx-api-att';
+import { PortalAttestationApprove } from '@imx-modules/imx-api-att';
 import {
   CollectionLoadParameters,
   CompareOperator,
@@ -216,7 +216,7 @@ export class AttestationActionService {
     });
   }
 
-  public async checkForViolations(attestationCases: AttestationCase[]): Promise<void> {
+  public async checkForViolations(attestationCases: AttestationCase[], isEscalation: boolean): Promise<void> {
     let isApprovable = true;
     for (const attestationCase of attestationCases) {
       const isAllAllowable = attestationCase.data?.ComplianceViolations?.every((item) => item.IsExceptionAllowed);
@@ -227,8 +227,9 @@ export class AttestationActionService {
       }
     }
 
+
     if (isApprovable) {
-      return this.approve(attestationCases);
+      return this.approve(attestationCases, isEscalation);
     } else {
       let message: string;
       if (attestationCases.length === 1) {
@@ -271,7 +272,7 @@ export class AttestationActionService {
     return response;
   }
 
-  public async approve(attestationCases: AttestationCaseAction[]): Promise<void> {
+  public async approve(attestationCases: AttestationCaseAction[], isEscalation: boolean): Promise<void> {
     // Check is any case has an MFA property, open sidesheet if so
     const uidCases: string[] = [];
     const anyMFACases = attestationCases
@@ -287,12 +288,12 @@ export class AttestationActionService {
         return;
       }
     }
-    return this.makeDecisions(attestationCases, true);
+    return this.makeDecisions(attestationCases, true, isEscalation);
   }
 
-  public async deny(attestationCases: AttestationCaseAction[]): Promise<void> {
+  public async deny(attestationCases: AttestationCaseAction[], isEscalation: boolean): Promise<void> {
     // TODO later: preview effects of auto-remove before making negative decision (ATT_AttestationCase_PreviewAutoRemove)
-    return this.makeDecisions(attestationCases, false);
+    return this.makeDecisions(attestationCases, false, isEscalation);
   }
 
   public async answerQuestion(attestationCase: AttestationCase): Promise<void> {
@@ -461,7 +462,7 @@ export class AttestationActionService {
     return new BaseCdr(column, '#LDS#Recipient of the inquiry');
   }
 
-  private async makeDecisions(attestationCases: AttestationCaseAction[], approve: boolean): Promise<void> {
+  private async makeDecisions(attestationCases: AttestationCaseAction[], approve: boolean, isEscalation: boolean): Promise<void> {
     let justification: BaseCdr | undefined;
 
     this.showBusyIndicator();
@@ -489,7 +490,7 @@ export class AttestationActionService {
 
     return this.editAction({
       title: approve ? '#LDS#Heading Approve Attestation Case' : '#LDS#Heading Deny Attestation Case',
-      data: { attestationCases, actionParameters, approve, maxReasonType },
+      data: { attestationCases, actionParameters, approve, maxReasonType, isEscalation },
       message: approve
         ? '#LDS#{0} attestation cases have been successfully approved.'
         : '#LDS#{0} attestation cases have been successfully denied.',
@@ -515,11 +516,11 @@ export class AttestationActionService {
     const subTitle =
       cases.length === 1
         ? // Use Ui Text if we have it, otherwise use display
-          firstCaseUiText
+        firstCaseUiText
           ? firstCaseUiText
           : cases[0].GetEntity().GetDisplay()
         : // If we have more than one case, we don't use a subtitle
-          undefined;
+        undefined;
 
     const result = await this.sideSheet
       .open(AttestationActionComponent, {
@@ -616,27 +617,26 @@ export class AttestationActionService {
     }
   }
 
-  private getSubLevel(entity: TypedEntity, extended: AttestationCaseData | undefined): number {
+  private getSubLevel(entity: TypedEntity, extended: any): number {
     //get all workflowsteps for the current decision level
-    const steps = extended?.WorkflowSteps?.Entities?.filter(
+    const steps = extended.WorkflowSteps?.Entities?.filter(
       (elem) =>
         elem?.Columns?.UID_QERWorkingMethod.Value === entity.GetEntity().GetColumn('UID_QERWorkingMethod').GetValue() &&
-        elem.Columns?.LevelNumber.Value === entity.GetEntity().GetColumn('DecisionLevel').GetValue(),
+        elem.Columns.LevelNumber.Value === entity.GetEntity().GetColumn('DecisionLevel').GetValue(),
     );
 
     // get the Workflow data that
     // - belong to one of the current workflow steps
     // - can be decided by the user
     // - are not decided yet
-    const data = steps?.flatMap((step) =>
-      extended?.WorkflowData?.Entities?.filter(
+    const data = steps.flatMap((step) =>
+      extended.WorkflowData.Entities.filter(
         (elem) =>
           elem?.Columns?.UID_QERWorkingStep.Value === step?.Columns?.UID_QERWorkingStep.Value &&
           elem?.Columns?.UID_PersonHead.Value === this.uidUser &&
           elem?.Columns?.Decision?.Value === '',
       ),
     );
-    const sorted = data?.sort((x, y) => x?.Columns?.SubLevelNumber?.Value - y?.Columns?.SubLevelNumber?.Value); // Sort by SubLevelNumber, use smallest
-    return sorted?.[0]?.Columns?.SubLevelNumber?.Value ?? 0; //return the sublevel number
+    return data[0]?.Columns?.SubLevelNumber?.Value ?? 0; //return the sublevel number
   }
 }

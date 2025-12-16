@@ -1,5 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 :host {
   flex-grow: 1;
   display: flex;
@@ -38,15 +37,15 @@
 
 .eui-dark-theme {
   :host {
-    color: $color-gray-2;
+    color: eui.$color-gray-2;
     .imx-candidate-option {
       .imx-candidate-item {
         .imx-candidate-content {
           .imx-candidate-display {
-            color: $color-gray-5;
+            color: eui.$color-gray-5;
           }
           .imx-candidate-longdisplay {
-            color: $color-gray-10;
+            color: eui.$color-gray-10;
           }
         }
       }
@@ -56,15 +55,15 @@
 
 .eui-contrast-theme {
   :host {
-    color: $color-gray-0;
+    color: eui.$color-gray-0;
     .imx-candidate-option {
       .imx-candidate-item {
         .imx-candidate-content {
           .imx-candidate-display {
-            color: $color-gray-0;
+            color: eui.$color-gray-0;
           }
           .imx-candidate-longdisplay {
-            color: $color-gray-0;
+            color: eui.$color-gray-0;
           }
         }
       }

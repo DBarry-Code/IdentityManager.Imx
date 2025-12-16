@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,21 +26,21 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminRoutes, AuthenticationGuardService, LoginComponent, RouteGuardService } from 'qbm';
-import { StartComponent } from './start/start.component';
+import { AdminRoutes, AuthenticationGuardService, ErrorPageComponent, LoginPageComponent, RouteGuardService } from 'qbm';
 
 const routes: Routes = [
   ...AdminRoutes,
   {
     path: '',
-    component: StartComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
+    component: LoginPageComponent,
     canActivate: [AuthenticationGuardService],
     resolve: [RouteGuardService],
   },
+  {
+    path: 'error',
+    component: ErrorPageComponent,
+  },
+  { path: '**', redirectTo: 'admin' },
 ];
 
 @NgModule({

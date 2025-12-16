@@ -6,20 +6,21 @@
       [withSelectedNodeHighlight]="false"
       (nodeSelected)="onServiceCategorySelected($event)"
       data-imx-identifier="service-category-data-tree-categorytree"
-    >
+      >
       <ng-template let-entity>
         <div>
-          <button
-            *ngIf="isDeletable(entity)"
-            [attr.aria-label]="'#LDS#Delete service category' | translate"
-            [attr.data-imx-identifier]="'service-category-delete-' + entity.GetKeys()?.join(',')"
-            [matTooltip]="'#LDS#Delete service category' | translate"
-            mat-icon-button
-            color="warn"
-            (click)="onDelete($event, entity)"
-          >
-            <eui-icon icon="delete"></eui-icon>
-          </button>
+          @if (isDeletable(entity)) {
+            <button
+              [attr.aria-label]="'#LDS#Delete service category' | translate"
+              [attr.data-imx-identifier]="'service-category-delete-' + entity.GetKeys()?.join(',')"
+              [matTooltip]="'#LDS#Delete service category' | translate"
+              mat-icon-button
+              color="warn"
+              (click)="onDelete($event, entity)"
+              >
+              <eui-icon icon="delete"></eui-icon>
+            </button>
+          }
           <button
             [attr.aria-label]="'#LDS#Add child service category' | translate"
             [attr.data-imx-identifier]="'service-category-add-child-for-' + entity.GetKeys()?.join(',')"
@@ -27,7 +28,7 @@
             mat-icon-button
             color="primary"
             (click)="addChildCategory($event, entity)"
-          >
+            >
             <eui-icon icon="add"></eui-icon>
           </button>
         </div>

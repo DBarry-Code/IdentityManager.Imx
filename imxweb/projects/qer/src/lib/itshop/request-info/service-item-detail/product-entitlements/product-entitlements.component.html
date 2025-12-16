@@ -1,8 +1,10 @@
-<eui-alert *ngIf="showHelperAlert" type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
-  <span translate>
-    {{ helperText }}
-  </span>
-</eui-alert>
+@if (showHelperAlert) {
+  <eui-alert type="info" [condensed]="true" [colored]="true" [dismissable]="true" (dismissed)="onHelperDismissed()">
+    <span translate>
+      {{ helperText }}
+    </span>
+  </eui-alert>
+}
 <mat-card class="imx-card-fill">
   <imx-data-source-toolbar
     #dst
@@ -12,7 +14,7 @@
     (navigationStateChanged)="navigate($event)"
     (search)="search($event)"
     [options]="['search']"
-  >
+    >
   </imx-data-source-toolbar>
   <imx-data-table
     #dataTable
@@ -23,11 +25,11 @@
     mode="manual"
     [selectable]="false"
     [showSelectionInfo]="false"
-  >
+    >
     <imx-data-table-generic-column
       columnName="entitlementDisplay"
       [columnLabel]="entitySchema.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]?.Display"
-    >
+      >
       <ng-template let-item>
         {{ item.TargetEntitlement.Column.GetDisplayValue() }}
       </ng-template>
@@ -38,5 +40,4 @@
       </ng-template>
     </imx-data-table-column>
   </imx-data-table>
-  <imx-data-source-paginator data-imx-identifier="aproduct-entitlements-paginator" [dst]="dst"> </imx-data-source-paginator>
 </mat-card>

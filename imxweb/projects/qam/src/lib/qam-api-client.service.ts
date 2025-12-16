@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -78,9 +78,5 @@ export class QamApiService {
   /** Returns the display names of the known trustee types. */
   public getTrusteeTypes(): Promise<{ [id: number]: string }> {
     return this.cachedTrusteeTypes.get();
-  }
-
-  public isPersonDGEAdmin(groups: string[]): boolean {
-    return groups.find((item) => item.toUpperCase() === 'VI_4_QAM_ADMIN') != null;
   }
 }

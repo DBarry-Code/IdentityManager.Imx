@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -49,6 +49,7 @@ import { CallsAttachmentActionType, CallsAttachmentNode, CallsAttachmentType } f
   selector: 'imx-calls-attachment',
   templateUrl: './calls-attachment.component.html',
   styleUrls: ['./calls-attachment.component.scss'],
+  standalone: false
 })
 export class CallsAttachmentComponent implements OnInit {
   @Input() public callId: string = '';
@@ -80,12 +81,12 @@ export class CallsAttachmentComponent implements OnInit {
     private readonly http: HttpClient,
     private readonly injector: Injector,
     private readonly overlay: Overlay,
-    private readonly elementalUiConfigService: ElementalUiConfigService,
+    public readonly elementalUiConfigService: ElementalUiConfigService,
     private readonly translator: TranslateService,
     private readonly errorHandler: ErrorHandler,
     private readonly ldsReplace: LdsReplacePipe,
     private readonly downloadService: EuiDownloadService,
-  ) {}
+  ) { }
 
   // Setup apiControls and dynamicDataSource and get initial attachment tree data
   async ngOnInit(): Promise<void> {

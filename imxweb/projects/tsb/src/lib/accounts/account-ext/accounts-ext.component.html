@@ -6,7 +6,7 @@
     [busyService]="busyService"
     (navigationStateChanged)="onNavigationStateChanged($event)"
     (search)="onSearch($event)"
-  >
+    >
   </imx-data-source-toolbar>
 
   <div class="imx-membership-table">
@@ -27,11 +27,13 @@
         alignHeader="center"
         alignContent="center"
         [columnName]="entitySchemaAccount?.Columns?.XMarkedForDeletion?.ColumnName"
-      >
+        >
         <ng-template let-item>
-          <div *ngIf="item.XMarkedForDeletion.value !== 0">
-            <eui-badge color="gray">{{ item.XMarkedForDeletion.Column.GetDisplayValue() }}</eui-badge>
-          </div>
+          @if (item.XMarkedForDeletion.value !== 0) {
+            <div>
+              <eui-badge color="gray">{{ item.XMarkedForDeletion.Column.GetDisplayValue() }}</eui-badge>
+            </div>
+          }
         </ng-template>
       </imx-data-table-generic-column>
     </imx-data-table>

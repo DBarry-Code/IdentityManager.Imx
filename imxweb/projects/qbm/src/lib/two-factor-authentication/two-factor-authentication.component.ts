@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -26,6 +26,7 @@
 
 import { Component, ComponentFactoryResolver, OnInit, ViewChild } from '@angular/core';
 
+
 import { ClassloggerService } from '../classlogger/classlogger.service';
 import { ExtDirective } from '../ext/ext.directive';
 import { imx_SessionService } from '../session/imx-session.service';
@@ -33,8 +34,9 @@ import { ISessionState } from '../session/session-state';
 import { TwoFactorAuthenticationService } from './two-factor-authentication.service';
 
 @Component({
-  selector: 'imx-2fahost',
-  template: ` <ng-template imxExtd></ng-template> `,
+    selector: 'imx-2fahost',
+    imports: [],
+    template: ` <ng-template imxExtd></ng-template> `
 })
 export class TwoFactorAuthenticationComponent implements OnInit {
   @ViewChild(ExtDirective, { static: true }) public directive: ExtDirective;

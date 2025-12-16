@@ -1,4 +1,4 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
 
 .imx-readonly-view {
   margin-bottom: 20px;
@@ -7,7 +7,7 @@
     word-wrap: break-word;
     &.column-display {
       font-size: 12px;
-      color: $black-9;
+      color: eui.$color-gray-40;
       padding-bottom: 5px;
     }
   }

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -38,18 +38,32 @@ import { DataViewSource } from '../data-view-source';
  * ></imx-data-view-toolbar>
  */
 @Component({
-  selector: 'imx-data-view-toolbar',
-  templateUrl: './data-view-toolbar.component.html',
-  styleUrls: ['./data-view-toolbar.component.scss'],
+    selector: 'imx-data-view-toolbar',
+    templateUrl: './data-view-toolbar.component.html',
+    styleUrls: ['./data-view-toolbar.component.scss'],
+    standalone: false
 })
 export class DataViewToolbarComponent {
   /**
    * Input the dataViewSource service. It handles all the action and the data loading. This input property is required.
    */
   @Input({ required: true }) public dataSource: DataViewSource;
+  /**
+   * Input the data view settings component visibility.
+   */
   @Input() showSettings = true;
+  /**
+   * Input the data view search component visibility.
+   */
   @Input() showSearch = true;
+  /**
+   * Input the data view group component visibility.
+   */
   @Input() showGrouping = true;
+  /**
+   * Input the view search component placeholder text.
+   */
+  @Input() searchPlaceholder: string;
   /**
    * Event to emit a DSTViewConfig for post/put via the viewConfig.putViewConfig function.
    */

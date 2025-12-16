@@ -1,45 +1,58 @@
 <div class="control-container">
-  <eui-alert type="info" [condensed]="true" [colored]="true" *ngIf="isMControlPerViolation">
-    <eui-alert-header>{{ '#LDS#Heading Mitigating Controls Can Be Assigned Individually' | translate }}</eui-alert-header>
-    <eui-alert-content>{{
-      '#LDS#Here you can get an overview of the mitigating controls that can be assigned to a violation of this compliance rule.'
+  @if (isMControlPerViolation) {
+    <eui-alert type="info" [condensed]="true" [colored]="true">
+      <eui-alert-header>{{ '#LDS#Heading Mitigating Controls Can Be Assigned Individually' | translate }}</eui-alert-header>
+      <eui-alert-content>{{
+        '#LDS#Here you can get an overview of the mitigating controls that can be assigned to a violation of this compliance rule.'
         | translate
-    }}</eui-alert-content>
-  </eui-alert>
-  <eui-alert type="info" [condensed]="true" [colored]="true" *ngIf="!isMControlPerViolation">
-    <eui-alert-header>{{ '#LDS#Heading Mitigating Controls Applied Globally' | translate }}</eui-alert-header>
-    <eui-alert-content>{{
-      '#LDS#Here you can get an overview of the mitigating controls that are automatically applied to every violation of this compliance rule.'
+      }}</eui-alert-content>
+    </eui-alert>
+  }
+  @if (!isMControlPerViolation) {
+    <eui-alert type="info" [condensed]="true" [colored]="true">
+      <eui-alert-header>{{ '#LDS#Heading Mitigating Controls Applied Globally' | translate }}</eui-alert-header>
+      <eui-alert-content>{{
+        '#LDS#Here you can get an overview of the mitigating controls that are automatically applied to every violation of this compliance rule.'
         | translate
-    }}</eui-alert-content>
-  </eui-alert>
-  <mat-card class="imx-mitigating-control" *ngFor="let mControl of mControls; let i = index">
-    <div class="imx-mitigating-control-properties">
-      <imx-cdr-editor *ngFor="let cdr of mControl.propertyInfo" [cdr]="cdr" (controlCreated)="formArray.push($event)"></imx-cdr-editor>
-    </div>
+      }}</eui-alert-content>
+    </eui-alert>
+  }
+  @for (mControl of mControls; track mControl; let i = $index) {
+    <mat-card class="imx-mitigating-control">
+      <div class="imx-mitigating-control-properties">
+        @for (cdr of mControl.propertyInfo; track cdr) {
+          <imx-cdr-editor [cdr]="cdr" (controlCreated)="formArray.push($event)"></imx-cdr-editor>
+        }
+      </div>
+      @if (canEdit) {
+        <eui-icon icon="delete" (click)="onDelete(mControl, i)"></eui-icon>
+      }
+    </mat-card>
+  }
 
-    <eui-icon *ngIf="canEdit" icon="delete" (click)="onDelete(mControl, i)"></eui-icon>
-  </mat-card>
-
-  <mat-card class="imx-centered-filled-card" *ngIf="!mControls || mControls.length == 0">
-    <div class="imx-no-results">
-      <eui-icon icon="table"></eui-icon>
-      <p>{{ '#LDS#Currently, no mitigating controls are assigned to this compliance rule.' | translate }}</p>
-    </div>
-  </mat-card>
+  @if (!mControls || mControls.length == 0) {
+    <mat-card class="imx-centered-filled-card">
+      <div class="imx-no-results">
+        <eui-icon icon="table"></eui-icon>
+        <p>{{ '#LDS#Currently, no mitigating controls are assigned to this compliance rule.' | translate }}</p>
+      </div>
+    </mat-card>
+  }
 </div>
 
-<div eui-sidesheet-actions *ngIf="canEdit">
-  <button mat-stroked-button class="justify-start" data-imx-identifier="mitigating-controls-button-add" (click)="onCreateControl()">
-    {{ '#LDS#Assign mitigating controls' | translate }}
-  </button>
-  <button
-    mat-flat-button
-    color="primary"
-    (click)="onSave()"
-    [disabled]="formGroup.pristine || formGroup.invalid || formArray.length === 0"
-    data-imx-identifier="mitigating-controls-rules-button-save"
-  >
-    {{ '#LDS#Save' | translate }}
-  </button>
-</div>
+@if (canEdit) {
+  <div eui-sidesheet-actions>
+    <button mat-stroked-button class="justify-start" data-imx-identifier="mitigating-controls-button-add" (click)="onCreateControl()">
+      {{ '#LDS#Assign mitigating controls' | translate }}
+    </button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="onSave()"
+      [disabled]="formGroup.pristine || formGroup.invalid || formArray.length === 0"
+      data-imx-identifier="mitigating-controls-rules-button-save"
+      >
+      {{ '#LDS#Save' | translate }}
+    </button>
+  </div>
+}

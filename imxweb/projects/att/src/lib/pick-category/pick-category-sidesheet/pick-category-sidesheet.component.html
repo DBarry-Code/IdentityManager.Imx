@@ -13,7 +13,7 @@
           ? '#LDS#There are currently no identities assigned.'
           : '#LDS#The associated identities are calculated automatically.'
       "
-    >
+      >
       <ng-container [matColumnDef]="DisplayColumns.DISPLAY_PROPERTYNAME">
         <th mat-header-cell *matHeaderCellDef>
           {{ entitySchema?.Columns?.[DisplayColumns.DISPLAY_PROPERTYNAME]?.Display }}
@@ -22,22 +22,24 @@
       </ng-container>
     </imx-data-view-auto-table>
     <imx-data-view-paginator [dataSource]="dataSource"></imx-data-view-paginator>
-    <div class="imx-button-container" *ngIf="data.pickCategory?.IsManual?.value">
-      <button
-        mat-stroked-button
-        data-imx-identifier="pick-category-sidesheet-details-button-remove-items"
-        class="imx-button-icon-14 justify-start"
-        color="warn"
-        [disabled]="!selectedItemsCanBeDeleted()"
-        (click)="removePickedItems()"
-      >
-        <eui-icon icon="delete"></eui-icon>
-        {{ '#LDS#Remove identities' | translate }}
-      </button>
-      <button mat-stroked-button data-imx-identifier="pick-category-sidesheet-details-button-add-items" (click)="assignPickedItems()">
-        {{ '#LDS#Assign identities' | translate }}
-      </button>
-    </div>
+    @if (data.pickCategory?.IsManual?.value) {
+      <div class="imx-button-container">
+        <button
+          mat-stroked-button
+          data-imx-identifier="pick-category-sidesheet-details-button-remove-items"
+          class="imx-button-icon-14 justify-start"
+          color="warn"
+          [disabled]="!selectedItemsCanBeDeleted()"
+          (click)="removePickedItems()"
+          >
+          <eui-icon icon="delete"></eui-icon>
+          {{ '#LDS#Remove identities' | translate }}
+        </button>
+        <button mat-stroked-button data-imx-identifier="pick-category-sidesheet-details-button-add-items" (click)="assignPickedItems()">
+          {{ '#LDS#Assign identities' | translate }}
+        </button>
+      </div>
+    }
   </mat-card>
 </div>
 <div eui-sidesheet-actions>
@@ -47,7 +49,7 @@
     data-imx-identifier="pick-category-sidesheet-details-button-save"
     (click)="saveChanges()"
     [disabled]="form.invalid || form.pristine"
-  >
+    >
     {{ '#LDS#Save' | translate }}
   </button>
 </div>

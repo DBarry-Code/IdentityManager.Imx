@@ -1,12 +1,12 @@
 <div eui-sidesheet-content>
   <div class="heading-wrapper">
     <eui-alert type="warning" [condensed]="true" [dismissable]="true">
-      {{ (this.data.acceptCartItems ? ldsAcceptCartItemsInfoText : ldsAcceptApprovalItemsInfoText) | translate }}
+      {{ (data.acceptCartItems ? ldsAcceptCartItemsInfoText : ldsAcceptApprovalItemsInfoText) | translate }}
     </eui-alert>
   </div>
 
   <mat-card>
-    <ng-container *ngIf="withoutAuthenticaton">
+    @if (withoutAuthenticaton) {
       <form [formGroup]="termsOfUseFormGroup" data-imx-identifier="terms-of-use-accept-without-auth-form">
         <imx-terms-of-use-list
           [termsOfUseItems]="items"
@@ -15,18 +15,24 @@
           [formGroup]="termsOfUseFormGroup"
         ></imx-terms-of-use-list>
       </form>
-    </ng-container>
+    }
     <ng-container>
       <mat-stepper [ngClass]="{ hidden: withoutAuthenticaton }" orientation="vertical" linear #stepper>
         <mat-step [stepControl]="authenticationFormGroup" label="{{ '#LDS#Authenticate' | translate }}">
           <form [formGroup]="authenticationFormGroup" class="auth-form">
-            <imx-busy-indicator *ngIf="isLoading"></imx-busy-indicator>
-            <eui-alert type="error" [condensed]="true" *ngIf="!hasAuthenticators && !isLoading">
-              {{ '#LDS#There are no authentication methods defined for you. Contact your administrator.' | translate }}
-            </eui-alert>
-            <div *ngIf="isAuthenticated" class="imx-success-message">
-              {{ '#LDS#You have successfully been authenticated.' | translate }}
-            </div>
+            @if (isLoading) {
+              <imx-busy-indicator></imx-busy-indicator>
+            }
+            @if (!hasAuthenticators && !isLoading) {
+              <eui-alert type="error" [condensed]="true">
+                {{ '#LDS#There are no authentication methods defined for you. Contact your administrator.' | translate }}
+              </eui-alert>
+            }
+            @if (isAuthenticated) {
+              <div class="imx-success-message">
+                {{ '#LDS#You have successfully been authenticated.' | translate }}
+              </div>
+            }
             <div formArrayName="authenticator" [ngClass]="{ hidden: isLoading || isAuthenticated }">
               <ng-container #authFormControls></ng-container>
             </div>
@@ -37,7 +43,7 @@
             matStepperNext
             data-imx-identifier="terms-of-use-accept-button-accept-with-authentication"
             [disabled]="authenticationFormGroup?.invalid"
-          >
+            >
             {{ '#LDS#Next' | translate }}
           </button>
         </mat-step>
@@ -48,7 +54,7 @@
               [productItems]="productItems"
               [itemsHeading]="ldsItemsHeading"
               [formGroup]="termsOfUseFormGroup"
-            >
+              >
             </imx-terms-of-use-list>
           </form>
         </mat-step>
@@ -66,7 +72,7 @@
     data-imx-identifier="terms-of-use-accept-button-accept-without-authentication"
     [disabled]="termsOfUseFormGroup.controls['acceptTermsOfUseFormCtrl']?.errors?.required"
     (click)="accept()"
-  >
+    >
     {{ '#LDS#Accept' | translate }}
   </button>
 </div>

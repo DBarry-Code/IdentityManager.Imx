@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,18 +24,21 @@
  *
  */
 
-import { NgModule } from '@angular/core';
+import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { HelpContextualComponent } from './help-contextual.component';
-import { HelpContextualDialogComponent } from './help-contextual-dialog/help-contextual-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
-import { EuiCoreModule } from '@elemental-ui/core';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EuiCoreModule } from '@elemental-ui/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { HelpContextualDialogComponent } from './help-contextual-dialog/help-contextual-dialog.component';
+import { HelpContextualTemplate } from './help-contextual-template.directive';
+import { HelpContextualComponent } from './help-contextual.component';
 
 @NgModule({
-  declarations: [HelpContextualComponent, HelpContextualDialogComponent],
-  imports: [CommonModule, MatDialogModule, TranslateModule, EuiCoreModule, MatButtonModule],
-  exports: [HelpContextualComponent],
+  declarations: [HelpContextualComponent, HelpContextualDialogComponent, HelpContextualTemplate],
+  imports: [CommonModule, MatDialogModule, TranslateModule, EuiCoreModule, MatButtonModule, PortalModule, MatTooltipModule],
+  exports: [HelpContextualComponent, HelpContextualTemplate],
 })
 export class HelpContextualModule {}

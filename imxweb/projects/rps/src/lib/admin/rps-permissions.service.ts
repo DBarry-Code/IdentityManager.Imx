@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,7 +27,7 @@
 import { Injectable } from '@angular/core';
 
 import { UserModelService } from 'qer';
-import { isRpsAdmin } from './permissions-helper';
+import { isReportEdit, isRpsAdmin } from './permissions-helper';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +37,9 @@ export class RpsPermissionsService {
 
   public async isRpsAdmin(): Promise<boolean> {
     return isRpsAdmin((await this.userService.getGroups()).map((group) => group.Name));
+  }
+
+  public async isReportEdit(): Promise<boolean> {
+    return isReportEdit((await this.userService.getFeatures()).Features || []);
   }
 }

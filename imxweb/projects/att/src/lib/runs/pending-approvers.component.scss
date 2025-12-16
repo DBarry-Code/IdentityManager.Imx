@@ -1,11 +1,11 @@
-@import 'base/mixins';
+@use 'base/mixins' as mixins;
 
 :host {
-  @include flex-column-container($overflow: hidden, $height: 100%);
+  @include mixins.flex-column-container($overflow: hidden, $height: 100%);
 }
 
 .attestationRun-pendingapprovers-content {
-  @include flex-column-container-fill;
+  @include mixins.flex-column-container-fill;
   overflow-y: auto;
 }
 

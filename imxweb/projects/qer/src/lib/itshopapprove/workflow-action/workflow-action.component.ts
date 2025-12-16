@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -50,9 +50,10 @@ import { WorkflowActionEdit } from './workflow-action-edit.interface';
  * An implementation of such a service is {@link WorkflowActionService}.
  */
 @Component({
-  selector: 'imx-workflow-action',
-  templateUrl: './workflow-action.component.html',
-  styleUrls: ['./workflow-action.component.scss'],
+    selector: 'imx-workflow-action',
+    templateUrl: './workflow-action.component.html',
+    styleUrls: ['./workflow-action.component.scss'],
+    standalone: false
 })
 export class WorkflowActionComponent {
   /**

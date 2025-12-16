@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,9 +25,23 @@
  */
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, ContentChildren, Input, QueryList, Signal, ViewChild, computed, effect } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  Input,
+  Signal,
+  WritableSignal,
+  computed,
+  contentChildren,
+  effect,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { MatColumnDef, MatTable } from '@angular/material/table';
+import { DisplayColumns, GroupInfoType, IEntity } from '@imx-modules/imx-qbm-dbts';
 import { isEqual } from 'lodash';
+import { ClassloggerService } from '../../classlogger/classlogger.service';
+import { buildAdditionalElementsString } from '../../data-table/data-table-additional-info.model';
 import { QueuedActionState } from '../../processing-queue/processing-queue.interface';
 import { ImxTranslationProviderService } from '../../translation/imx-translation-provider.service';
 import { DataViewSource } from '../data-view-source';
@@ -81,8 +95,9 @@ import { GroupInfoRow } from '../data-view.interface';
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  standalone: false,
 })
-export class DataViewAutoTableComponent {
+export class DataViewAutoTableComponent implements AfterContentInit {
   /**
    * Input the dataViewSource service. It handles all the action and the data loading. This input property is required.
    */
@@ -104,6 +119,7 @@ export class DataViewAutoTableComponent {
    * Indicates the selection type.
    */
   @Input() public singleSelection = false;
+
   /**
    * If set to 'auto' (= default) the data table will check the 'displayedColumns' input field and build a visual presentation.
    * If set to 'manual' the data table render all the material columns in the content of the data view auto table component. In manual mode the additional columns also available.
@@ -111,18 +127,22 @@ export class DataViewAutoTableComponent {
   @Input() public mode: 'auto' | 'manual' = 'auto';
 
   /**
+   * Add a refresh button to the grouped table, to reload the data in the nested table.
+   */
+  @Input() public refreshButton = false;
+
+  /**
    * TODO: Refine if needed
    * If mode is 'auto', then specify the name of the column you want a queue status badge to appear under. If left blank, then no status badge will appear, even if item is in the processing queue.
    * This input has no effect on 'manual', as the injected ng-container should contain the reference to the imx-data-view-status component
    */
   // @Input() public queueStatusColumnName: string;
-
-  @ContentChildren(MatColumnDef) columnDefs: QueryList<MatColumnDef>;
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  public table = viewChild<MatTable<any>>('autoTable');
+  public columnDefs = contentChildren<MatColumnDef>(MatColumnDef);
   /**
    * Array of the display columns.
    */
-  public namesOfDisplayedColumns: string[] = [];
+  public namesOfDisplayedColumns: WritableSignal<string[]> = signal([]);
   /**
    * Array of the grouped display columns.
    */
@@ -133,27 +153,53 @@ export class DataViewAutoTableComponent {
   public isGroupingApplied: Signal<boolean> = computed(() => !!this.dataSource.groupByColumn());
 
   public stateOptions = QueuedActionState;
-  private cacheColumnDefs: string[] = [];
+  public groupInfoTypeEnum = GroupInfoType;
+  public DisplayColumns = DisplayColumns;
+  private cacheColumnDefs: readonly MatColumnDef[] = [];
+  private contentInit: WritableSignal<boolean> = signal(false);
 
   constructor(
     public readonly translateProvider: ImxTranslationProviderService,
     public readonly groupedDataSource: DataViewSource,
+    public readonly log: ClassloggerService,
   ) {
     effect(() => {
-      if (this.dataSource.columnsToDisplay() && this.columnDefs && this.table) {
-        this.columnDefs.forEach((columnDef) => {
-          if (this.cacheColumnDefs.indexOf(columnDef.name) === -1) {
-            this.table.addColumnDef(columnDef);
-            this.cacheColumnDefs.push(columnDef.name);
-          }
+      if (
+        this.dataSource.columnsToDisplay() &&
+        this.columnDefs() &&
+        this.table() &&
+        this.dataSource.triggerRender() &&
+        this.contentInit()
+      ) {
+        this.log.debug(this, 'Setting columns to display...');
+        this.cacheColumnDefs.map((columnDef) => this.table()?.removeColumnDef(columnDef));
+        this.columnDefs().forEach((columnDef) => {
+          this.table()?.removeColumnDef(columnDef);
+          this.table()?.addColumnDef(columnDef);
         });
+        this.cacheColumnDefs = this.columnDefs();
         if (this.selectable) {
-          this.namesOfDisplayedColumns = ['select', ...this.dataSource?.columnsToDisplay()?.map((column) => column.ColumnName || '')];
+          this.namesOfDisplayedColumns.set(['select', ...this.dataSource?.columnsToDisplay()?.map((column) => column.ColumnName || '')]);
         } else {
-          this.namesOfDisplayedColumns = this.dataSource?.columnsToDisplay()?.map((column) => column.ColumnName || '');
+          this.namesOfDisplayedColumns.set(this.dataSource?.columnsToDisplay()?.map((column) => column.ColumnName || ''));
         }
       }
     });
+    effect(() => {
+      if (this.isGroupingApplied()) {
+        this.namesOfDisplayedColumns.set([]);
+      }
+    });
+    effect(() => {
+      if (this.dataSource.showOnlySelected()) {
+        this.namesOfDisplayedColumns.set([]);
+        this.dataSource.renderRows();
+      }
+    });
+  }
+
+  ngAfterContentInit(): void {
+    this.contentInit.set(true);
   }
 
   /**
@@ -161,7 +207,7 @@ export class DataViewAutoTableComponent {
    */
   public toggleAllRows(): void {
     if (this.dataSource.isAllSelected()) {
-      this.dataSource.selection.clear();
+      this.dataSource.data.map((entity) => this.dataSource.selection.unChecked(entity));
       this.dataSource.nestedSelection = new Map();
       return;
     }
@@ -177,6 +223,10 @@ export class DataViewAutoTableComponent {
     if (!!group.Count && group.Count > 0) {
       group.expanded = !group.expanded;
     }
+  }
+
+  public refreshGroup(group: GroupInfoRow): void {
+    group.refreshTable = !group.refreshTable;
   }
 
   /**
@@ -218,5 +268,9 @@ export class DataViewAutoTableComponent {
   public onSingleSelectionChange(selectedItem: any) {
     this.dataSource.selection.setSelection([selectedItem]);
     this.onRemoveSelection(selectedItem);
+  }
+
+  public getSubtitleText(column: IEntity): string {
+    return buildAdditionalElementsString(column, this.dataSource.additionalListColumns()!);
   }
 }

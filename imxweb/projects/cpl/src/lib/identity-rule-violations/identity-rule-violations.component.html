@@ -12,16 +12,19 @@
         <imx-data-table-column [entityColumn]="entitySchema.Columns[DisplayColumns.DISPLAY_PROPERTYNAME]">
           <ng-template let-item>
             <div>{{ item.GetEntity().GetDisplay() }}</div>
-            <div *ngIf="item.GetEntity().GetDisplay() !== item.GetEntity().GetDisplayLong()" subtitle>
-              {{ item.GetEntity().GetDisplayLong() }}
-            </div>
+            @if (item.GetEntity().GetDisplay() !== item.GetEntity().GetDisplayLong()) {
+              <div subtitle>
+                {{ item.GetEntity().GetDisplayLong() }}
+              </div>
+            }
           </ng-template>
         </imx-data-table-column>
-        <imx-data-table-column
-          *ngFor="let displayColumn of displayedColumns | excludedColumns: ['__Display', 'actions']"
-          [entityColumn]="displayColumn"
-        >
-        </imx-data-table-column>
+        @for (displayColumn of displayedColumns | excludedColumns: ['__Display', 'actions']; track displayColumn) {
+          <imx-data-table-column
+            [entityColumn]="displayColumn"
+            >
+          </imx-data-table-column>
+        }
 
         <imx-data-table-generic-column columnName="actions">
           <ng-template let-dataItem>
@@ -31,7 +34,7 @@
               [disabled]="!dataItem.HasMitigation.value"
               [attr.data-imx-identifier]="'identity-rule-violations-' + dataItem.GetEntity().GetKeys().join(',')"
               (click)="onShowDetails(dataItem)"
-            >
+              >
               {{ '#LDS#View mitigating controls' | translate }}
             </button>
           </ng-template>

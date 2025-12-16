@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -36,8 +36,9 @@ import { AddressbookService } from '../../../addressbook/addressbook.service';
 import { DuplicateCheckParameter } from '../duplicate-check-parameter.interface';
 
 @Component({
-  templateUrl: './duplicates-sidesheet.component.html',
-  styleUrls: ['./duplicates-sidesheet.component.scss'],
+    templateUrl: './duplicates-sidesheet.component.html',
+    styleUrls: ['./duplicates-sidesheet.component.scss'],
+    standalone: false
 })
 export class DuplicatesSidesheetComponent implements OnInit {
   public dstSettings: DataSourceToolbarSettings;

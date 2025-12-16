@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -39,9 +39,10 @@ export interface SelectedSidesheetData {
 }
 
 @Component({
-  selector: 'imx-new-request-selected-products',
-  templateUrl: './new-request-selected-products.component.html',
-  styleUrls: ['./new-request-selected-products.component.scss'],
+    selector: 'imx-new-request-selected-products',
+    templateUrl: './new-request-selected-products.component.html',
+    styleUrls: ['./new-request-selected-products.component.scss'],
+    standalone: false
 })
 export class NewRequestSelectedProductsComponent implements OnInit {
   public columnsToDisplay: string[] = ['select', 'product', 'productSource', 'description'];

@@ -1,0 +1,23 @@
+<div eui-sidesheet-content>
+  <mat-card>
+    <eui-alert type="info" [condensed]="true" [colored]="true">
+      {{ LdsInfoText | translate }}
+    </eui-alert>
+
+    <ul>
+      @for (setting of customizationsToConvert; track setting.Path) {
+        <li>
+          <config-key-path [path]="setting.DisplayPath"></config-key-path>
+        </li>
+      }
+    </ul>
+  </mat-card>
+</div>
+
+<div eui-sidesheet-actions>
+  @if (customizationsToConvert.length > 0) {
+    <button data-imx-identifier="admin-config-convert-submit-button" mat-flat-button (click)="submit()" color="primary">
+      {{ '#LDS#Convert' | translate }}
+    </button>
+  }
+</div>

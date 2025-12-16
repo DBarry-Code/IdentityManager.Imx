@@ -2,7 +2,9 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "apc",
   "sourceRoot": "projects/apc/src",
-  "implicitDependencies": ["qer"],
+  "implicitDependencies": [
+    "qer"
+  ],
   "projectType": "library",
   "prefix": "imx",
   "generators": {
@@ -23,12 +25,11 @@
         },
         "development": {
           "tsConfig": "projects/apc/tsconfig.lib.json"
-        },
-        "dynamic": {
-          "project": "projects/apc/ng-package.dynamic.json"
         }
       },
-      "outputs": ["{workspaceRoot}/dist/apc"]
+      "outputs": [
+        "{workspaceRoot}/dist/apc"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -50,8 +51,15 @@
     "lint": {
       "executor": "@angular-devkit/build-angular:tslint",
       "options": {
-        "tsConfig": ["projects/apc/tsconfig.lib.json", "projects/apc/tsconfig.spec.json"],
-        "exclude": ["**/node_modules/**", "**/*.spec.ts", "**/*.json"]
+        "tsConfig": [
+          "projects/apc/tsconfig.lib.json",
+          "projects/apc/tsconfig.spec.json"
+        ],
+        "exclude": [
+          "**/node_modules/**",
+          "**/*.spec.ts",
+          "**/*.json"
+        ]
       }
     }
   }

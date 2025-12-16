@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -27,8 +27,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  templateUrl: './chart-tile.component.html',
-  selector: 'imx-chart-tile',
+    templateUrl: './chart-tile.component.html',
+    selector: 'imx-chart-tile',
+    standalone: false
 })
 export class ChartTileComponent {
   @Input() public displayNameDialogDashboardDef: string;

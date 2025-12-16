@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,7 +24,7 @@
  *
  */
 
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -46,7 +46,6 @@ import { DugResourceOverviewService } from './dug-resource-overview.service';
   selector: 'imx-dug-resource-overview',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -62,8 +61,8 @@ import { DugResourceOverviewService } from './dug-resource-overview.service';
     BusyIndicatorModule,
     HelpContextualModule,
     LdsReplaceModule,
-    DataViewModule,
-  ],
+    DataViewModule
+],
   providers: [DataViewSource],
   templateUrl: './dug-resource-overview.component.html',
   styleUrl: './dug-resource-overview.component.scss'

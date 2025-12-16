@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -24,9 +24,10 @@
  *
  */
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
+import { DateFormat } from '@imx-modules/imx-qbm-dbts';
 import moment, { Moment } from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { ClassloggerService } from '../../classlogger/classlogger.service';
@@ -44,6 +45,7 @@ import { DateParser } from './date-parser';
   selector: 'imx-date',
   templateUrl: './date.component.html',
   styleUrls: ['./date.component.scss'],
+  standalone: false,
 })
 export class DateComponent implements OnInit, OnDestroy {
   // ######################################################################################################
@@ -112,11 +114,9 @@ export class DateComponent implements OnInit, OnDestroy {
    * If true a time picker is accessible in addition to the calendar date picker.
    */
   @Input() public withTime = true;
+  @Input() public dateFormat: DateFormat;
 
   @Input() validateOnlyOnChange: boolean = false;
-
-  /*Emits an event, when the user changed something in the UI, by closing dialogs or when focus is lost */
-  @Output() manuallyChanged: EventEmitter<void> = new EventEmitter();
 
   /**
    * @ignore only public because of databinding in template
@@ -154,18 +154,9 @@ export class DateComponent implements OnInit, OnDestroy {
   public shadowTime = new UntypedFormControl();
 
   /**
-   * Closes all picker and emits the manually changed event.
-   */
-  public handleClose(): void {
-    this.isDatePickerOpen = false;
-    this.isTimePickerOpen = false;
-    this.manuallyChanged.emit();
-  }
-
-  /**
    * @ignore
    * the result of the internal shadow form control.
-   * Useful to avoid unnecessary update loop when writing back the value to the input control.
+   * Useful to avoid unecessay update loop when writing back the value to the input control.
    */
   private result: Moment | undefined;
 
@@ -301,7 +292,10 @@ export class DateComponent implements OnInit, OnDestroy {
 
   public focusout(): void {
     this.handleShadowTimeChanged();
-    this.manuallyChanged.emit();
+  }
+
+  public clearInput() {
+    this.control.reset();
   }
 
   /**
@@ -344,6 +338,10 @@ export class DateComponent implements OnInit, OnDestroy {
     if (this.shadowDate.value) {
       const d = moment(this.shadowDate.value);
       value = moment({ year: d.year(), month: d.month(), day: d.date() });
+      if (!this.shadowTime.value && this.dateFormat === DateFormat.EndTime) {
+        value = value.endOf('day');
+        this.updateShadowTime(value);
+      }
     }
 
     if (this.shadowTime.value) {

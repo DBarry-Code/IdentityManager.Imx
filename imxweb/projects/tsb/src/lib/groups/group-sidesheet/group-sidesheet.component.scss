@@ -1,6 +1,5 @@
-@import '@elemental-ui/core/src/styles/_palette.scss';
-@import '@elemental-ui/core/src/styles/_eui_palette.scss';
-@import 'base/mixins';
+@use '@elemental-ui/core/src/styles/_eui_palette.scss' as eui;
+@use 'base/mixins' as mixins;
 
 .product-owner-datasource-container {
   margin: 10px 0 25px;
@@ -8,7 +7,7 @@
   span {
     display: block;
     font-size: 12px;
-    color: $black-9;
+    color: eui.$color-gray-40;
     padding-bottom: 2px;
   }
 
@@ -22,10 +21,11 @@
 }
 
 .imx-dynamic-content {
-  @include flex-column-container-fill();
+  @include mixins.flex-column-container-fill();
+
   :first-child {
     height: 100%;
-    @include flex-column-container-fill();
+    @include mixins.flex-column-container-fill();
   }
 }
 
@@ -33,7 +33,7 @@
   ::ng-deep .mat-badge-small.mat-badge-overlap.mat-badge-after {
     .mat-badge-content {
       right: -16px;
-      background: $corbin-orange;
+      background: eui.$color-orange-60;
     }
   }
 }
@@ -57,6 +57,7 @@
 .imx-card {
   display: flex;
   justify-content: flex-end;
+
   button {
     margin-left: 10px;
   }
@@ -65,7 +66,7 @@
 .imx-breakable {
   margin-top: -10px;
 
-  > * {
+  >* {
     margin-top: 10px;
   }
 }
@@ -74,7 +75,7 @@
   :host {
     .product-owner-datasource-container {
       span {
-        color: $color-gray-10;
+        color: eui.$color-gray-10;
       }
     }
   }
@@ -84,7 +85,7 @@
   :host {
     .product-owner-datasource-container {
       span {
-        color: $color-gray-0;
+        color: eui.$color-gray-0;
       }
     }
   }

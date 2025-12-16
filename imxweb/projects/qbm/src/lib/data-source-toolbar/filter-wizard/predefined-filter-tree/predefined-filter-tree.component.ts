@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -25,13 +25,17 @@
  */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { FilterWizardSidesheetData } from '../filter-wizard.interfaces';
 import { EUI_SIDESHEET_DATA } from '@elemental-ui/core';
+import { FilterWizardSidesheetData } from '../filter-wizard.interfaces';
 
+/**
+ * @deprecated since v10.0.0
+ */
 @Component({
-  selector: 'imx-predefined-filter-tree',
-  templateUrl: './predefined-filter-tree.component.html',
-  styleUrls: ['./predefined-filter-tree.component.scss'],
+    selector: 'imx-predefined-filter-tree',
+    templateUrl: './predefined-filter-tree.component.html',
+    styleUrls: ['./predefined-filter-tree.component.scss'],
+    standalone: false
 })
 export class PredefinedFilterTreeComponent implements OnInit {
   constructor(@Inject(EUI_SIDESHEET_DATA) public data?: FilterWizardSidesheetData) {}

@@ -9,7 +9,7 @@
  * those terms.
  *
  *
- * Copyright 2024 One Identity LLC.
+ * Copyright 2025 One Identity LLC.
  * ALL RIGHTS RESERVED.
  *
  * ONE IDENTITY LLC. MAKES NO REPRESENTATIONS OR
@@ -42,9 +42,10 @@ import { IdentityDetailComponent } from './identity-detail/identity-detail.compo
 import { IdentityService } from './identity.service';
 
 @Component({
-  selector: 'imx-aob-identities',
-  templateUrl: './identities.component.html',
-  styleUrls: ['./identities.component.scss'],
+    selector: 'imx-aob-identities',
+    templateUrl: './identities.component.html',
+    styleUrls: ['./identities.component.scss'],
+    standalone: false
 })
 export class IdentitiesComponent implements OnChanges {
   /**
