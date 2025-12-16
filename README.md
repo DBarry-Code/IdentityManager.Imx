@@ -43,7 +43,7 @@ This repository contains the source code for the HTML5 applications contained in
 
 It is a monorepo containing the Angular [workspace](https://angular.io/guide/workspace-config), which consists of apps and [libraries](https://angular.io/guide/libraries).
 
-We strongly recommend to read the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.3/html5-development-guide) before starting to work with the code in this repository.
+We strongly recommend to read the [HTML Development Guide](https://docs.oneidentity.com/de-DE/bundle/one-identity-manager_html5-development_10.0/page/sources/html5development/html5devintro.htm) before starting to work with the code in this repository.
 
 By forking this repository, you may create customized versions of the projects and add them to your Identity Manager deployment.
 
@@ -96,17 +96,14 @@ For more information about each project, see the `readme.md` files in each proje
 
 ### Angular apps
 
-| Name                        | Description                                       | Project type | Static dependencies |
-| --------------------------- | ------------------------------------------------- | ------------ | ------------------- |
-| `qbm-app-landingpage`       | API Server landing page and Server Administration | Angular app  | `qbm`               |
-| `qer-app-portal`            | Portal                                            | Angular app  | `qbm`, `qer`        |
-| `qer-app-operationssupport` | Operations Support Portal                         | Angular app  | `qbm`, `qer`        |
-| `qer-app-pwdportal`         | Password Reset Portal                             | Angular app  | `qbm`, `qer`        |
-| `custom-app`                | Template for custom applications                  | Angular app  | `qbm`               |
+| Name                  | Description                                       | Project type | Static dependencies |
+| --------------------- | ------------------------------------------------- | ------------ | ------------------- |
+| `qbm-app-landingpage` | API Server landing page and Server Administration | Angular app  | `qbm`               |
+| `qer-app-portal`      | Portal                                            | Angular app  | `qbm`, `qer`        |
+| `qer-app-pwdportal`   | Password Reset Portal                             | Angular app  | `qbm`, `qer`        |
+| `custom-app`          | Template for custom applications                  | Angular app  | `qbm`               |
 
 ## Dependencies
-
-Identity Manager 9.3 is based on Angular 18.
 
 Verify that you have installed a compatible `node.js` version. The version used by the CI build is defined in the [`.github/workflows/npm-build.yml`](.github/workflows/npm-build.yml) file in the `node-version` property. Other versions of `node.js`, including newer versions, are not guaranteed to be compatible with other Angular versions. Please see the [version compatibility table](https://v18.angular.dev/reference/versions) on the official Angular site.
 
@@ -124,7 +121,7 @@ The web apps will connect to the API Server using the URL defined in the applica
 
 ## Documentation
 
-Please refer to the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.3/html5-development-guide) for step-by-step instructions on getting started, building and deploying applications.
+Please refer to the [HTML Development Guide](https://docs.oneidentity.com/de-DE/bundle/one-identity-manager_html5-development_10.0/page/sources/html5development/html5devintro.htm) for step-by-step instructions on getting started, building and deploying applications.
 
 This repository also contains component-based documentation. There are two ways to install this documentation locally. The result will be stored in _imxweb/documentation/\<projectname>_.
 
