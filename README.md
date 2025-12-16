@@ -43,7 +43,7 @@ This repository contains the source code for the HTML5 applications contained in
 
 It is a monorepo containing the Angular [workspace](https://angular.io/guide/workspace-config), which consists of apps and [libraries](https://angular.io/guide/libraries).
 
-We strongly recommend to read the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.3/html5-development-guide) before starting to work with the code in this repository.
+We strongly recommend to read the [HTML Development Guide](https://docs.oneidentity.com/de-DE/bundle/one-identity-manager_html5-development_9.3.1/page/sources/html5development/html5devintro.htm) before starting to work with the code in this repository.
 
 By forking this repository, you may create customized versions of the projects and add them to your Identity Manager deployment.
 
@@ -124,7 +124,7 @@ The web apps will connect to the API Server using the URL defined in the applica
 
 ## Documentation
 
-Please refer to the [HTML Development Guide](https://support.oneidentity.com/technical-documents/identity-manager/9.3/html5-development-guide) for step-by-step instructions on getting started, building and deploying applications.
+Please refer to the [HTML Development Guide](https://docs.oneidentity.com/de-DE/bundle/one-identity-manager_html5-development_9.3.1/page/sources/html5development/html5devintro.htm) for step-by-step instructions on getting started, building and deploying applications.
 
 This repository also contains component-based documentation. There are two ways to install this documentation locally. The result will be stored in _imxweb/documentation/\<projectname>_.
 
