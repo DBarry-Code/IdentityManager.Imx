@@ -56,7 +56,7 @@ Nevertheless within the CDR module there are two plugins that supply some genera
 - [DateRangeComponent](date-range/date-range.component.ts): for date range properties
 - [EditImageComponent](edit-image/edit-image.component.ts): for properties where the value is image data
 - [EditLimitedValueComponent](edit-limited-value/edit-limited-value.component.ts): for properties where the value can be one of a limited set of allowed values
-- [EditMultiLimitedValueComponent](edit-multi-limited-value/edit-multi-limited-value.component.ts): for properties where the value can be one or many of a limited set of alowed values
+- [EditMultiLimitedValueComponent](edit-multi-limited-value/edit-multi-limited-value.component.ts): for properties where the value can be one or many of a limited set of allowed values
 - [EditMulitValueComponent](edit-multi-value/edit-multi-value.component.ts)
 - [EditMultiLineComponent](edit-multiline/edit-multiline.component.ts): for text properties that allow multiple lines
 - [EditNumberComponent](edit-number/edit-number.component.ts): for numeric properties
