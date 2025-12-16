@@ -76,6 +76,7 @@ Each Angular library and app belongs to a folder in the `projects` directory. Th
 | `cpl` | Angular plugin library | `qbm`, `qer`                      |
 | `dpr` | Angular plugin library | `qbm`                             |
 | `hds` | Angular plugin library | `qbm`, `qer`                      |
+| `iqc` | Angular plugin library | `qbm`, `qer`                      |
 | `olg` | Angular plugin library | `qbm`, `qer`                      |
 | `pol` | Angular plugin library | `qbm`, `qer`                      |
 | `qam` | Angular plugin library | `qbm`, `qer`                      |
@@ -86,7 +87,6 @@ Each Angular library and app belongs to a folder in the `projects` directory. Th
 | `rps` | Angular plugin library | `qbm`, `qer`                      |
 | `sac` | Angular plugin library | `qbm`, `qer`                      |
 | `tsb` | Angular plugin library | `qbm`, `qer`                      |
-| `uci` | Angular plugin library | `qbm`, `qer`                      |
 
 Each Angular library belongs to the Identity Manager module of the same name. You do not need to build Angular libraries for modules that are not part of your Identity Manager installation.
 
@@ -105,7 +105,7 @@ For more information about each project, see the `readme.md` files in each proje
 
 ## Dependencies
 
-Verify that you have installed a compatible `node.js` version. The version used by the CI build is defined in the [`.github/workflows/npm-build.yml`](.github/workflows/npm-build.yml) file in the `node-version` property. Other versions of `node.js`, including newer versions, are not guaranteed to be compatible with other Angular versions. Please see the [version compatibility table](https://v18.angular.dev/reference/versions) on the official Angular site.
+Verify that you have installed a compatible `node.js` version. The version used by the CI build is defined in the [`.github/workflows/npm-build.yml`](.github/workflows/npm-build.yml) file in the `node-version` property. Other versions of `node.js`, including newer versions, are not guaranteed to be compatible with other Angular versions. Please see the [version compatibility table](https://v20.angular.dev/reference/versions) on the official Angular site.
 
 ## Debugging
 
