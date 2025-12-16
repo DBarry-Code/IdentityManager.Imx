@@ -105,6 +105,8 @@ For more information about each project, see the `readme.md` files in each proje
 
 ## Dependencies
 
+Identity Manager 10.0 is based on Angular 20.
+
 Verify that you have installed a compatible `node.js` version. The version used by the CI build is defined in the [`.github/workflows/npm-build.yml`](.github/workflows/npm-build.yml) file in the `node-version` property. Other versions of `node.js`, including newer versions, are not guaranteed to be compatible with other Angular versions. Please see the [version compatibility table](https://v20.angular.dev/reference/versions) on the official Angular site.
 
 ## Debugging
