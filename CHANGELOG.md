@@ -1,12 +1,14 @@
 ### November 18, 2025
-545983 (545530): Fixes an issue with mandatory fields when editing a request in the shopping cart.
-581733 (549535): Fixes an issue with displaying the approval page when there are no items to approve.
-622249 (579339): Fixes an issue with exporting attestation run data.
-621618 (621462): Fixes an issue with dependency scripts that are updating the `isMandatory` property.
-604627: Fixes UI issues after changing the user language.
-546758 (546757): Fixes multiple issues with the Job Server Overview page.
+
+- 545983 (545530): Fixes an issue with mandatory fields when editing a request in the shopping cart.
+- 581733 (549535): Fixes an issue with displaying the approval page when there are no items to approve.
+- 622249 (579339): Fixes an issue with exporting attestation run data.
+- 621618 (621462): Fixes an issue with dependency scripts that are updating the `isMandatory` property.
+- 604627: Fixes UI issues after changing the user language.
+- 546758 (546757): Fixes multiple issues with the Job Server Overview page.
 
 ### October 17, 2025
+
 - 508158 (499229): Fixes an issue with the hyperview on Compliance -> Policy violations.
 - 494396 (494373): Fixes an issue with duplicate names on System Roles -> View Settings -> Additional columns.
 - 470423: Adds terminology of union view SAPGroup.
