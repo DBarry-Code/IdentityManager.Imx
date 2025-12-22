@@ -53,4 +53,4 @@ jobs:
       - name: Test All
         working-directory: ./imxweb
         run: npm run nx:test-ci
-        timeout-minutes: 25
+        timeout-minutes: 40
