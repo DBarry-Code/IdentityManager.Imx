@@ -17,7 +17,10 @@ jobs:
         id: node
         shell: pwsh
         run: |
+          # Determine branch (handles push vs PR)
           $branch = "${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}"
+          
+          # Select node version based on branch
           switch ($branch) {
             "v93"  { $node = "20.x" }
             "v100" { $node = "22.x" }
@@ -25,8 +28,14 @@ jobs:
             # "v110" { $node = "24.x" }
             default { $node = "22.x" }
           }
+          
+          # Output clear info for logs
+          Write-Host "🔹 Branch detected: $branch"
+          Write-Host "🔹 Node version selected: $node"
+      
+          # Pass to subsequent steps
           echo "version=$node" >> $env:GITHUB_OUTPUT
-
+          
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
