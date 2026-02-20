@@ -28,7 +28,12 @@ jobs:
       - name: Build All
         working-directory: ./imxweb
         run: npx nx run-many -t build -c production
-      
+        
+      - name: Test All
+        working-directory: ./imxweb
+        run: npm run nx:test-ci
+        timeout-minutes: 30
+        
       - name: Zip applications          
         run: |
           # Dynamically get app names from projects dir
@@ -45,9 +50,4 @@ jobs:
           name: imxweb-apps
           path: ./imxweb/dist/Html_*.zip
 
-      # Tests currently do not work
-      # - name: Test All
-      #   working-directory: ./imxweb
-      #   run: npm run nx:test-ci
-      #   timeout-minutes: 30
       
