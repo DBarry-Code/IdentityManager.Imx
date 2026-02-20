@@ -51,13 +51,10 @@ import { OutstandingObjectEntity } from './outstanding-object-entity';
 import { OutstandingService } from './outstanding.service';
 import { SelectedItemsComponent } from './selected-items/selected-items.component';
 
-/**
- * @deprecated since v10.0.0
- */
 @Component({
-    templateUrl: './outstanding.component.html',
-    styleUrls: ['./outstanding.component.scss'],
-    standalone: false
+  templateUrl: './outstanding.component.html',
+  styleUrls: ['./outstanding.component.scss'],
+  standalone: false,
 })
 export class OutstandingComponent implements OnInit {
   public namespaces: OpsupportNamespaces[] = [];
@@ -168,7 +165,7 @@ export class OutstandingComponent implements OnInit {
     }
   }
 
-  public selectionChanged(selected: TypedEntity[]): void {
+  public async selectionChanged(selected: TypedEntity[]): Promise<void> {
     this.selected = selected as OutstandingObjectEntity[];
   }
 
@@ -314,7 +311,7 @@ export class OutstandingComponent implements OnInit {
     const typedEntities = baseObjects.map(
       (obj) =>
         new OutstandingObjectEntity(
-          new ReadOnlyEntity(this.dstSettings.entitySchema, {
+          new ReadOnlyEntity(OutstandingObjectEntity.GetEntitySchema(), {
             Keys: [obj.ObjectKey ?? ''],
             Columns: {
               ObjectKey: {
@@ -345,6 +342,7 @@ export class OutstandingComponent implements OnInit {
                 Value: obj.LastMethodRun,
               },
             },
+            Display: obj.Display,
           }),
         ),
     );

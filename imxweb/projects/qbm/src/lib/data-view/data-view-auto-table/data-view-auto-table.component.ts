@@ -213,7 +213,7 @@ export class DataViewAutoTableComponent implements AfterContentInit {
       return;
     }
 
-    this.dataSource.selection.select(this.dataSource.getAllSelectableEntities());
+    this.dataSource.selection.setSelection(this.dataSource.getAllSelectableEntities());
   }
 
   /**

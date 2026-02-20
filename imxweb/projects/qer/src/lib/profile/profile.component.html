@@ -14,26 +14,24 @@
     <mat-tab-group mat-stretch-tabs="false" [(selectedIndex)]="tabIndex">
       <mat-tab label="{{ '#LDS#Heading Hyperview' | translate }}">
         <ng-template matTabContent>
-          @if (canShowEntitlementsHyperview) {
-            <mat-card class="no-grow">
-              <mat-card-content class="profile-hyperview">
-                <mat-radio-group [(ngModel)]="isShowEntitlementsHyperview">
-                  <mat-radio-button [value]="false">
-                    <span translate>#LDS#Identity overview</span>
-                  </mat-radio-button>
-                  <mat-radio-button [value]="true">
-                    <span translate>#LDS#Assigned entitlements</span>
-                  </mat-radio-button>
-                </mat-radio-group>
-              </mat-card-content>
-            </mat-card>
-          }
+          <mat-card class="no-grow">
+            <mat-card-content class="profile-hyperview">
+              <mat-radio-group [(ngModel)]="isShowEntitlementsHyperview">
+                <mat-radio-button [value]="false">
+                  <span translate>#LDS#Identity overview</span>
+                </mat-radio-button>
+                <mat-radio-button [value]="true">
+                  <span translate>#LDS#Assigned entitlements</span>
+                </mat-radio-button>
+              </mat-radio-group>
+            </mat-card-content>
+          </mat-card>
           <imx-object-hyperview
             [condensed]="true"
             [objectType]="'Person'"
             [objectUid]="userUid"
             [hyperviewName]="isShowEntitlementsHyperview ? 'VI_Person_Person_Entitlements_Overview' : ''"
-            >
+          >
           </imx-object-hyperview>
         </ng-template>
       </mat-tab>
@@ -47,7 +45,7 @@
                     [cdr]="cdr"
                     (controlCreated)="form.addControl(cdr?.column?.ColumnName ?? '', $event)"
                     [attr.data-imx-identifier]="'edit-profile-property-' + cdr.column.ColumnName"
-                    >
+                  >
                   </imx-cdr-editor>
                 }
               </form>
@@ -62,7 +60,7 @@
               form="form"
               color="primary"
               data-imx-identifier="edit-profile-button-save"
-              >
+            >
               {{ '#LDS#Save' | translate }}
             </button>
           </div>
@@ -80,17 +78,14 @@
           #passwordQuestionTab
           label="{{ '#LDS#Heading Password Questions' | translate }}"
           data-imx-identifier="profile-password-questions"
-          >
+        >
           <ng-template matTabContent>
             <imx-password-questions [passwordQuestionType]="'portal'"></imx-password-questions>
           </ng-template>
         </mat-tab>
       }
       @if (canManageSecurityKeys) {
-        <mat-tab
-          label="{{ '#LDS#Heading Security Keys' | translate }}"
-          data-imx-identifier="profile-security-keys"
-          >
+        <mat-tab label="{{ '#LDS#Heading Security Keys' | translate }}" data-imx-identifier="profile-security-keys">
           <ng-template matTabContent>
             <imx-security-keys></imx-security-keys>
           </ng-template>
@@ -117,7 +112,9 @@
             <eui-alert [dismissable]="false" type="warning" class="mat-elevation-z0">
               @if (!mailToBeUnsubscribed?.AllowUnsubscribe) {
                 <eui-alert-header class="mat-elevation-z0">
-                  {{ '#LDS#You cannot deactivate this notification. You do not have permission to deactivate this notification.' | translate }}
+                  {{
+                    '#LDS#You cannot deactivate this notification. You do not have permission to deactivate this notification.' | translate
+                  }}
                 </eui-alert-header>
               } @else {
                 <eui-alert-header class="mat-elevation-z0">
@@ -139,7 +136,7 @@
         (click)="unsubscribe(mailToBeUnsubscribed?.UidMail)"
         [disabled]="!mailToBeUnsubscribed?.IsSubscribed || !mailToBeUnsubscribed?.AllowUnsubscribe"
         data-imx-identifier="edit-profile-button-unsubscribe"
-        >
+      >
         {{ '#LDS#Deactivate notification' | translate }}
       </button>
     </div>

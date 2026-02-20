@@ -40,7 +40,7 @@ export class HelpContextualService {
   constructor(
     private appConfigService: AppConfigService,
     private translateService: TranslateService,
-  ) {}
+  ) { }
 
   /**
    * The call returns the selected contextual help item.
@@ -225,6 +225,7 @@ export const HELP_CONTEXTUAL = {
   DprSyncProjectStartupConfigurationCreate: 'dpr-sync-project-startup-configuration-create',
   DprSyncProjectStartupConfigurationEdit: 'dpr-sync-project-startup-configuration-edit',
   DprSyncProjectWorkflowEdit: 'dpr-sync-project-workflow-edit',
+  DprSyncProjectWorkflowDetails: 'dpr-sync-project-workflow-details',
   DprSyncProjectCopyModeInfo: 'dpr-sync-editor-sync-project-copy-mode-info',
   IQCChatbot: 'iqc-chatbot',
   SyncProjectVariablesSpecializedSets: 'sync-project-variables-specialized-sets',
@@ -237,6 +238,8 @@ export const HELP_CONTEXTUAL = {
   MastHeadPortal: 'mast-head-portal-documentation',
   MastHeadOpsWeb: 'mast-head-opsweb-documentation',
   MastHeadAdmin: 'mast-head-admin-documentation',
+  MastHeadPwdPortal: 'mast-head-pwdportal-documentation',
+  MastHeadManager: 'mast-head-manager-documentation',
   GlobalSearchOpsWeb: 'global-search-opsweb',
   NestedFilterNormal: 'nested-filter-normal',
   NestedFilterFK: 'nested-filter-fk',

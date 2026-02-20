@@ -181,6 +181,10 @@ export class PredefinedFilterComponent implements OnInit, AfterViewInit, OnDestr
     this.externalFilterId = 'externalFilter_' + this.data?.customIdentifier;
     this.settings = data?.settings ? Object.create(data.settings) : undefined;
     this.selectedFilters = data?.selectedFilters ?? [];
+    // #648272 Somewhere along the line the empty string '' was being set as CurrentValue for unselected filters; clean that up here
+    this.selectedFilters.map((filter) => {
+      if (filter.filter?.CurrentValue === '') filter.filter.CurrentValue = undefined;
+    });
     this.filters = _.cloneDeep(data?.settings.filters) ?? [];
     this.getFilterTypes();
     this.internalSelectedFilters = this.selectedFilters.map((filter) => filter);

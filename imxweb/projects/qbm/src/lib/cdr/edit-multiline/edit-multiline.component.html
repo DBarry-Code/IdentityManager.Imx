@@ -12,7 +12,7 @@
       [required]="columnContainer.isValueRequired"
     ></textarea>
     <div matSuffix class="imx-suffix-container">
-      @if (isBusy) {
+      @if (isBusy()) {
         <mat-spinner diameter="30"></mat-spinner>
       }
     </div>

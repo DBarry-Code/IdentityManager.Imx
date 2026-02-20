@@ -370,3 +370,5 @@ export { DynamicModuleImportService } from './lib/base/dynamic-modules-import.se
 
 // Global search
 export { GlobalSearchService } from './lib/global-search/global-search.service';
+
+export { DisplayColumnsService } from './lib/display-columns/display-columns.service';

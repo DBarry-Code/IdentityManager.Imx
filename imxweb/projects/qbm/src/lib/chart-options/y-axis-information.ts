@@ -53,7 +53,7 @@ export class YAxisInformation {
   }
 
   /**
-   * Gets YAxisConfiguration object using 'min' 'may' and 'tickConfiguration'
+   * Gets YAxisConfiguration object using 'min' 'max' and 'tickConfiguration'
    */
   public getAxisConfiguration(): yAxisConfiguration {
     return {

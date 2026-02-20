@@ -114,6 +114,8 @@ export class JobQueueOverviewService {
     };
     const routine = interval(this.configParams.RefreshIntervalSeconds * 1000);
     this.routineSubscription = routine.subscribe(() => this.jobLoop());
+
+    await this.setupJobServers();
   }
 
   public updateValues(changeData: EntityCollectionChangeData): void {
@@ -184,7 +186,7 @@ export class JobQueueOverviewService {
     }
     // Cumulatively add up all queue entries
     this.queueNames.forEach((queue) => {
-      if (queue !== this.totalStreamName) {
+      if (queue !== this.totalStreamName && !!this.entities[queue]) {
         for (const [key, value] of Object.entries(this.entities[queue])) {
           this.entities[this.totalStreamName][key] += value;
         }
@@ -259,8 +261,8 @@ export class JobQueueOverviewService {
   public getSlice(queue: string): JobQueueDataSlice {
     const slice: JobQueueDataSlice = {} as JobQueueDataSlice;
 
-    // Safeguard if we haven't yet initialized from the component
-    if (!queue) {
+    // Safeguard if we haven't yet initialized from the component or if the queue is empty
+    if (!queue || !this.entities[queue]) {
       return slice;
     }
 
@@ -288,11 +290,11 @@ export class JobQueueOverviewService {
   public computeGroups(queue: string): JobQueueGroups {
     const thisEntity = this.entities[queue];
     const output: JobQueueGroups = {
-      Error: thisEntity.CountFrozen + thisEntity.CountOverlimt + thisEntity.CountMissing,
-      Waiting: thisEntity.CountFalse,
-      Ready: thisEntity.CountTrue,
-      Processing: thisEntity.CountLoaded + thisEntity.CountProcessing,
-      Finished: thisEntity.CountFinished + thisEntity.CountHistory + thisEntity.CountDelete,
+      Error: thisEntity?.CountFrozen + thisEntity?.CountOverlimt + thisEntity?.CountMissing,
+      Waiting: thisEntity?.CountFalse,
+      Ready: thisEntity?.CountTrue,
+      Processing: thisEntity?.CountLoaded + thisEntity?.CountProcessing,
+      Finished: thisEntity?.CountFinished + thisEntity?.CountHistory + thisEntity?.CountDelete,
     };
     return output;
   }
@@ -308,5 +310,15 @@ export class JobQueueOverviewService {
     this.entities = {};
     this.table = [];
     this.logger.debug(this, 'Stream has successfully shutdown 👍');
+  }
+
+  // Setup job servers to get queue names
+  private async setupJobServers(): Promise<void> {
+    const jobServers = await this.session.Client.opsupport_jobservers_get();
+    this.queueNames.push(
+      ...(jobServers.Entities?.filter(
+        (entity) => entity.Columns?.['QueueName'].Value && !this.queueNames.includes(entity.Columns?.['QueueName'].Value),
+      ).map((entity) => entity.Columns?.['QueueName'].Value!) || []),
+    );
   }
 }

@@ -37,9 +37,6 @@ import { OutstandingComponent } from './outstanding.component';
 import { OutstandingService } from './outstanding.service';
 import { SelectedItemsComponent } from './selected-items/selected-items.component';
 
-/**
- * @deprecated since v10.0.0
- */
 @NgModule({
   imports: [
     CommonModule,

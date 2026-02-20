@@ -23,7 +23,7 @@
  * THIS SOFTWARE OR ITS DERIVATIVES.
  *
  */
-import { IReadValue, TypedEntity } from '@imx-modules/imx-qbm-dbts';
+import { EntitySchema, IReadValue, TypedEntity, ValType } from '@imx-modules/imx-qbm-dbts';
 
 export class OutstandingObjectEntity extends TypedEntity {
   public readonly ObjectType: IReadValue<string> = this.GetEntityValue('ObjectType');
@@ -33,4 +33,17 @@ export class OutstandingObjectEntity extends TypedEntity {
   public readonly CanDelete: IReadValue<boolean> = this.GetEntityValue('CanDelete');
   public readonly CanDeleteRestrictionReason: IReadValue<string> = this.GetEntityValue('CanDeleteRestrictionReason');
   public readonly CanPublishRestrictionReason: IReadValue<string> = this.GetEntityValue('CanPublishRestrictionReason');
+  public static GetEntitySchema(): EntitySchema {
+    return {
+      Columns: {
+        ObjectType: { ColumnName: 'ObjectType', Type: ValType.String },
+        ObjectKey: { ColumnName: 'ObjectKey', Type: ValType.String },
+        Display: { ColumnName: 'Display', Type: ValType.String },
+        CanPublish: { ColumnName: 'CanPublish', Type: ValType.Bool },
+        CanDelete: { ColumnName: 'CanDelete', Type: ValType.Bool },
+        CanDeleteRestrictionReason: { ColumnName: 'CanDeleteRestrictionReason', Type: ValType.Bool },
+        CanPublishRestrictionReason: { ColumnName: 'CanPublishRestrictionReason', Type: ValType.Bool },
+      },
+    };
+  }
 }
