@@ -28,7 +28,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy
 import { TranslateService } from '@ngx-translate/core';
 
 import { Chart, ChartOptions, XTickConfiguration } from 'billboard.js';
-import { interval, Subscription } from 'rxjs';
+import { fromEvent, interval, Subscription } from 'rxjs';
 import { LineChartOptions } from '../chart-options/line-chart-options';
 import { SeriesInformation } from '../chart-options/series-information';
 import { XAxisInformation } from '../chart-options/x-axis-information';
@@ -46,6 +46,7 @@ export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
   @Output() public viewChange = new EventEmitter();
   public chartOptions: ChartOptions | null = null;
   public routineSubscription: Subscription;
+  public resizeSubscription: Subscription;
 
   public queueNames: string[];
   public queue: string;
@@ -101,6 +102,12 @@ export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
     // Setup an interval and subscribe
     const routine = interval(this.jobQueueOverviewService.configParams.RefreshIntervalSeconds * 1000);
     this.routineSubscription = routine.subscribe(() => this.updatePlot());
+
+    this.resizeSubscription = fromEvent(window, 'resize').subscribe(() => {
+      if (this.chart) {
+        this.chart?.resize(this.getSize());
+      }
+    });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -121,12 +128,12 @@ export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     const data = this.jobQueueOverviewService.getSlice(this.queue);
-    const dateArray: any[] = data.Time ? [...data.Time] : [];
-    const errorArray: any[] = data.Error ? [...data.Error] : [];
-    const waitingArray: any[] = data.Waiting ? [...data.Waiting] : [];
-    const readyArray: any[] = data.Ready ? [...data.Ready] : [];
-    const processingArray: any[] = data.Processing ? [...data.Processing] : [];
-    const finishArray: any[] = data.Finished ? [...data.Finished] : [];
+    const dateArray: any[] = data.Time ? [data.Time[data.Time.length - 1]] : [];
+    const errorArray: any[] = data.Error ? [data.Error[data.Error.length - 1]] : [];
+    const waitingArray: any[] = data.Waiting ? [data.Waiting[data.Waiting.length - 1]] : [];
+    const readyArray: any[] = data.Ready ? [data.Ready[data.Ready.length - 1]] : [];
+    const processingArray: any[] = data.Processing ? [data.Processing[data.Processing.length - 1]] : [];
+    const finishArray: any[] = data.Finished ? [data.Finished[data.Finished.length - 1]] : [];
 
     //add data ID as first element in arrays
     dateArray.unshift('x');
@@ -142,18 +149,21 @@ export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
         append: true,
         columns: [dateArray, errorArray, waitingArray, readyArray, processingArray, finishArray],
       });
+    } else {
+      this.chart.unload();
     }
   }
 
   private buildOptions() {
     // If there is actually data, show it
     const xAxis = new XAxisInformation('date', [], this.xAxisConfig);
+    // Get the colors from the elemental ui palette.
     const yAxis = new YAxisInformation([
-      new SeriesInformation(this.errorText, [], 'red'),
-      new SeriesInformation(this.waitingText, [], 'orange'),
-      new SeriesInformation(this.readyText, [], 'blue'),
-      new SeriesInformation(this.processingText, [], 'violet'),
-      new SeriesInformation(this.finishedText, [], 'green'),
+      new SeriesInformation(this.errorText, [], '#db2534'),
+      new SeriesInformation(this.waitingText, [], '#000000'),
+      new SeriesInformation(this.readyText, [], '#327301'),
+      new SeriesInformation(this.processingText, [], '#e36a00'),
+      new SeriesInformation(this.finishedText, [], '#0a96d1'),
     ]);
     yAxis.tickConfiguration = {
       format: (l) => (Number.isInteger(l) && l > -1 ? l.toString() : ''),
@@ -162,13 +172,12 @@ export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
     const lineChartOptions = new LineChartOptions(
       xAxis,
       yAxis,
-      this.translateService.instant('#LDS#Currently, there is no data in any queues.'),
+      this.translateService.instant('#LDS#Currently, there is no data in this queue.'),
     );
     lineChartOptions.showPoints = true;
     lineChartOptions.hideLegend = false;
     lineChartOptions.colorArea = false;
     lineChartOptions.canZoom = true;
-    lineChartOptions.padding = { left: 20, right: 20, unit: 'px' };
     this.chartOptions = lineChartOptions.options;
     if (this.chartOptions.data) {
       this.chartOptions.data.labels = { format: (v, id, i, j) => `${v}` };
@@ -197,6 +206,9 @@ export class JobQueueOverviewComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnDestroy(): void {
     if (this.routineSubscription) {
       this.routineSubscription.unsubscribe();
+    }
+    if (this.resizeSubscription) {
+      this.resizeSubscription.unsubscribe();
     }
   }
 }

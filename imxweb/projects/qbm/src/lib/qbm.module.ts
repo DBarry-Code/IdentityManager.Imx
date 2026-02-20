@@ -78,6 +78,7 @@ import { DataSourceToolbarModule } from './data-source-toolbar/data-source-toolb
 import { DataTableModule } from './data-table/data-table.module';
 import { DataViewModule } from './data-view/data-view.module';
 import { DisableControlModule } from './disable-control/disable-control.module';
+import { DisplayColumnsService } from './display-columns/display-columns.service';
 import { ExtComponent } from './ext/ext.component';
 import { ExtDirective } from './ext/ext.directive';
 import { ExtModule } from './ext/ext.module';
@@ -239,6 +240,7 @@ const euiTooltipDefaults: EuiTooltipConfig = {
     TableImageService,
     MessageDialogService,
     ReCaptchaV3Service,
+    DisplayColumnsService,
     provideHttpClient(withInterceptorsFromDi()),
     // Override defaults
     {
@@ -252,9 +254,15 @@ const euiTooltipDefaults: EuiTooltipConfig = {
   ],
 })
 export class QbmModule {
-  constructor(registry: CdrRegistryService, logger: ClassloggerService) {
+  constructor(
+    registry: CdrRegistryService,
+    logger: ClassloggerService,
+    // Do not remove columnService. It does nothing here but handles its own initialization and is used in all portals, like the globalerrorhandler.
+    columnService: DisplayColumnsService
+  ) {
     logger.info(this, '▶️ QbmModule loaded');
     registry.register(new DefaultCdrEditorProvider());
     registry.register(new FkCdrEditorProvider());
+    if (columnService != null) logger.info(this, 'DisplayColumnsService initialized');
   }
 }

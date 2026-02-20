@@ -1,8 +1,5 @@
 @if (columnContainer?.canEdit) {
-  <mat-form-field
-    appearance="outline"
-    class="imx-form-field-width-full imx-form-field-matsuffix"
-    >
+  <mat-form-field appearance="outline" class="imx-form-field-width-full imx-form-field-matsuffix">
     <mat-label>
       {{ columnContainer.display | translate }}
     </mat-label>
@@ -10,11 +7,9 @@
       [formControl]="control"
       [attr.data-imx-identifier]="'cdr-edit-limited-value-select-' + columnContainer?.name"
       [required]="columnContainer.isValueRequired"
-      >
+    >
       @if (columnContainer?.limitedValuesContainer?.isNotInLimitedValueRange(columnContainer.value)) {
-        <mat-option>{{
-          columnContainer?.displayValue
-        }}</mat-option>
+        <mat-option>{{ columnContainer?.displayValue }}</mat-option>
       }
       @for (limitedValue of columnContainer?.limitedValuesContainer?.values; track limitedValue) {
         <mat-option [value]="limitedValue.Value">
@@ -23,16 +18,16 @@
       }
     </mat-select>
     <div matSuffix>
-      @if (isBusy) {
+      @if (isBusy()) {
         <mat-spinner diameter="30" class="imx-spinner-inline-flex imx-margin-right-10"></mat-spinner>
       }
-      @if (columnContainer?.canEdit && control.value && !isBusy && columnContainer?.limitedValuesContainer?.hasNullOption()) {
+      @if (columnContainer?.canEdit && control.value && !isBusy() && columnContainer?.limitedValuesContainer?.hasNullOption()) {
         <button
           mat-icon-button
           type="button"
           class="mat-focus-indicator mat-icon-button mat-button-base"
           (click)="removeAssignment($event)"
-          >
+        >
           <eui-icon
             icon="close"
             [attr.data-imx-identifier]="'cdr-edit-limited-value-button-remove-assignment-' + columnContainer?.name"
@@ -49,4 +44,3 @@
 } @else {
   <imx-view-property [columnContainer]="columnContainer" defaultValue="#LDS#Not set"> </imx-view-property>
 }
-

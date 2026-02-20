@@ -63,6 +63,12 @@ export class MastHeadService {
       case PortalIdentifiers.Admin.id:
         context = HELP_CONTEXTUAL.MastHeadAdmin;
         break;
+      case PortalIdentifiers.PwdReset.id:
+        context = HELP_CONTEXTUAL.MastHeadPwdPortal;
+        break;
+      case PortalIdentifiers.Manager.id:
+        context = HELP_CONTEXTUAL.MastHeadManager;
+        break;
       default:
         logger.debug(this, 'No documentation exists for this portal, referring to the dashboard documentation');
         context = HELP_CONTEXTUAL.MastHeadGeneric;

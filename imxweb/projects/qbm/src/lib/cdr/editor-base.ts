@@ -23,7 +23,7 @@
  * THIS SOFTWARE OR ITS DERIVATIVES.
  *
  */
-import { Component, ErrorHandler, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, ErrorHandler, EventEmitter, OnDestroy, signal, WritableSignal } from '@angular/core';
 import { AbstractControl, ValidatorFn, Validators } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 
@@ -41,8 +41,8 @@ import { EntityColumnContainer } from './entity-column-container';
  * For more complex editors, like our {@link EditFkComponent | FK editor} it might be more sufficient, to implement CdrEditor itself
  */
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 export abstract class EditorBase<T = any> implements CdrEditor, OnDestroy {
   /**
@@ -70,7 +70,7 @@ export abstract class EditorBase<T = any> implements CdrEditor, OnDestroy {
    * @ignore
    * used for the template to signal, that the component is loading content from the server.
    */
-  public isBusy = false;
+  public isBusy: WritableSignal<boolean> = signal(false);
   public readonly pendingChanged = new EventEmitter<boolean>();
 
   /**
@@ -203,7 +203,7 @@ export abstract class EditorBase<T = any> implements CdrEditor, OnDestroy {
       return;
     }
 
-    this.isBusy = true;
+    this.isBusy.set(true);
     this.pendingChanged.emit(true);
     this.isWriting = true;
     try {
@@ -214,7 +214,7 @@ export abstract class EditorBase<T = any> implements CdrEditor, OnDestroy {
       this.lastError = e;
       this.logger.error(this, e);
     } finally {
-      this.isBusy = false;
+      this.isBusy.set(false);
       this.pendingChanged.emit(false);
       this.isWriting = false;
       if (!this.lastError && this.control.value !== this.columnContainer.value) {

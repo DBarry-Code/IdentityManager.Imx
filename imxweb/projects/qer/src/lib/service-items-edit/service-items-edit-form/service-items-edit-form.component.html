@@ -29,10 +29,9 @@
         #toggle
         [formControl]="isInActiveFormControl"
         (change)="onRequestableToggleChanged($event)"
-        [disabled]="!(getColumn('IsInActive')?.GetMetadata()?.CanEdit() || false)"
-      [attr.data-imx-identifier]="
-        'service-items-edit-form-toggle-for-column-' + serviceItem?.GetEntity()?.GetColumn('IsInActive')?.ColumnName
-      "
+        [attr.data-imx-identifier]="
+          'service-items-edit-form-toggle-for-column-' + serviceItem?.GetEntity()?.GetColumn('IsInActive')?.ColumnName
+        "
         >
         <span [translate]="toggle.checked ? '#LDS#Requestable' : '#LDS#Not requestable'"></span>
       </mat-slide-toggle>

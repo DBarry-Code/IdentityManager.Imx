@@ -2,7 +2,7 @@
   <div>
     <div class="imx-slider-label-container">
       <label class="slider-label__main">{{ columnContainer.display | translate }}: {{ control.value | formatNumber }}</label>
-      @if (isBusy) {
+      @if (isBusy()) {
         <div class="imx-suffix-container">
           <mat-spinner diameter="30"></mat-spinner>
         </div>
