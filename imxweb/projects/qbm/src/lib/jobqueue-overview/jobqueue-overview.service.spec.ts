@@ -27,13 +27,13 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslateService } from '@ngx-translate/core';
 
-import { ClassloggerService } from '../classlogger/classlogger.service';
-import { AppConfigService } from '../appConfig/appConfig.service';
-import { imx_SessionService } from '../session/imx-session.service';
-import { JobQueueOverviewService, JobQueueDataSlice, JobQueueGroups } from './jobqueue-overview.service';
-import { EntityColumnData, EntityData } from '@imx-modules/imx-qbm-dbts';
+import { EventStreamConfig, ServerExtendedData } from '@imx-modules/imx-api-qbm';
+import { EntityColumnData, EntityData, ExtendedEntityCollectionData } from '@imx-modules/imx-qbm-dbts';
 import { of } from 'rxjs';
-import { EventStreamConfig } from '@imx-modules/imx-api-qbm';
+import { AppConfigService } from '../appConfig/appConfig.service';
+import { ClassloggerService } from '../classlogger/classlogger.service';
+import { imx_SessionService } from '../session/imx-session.service';
+import { JobQueueDataSlice, JobQueueGroups, JobQueueOverviewService } from './jobqueue-overview.service';
 
 describe('JobQueueOverviewService', () => {
   let service: JobQueueOverviewService;
@@ -50,6 +50,7 @@ describe('JobQueueOverviewService', () => {
       },
       Client: jasmine.createSpyObj('Client', {
         opsupport_streamconfig_get: Promise.resolve([]),
+        opsupport_jobservers_get: Promise.resolve({} as ExtendedEntityCollectionData<ServerExtendedData[]>),
       }),
     };
 

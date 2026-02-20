@@ -25,7 +25,7 @@
  */
 
 
-import { Component, ErrorHandler, Inject, OnDestroy, OnInit, ViewChild, DOCUMENT } from '@angular/core';
+import { Component, DOCUMENT, ErrorHandler, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatTab } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -46,7 +46,6 @@ import {
   SnackBarService,
   TabItem,
 } from 'qbm';
-import { QerPermissionsService } from '../admin/qer-permissions.service';
 import { PersonService } from '../person/person.service';
 import { ProjectConfigurationService } from '../project-configuration/project-configuration.service';
 import { QerApiService } from '../qer-api-client.service';
@@ -54,9 +53,9 @@ import { MailInfoType, MailSubscriptionService } from './mailsubscription.servic
 import { SecurityKeysService } from './security-keys/security-keys.service';
 
 @Component({
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss'],
-    standalone: false
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
+  standalone: false
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   @ViewChild('passwordQuestionTab') public set passwordTab(tab: MatTab) {
@@ -89,7 +88,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public canManageSecurityKeys: boolean = false;
   public canManagePasswordQuestions: boolean;
   public isShowEntitlementsHyperview = false;
-  public canShowEntitlementsHyperview = false;
   public readonly confirmChange = {
     check: async () => this.form.pristine || (await this.confirmation.confirmLeaveWithUnsavedChanges()),
   };
@@ -120,7 +118,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     private readonly securityKeysService: SecurityKeysService,
     private readonly translateService: TranslateService,
     private readonly confirmation: ConfirmationService,
-    private readonly permissions: QerPermissionsService,
     private readonly qerClient: QerApiService,
   ) {
     this.subscriptions.push(
@@ -148,8 +145,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       const projectConfig = await this.projectConfig.getConfig();
       this.canManagePasswordQuestions = projectConfig.PasswordConfig?.VI_MyData_MyPassword_Visibility || false;
       this.useProfileCulture = projectConfig.PersonConfig?.UseProfileCulture || false;
-
-      this.canShowEntitlementsHyperview = (await this.permissions.isPersonAdmin()) || (await this.permissions.isPersonManager());
 
       this.hints['UID_DialogCulture'] = await this.translateService
         .get(

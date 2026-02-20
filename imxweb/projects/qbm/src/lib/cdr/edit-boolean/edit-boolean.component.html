@@ -1,14 +1,10 @@
 @if (columnContainer?.canEdit) {
-  <mat-checkbox
-    [formControl]="control"
-    [attr.data-imx-identifier]="'cdr-edit-boolean-checkbox-' + columnContainer?.name"
-    >
+  <mat-checkbox [formControl]="control" [attr.data-imx-identifier]="'cdr-edit-boolean-checkbox-' + columnContainer?.name">
     <span>{{ columnContainer.display | translate }}</span>
   </mat-checkbox>
 } @else {
   <imx-view-property [columnContainer]="columnContainer" defaultValue="#LDS#Not set"> </imx-view-property>
 }
-@if (isBusy) {
+@if (isBusy()) {
   <mat-spinner class="imx-margin-left-10" diameter="16"></mat-spinner>
 }
-

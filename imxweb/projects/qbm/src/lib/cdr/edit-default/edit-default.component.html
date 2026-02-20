@@ -11,9 +11,9 @@
       [attr.data-imx-identifier]="'cdr-edit-default-input-' + columnContainer?.name"
       [maxlength]="maxlength"
       [required]="columnContainer.isValueRequired"
-      />
+    />
     <div matSuffix class="imx-suffix-container">
-      @if (isBusy) {
+      @if (isBusy()) {
         <mat-spinner diameter="30"></mat-spinner>
       }
     </div>

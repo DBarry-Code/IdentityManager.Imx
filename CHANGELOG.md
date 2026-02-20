@@ -1,3 +1,19 @@
+### February 20, 2026
+- 652735 (652590)Fixes an issue with inquiries that are between the same two people.
+- 680725 (653182): Fixes an issue with the translation of the 'Display name' column.
+- 665843: Fixes an issue with the risk index min/max control not hiding its busy indicator.
+- 508572: Fixes an issue with the 'Read-only' property on a service item, which could be changed, although the value was read-only.
+- 653208 (648237): Fixes an issue with a false button caption after resetting a view.
+- 652064 (651891): Fixes an issue with approvals while the process is still queued.
+- 652084 (650391): Fixes an issue with the 'Select all recipients' checkbox.
+- 648272: Fixes an issue with the filter control on the Operations Support Web Portal: Data view.
+- 648448 (648447): Fixes an issue with empty selections on the Operations Support Web Portal: Show selected outstanding objects is empty.
+- 432359: Adds a hyper view (overview form) for the current user's entitlements.
+- 647293: Fixes an issue with the wrong documentation linked to the Web Manager/Password Reset Web Portal.
+- 648792 (648763):  Fixes an issue with unsupported system role creation.
+- 652064 (651891): Fixes an issue with approvals while the process is still queued.
+- Bug 650904 (646931): Adds context-sensitive help for workflows on the Operations Support Web Portal >  Synchronization projects page.
+
 ### January 12, 2026
 - 648329 (646056): Fixes an issue with renewing a request that has a maximum valid days defined.
 - 650723: Fixes an issue with a missing 'valid until' property on Pending Requests.

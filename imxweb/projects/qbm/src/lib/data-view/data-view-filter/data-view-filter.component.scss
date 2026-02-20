@@ -1,7 +1,5 @@
 :host{
   ::ng-deep .mat-badge-content{
-    position: fixed;
-    left: unset;
-    bottom: unset;
+    position: sticky;
   }
 }

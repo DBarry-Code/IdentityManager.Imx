@@ -168,8 +168,10 @@ export class AttestationDecisionComponent implements OnInit, OnDestroy {
   ) {
     this.entitySchema = this.attestationCases.attestationApproveSchema;
     this.subscriptions.push(
-      this.attestationAction.applied.subscribe(() => {
-        this.dataSource.updateState();
+      this.attestationAction.applied.subscribe((applied) => {
+        if (!applied) {
+          this.dataSource.updateState();
+        }
         this.dataSource.selection.clear();
       }),
     );
