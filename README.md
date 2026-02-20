@@ -20,6 +20,8 @@
   <a href="https://support.oneidentity.com/">Support</a>
 </p>
 
+[![One Identity Frontend CI Build](https://github.com/OneIdentity/IdentityManager.Imx/actions/workflows/npm-build.yml/badge.svg)](https://github.com/OneIdentity/IdentityManager.Imx/actions/workflows/npm-build.yml)
+
 <hr>
 
 - [About the repository](#about-the-repository)
