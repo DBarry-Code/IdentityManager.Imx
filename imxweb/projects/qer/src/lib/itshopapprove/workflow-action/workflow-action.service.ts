@@ -64,7 +64,7 @@ export class WorkflowActionService {
     private readonly approvalsService: ApprovalsService,
     private readonly justificationService: JustificationService,
     private readonly userService: UserModelService,
-    private readonly extService: ExtService
+    private readonly extService: ExtService,
   ) {}
 
   public async directDecisions(requests: Approval[], userUid: string): Promise<void> {
@@ -89,7 +89,7 @@ export class WorkflowActionService {
       if (workFlowDataCollection && workFlowDataCollection.Data) {
         const levelNumbers = request.getLevelNumbers(userUid);
         workflow.data[request.key] = workFlowDataCollection.Data.filter((item) => levelNumbers.includes(item.LevelNumber.value)).map(
-          (item) => item.GetEntity()
+          (item) => item.GetEntity(),
         );
       }
     }
@@ -360,7 +360,7 @@ export class WorkflowActionService {
           Reason: actionParameters.reason.column.GetValue(),
           UidJustification: actionParameters.justification?.column?.GetValue(),
           Decision: true,
-          SubLevel: getSubLevel(request, request.pwoData, user,isEscalation),
+          SubLevel: getSubLevel(request, request.pwoData, user, isEscalation),
         });
       },
     });
@@ -487,22 +487,22 @@ export class WorkflowActionService {
         this.entityService.createLocalEntityColumn(
           { Type: ValType.Date, ColumnName: 'DateHead', Display: '#LDS#Inquiry made on' },
           undefined,
-          pwo.Columns.DateHead
-        )
+          pwo.Columns.DateHead,
+        ),
       ),
       new BaseReadonlyCdr(
         this.entityService.createLocalEntityColumn(
           { Type: ValType.String, ColumnName: 'ReasonHead', Display: '#LDS#Inquiry' },
           undefined,
-          pwo.Columns.ReasonHead
-        )
+          pwo.Columns.ReasonHead,
+        ),
       ),
       new BaseReadonlyCdr(
         this.entityService.createLocalEntityColumn(
           { Type: ValType.String, ColumnName: 'DisplayPersonHead', Display: '#LDS#Inquiry made by' },
           undefined,
-          pwo.Columns.DisplayPersonHead
-        )
+          pwo.Columns.DisplayPersonHead,
+        ),
       ),
     ];
 
@@ -518,13 +518,21 @@ export class WorkflowActionService {
     });
   }
 
-  public getPwoData(pwo: Approval, userUid: string): EntityData {
-    return pwo.pwoData.WorkflowHistory.Entities.find(
+  public getPwoData(pwo: Approval, userUid: string): EntityData | undefined {
+    const questionHistory = pwo.pwoData.WorkflowHistory?.Entities?.filter(
       (entityData) =>
-        entityData.Columns.DecisionType.Value === 'Query' &&
-        entityData.Columns.UID_PersonRelated.Value === userUid &&
-        entityData.Columns.DecisionLevel.Value === pwo.DecisionLevel.value
-    );
+        entityData.Columns?.DecisionType.Value === 'Query' &&
+        entityData.Columns?.UID_PersonRelated.Value === userUid &&
+        entityData.Columns?.DecisionLevel.Value === pwo.DecisionLevel.value,
+    ).sort((a, b) => {
+      const d1 = a.Columns?.XDateInserted?.Value;
+      const d2 = b.Columns?.XDateInserted?.Value;
+
+      if (!d1 || !d2) return 0;
+      // Sort descending
+      return new Date(d2).getTime() - new Date(d1).getTime();
+    });
+    return questionHistory?.[0];
   }
 
   private async editAction(config: WorkflowActionEditWrapper): Promise<void> {
@@ -612,7 +620,7 @@ export class WorkflowActionService {
         FkRelation: fkRelation,
         MinLen: 1,
       },
-      [this.person.createFkProviderItem(fkRelation)]
+      [this.person.createFkProviderItem(fkRelation)],
     );
 
     return new BaseCdr(column, display);
@@ -637,7 +645,7 @@ export class WorkflowActionService {
         this.person.createFkProviderItem(fkRelation, [
           { ColumnName: 'UID_Person', CompareOp: CompareOperator.NotEqual, Type: FilterType.Compare, Value1: uidPerson },
         ]),
-      ]
+      ],
     );
 
     return new BaseCdr(column, '#LDS#Recipient of the inquiry');
@@ -646,13 +654,13 @@ export class WorkflowActionService {
   private async checkTermsOfUse(requests: Approval[]): Promise<{ isChecked: boolean; isAuthenticated: boolean }> {
     // get all cart items with terms of uses
     const approvalItemsWithTermsOfUseToAccept = requests.filter(
-      (item) => item.UID_QERTermsOfUse?.value !== null && item.UID_QERTermsOfUse?.value !== ''
+      (item) => item.UID_QERTermsOfUse?.value !== null && item.UID_QERTermsOfUse?.value !== '',
     );
 
     if (approvalItemsWithTermsOfUseToAccept.length > 0) {
       this.logger.debug(
         this,
-        `There are ${approvalItemsWithTermsOfUseToAccept.length} service items with terms of use the user have to accepted.`
+        `There are ${approvalItemsWithTermsOfUseToAccept.length} service items with terms of use the user have to accepted.`,
       );
 
       const termsOfUseAccepted = await this.sideSheet
