@@ -18,10 +18,10 @@
 - 508572: Fixes an issue with the "Readonly" property on a service item, which could be changed, although the value was read-only.
 
 ### January 9, 2026
-Bug 601765: Fixes an issue with the list of potential approvers if an approval step is configured with multiple approvers.
-Bug 648439 (647230): Fixes an error message that is displayed if the user likes to approve a request.
-Bug 647621: Fixes an issue in the Operation Support Portal if the user clicks on the details of a job server.
-Bug 646056: Fixes an issue with renewing a request that has a maximum valid days defined.
+- Bug 601765: Fixes an issue with the list of potential approvers if an approval step is configured with multiple approvers.
+- Bug 648439 (647230): Fixes an error message that is displayed if the user likes to approve a request.
+- Bug 647621: Fixes an issue in the Operation Support Portal if the user clicks on the details of a job server.
+- Bug 646056: Fixes an issue with renewing a request that has a maximum valid days defined.
 
 ### November 18, 2025
 - 545983 (545530): Fixes an issue with mandatory fields when editing a request in the shopping cart.
